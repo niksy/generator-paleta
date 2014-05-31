@@ -1,0 +1,23 @@
+{
+  "name": "<%= props.ns %>-<%= slugName %>",
+  "version": "0.0.0",
+  "description": "<%= props.description %>",
+  "authors": [
+    "Ivan Nikolić"
+  ],
+  "license": "MIT",
+  "main": "dist/<%= props.ns %>-<%= slugName %>.min.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "src",
+    "Gruntfile.js",
+    "package.json"
+  ],
+  "dependencies": {<% if ( props.jquery || props.projectType === 'jquery' ) { %>
+    "jquery": "latest"<% } %>
+  }
+}

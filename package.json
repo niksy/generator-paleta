@@ -1,0 +1,29 @@
+{
+  "name": "generator-paleta",
+  "version": "0.1.0",
+  "description": "Simple generator for personal projects.",
+  "main": "app/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "yeoman-generator",
+    "paleta",
+    "kist",
+    "platno"
+  ],
+  "author": "Ivan Nikolić",
+  "license": "MIT",
+  "dependencies": {
+    "yeoman-generator": "^0.17.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/niksy/generator-paleta.git"
+  },
+  "bugs": {
+    "url": "https://github.com/niksy/generator-paleta/issues"
+  },
+  "homepage": "https://github.com/niksy/generator-paleta"
+}
