@@ -5,7 +5,7 @@ Simple generator for personal projects.
 ## Installation
 
 ```sh
-npm install git://github.com/niksy/generator-paleta.git -g
+npm install -g git://github.com/niksy/generator-paleta.git
 ```
 
 ## Usage
