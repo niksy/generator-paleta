@@ -1,6 +1,6 @@
 {
   "name": "generator-paleta",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Simple generator for personal projects.",
   "main": "app/index.js",
   "scripts": {
