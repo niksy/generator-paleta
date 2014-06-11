@@ -8,6 +8,10 @@
   "directories": {
     "test": "test"
   },
+  "keywords": [],
+  "bugs": {},
+  "homepage": "",
+  "repository": {},
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-bump": "^0.0.13",
