@@ -54,7 +54,7 @@ var Paleta = yeoman.generators.Base.extend({
 			}
 
 			this.slugName  = this._.slugify(props.name);
-			this.camelName = this._.camelize(this.slugName);
+			this.camelName = this._.camelize(props.name);
 
 			cb();
 
@@ -69,7 +69,7 @@ var Paleta = yeoman.generators.Base.extend({
 		this.mkdir('src');
 		this.mkdir('dist');
 		this.mkdir('test');
-		this.copy('src/_app.js', 'src/' + this.props.ns + '-' + this.slugName + '.js');
+		this.copy('src/_app.js', 'src/' + this.props.ns + '-' + this.camelName + '.js');
 	},
 
 	projectFiles: function () {

@@ -15,7 +15,7 @@ module.exports = function ( grunt ) {
 					banner: '<%%= meta.banner %>'
 				},
 				files: {
-					'dist/kist-<%= slugName %>.js': ['src/kist-<%= slugName %>.js']
+					'dist/kist-<%= camelName %>.js': ['src/kist-<%= camelName %>.js']
 				}
 			}
 		},
@@ -26,7 +26,7 @@ module.exports = function ( grunt ) {
 					banner: '<%%= meta.banner %>'
 				},
 				files: {
-					'dist/kist-<%= slugName %>.min.js': ['src/kist-<%= slugName %>.js']
+					'dist/kist-<%= camelName %>.min.js': ['src/kist-<%= camelName %>.js']
 				}
 			}
 		},

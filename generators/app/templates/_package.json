@@ -1,5 +1,5 @@
 {
-  "name": "<%= props.ns %>-<%= slugName %>",
+  "name": "<%= props.ns %>-<%= camelName %>",
   "version": "0.0.0",
   "description": "<%= props.description %>",
   "author": "Ivan Nikolić",
