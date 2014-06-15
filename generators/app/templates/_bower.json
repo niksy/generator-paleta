@@ -7,8 +7,6 @@
   ],
   "license": "MIT",
   "main": "dist/<%= props.ns %>-<%= camelName %>.min.js",
-  "keywords": [],
-  "homepage": "",
   "ignore": [
     "**/.*",
     "node_modules",

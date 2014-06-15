@@ -15,9 +15,10 @@
   "author": "Ivan Nikolić",
   "license": "MIT",
   "dependencies": {
-    "yeoman-generator": "^0.17.0"
+    "yeoman-generator": "^0.17.0",
+    "async": "^0.9.0",
+    "underscore": "^1.6.0"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git://github.com/niksy/generator-paleta.git"

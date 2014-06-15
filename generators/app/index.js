@@ -1,6 +1,34 @@
 var yeoman = require('yeoman-generator');
+var path = require('path');
+var fs = require('fs');
+var async = require('async');
+var _ = require('underscore');
+
+var config = {
+	files: ['package.json','bower.json'],
+	data: {}
+};
 
 var Paleta = yeoman.generators.Base.extend({
+
+	readConfig: function () {
+
+		var cb = this.async();
+
+		async.each(config.files, function ( file, callback ) {
+			fs.readFile(path.join(process.cwd(), file), { encoding: 'utf8' }, function ( err, data ) {
+				if ( err ) {
+					callback();
+					return;
+				}
+				_.extend( config.data, require(path.join(process.cwd(), file)) );
+				callback();
+			});
+		}, function () {
+			cb();
+		});
+
+	},
 
 	askFor: function () {
 
@@ -9,12 +37,14 @@ var Paleta = yeoman.generators.Base.extend({
 			{
 				type: 'input',
 				name: 'name',
-				message: 'Name of the project?'
+				message: 'Name of the project?',
+				default: config.data.name
 			},
 			{
 				type: 'input',
 				name: 'description',
-				message: 'And what would you use to describe this project?'
+				message: 'And what would you use to describe this project?',
+				default: config.data.description
 			},
 			{
 				type: 'list',
