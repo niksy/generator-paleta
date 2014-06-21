@@ -69,6 +69,15 @@ var Paleta = yeoman.generators.Base.extend({
 				default: true
 			},
 			{
+				type: 'confirm',
+				name: 'isNamespaced',
+				message: 'Should this project be namespaced?',
+				default: true
+			},
+			{
+				when: function ( response ) {
+					return response.isNamespaced;
+				},
 				type: 'input',
 				name: 'ns',
 				message: 'What is the project namespace?',
@@ -85,6 +94,10 @@ var Paleta = yeoman.generators.Base.extend({
 
 			this.slugName  = this._.slugify(props.name);
 			this.camelName = this._.camelize(props.name);
+			this.ns = {
+				name: this.props.ns ? this._.camelize(this.props.ns) + '-' : '',
+				obj: this.props.ns ? '.' + this._.camelize(this.props.ns) : ''
+			};
 
 			cb();
 
@@ -99,7 +112,7 @@ var Paleta = yeoman.generators.Base.extend({
 		this.mkdir('src');
 		this.mkdir('dist');
 		this.mkdir('test');
-		this.copy('src/_app.js', 'src/' + this.props.ns + '-' + this.camelName + '.js');
+		this.copy('src/_app.js', 'src/' + this.ns.name + this.camelName + '.js');
 	},
 
 	projectFiles: function () {

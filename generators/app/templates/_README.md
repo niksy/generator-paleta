@@ -1,11 +1,11 @@
-# <%= props.ns %>-<%= camelName %>
+# <%= ns.name %><%= camelName %>
 
 <%= props.description %>
 
 ## Installation
 
 ```sh
-bower install niksy/<%= props.ns %>-<%= camelName %>
+bower install niksy/<%= ns.name %><%= camelName %>
 ```
 
 <!-- Here goes your documentation -->

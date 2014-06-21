@@ -1,13 +1,13 @@
 ;(function ( <% if ( props.jquery ) { %>$, <% } %>window, document, undefined ) {
 
-	// Here goes the project <% if ( props.projectType === 'jquery' ) { %>
-
-	$.<%= props.ns %> = $.<%= props.ns %> || {};
-	$.<%= props.ns %>.<%= camelName %> = {};
+	// Project code <% if ( props.projectType === 'jquery' ) { %>
+	<% if ( ns.obj ) { %>
+	$<%= ns.obj %> = $<%= ns.obj %> || {};<% } %>
+	$<%= ns.obj %>.<%= camelName %> = {};
 
 	$.fn.<%= camelName %> = function () {};<% } else { %>
-
-	window.<%= props.ns %> = window.<%= props.ns %> || {};
-	window.<%= props.ns %>.<%= camelName %> = '';<% } %>
+	<% if ( ns.obj ) { %>
+	window<%= ns.obj %> = window<%= ns.obj %> || {};<% } %>
+	window<%= ns.obj %>.<%= camelName %> = '';<% } %>
 
 })( <% if ( props.jquery ) { %>jQuery, <% } %>window, document );
