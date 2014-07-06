@@ -72,7 +72,7 @@ module.exports = function ( grunt ) {
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-jscs-checker');
+	grunt.loadNpmTasks('grunt-jscs');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-bump');
