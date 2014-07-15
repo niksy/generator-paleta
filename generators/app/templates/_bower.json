@@ -19,5 +19,8 @@
   ],
   "dependencies": {<% if ( props.jquery || props.projectType === 'jquery' ) { %>
     "jquery": ">=1"<% } %>
+  },
+  "devDependencies": {<% if ( props.jquery || props.projectType === 'jquery' ) { %>
+    "jquery": "1"<% } %>
   }
 }
