@@ -70,6 +70,12 @@ var Paleta = yeoman.generators.Base.extend({
 			},
 			{
 				type: 'confirm',
+				name: 'hasCss',
+				message: 'Does this project has CSS files?',
+				default: false
+			},
+			{
+				type: 'confirm',
 				name: 'isNamespaced',
 				message: 'Should this project be namespaced?',
 				default: true
@@ -123,6 +129,9 @@ var Paleta = yeoman.generators.Base.extend({
 		this.template('_LICENSE.md', 'LICENSE.md');
 
 		this.copy('jshintrc', '.jshintrc');
+		if ( this.props.hasCss ) {
+			this.copy('csslintrc', '.csslintrc');
+		}
 		this.copy('jscsrc', '.jscsrc');
 		this.copy('gitignore', '.gitignore');
 		this.template('_Gruntfile.js', 'Gruntfile.js');

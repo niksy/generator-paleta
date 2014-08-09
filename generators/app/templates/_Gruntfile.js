@@ -29,7 +29,18 @@ module.exports = function ( grunt ) {
 					'dist/<%= ns.name %><%= camelName %>.min.js': ['src/<%= ns.name %><%= camelName %>.js']
 				}
 			}
-		},
+		},<% if ( props.hasCss ) { %>
+
+		cssmin: {
+			dist: {
+				options: {
+					banner: '<%%= meta.banner %>'
+				},
+				files: {
+					'dist/<%= ns.name %><%= camelName %>.min.css': ['src/<%= ns.name %><%= camelName %>.css']
+				}
+			}
+		},<% } %>
 
 		bump: {
 			options: {
@@ -67,18 +78,31 @@ module.exports = function ( grunt ) {
 					'src/**/*.js'
 				]
 			}
-		}
+		},<% if ( props.hasCss ) { %>
+
+		csslint: {
+			main: {
+				options: {
+					csslintrc: '.csslintrc'
+				},
+				src: [
+					'src/**/*.css'
+				]
+			}
+		}<% } %>
 
 	});
 
-	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-jshint');<% if ( props.hasCss ) { %>
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	grunt.loadNpmTasks('grunt-contrib-csslint');<% } %>
 	grunt.loadNpmTasks('grunt-jscs');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-bump');
 
-	grunt.registerTask('stylecheck', ['jshint:main', 'jscs:main']);
-	grunt.registerTask('default', ['stylecheck', 'concat', 'uglify']);
+	grunt.registerTask('stylecheck', ['jshint:main', 'jscs:main'<% if ( props.hasCss ) { %>, 'csslint:main'<% } %>]);
+	grunt.registerTask('default', ['stylecheck', 'concat', 'uglify'<% if ( props.hasCss ) { %>, 'cssmin'<% } %>]);
 	grunt.registerTask('releasePatch', ['bump-only:patch', 'default', 'bump-commit']);
 	grunt.registerTask('releaseMinor', ['bump-only:minor', 'default', 'bump-commit']);
 	grunt.registerTask('releaseMajor', ['bump-only:major', 'default', 'bump-commit']);
