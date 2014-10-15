@@ -93,13 +93,7 @@ module.exports = function ( grunt ) {
 
 	});
 
-	grunt.loadNpmTasks('grunt-contrib-jshint');<% if ( props.hasCss ) { %>
-	grunt.loadNpmTasks('grunt-contrib-cssmin');
-	grunt.loadNpmTasks('grunt-contrib-csslint');<% } %>
-	grunt.loadNpmTasks('grunt-jscs');
-	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-bump');
+	require('load-grunt-tasks')(grunt);
 
 	grunt.registerTask('stylecheck', ['jshint:main', 'jscs:main'<% if ( props.hasCss ) { %>, 'csslint:main'<% } %>]);
 	grunt.registerTask('default', ['stylecheck', 'concat', 'uglify'<% if ( props.hasCss ) { %>, 'cssmin'<% } %>]);
