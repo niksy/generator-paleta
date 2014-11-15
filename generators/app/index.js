@@ -52,6 +52,7 @@ var Paleta = yeoman.generators.Base.extend({
 				message: 'What kind of project are you building?',
 				choices: [
 					'Simple web module',
+					'CommonJS module',
 					'jQuery'
 				],
 				filter: function ( val ) {
