@@ -2,7 +2,7 @@
   "name": "<%= ns.name %><%= camelName %>",
   "version": "0.0.0",
   "description": "<%= props.description %>",
-  "author": "Ivan Nikolić",
+  "author": "Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com/)",
   "license": "MIT",
   "main": "src/<%= ns.name %><%= camelName %>.js",
   "directories": {
