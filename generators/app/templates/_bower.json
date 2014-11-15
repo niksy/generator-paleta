@@ -6,7 +6,7 @@
     "Ivan Nikolić"
   ],
   "license": "MIT",
-  "main": "dist/<%= ns.name %><%= camelName %>.min.js",
+  "main": "dist/<%= ns.name %><%= camelName %>.js",
   "ignore": [
     "**/.*",
     "node_modules",

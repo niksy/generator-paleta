@@ -4,7 +4,7 @@
   "description": "<%= props.description %>",
   "author": "Ivan Nikolić",
   "license": "MIT",
-  "main": "Gruntfile.js",
+  "main": "src/<%= ns.name %><%= camelName %>.js",
   "directories": {
     "test": "test"
   },
