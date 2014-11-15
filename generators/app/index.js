@@ -62,7 +62,7 @@ var Paleta = yeoman.generators.Base.extend({
 			},
 			{
 				when: function ( response ) {
-					return response.projectType === 'simpleWebModule';
+					return response.projectType === 'simpleWebModule' || response.projectType == 'commonjsModule';
 				},
 				type: 'confirm',
 				name: 'jquery',
