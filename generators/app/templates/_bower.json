@@ -14,13 +14,14 @@
     "test",
     "tests",
     "src",
+    "lib",
     "Gruntfile.js",
     "package.json"
   ],
   "dependencies": {<% if ( props.jquery || props.projectType === 'jquery' ) { %>
-    "jquery": ">=1"<% } %>
+    "jquery": "~1.11.2"<% } %>
   },
   "devDependencies": {<% if ( props.jquery || props.projectType === 'jquery' ) { %>
-    "jquery": "1"<% } %>
+    "jquery": "~1.11.2"<% } %>
   }
 }

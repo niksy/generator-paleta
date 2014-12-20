@@ -37,43 +37,20 @@ var Paleta = yeoman.generators.Base.extend({
 			{
 				type: 'input',
 				name: 'name',
-				message: 'Name of the project?',
+				message: 'Project name?',
 				default: config.data.name
 			},
 			{
 				type: 'input',
 				name: 'description',
-				message: 'And what would you use to describe this project?',
+				message: 'Project description?',
 				default: config.data.description
 			},
 			{
-				type: 'list',
-				name: 'projectType',
-				message: 'What kind of project are you building?',
-				choices: [
-					'Simple web module',
-					'CommonJS module',
-					'jQuery'
-				],
-				filter: function ( val ) {
-					return this._.camelize(val.toLowerCase());
-				}.bind(this),
-				default: 'Simple web module'
-			},
-			{
-				when: function ( response ) {
-					return response.projectType === 'simpleWebModule' || response.projectType == 'commonjsModule';
-				},
 				type: 'confirm',
 				name: 'jquery',
-				message: 'Should I include jQuery as dependancy?',
+				message: 'Include jQuery as dependancy?',
 				default: true
-			},
-			{
-				type: 'confirm',
-				name: 'hasCss',
-				message: 'Does this project has CSS files?',
-				default: false
 			},
 			{
 				type: 'confirm',
@@ -95,9 +72,6 @@ var Paleta = yeoman.generators.Base.extend({
 		this.prompt(prompts, function ( props ) {
 
 			this.props = props;
-			if ( this.props.projectType === 'jquery' ) {
-				this.props.jquery = true;
-			}
 
 			this.slugName  = this._.slugify(props.name);
 			this.camelName = this._.camelize(props.name);
@@ -116,10 +90,11 @@ var Paleta = yeoman.generators.Base.extend({
 
 	app: function () {
 
-		this.mkdir('src');
+		this.mkdir('lib');
 		this.mkdir('dist');
 		this.mkdir('test');
-		this.copy('src/_app.js', 'src/' + this.ns.name + this.camelName + '.js');
+		this.copy('lib/_app.js', 'lib/index.js');
+
 	},
 
 	projectFiles: function () {
@@ -130,9 +105,6 @@ var Paleta = yeoman.generators.Base.extend({
 		this.template('_LICENSE.md', 'LICENSE.md');
 
 		this.copy('jshintrc', '.jshintrc');
-		if ( this.props.hasCss ) {
-			this.copy('csslintrc', '.csslintrc');
-		}
 		this.copy('jscsrc', '.jscsrc');
 		this.copy('gitignore', '.gitignore');
 		this.template('_Gruntfile.js', 'Gruntfile.js');

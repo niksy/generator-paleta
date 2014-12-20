@@ -5,7 +5,9 @@
 ## Installation
 
 ```sh
-bower install niksy/<%= ns.name %><%= camelName %>
+npm install <%= ns.name %><%= camelName %> --save
+
+bower install <%= ns.name %><%= camelName %> --save
 ```
 
 <!-- Here goes your documentation -->
