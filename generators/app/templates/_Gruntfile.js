@@ -74,7 +74,7 @@ module.exports = function ( grunt ) {
 		browserify: {
 			options: {
 				browserifyOptions: {
-					standalone: 'jQuery.kist.view'
+					standalone: '__STANDALONE__'
 				}
 			},
 			standalone: {
