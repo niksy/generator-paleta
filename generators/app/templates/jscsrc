@@ -59,7 +59,6 @@
 	"requireSpaceBetweenArguments": true,
 	"disallowSpaceAfterObjectKeys": true,
 	"requireSpaceAfterLineComment": true,
-	"requireLineBreakAfterVariableAssignment": true,
 	"requirePaddingNewLinesInObjects": true,
 	"disallowOperatorBeforeLineBreak": ["."],
 	"disallowNewlineBeforeBlockStatements": true,
