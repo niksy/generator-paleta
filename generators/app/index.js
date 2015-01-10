@@ -45,40 +45,13 @@ var Paleta = yeoman.generators.Base.extend({
 				name: 'description',
 				message: 'Project description?',
 				default: config.data.description
-			},
-			{
-				type: 'confirm',
-				name: 'jquery',
-				message: 'Include jQuery as dependancy?',
-				default: true
-			},
-			{
-				type: 'confirm',
-				name: 'isNamespaced',
-				message: 'Should this project be namespaced?',
-				default: true
-			},
-			{
-				when: function ( response ) {
-					return response.isNamespaced;
-				},
-				type: 'input',
-				name: 'ns',
-				message: 'What is the project namespace?',
-				default: 'kist'
 			}
 		];
 
 		this.prompt(prompts, function ( props ) {
 
 			this.props = props;
-
-			this.slugName  = this._.slugify(props.name);
-			this.camelName = this._.camelize(props.name);
-			this.ns = {
-				name: this.props.ns ? this._.camelize(this.props.ns) + '-' : '',
-				obj: this.props.ns ? '.' + this._.camelize(this.props.ns) : ''
-			};
+			this.slugName = this._.slugify(props.name);
 
 			cb();
 

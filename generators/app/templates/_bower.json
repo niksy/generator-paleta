@@ -1,12 +1,12 @@
 {
-  "name": "<%= ns.name %><%= camelName %>",
+  "name": "<%= slugName %>",
   "version": "0.0.0",
   "description": "<%= props.description %>",
   "authors": [
     "Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com/)"
   ],
   "license": "MIT",
-  "main": "dist/<%= ns.name %><%= camelName %>.js",
+  "main": "dist/<%= slugName %>.js",
   "ignore": [
     "**/.*",
     "node_modules",
@@ -17,11 +17,5 @@
     "lib",
     "Gruntfile.js",
     "package.json"
-  ],
-  "dependencies": {<% if ( props.jquery || props.projectType === 'jquery' ) { %>
-    "jquery": "~1.11.2"<% } %>
-  },
-  "devDependencies": {<% if ( props.jquery || props.projectType === 'jquery' ) { %>
-    "jquery": "~1.11.2"<% } %>
-  }
+  ]
 }

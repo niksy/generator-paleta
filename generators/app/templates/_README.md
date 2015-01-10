@@ -1,13 +1,13 @@
-# <%= ns.name %><%= camelName %>
+# <%= slugName %>
 
 <%= props.description %>
 
 ## Installation
 
 ```sh
-npm install <%= ns.name %><%= camelName %> --save
+npm install <%= slugName %> --save
 
-bower install <%= ns.name %><%= camelName %> --save
+bower install <%= slugName %> --save
 ```
 
 <!-- Here goes your documentation -->
