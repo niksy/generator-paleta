@@ -1,0 +1,44 @@
+{
+  "name": "@niksy/generator-paleta",
+  "version": "0.0.0",
+  "description": "Simple generator for personal projects.",
+  "main": "index.js",
+  "author": "Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com/)",
+  "license": "MIT",
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "files": [
+    "generators/app"
+  ],
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "eslint {index,test/*}.js && mocha test/index.js"
+  },
+  "dependencies": {
+    "parse-github-url": "^0.3.0",
+    "read-pkg": "^1.1.0",
+    "yeoman-generator": "^0.22.5"
+  },
+  "devDependencies": {
+    "eslint": "^1.10.3",
+    "eslint-config-niksy": "^1.0.6",
+    "mocha": "^2.4.5",
+    "write-pkg": "^1.0.0",
+    "yeoman-assert": "^2.1.2",
+    "yeoman-test": "^1.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/niksy/generator-paleta.git"
+  },
+  "bugs": {
+    "url": "https://github.com/niksy/generator-paleta/issues"
+  },
+  "homepage": "https://github.com/niksy/generator-paleta#readme"
+}

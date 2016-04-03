@@ -1,0 +1,30 @@
+{
+  "name": "<%= moduleName %>",
+  "version": "0.0.0",
+  "description": "<%= moduleDescription %>",
+  "main": "index.js",
+  "author": "Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com/)",
+  "license": "MIT",
+  "engines": {
+    "node": ">=0.10.0"
+  },<% if ( manualTests || automatedTests ) { %>
+  "directories": {
+    "test": "test"
+  },<% } %>
+  "scripts": {
+    "test": "<% if ( automatedTests ) { %>eslint {index,test/*}.js && mocha test/index.js<% } else { %>eslint index.js<% } %>"
+  },
+  "devDependencies": {
+    "eslint": "^1.10.3",
+    "eslint-config-niksy": "^1.0.6"<% if ( automatedTests ) { %>,
+    "mocha": "^2.4.5"<% } %>
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/<%= githubRepo %>.git"
+  },
+  "bugs": {
+    "url": "https://github.com/<%= githubRepo %>/issues"
+  },
+  "homepage": "https://github.com/<%= githubRepo %>#readme"
+}
