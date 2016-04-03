@@ -7,7 +7,7 @@ Simple generator for personal projects.
 ## Installation
 
 ```sh
-npm install @niksy/generator-paleta --save
+npm install niksy/generator-paleta --save
 ```
 
 ## Usage
