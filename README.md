@@ -4,7 +4,7 @@
 
 Simple generator for personal projects.
 
-## Installation
+## Install
 
 ```sh
 npm install niksy/generator-paleta --save

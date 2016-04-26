@@ -4,13 +4,19 @@
 
 <%= moduleDescription %>
 
-## Installation
+## Install
 
 ```sh
 npm install <%= moduleName %> --save
 ```
 
 ## Usage
+
+```js
+// Module usage
+```
+
+More usage examples.
 
 ## API
 
@@ -54,8 +60,6 @@ Default: `prop2Value`
 | `prop2` | `Number` | `prop2Value` | `prop2` description. |
 
 ---
-
-## Examples
 
 ## License
 
