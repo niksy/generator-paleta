@@ -1,0 +1,32 @@
+{
+  "name": "bar",
+  "version": "0.0.0",
+  "description": "bar description",
+  "main": "index.js",
+  "author": "Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com/)",
+  "license": "MIT",
+  "scripts": {
+    "test": "eslint index.js"
+  },
+  "dependencies": {
+    "a": 1,
+    "c": 2,
+    "e": 3,
+    "g": 4
+  },
+  "devDependencies": {
+    "eslint": "^1.10.3",
+    "eslint-config-niksy": "^1.0.6"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/niksy/bar.git"
+  },
+  "bugs": {
+    "url": "https://github.com/niksy/bar/issues"
+  },
+  "homepage": "https://github.com/niksy/bar#readme"
+}

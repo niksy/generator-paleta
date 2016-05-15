@@ -1,4 +1,4 @@
-/* eslint-disable new-cap */
+/* eslint-disable new-cap,no-console */
 
 var path = require('path');
 var test = require('mocha').it;
@@ -6,7 +6,8 @@ var before = require('mocha').before;
 var describe = require('mocha').describe;
 var assert = require('yeoman-assert');
 var helpers = require('yeoman-test');
-var writePkg = require('write-pkg');
+var writeJson = require('write-json-file');
+var readJson = require('load-json-file');
 
 describe('new project', function () {
 
@@ -49,14 +50,25 @@ describe('new project', function () {
 
 describe('existing project', function () {
 
+	var tmpPkgPath = '';
+
 	before(function ( done ) {
 
 		helpers.run(path.join(__dirname, '../generators/app'))
 			.inTmpDir(function ( dir ) {
 				var done = this.async();
-				writePkg(path.join(dir, 'package.json'), {
+				tmpPkgPath = path.join(dir, 'package.json');
+				writeJson(tmpPkgPath, {
 					name: 'bar',
-					description: 'bar description'
+					description: 'bar description',
+					main: 'index.js',
+					version: '1.0.0',
+					dependencies: {
+						e: 3,
+						a: 1,
+						g: 4,
+						c: 2
+					}
 				}).then(done);
 			})
 			.withOptions({ force: true })
@@ -70,6 +82,21 @@ describe('existing project', function () {
 			description: 'bar description',
 			author: 'Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com/)'
 		});
+	});
+
+	test('package.json preserves property order', function () {
+
+		return Promise.all([
+			readJson(tmpPkgPath),
+			readJson(path.join(__dirname, 'fixtures/preserved-property-order-package.json'))
+		])
+			.then(function ( files ) {
+				var content = files.map(function ( file ) {
+					return JSON.stringify(file);
+				});
+				assert.textEqual(content[0], content[1]);
+			});
+
 	});
 
 });

@@ -4,21 +4,20 @@
   "description": "<%= moduleDescription %>",
   "main": "index.js",
   "author": "Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com/)",
-  "license": "MIT",
-  "engines": {
-    "node": ">=0.10.0"
-  },<% if ( manualTests || automatedTests ) { %>
+  "license": "MIT",<% if ( manualTests || automatedTests ) { %>
   "directories": {
     "test": "test"
   },<% } %>
   "scripts": {
     "test": "<% if ( automatedTests ) { %>eslint {index,test/*}.js && mocha test/index.js<% } else { %>eslint index.js<% } %>"
   },
-  "dependencies": {},
   "devDependencies": {
     "eslint": "^1.10.3",
     "eslint-config-niksy": "^1.0.6"<% if ( automatedTests ) { %>,
     "mocha": "^2.4.5"<% } %>
+  },
+  "engines": {
+    "node": ">=0.10.0"
   },
   "repository": {
     "type": "git",

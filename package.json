@@ -21,15 +21,17 @@
     "test": "eslint {index,test/*}.js && mocha test/index.js"
   },
   "dependencies": {
+    "deep-assign": "^2.0.0",
     "parse-github-url": "^0.3.0",
-    "read-pkg": "^1.1.0",
+    "sort-keys": "^1.1.1",
     "yeoman-generator": "^0.22.5"
   },
   "devDependencies": {
     "eslint": "^1.10.3",
     "eslint-config-niksy": "^1.0.6",
+    "load-json-file": "^2.0.0",
     "mocha": "^2.4.5",
-    "write-pkg": "^1.0.0",
+    "write-json-file": "^2.0.0",
     "yeoman-assert": "^2.1.2",
     "yeoman-test": "^1.1.0"
   },
