@@ -2,6 +2,8 @@ var generators = require('yeoman-generator');
 var gh = require('parse-github-url');
 var sortKeys = require('sort-keys');
 var deepAssign = require('deep-assign');
+var compact = require('lodash.compact');
+var uniq = require('lodash.uniq');
 
 function sortPkg ( pkg ) {
 
@@ -41,6 +43,12 @@ function sortPkg ( pkg ) {
 	['dependencies', 'devDependencies'].forEach(function ( prop ) {
 		if ( prop in newPkg ) {
 			newPkg[prop] = sortKeys(newPkg[prop]);
+		}
+	});
+
+	['keywords'].forEach(function ( prop ) {
+		if ( prop in newPkg ) {
+			newPkg[prop] = newPkg[prop].sort();
 		}
 	});
 
@@ -92,6 +100,17 @@ module.exports = generators.Base.extend({
 			},
 			{
 				type: 'input',
+				name: 'keywords',
+				message: 'What are the keywords for this project?',
+				'default': function () {
+					if ( pkg.keywords ) {
+						return pkg.keywords.join(', ');
+					}
+					return '';
+				}
+			},
+			{
+				type: 'input',
 				name: 'githubRepo',
 				message: 'What is the GitHub repository of the project?',
 				'default': function ( answers ) {
@@ -115,12 +134,21 @@ module.exports = generators.Base.extend({
 			}
 		], function ( answers ) {
 
+			var keywords = uniq(compact(answers.keywords.split(',')
+				.map(function ( keyword ) {
+					return keyword.trim();
+				})
+				.filter(function ( keyword ) {
+					return keyword !== '';
+				})));
+
 			var tpl = {
 				moduleName: answers.name,
 				moduleDescription: answers.description,
 				manualTests: answers.manualTests,
 				automatedTests: answers.automatedTests,
-				githubRepo: answers.githubRepo
+				githubRepo: answers.githubRepo,
+				keywords: keywords
 			};
 
 			var cp = function ( from, to ) {
@@ -129,7 +157,7 @@ module.exports = generators.Base.extend({
 			var rm = function ( to ) {
 				this.fs.delete(this.destinationPath(to));
 			}.bind(this);
-			var newPkg;
+			var newPkg, mergedPkg;
 
 			cp('README.md', 'README.md');
 			cp('LICENSE.md', 'LICENSE.md');
@@ -155,8 +183,19 @@ module.exports = generators.Base.extend({
 			// Write package.json, handling property order
 			cp('_package.json', '_package.json');
 			newPkg = this.fs.readJSON(this.destinationPath('_package.json'));
-			this.fs.writeJSON(this.destinationPath('package.json'), sortPkg(deepAssign({}, pkg, newPkg)));
-			this.fs.delete(this.destinationPath('_package.json'));
+			rm('_package.json');
+
+			mergedPkg = deepAssign({}, pkg, newPkg);
+
+			// deep-assign overwrites arrays so we have to prepare
+			// new array before writing new JSON file
+			if ( Array.isArray(keywords) && keywords.length ) {
+				mergedPkg.keywords = keywords;
+			}
+
+			mergedPkg = sortPkg(mergedPkg);
+
+			this.fs.writeJSON(this.destinationPath('package.json'), mergedPkg);
 
 			done();
 

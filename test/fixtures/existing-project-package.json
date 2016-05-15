@@ -21,6 +21,11 @@
   "engines": {
     "node": ">=0.10.0"
   },
+  "keywords": [
+    "a",
+    "b",
+    "c"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/niksy/bar.git"

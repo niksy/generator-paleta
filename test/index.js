@@ -1,8 +1,9 @@
-/* eslint-disable new-cap,no-console */
+/* eslint-disable new-cap */
 
 var path = require('path');
 var test = require('mocha').it;
 var before = require('mocha').before;
+var after = require('mocha').after;
 var describe = require('mocha').describe;
 var assert = require('yeoman-assert');
 var helpers = require('yeoman-test');
@@ -11,14 +12,12 @@ var readJson = require('load-json-file');
 
 describe('new project', function () {
 
-	before(function ( done ) {
-
-		helpers.run(path.join(__dirname, '../generators/app'))
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
 				name: 'foo'
 			})
-			.on('end', done);
-
+			.toPromise();
 	});
 
 	test('creates files', function () {
@@ -46,15 +45,30 @@ describe('new project', function () {
 		assert.fileContent('README.md', 'npm install foo --save');
 	});
 
+	test('uses correct property order for package.json properties', function () {
+
+		return Promise.all([
+			readJson('package.json'),
+			readJson(path.join(__dirname, 'fixtures/new-project-package.json'))
+		])
+			.then(function ( files ) {
+				var content = files.map(function ( file ) {
+					return JSON.stringify(file);
+				});
+				return assert.textEqual(content[0], content[1]);
+			});
+
+	});
+
 });
 
 describe('existing project', function () {
 
 	var tmpPkgPath = '';
 
-	before(function ( done ) {
+	before(function () {
 
-		helpers.run(path.join(__dirname, '../generators/app'))
+		return helpers.run(path.join(__dirname, '../generators/app'))
 			.inTmpDir(function ( dir ) {
 				var done = this.async();
 				tmpPkgPath = path.join(dir, 'package.json');
@@ -68,12 +82,22 @@ describe('existing project', function () {
 						a: 1,
 						g: 4,
 						c: 2
-					}
+					},
+					keywords: [
+						'a',
+						'c',
+						'b'
+					]
 				}).then(done);
 			})
 			.withOptions({ force: true })
-			.on('end', done);
+			.toPromise();
 
+	});
+
+	after(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.cleanTestDirectory();
 	});
 
 	test('reuses existing package.json information', function () {
@@ -84,19 +108,37 @@ describe('existing project', function () {
 		});
 	});
 
-	test('package.json preserves property order', function () {
+	test('uses correct property order for package.json properties', function () {
 
 		return Promise.all([
 			readJson(tmpPkgPath),
-			readJson(path.join(__dirname, 'fixtures/preserved-property-order-package.json'))
+			readJson(path.join(__dirname, 'fixtures/existing-project-package.json'))
 		])
 			.then(function ( files ) {
 				var content = files.map(function ( file ) {
 					return JSON.stringify(file);
 				});
-				assert.textEqual(content[0], content[1]);
+				return assert.textEqual(content[0], content[1]);
 			});
 
+	});
+
+});
+
+describe('package.json "keywords" property', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				keywords: '1,1,2,3,1,1,5,5,5,6'
+			})
+			.toPromise();
+	});
+
+	test('unique values sorted alphabetically', function () {
+		assert.JSONFileContent('package.json', {
+			keywords: ['1', '2', '3', '5', '6']
+		});
 	});
 
 });

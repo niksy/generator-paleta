@@ -22,6 +22,8 @@
   },
   "dependencies": {
     "deep-assign": "^2.0.0",
+    "lodash.compact": "^3.0.1",
+    "lodash.uniq": "^4.3.0",
     "parse-github-url": "^0.3.0",
     "sort-keys": "^1.1.1",
     "yeoman-generator": "^0.22.5"
@@ -33,7 +35,7 @@
     "mocha": "^2.4.5",
     "write-json-file": "^2.0.0",
     "yeoman-assert": "^2.1.2",
-    "yeoman-test": "^1.1.0"
+    "yeoman-test": "^1.4.0"
   },
   "repository": {
     "type": "git",
