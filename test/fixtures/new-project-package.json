@@ -9,8 +9,9 @@
     "test": "eslint index.js"
   },
   "devDependencies": {
-    "eslint": "^1.10.3",
-    "eslint-config-niksy": "^1.0.6"
+    "eslint": "^2.9.0",
+    "eslint-config-niksy": "^2.0.0",
+    "eslint-plugin-promise":"^1.1.0"
   },
   "engines": {
     "node": ">=0.10.0"
