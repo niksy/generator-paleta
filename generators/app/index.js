@@ -148,7 +148,8 @@ module.exports = generators.Base.extend({
 				manualTests: answers.manualTests,
 				automatedTests: answers.automatedTests,
 				githubRepo: answers.githubRepo,
-				keywords: keywords
+				keywords: keywords,
+				version: pkg.version
 			};
 
 			var cp = function ( from, to ) {
