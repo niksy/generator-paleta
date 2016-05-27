@@ -2,7 +2,6 @@
   "name": "@niksy/generator-paleta",
   "version": "0.3.0",
   "description": "Simple generator for personal projects.",
-  "main": "index.js",
   "author": "Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com/)",
   "license": "MIT",
   "files": [
