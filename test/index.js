@@ -1,10 +1,7 @@
+/* eslint-env mocha */
 /* eslint-disable new-cap */
 
 var path = require('path');
-var test = require('mocha').it;
-var before = require('mocha').before;
-var after = require('mocha').after;
-var describe = require('mocha').describe;
 var assert = require('yeoman-assert');
 var helpers = require('yeoman-test');
 var writeJson = require('write-json-file');
@@ -20,7 +17,7 @@ describe('new project', function () {
 			.toPromise();
 	});
 
-	test('creates files', function () {
+	it('creates files', function () {
 		var expected = [
 			'package.json',
 			'.editorconfig',
@@ -33,19 +30,19 @@ describe('new project', function () {
 		assert.file(expected);
 	});
 
-	test('fills package.json with correct information', function () {
+	it('fills package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			name: 'foo',
 			author: 'Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com/)'
 		});
 	});
 
-	test('fills the README with project data', function () {
+	it('fills the README with project data', function () {
 		assert.fileContent('README.md', '# foo');
 		assert.fileContent('README.md', 'npm install foo --save');
 	});
 
-	test('uses correct property order for package.json properties', function () {
+	it('uses correct property order for package.json properties', function () {
 
 		return Promise.all([
 			readJson('package.json'),
@@ -100,7 +97,7 @@ describe('existing project', function () {
 			.cleanTestDirectory();
 	});
 
-	test('reuses existing package.json information', function () {
+	it('reuses existing package.json information', function () {
 		assert.JSONFileContent('package.json', {
 			name: 'bar',
 			description: 'bar description',
@@ -108,7 +105,7 @@ describe('existing project', function () {
 		});
 	});
 
-	test('uses correct property order for package.json properties', function () {
+	it('uses correct property order for package.json properties', function () {
 
 		return Promise.all([
 			readJson(tmpPkgPath),
@@ -135,7 +132,7 @@ describe('package.json "keywords" property', function () {
 			.toPromise();
 	});
 
-	test('unique values sorted alphabetically', function () {
+	it('unique values sorted alphabetically', function () {
 		assert.JSONFileContent('package.json', {
 			keywords: ['1', '2', '3', '5', '6']
 		});

@@ -165,11 +165,11 @@ module.exports = generators.Base.extend({
 			cp('editorconfig', '.editorconfig');
 			cp('eslintrc', '.eslintrc');
 			cp('gitignore', '.gitignore');
-
 			cp('index.js', 'index.js');
 
 			if ( answers.manualTests || answers.automatedTests ) {
-				cp('test', 'test');
+				cp('test/eslintrc', 'test/.eslintrc');
+				cp('test/index.js', 'test/index.js');
 			}
 			if ( !answers.manualTests && !answers.automatedTests ) {
 				rm('test');
