@@ -122,6 +122,12 @@ module.exports = generators.Base.extend({
 			},
 			{
 				type: 'confirm',
+				name: 'browserModule',
+				message: 'Is this project meant to be used in browser?',
+				'default': false
+			},
+			{
+				type: 'confirm',
 				name: 'manualTests',
 				message: 'Do you have manual tests?',
 				'default': false
@@ -145,6 +151,7 @@ module.exports = generators.Base.extend({
 			var tpl = {
 				moduleName: answers.name,
 				moduleDescription: answers.description,
+				browserModule: answers.browserModule,
 				manualTests: answers.manualTests,
 				automatedTests: answers.automatedTests,
 				githubRepo: answers.githubRepo,

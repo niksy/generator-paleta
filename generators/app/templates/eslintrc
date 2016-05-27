@@ -1,5 +1,5 @@
 {
 	"extends": [
-		"niksy"
+		"<% if ( browserModule ) { %>niksy/browser<% } else { %>niksy<% } %>"
 	]
 }
