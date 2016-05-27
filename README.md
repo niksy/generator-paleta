@@ -13,7 +13,7 @@ npm install @niksy/generator-paleta --save
 ## Usage
 
 ```sh
-yo paleta
+yo @niksy/paleta
 ```
 
 ## License
