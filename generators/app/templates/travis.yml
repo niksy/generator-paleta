@@ -3,3 +3,6 @@ node_js:
   - '4'<% if ( !onlyNodeLts ) { %>
   - '0.12'
   - '0.10'<% } %>
+branches:
+  only:
+    - /^v[0-9]/
