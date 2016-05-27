@@ -122,6 +122,12 @@ module.exports = generators.Base.extend({
 			},
 			{
 				type: 'confirm',
+				name: 'onlyNodeLts',
+				message: 'Run only on Node LTS (>=4)?',
+				'default': true
+			},
+			{
+				type: 'confirm',
 				name: 'browserModule',
 				message: 'Is this project meant to be used in browser?',
 				'default': false
@@ -152,6 +158,7 @@ module.exports = generators.Base.extend({
 				moduleName: answers.name,
 				moduleDescription: answers.description,
 				browserModule: answers.browserModule,
+				onlyNodeLts: answers.onlyNodeLts,
 				manualTests: answers.manualTests,
 				automatedTests: answers.automatedTests,
 				githubRepo: answers.githubRepo,
