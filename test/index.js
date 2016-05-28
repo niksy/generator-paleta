@@ -1,4 +1,3 @@
-/* eslint-env mocha */
 /* eslint-disable new-cap, quote-props */
 
 var path = require('path');
