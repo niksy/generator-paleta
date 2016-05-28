@@ -40,7 +40,7 @@ function sortPkg ( pkg ) {
 		}
 	});
 
-	['dependencies', 'devDependencies'].forEach(function ( prop ) {
+	['dependencies', 'devDependencies', 'scripts'].forEach(function ( prop ) {
 		if ( prop in newPkg ) {
 			newPkg[prop] = sortKeys(newPkg[prop]);
 		}
@@ -143,6 +143,12 @@ module.exports = generators.Base.extend({
 				name: 'automatedTests',
 				message: 'Do you have automated tests?',
 				'default': false
+			},
+			{
+				type: 'confirm',
+				name: 'integrationTests',
+				message: 'Do you have integration (UI/E2E/Selenium) tests?',
+				'default': false
 			}
 		], function ( answers ) {
 
@@ -161,6 +167,7 @@ module.exports = generators.Base.extend({
 				onlyNodeLts: answers.onlyNodeLts,
 				manualTests: answers.manualTests,
 				automatedTests: answers.automatedTests,
+				integrationTests: answers.integrationTests,
 				githubRepo: answers.githubRepo,
 				keywords: keywords,
 				version: pkg.version
@@ -183,7 +190,6 @@ module.exports = generators.Base.extend({
 
 			if ( answers.manualTests || answers.automatedTests ) {
 				cp('test/eslintrc', 'test/.eslintrc');
-				cp('test/index.js', 'test/index.js');
 			}
 			if ( !answers.manualTests && !answers.automatedTests ) {
 				rm('test');
@@ -191,8 +197,32 @@ module.exports = generators.Base.extend({
 
 			if ( answers.automatedTests ) {
 				cp('travis.yml', '.travis.yml');
+				cp('test/index.js', 'test/index.js');
+				if ( answers.browserModule ) {
+					cp('test/automated', 'test/automated');
+					cp('karma.conf.js', 'karma.conf.js');
+				}
 			} else {
 				rm('.travis.yml');
+				rm('test/index.js');
+				rm('test/automated');
+				rm('karma.conf.js');
+			}
+
+			if ( answers.manualTests || answers.integrationTests ) {
+				cp('test/manual', 'test/manual');
+				cp('gulpfile.js', 'gulpfile.js');
+			} else {
+				rm('test/manual');
+				rm('gulpile.js');
+			}
+
+			if ( answers.integrationTests ) {
+				cp('test/integration', 'test/integration');
+				cp('wdio.conf.js', 'wdio.conf.js');
+			} else {
+				rm('test/integration');
+				rm('wdio.conf.js');
 			}
 
 			// Write package.json, handling property order

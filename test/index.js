@@ -1,5 +1,5 @@
 /* eslint-env mocha */
-/* eslint-disable new-cap */
+/* eslint-disable new-cap, quote-props */
 
 var path = require('path');
 var assert = require('yeoman-assert');
@@ -18,7 +18,7 @@ describe('new project', function () {
 	});
 
 	it('creates files', function () {
-		var expected = [
+		assert.file([
 			'package.json',
 			'.editorconfig',
 			'.eslintrc',
@@ -26,8 +26,7 @@ describe('new project', function () {
 			'index.js',
 			'LICENSE.md',
 			'README.md'
-		];
-		assert.file(expected);
+		]);
 	});
 
 	it('fills package.json with correct information', function () {
@@ -85,7 +84,11 @@ describe('existing project', function () {
 						'c',
 						'b'
 					]
-				}).then(done);
+				})
+					.then(done)
+					.catch(function ( err ) {
+						done(err);
+					});
 			})
 			.withOptions({ force: true })
 			.toPromise();
@@ -135,6 +138,178 @@ describe('package.json "keywords" property', function () {
 	it('unique values sorted alphabetically', function () {
 		assert.JSONFileContent('package.json', {
 			keywords: ['1', '2', '3', '5', '6']
+		});
+	});
+
+});
+
+describe('manual tests', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				manualTests: true
+			})
+			.toPromise();
+	});
+
+	it('creates files', function () {
+		assert.file([
+			'test/.eslintrc',
+			'test/manual',
+			'gulpfile.js'
+		]);
+	});
+
+	it('package.json', function () {
+		assert.JSONFileContent('package.json', {
+			directories: {
+				test: 'test'
+			},
+			scripts: {
+				'test:manual:local': 'gulp test:local:manual --watch'
+			},
+			devDependencies: {
+				'browserify': '^13.0.1',
+				'del': '^2.2.0',
+				'event-stream': '^3.3.2',
+				'globby': '^4.1.0',
+				'gulp': '^3.9.1',
+				'gulp-debug': '^2.1.2',
+				'gulp-nunjucks-render': '^2.0.0',
+				'gulp-plumber': '^1.1.0',
+				'gulp-sourcemaps': '^1.6.0',
+				'gulp-util': '^3.0.7',
+				'minimist': '^1.2.0',
+				'vinyl-buffer': '^1.0.0',
+				'vinyl-source-stream': '^1.1.0',
+				'local-web-server': '^1.2.4',
+				'watchify': '^3.7.0',
+				'opn': '^4.0.2'
+			}
+		});
+	});
+
+});
+
+describe('automated tests', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				automatedTests: true
+			})
+			.toPromise();
+	});
+
+	it('creates files', function () {
+		assert.file([
+			'test/.eslintrc',
+			'.travis.yml',
+			'test/index.js'
+		]);
+	});
+
+	it('package.json', function () {
+		assert.JSONFileContent('package.json', {
+			scripts: {
+				test: 'eslint {index,test/**/*}.js && mocha test/**/*.js'
+			},
+			devDependencies: {
+				'mocha': '^2.4.5'
+			}
+		});
+	});
+
+});
+
+describe('automated tests, browser module', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				automatedTests: true,
+				browserModule: true
+			})
+			.toPromise();
+	});
+
+	it('creates files', function () {
+		assert.file([
+			'test/automated',
+			'karma.conf.js'
+		]);
+	});
+
+	it('package.json', function () {
+		assert.JSONFileContent('package.json', {
+			scripts: {
+				'test:automated': 'karma start',
+				'test:automated:local': 'karma start --browsers Chrome',
+				test: 'npm run lint && npm run test:automated'
+			},
+			devDependencies: {
+				'karma': '^0.13.22',
+				'karma-browserify': '^5.0.5',
+				'karma-browserstack-launcher': '^1.0.0',
+				'karma-chrome-launcher': '^1.0.1',
+				'karma-html2js-preprocessor': '^1.0.0',
+				'karma-mocha': '^1.0.1',
+				'karma-mocha-reporter': '^2.0.3'
+			}
+		});
+	});
+
+});
+
+describe('integration tests', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				integrationTests: true
+			})
+			.toPromise();
+	});
+
+	it('creates files', function () {
+		assert.file([
+			'test/manual',
+			'gulpfile.js',
+			'test/integration',
+			'wdio.conf.js'
+		]);
+	});
+
+	it('package.json', function () {
+		assert.JSONFileContent('package.json', {
+			scripts: {
+				'test:integration': 'gulp test:prepare && wdio',
+				test: 'npm run lint && npm run test:integration'
+			},
+			devDependencies: {
+				'mocha': '^2.4.5',
+				'browserify': '^13.0.1',
+				'del': '^2.2.0',
+				'event-stream': '^3.3.2',
+				'globby': '^4.1.0',
+				'gulp': '^3.9.1',
+				'gulp-debug': '^2.1.2',
+				'gulp-nunjucks-render': '^2.0.0',
+				'gulp-plumber': '^1.1.0',
+				'gulp-sourcemaps': '^1.6.0',
+				'gulp-util': '^3.0.7',
+				'minimist': '^1.2.0',
+				'vinyl-buffer': '^1.0.0',
+				'vinyl-source-stream': '^1.1.0',
+				'local-web-server': '^1.2.4',
+				'watchify': '^3.7.0',
+				'browserstacktunnel-wrapper': '^1.4.2',
+				'wdio-mocha-framework': '^0.2.13',
+				'wdio-spec-reporter': 'kevinlambert/wdio-spec-reporter#release',
+				'webdriverio': '^4.0.9',
+				'http-shutdown': '^1.0.3'
+			}
 		});
 	});
 
