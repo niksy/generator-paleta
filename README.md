@@ -2,7 +2,7 @@
 
 [![Build Status][ci-img]][ci]
 
-Simple generator for personal projects.
+Simple generator for my personal projects.
 
 ## Install
 
