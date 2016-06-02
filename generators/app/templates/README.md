@@ -61,9 +61,13 @@ Default: `prop2Value`
 
 ---
 
-## License
+<% if ( browserModule ) { %>## Browser support
 
-MIT © [Ivan Nikolić](http://ivannikolic.com)<% if (automatedTests) { %>
+Tested in IE8+ and all modern browsers.
+
+<% } %>## License
+
+MIT © [Ivan Nikolić](http://ivannikolic.com)<% if ( automatedTests ) { %>
 
 [ci]: https://travis-ci.org/niksy/<%= moduleName %>
 [ci-img]: https://img.shields.io/travis/niksy/<%= moduleName %>/master.svg<% } %><% if ( (automatedTests && browserModule) || integrationTests ) { %>

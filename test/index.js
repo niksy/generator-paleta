@@ -314,6 +314,22 @@ describe('integration tests', function () {
 
 });
 
+describe('browser module', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				browserModule: true
+			})
+			.toPromise();
+	});
+
+	it('README.md contains information regarding browser support', function () {
+		assert.fileContent('README.md', '## Browser support');
+	});
+
+});
+
 describe('jQuery module', function () {
 
 	before(function () {
