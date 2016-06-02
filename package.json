@@ -1,6 +1,6 @@
 {
   "name": "@niksy/generator-paleta",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Simple generator for personal projects.",
   "author": "Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com/)",
   "license": "MIT",
