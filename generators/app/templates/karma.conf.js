@@ -21,6 +21,11 @@ module.exports = function ( config ) {
 		browserStack: {
 			startTunnel: true
 		},
+		client: {
+			mocha: {
+				ui: '<%= testingInterface %>'
+			}
+		},
 		customLaunchers: {
 			'BS-Chrome': {
 				base: 'BrowserStack',

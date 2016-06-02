@@ -64,7 +64,7 @@ exports.config = {
 	framework: 'mocha',
 	reporters: ['spec'],
 	mochaOpts: {
-		ui: 'bdd'
+		ui: '<%= testingInterface %>'
 	},
 	onPrepare: function () {
 

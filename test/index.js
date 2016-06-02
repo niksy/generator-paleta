@@ -259,6 +259,10 @@ describe('automated tests, browser module', function () {
 		});
 	});
 
+	it('karma.conf.js', function () {
+		assert.fileContent('karma.conf.js', 'ui: \'bdd\'');
+	});
+
 });
 
 describe('integration tests', function () {
@@ -266,6 +270,7 @@ describe('integration tests', function () {
 	before(function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
+				automatedTests: true,
 				integrationTests: true
 			})
 			.toPromise();
@@ -310,6 +315,10 @@ describe('integration tests', function () {
 				'http-shutdown': '^1.0.3'
 			}
 		});
+	});
+
+	it('wdio.conf.js', function () {
+		assert.fileContent('wdio.conf.js', 'ui: \'bdd\'');
 	});
 
 });

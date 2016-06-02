@@ -157,7 +157,26 @@ module.exports = generators.Base.extend({
 				type: 'confirm',
 				name: 'integrationTests',
 				message: 'Do you have integration (UI/E2E/Selenium) tests?',
-				'default': false
+				'default': false,
+				when: function ( answers ) {
+					return answers.automatedTests;
+				}
+			},
+			{
+				type: 'list',
+				name: 'testingInterface',
+				message: 'What testing interface do you use?',
+				'default': 'bdd',
+				choices: [{
+					name: 'BDD',
+					value: 'bdd'
+				}, {
+					name: 'TDD',
+					value: 'tdd'
+				}],
+				when: function ( answers ) {
+					return answers.automatedTests;
+				}
 			}
 		], function ( answers ) {
 
@@ -178,6 +197,7 @@ module.exports = generators.Base.extend({
 				manualTests: answers.manualTests,
 				automatedTests: answers.automatedTests,
 				integrationTests: answers.integrationTests,
+				testingInterface: answers.testingInterface,
 				githubRepo: answers.githubRepo,
 				keywords: keywords,
 				version: pkg.version
