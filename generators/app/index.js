@@ -134,6 +134,15 @@ module.exports = generators.Base.extend({
 			},
 			{
 				type: 'confirm',
+				name: 'jqueryModule',
+				message: 'Does this project need jQuery as dependancy?',
+				'default': false,
+				when: function ( answers ) {
+					return answers.browserModule;
+				}
+			},
+			{
+				type: 'confirm',
 				name: 'manualTests',
 				message: 'Do you have manual tests?',
 				'default': false
@@ -164,6 +173,7 @@ module.exports = generators.Base.extend({
 				moduleName: answers.name,
 				moduleDescription: answers.description,
 				browserModule: answers.browserModule,
+				jqueryModule: answers.jqueryModule,
 				onlyNodeLts: answers.onlyNodeLts,
 				manualTests: answers.manualTests,
 				automatedTests: answers.automatedTests,

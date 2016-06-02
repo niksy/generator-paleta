@@ -313,3 +313,28 @@ describe('integration tests', function () {
 	});
 
 });
+
+describe('jQuery module', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				browserModule: true,
+				jqueryModule: true
+			})
+			.toPromise();
+	});
+
+	it('package.json', function () {
+		assert.JSONFileContent('package.json', {
+			dependencies: {
+				jquery: '^1.12.4'
+			},
+			keywords: [
+				'ecosystem:jquery',
+				'jquery-plugin'
+			]
+		});
+	});
+
+});
