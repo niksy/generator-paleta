@@ -15,7 +15,7 @@
     "test:integration": "gulp test:prepare && wdio"<% } %><% if ( manualTests ) { %>,
     "test:manual:local": "gulp test:local:manual --watch"<% } %><% if ( (automatedTests && browserModule) || manualTests || integrationTests ) { %>,
     "test": "npm run lint<% if ( automatedTests && browserModule ) { %> && npm run test:automated<% } %><% if ( integrationTests ) { %> && npm run test:integration<% } %>"<% } else { %>
-    "test": "<% if ( automatedTests ) { %>eslint {index,test/**/*}.js && mocha test/**/*.js<% } else { %>eslint index.js<% } %>"<% } %>
+    "test": "<% if ( automatedTests ) { %>eslint {index,test/**/*}.js && mocha test/**/*.js<% if ( testingInterface !== 'bdd' ) { %> --ui <%= testingInterface %><% } %><% } else { %>eslint index.js<% } %>"<% } %>
   }<% if ( jqueryModule ) { %>,
   "dependencies": {
     "jquery": "^1.12.4"

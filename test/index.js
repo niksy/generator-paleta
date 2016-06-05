@@ -363,3 +363,24 @@ describe('jQuery module', function () {
 	});
 
 });
+
+describe('testing interface', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				automatedTests: true,
+				testingInterface: 'tdd'
+			})
+			.toPromise();
+	});
+
+	it('package.json', function () {
+		assert.JSONFileContent('package.json', {
+			scripts: {
+				test: 'eslint {index,test/**/*}.js && mocha test/**/*.js --ui tdd'
+			}
+		});
+	});
+
+});
