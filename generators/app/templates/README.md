@@ -61,7 +61,11 @@ Default: `prop2Value`
 
 ---
 
-<% if ( browserModule ) { %>## Browser support
+<% if ( manualTests && browserModule ) { %>## Test
+
+For manual tests, run `npm test -- --watch` and open <http://localhost:8000/> in your browser.
+
+<% } %><% if ( browserModule ) { %>## Browser support
 
 Tested in IE8+ and all modern browsers.
 
