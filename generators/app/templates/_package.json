@@ -14,7 +14,8 @@
     "lint": "<% if ( automatedTests || integrationTests ) { %>eslint {index,test/**/*}.js<% } else { %>eslint index.js<% } %><% if ( browserModule && styles ) { %> && stylelint index.css<% } %>"<% } %><% if ( automatedTests && browserModule ) { %>,
     "test:automated": "karma start",
     "test:automated:local": "karma start --browsers Chrome"<% } %><% if ( integrationTests ) { %>,
-    "test:integration": "gulp test:prepare && wdio"<% } %><% if ( manualTests ) { %>,
+    "test:integration": "gulp test:prepare && wdio",
+    "test:integration:local": "docker-machine start dev; eval \"$(docker-machine env dev)\" && gulp test:prepare && wdio --local --host $(docker-machine ip dev) || true && docker-machine stop dev"<% } %><% if ( manualTests ) { %>,
     "test:manual:local": "gulp test:local:manual --watch"<% } %><% if ( (automatedTests && browserModule) || manualTests || integrationTests ) { %>,
     "test": "npm run lint<% if ( automatedTests && browserModule ) { %> && npm run test:automated<% } %><% if ( integrationTests ) { %> && npm run test:integration<% } %>"<% } else { %>
     "test": "<% if ( automatedTests ) { %>eslint {index,test/**/*}.js && <% if ( codeCoverage ) { %>istanbul cover _mocha<% } else { %>mocha<% } %> test/**/*.js<% if ( testingInterface !== 'bdd' ) { %><% if ( codeCoverage ) { %> --<% } %> --ui <%= testingInterface %><% } %><% } else { %>eslint index.js<% } %><% if ( browserModule && styles ) { %> && stylelint index.css<% } %>"<% } %>
@@ -58,6 +59,7 @@
     "wdio-mocha-framework": "^0.2.13",
     "wdio-spec-reporter": "kevinlambert/wdio-spec-reporter#release",
     "webdriverio": "^4.0.9",
+    "execa": "^0.4.0",
     "http-shutdown": "^1.0.3"<% } %>
   },
   "engines": {

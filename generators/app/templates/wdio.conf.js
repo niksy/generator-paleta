@@ -4,60 +4,71 @@ var http = require('http');
 var BrowserStackTunnel = require('browserstacktunnel-wrapper');
 var ws = require('local-web-server');
 var shutdown = require('http-shutdown');
+var execa = require('execa');
 var minimist = require('minimist');
 var server, tunnel;
 
 var args = minimist(process.argv.slice(2), {
 	'default': {
+		local: false,
 		verbose: false,
 		port: 9000
 	}
 });
-var port = args.port;
+var local = args.local;
 var verbose = args.verbose;
+var port = args.port;
+
+var capabilities = [{
+	browser: 'Chrome',
+	os: 'Windows',
+	'os_version': '7',
+	project: '<%= moduleName %>',
+	build: '<%= moduleName %> - integration',
+	name: 'Chrome',
+	'browserstack.local': 'true',
+	'browserstack.debug': 'true'
+}, {
+	browser: 'Firefox',
+	os: 'Windows',
+	'os_version': '7',
+	project: '<%= moduleName %>',
+	build: '<%= moduleName %> - integration',
+	name: 'Firefox',
+	'browserstack.local': 'true',
+	'browserstack.debug': 'true'
+}, {
+	browser: 'IE',
+	'browser_version': '8',
+	os: 'Windows',
+	'os_version': 'XP',
+	project: '<%= moduleName %>',
+	build: '<%= moduleName %> - integration',
+	name: 'IE8',
+	'browserstack.local': 'true',
+	'browserstack.debug': 'true'
+}];
+
+if ( local ) {
+	capabilities = [{
+		browserName: 'chrome'
+	}];
+}
 
 exports.config = {
-	user: process.env.BROWSER_STACK_USERNAME,
-	key: process.env.BROWSER_STACK_ACCESS_KEY,
+	user: local ? null : process.env.BROWSER_STACK_USERNAME,
+	key: local ? null : process.env.BROWSER_STACK_ACCESS_KEY,
 	specs: [
 		'./test/integration/**/*.js'
 	],
 	exclude: [],
 	maxInstances: 10,
-	capabilities: [{
-		browser: 'Chrome',
-		os: 'Windows',
-		'os_version': '7',
-		project: '<%= moduleName %>',
-		build: '<%= moduleName %> - integration',
-		name: 'Chrome',
-		'browserstack.local': 'true',
-		'browserstack.debug': 'true'
-	}, {
-		browser: 'Firefox',
-		os: 'Windows',
-		'os_version': '7',
-		project: '<%= moduleName %>',
-		build: '<%= moduleName %> - integration',
-		name: 'Firefox',
-		'browserstack.local': 'true',
-		'browserstack.debug': 'true'
-	}, {
-		browser: 'IE',
-		'browser_version': '8',
-		os: 'Windows',
-		'os_version': 'XP',
-		project: '<%= moduleName %>',
-		build: '<%= moduleName %> - integration',
-		name: 'IE8',
-		'browserstack.local': 'true',
-		'browserstack.debug': 'true'
-	}],
+	capabilities: capabilities,
 	sync: false,
 	logLevel: verbose ? 'verbose' : 'silent',
 	coloredLogs: true,
 	screenshotPath: './errorShots/',
-	baseUrl: 'http://localhost:' + port,
+	baseUrl: (local ? 'http://dockerhost:' : 'http://localhost:') + port,
 	waitforTimeout: 10000,
 	connectionRetryTimeout: 90000,
 	connectionRetryCount: 3,
@@ -68,7 +79,7 @@ exports.config = {
 	},
 	onPrepare: function () {
 
-		return new Promise(function ( resolve, reject ) {
+		var startProcess = new Promise(function ( resolve, reject ) {
 
 			server = shutdown(http.createServer(ws({
 				'static': {
@@ -85,58 +96,104 @@ exports.config = {
 			console.log('Starting local web server on port ' + port + '…');
 			server.listen(port);
 
-			tunnel = new BrowserStackTunnel({
-				key: process.env.BROWSER_STACK_ACCESS_KEY,
-				hosts: [{
-					name: 'localhost',
-					port: port
-				}]
-			});
-
-			console.log('Starting BrowserStack tunnel…');
-			tunnel.start(function ( err ) {
-				if ( err ) {
-					reject(err);
-					return;
-				}
+			if ( local ) {
 
 				console.log('Starting WebDriverIO…');
 				resolve();
-			});
 
-		}).catch(function ( err ) {
-			console.log(err);
+			} else {
 
-			console.log('Stopping local web server…');
-			server.shutdown();
+				tunnel = new BrowserStackTunnel({
+					key: process.env.BROWSER_STACK_ACCESS_KEY,
+					hosts: [{
+						name: 'localhost',
+						port: port
+					}]
+				});
 
-			process.exit(1);
+				console.log('Starting BrowserStack tunnel…');
+				tunnel.start(function ( err ) {
+					if ( err ) {
+						reject(err);
+						return;
+					}
+
+					console.log('Starting WebDriverIO…');
+					resolve();
+				});
+
+			}
+
 		});
+
+		return Promise.resolve()
+			.then(function () {
+				if ( local ) {
+					return execa.shell('docker run --name=wdio --add-host="dockerhost:10.0.2.2" -d -p 4444:4444 -v /dev/shm:/dev/shm selenium/standalone-chrome:2.53.0')
+						.then(function ( res ) {
+							console.log(res.stderr);
+							console.log(res.stdout);
+							return startProcess;
+						});
+				}
+				return startProcess;
+			})
+			.catch(function ( err ) {
+				console.log(err);
+
+				console.log('Stopping local web server…');
+				server.shutdown();
+
+				process.exit(1);
+			});
 
 	},
 
 	onComplete: function () {
 
-		return new Promise(function ( resolve, reject ) {
+		var stopProcess = new Promise(function ( resolve, reject ) {
 
 			console.log('Stopping local web server…');
 			server.shutdown();
 
-			console.log('Stopping BrowserStack tunnel…');
-			tunnel.stop(function ( err ) {
-				if ( err ) {
-					reject(err);
-					return;
-				}
+			if ( local ) {
 
 				console.log('Stopping WebDriverIO…');
 				resolve();
-			});
 
-		}).catch(function ( err ) {
-			console.log(err);
-			process.exit(1);
+			} else {
+
+				console.log('Stopping BrowserStack tunnel…');
+				tunnel.stop(function ( err ) {
+					if ( err ) {
+						reject(err);
+						return;
+					}
+
+					console.log('Stopping WebDriverIO…');
+					resolve();
+				});
+
+			}
+
 		});
+
+		return Promise.resolve()
+			.then(function () {
+				if ( local ) {
+					return execa.shell('docker stop wdio && docker rm wdio')
+						.then(function ( res ) {
+							console.log(res.stdout);
+							console.log(res.stderr);
+							return stopProcess;
+						});
+				}
+				return stopProcess;
+			})
+			.catch(function ( err ) {
+				console.log(err);
+				process.exit(1);
+			});
 
 	}
 };
