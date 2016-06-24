@@ -22,9 +22,8 @@
     "jquery": "^1.12.4"
   }<% } %>,
   "devDependencies": {
-    "eslint": "^2.9.0",
-    "eslint-config-niksy": "^2.0.0",
-    "eslint-plugin-promise": "^1.1.0"<% if ( browserModule && styles ) { %>,
+    "eslint": "^2.13.1",
+    "eslint-config-niksy": "^2.1.0"<% if ( browserModule && styles ) { %>,
     "stylelint": "^6.7.0",
     "stylelint-config-niksy": "^2.2.0"<% } %><% if ( automatedTests && browserModule ) { %>,
     "karma": "^0.13.22",
@@ -34,7 +33,7 @@
     "karma-html2js-preprocessor": "^1.0.0",
     "karma-mocha": "^1.0.1",
     "karma-mocha-reporter": "^2.0.3"<% } %><% if ( automatedTests || integrationTests ) { %>,
-    "mocha": "^2.4.5"<% } %><% if ( manualTests || integrationTests ) { %>,
+    "mocha": "^2.5.3"<% } %><% if ( manualTests || integrationTests ) { %>,
     "browserify": "^13.0.1",
     "del": "^2.2.0",
     "event-stream": "^3.3.2",
