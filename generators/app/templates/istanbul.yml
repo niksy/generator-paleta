@@ -1,0 +1,6 @@
+instrumentation:
+  default-excludes: true
+reporting:
+  print: summary
+  reports:
+    - html

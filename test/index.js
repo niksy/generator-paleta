@@ -440,3 +440,33 @@ describe('CLI', function () {
 	});
 
 });
+
+describe('code coverage', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				automatedTests: true,
+				codeCoverage: true
+			})
+			.toPromise();
+	});
+
+	it('creates files', function () {
+		assert.file([
+			'.istanbul.yml'
+		]);
+	});
+
+	it('package.json', function () {
+		assert.JSONFileContent('package.json', {
+			scripts: {
+				test: 'eslint {index,test/**/*}.js && istanbul cover _mocha test/**/*.js'
+			},
+			devDependencies: {
+				istanbul: '^0.4.3'
+			}
+		});
+	});
+
+});

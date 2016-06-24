@@ -13,7 +13,7 @@ module.exports = function ( config ) {
 			'test/automated/**/*.html': ['html2js'],
 			'test/automated/**/*.js': ['browserify']
 		},
-		reporters: ['mocha'],
+		reporters: ['mocha'<% if ( automatedTests && codeCoverage ) { %>, 'coverage'<% } %>],
 		port: 9876,
 		colors: true,
 		logLevel: config.LOG_INFO,
@@ -25,7 +25,21 @@ module.exports = function ( config ) {
 			mocha: {
 				ui: '<%= testingInterface %>'
 			}
+		},<% if ( automatedTests && codeCoverage ) { %>
+		browserify: {
+			debug: true,
+			transform: [['browserify-istanbul', { defaultIgnore: true }]]
 		},
+		coverageReporter: {
+			reporters: [
+				{
+					type: 'html'
+				},
+				{
+					type: 'text-summary'
+				}
+			]
+		},<% } %>
 		customLaunchers: {
 			'BS-Chrome': {
 				base: 'BrowserStack',

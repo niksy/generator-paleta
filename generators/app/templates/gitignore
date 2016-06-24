@@ -1,4 +1,5 @@
 .DS_Store
 node_modules/
 npm-debug.log<% if ( (automatedTests && browserModule) || manualTests || integrationTests ) { %>
-test-dist/<% } %>
+test-dist/<% } %><% if ( automatedTests && codeCoverage ) { %>
+coverage<% } %>

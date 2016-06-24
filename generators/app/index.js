@@ -192,6 +192,15 @@ module.exports = generators.Base.extend({
 				when: function ( answers ) {
 					return answers.automatedTests;
 				}
+			},
+			{
+				type: 'confirm',
+				name: 'codeCoverage',
+				message: 'Do you need code coverage?',
+				'default': false,
+				when: function ( answers ) {
+					return answers.automatedTests;
+				}
 			}
 		], function ( answers ) {
 
@@ -215,6 +224,7 @@ module.exports = generators.Base.extend({
 				automatedTests: answers.automatedTests,
 				integrationTests: answers.integrationTests,
 				testingInterface: answers.testingInterface,
+				codeCoverage: answers.codeCoverage,
 				githubRepo: answers.githubRepo,
 				keywords: keywords,
 				version: pkg.version
@@ -257,11 +267,15 @@ module.exports = generators.Base.extend({
 					cp('test/automated', 'test/automated');
 					cp('karma.conf.js', 'karma.conf.js');
 				}
+				if ( answers.codeCoverage ) {
+					cp('istanbul.yml', '.istanbul.yml');
+				}
 			} else {
 				rm('.travis.yml');
 				rm('test/index.js');
 				rm('test/automated');
 				rm('karma.conf.js');
+				rm('.istanbul.yml');
 			}
 
 			if ( answers.manualTests || answers.integrationTests ) {
