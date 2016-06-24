@@ -128,6 +128,12 @@ module.exports = generators.Base.extend({
 			},
 			{
 				type: 'confirm',
+				name: 'cli',
+				message: 'Does this project has CLI interface?',
+				'default': false
+			},
+			{
+				type: 'confirm',
 				name: 'browserModule',
 				message: 'Is this project meant to be used in browser?',
 				'default': false
@@ -204,6 +210,7 @@ module.exports = generators.Base.extend({
 				styles: answers.styles,
 				jqueryModule: answers.jqueryModule,
 				onlyNodeLts: answers.onlyNodeLts,
+				cli: answers.cli,
 				manualTests: answers.manualTests,
 				automatedTests: answers.automatedTests,
 				integrationTests: answers.integrationTests,
@@ -227,6 +234,10 @@ module.exports = generators.Base.extend({
 			cp('eslintrc', '.eslintrc');
 			cp('gitignore', '.gitignore');
 			cp('index.js', 'index.js');
+
+			if ( answers.cli ) {
+				cp('cli.js', 'cli.js');
+			}
 
 			if ( answers.browserModule && answers.styles ) {
 				cp('stylelintrc', '.stylelintrc');

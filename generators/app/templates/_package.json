@@ -5,7 +5,8 @@
   "main": "index.js",
   "author": "Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com/)",
   "license": "MIT",<% if ( browserModule && styles ) { %>
-  "style": "index.css",<% } %><% if ( manualTests || automatedTests || integrationTests ) { %>
+  "style": "index.css",<% } %><% if ( cli ) { %>
+  "bin": "cli.js",<% } %><% if ( manualTests || automatedTests || integrationTests ) { %>
   "directories": {
     "test": "test"
   },<% } %>

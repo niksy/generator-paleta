@@ -416,3 +416,27 @@ describe('styles', function () {
 	});
 
 });
+
+describe('CLI', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				cli: true
+			})
+			.toPromise();
+	});
+
+	it('creates files', function () {
+		assert.file([
+			'cli.js'
+		]);
+	});
+
+	it('package.json', function () {
+		assert.JSONFileContent('package.json', {
+			bin: 'cli.js'
+		});
+	});
+
+});
