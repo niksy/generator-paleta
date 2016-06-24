@@ -1,7 +1,7 @@
 {
   "name": "@niksy/generator-paleta",
   "version": "0.6.0",
-  "description": "Simple generator for personal projects.",
+  "description": "Simple generator for my personal projects.",
   "author": "Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com/)",
   "license": "MIT",
   "files": [
@@ -23,11 +23,10 @@
     "yeoman-generator": "^0.22.5"
   },
   "devDependencies": {
-    "eslint": "^2.9.0",
-    "eslint-config-niksy": "^2.0.0",
-    "eslint-plugin-promise": "^1.1.0",
+    "eslint": "^2.13.1",
+    "eslint-config-niksy": "^2.1.0",
     "load-json-file": "^2.0.0",
-    "mocha": "^2.4.5",
+    "mocha": "^2.5.3",
     "write-json-file": "^2.0.0",
     "yeoman-assert": "^2.1.2",
     "yeoman-test": "^1.4.0"
