@@ -4,18 +4,19 @@
   "description": "<%= moduleDescription %>",
   "main": "index.js",
   "author": "Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com/)",
-  "license": "MIT"<% if ( manualTests || automatedTests || integrationTests ) { %>,
+  "license": "MIT",<% if ( browserModule && styles ) { %>
+  "style": "index.css",<% } %><% if ( manualTests || automatedTests || integrationTests ) { %>
   "directories": {
     "test": "test"
-  }<% } %>,
+  },<% } %>
   "scripts": {<% if ( (automatedTests && browserModule) || manualTests || integrationTests ) { %>
-    "lint": "<% if ( automatedTests || integrationTests ) { %>eslint {index,test/**/*}.js<% } else { %>eslint index.js<% } %>"<% } %><% if ( automatedTests && browserModule ) { %>,
+    "lint": "<% if ( automatedTests || integrationTests ) { %>eslint {index,test/**/*}.js<% } else { %>eslint index.js<% } %><% if ( browserModule && styles ) { %> && stylelint index.css<% } %>"<% } %><% if ( automatedTests && browserModule ) { %>,
     "test:automated": "karma start",
     "test:automated:local": "karma start --browsers Chrome"<% } %><% if ( integrationTests ) { %>,
     "test:integration": "gulp test:prepare && wdio"<% } %><% if ( manualTests ) { %>,
     "test:manual:local": "gulp test:local:manual --watch"<% } %><% if ( (automatedTests && browserModule) || manualTests || integrationTests ) { %>,
     "test": "npm run lint<% if ( automatedTests && browserModule ) { %> && npm run test:automated<% } %><% if ( integrationTests ) { %> && npm run test:integration<% } %>"<% } else { %>
-    "test": "<% if ( automatedTests ) { %>eslint {index,test/**/*}.js && mocha test/**/*.js<% if ( testingInterface !== 'bdd' ) { %> --ui <%= testingInterface %><% } %><% } else { %>eslint index.js<% } %>"<% } %>
+    "test": "<% if ( automatedTests ) { %>eslint {index,test/**/*}.js && mocha test/**/*.js<% if ( testingInterface !== 'bdd' ) { %> --ui <%= testingInterface %><% } %><% } else { %>eslint index.js<% } %><% if ( browserModule && styles ) { %> && stylelint index.css<% } %>"<% } %>
   }<% if ( jqueryModule ) { %>,
   "dependencies": {
     "jquery": "^1.12.4"
@@ -23,7 +24,9 @@
   "devDependencies": {
     "eslint": "^2.9.0",
     "eslint-config-niksy": "^2.0.0",
-    "eslint-plugin-promise": "^1.1.0"<% if ( automatedTests && browserModule ) { %>,
+    "eslint-plugin-promise": "^1.1.0"<% if ( browserModule && styles ) { %>,
+    "stylelint": "^6.7.0",
+    "stylelint-config-niksy": "^2.2.0"<% } %><% if ( automatedTests && browserModule ) { %>,
     "karma": "^0.13.22",
     "karma-browserify": "^5.0.5",
     "karma-browserstack-launcher": "^1.0.0",

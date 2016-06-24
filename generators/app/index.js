@@ -134,6 +134,15 @@ module.exports = generators.Base.extend({
 			},
 			{
 				type: 'confirm',
+				name: 'styles',
+				message: 'Does this project has styles?',
+				'default': false,
+				when: function ( answers ) {
+					return answers.browserModule;
+				}
+			},
+			{
+				type: 'confirm',
 				name: 'jqueryModule',
 				message: 'Does this project need jQuery as dependancy?',
 				'default': false,
@@ -192,6 +201,7 @@ module.exports = generators.Base.extend({
 				moduleName: answers.name,
 				moduleDescription: answers.description,
 				browserModule: answers.browserModule,
+				styles: answers.styles,
 				jqueryModule: answers.jqueryModule,
 				onlyNodeLts: answers.onlyNodeLts,
 				manualTests: answers.manualTests,
@@ -217,6 +227,10 @@ module.exports = generators.Base.extend({
 			cp('eslintrc', '.eslintrc');
 			cp('gitignore', '.gitignore');
 			cp('index.js', 'index.js');
+
+			if ( answers.browserModule && answers.styles ) {
+				cp('stylelintrc', '.stylelintrc');
+			}
 
 			if ( answers.manualTests || answers.automatedTests ) {
 				cp('test/eslintrc', 'test/.eslintrc');

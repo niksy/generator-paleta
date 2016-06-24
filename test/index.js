@@ -384,3 +384,35 @@ describe('testing interface', function () {
 	});
 
 });
+
+describe('styles', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				browserModule: true,
+				styles: true
+			})
+			.toPromise();
+	});
+
+	it('creates files', function () {
+		assert.file([
+			'.stylelintrc'
+		]);
+	});
+
+	it('package.json', function () {
+		assert.JSONFileContent('package.json', {
+			style: 'index.css',
+			scripts: {
+				test: 'eslint index.js && stylelint index.css'
+			},
+			devDependencies: {
+				stylelint: '^6.7.0',
+				'stylelint-config-niksy': '^2.2.0'
+			}
+		});
+	});
+
+});
