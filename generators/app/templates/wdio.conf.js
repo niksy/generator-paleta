@@ -41,7 +41,7 @@ var capabilities = [{
 	browser: 'IE',
 	'browser_version': '8',
 	os: 'Windows',
-	'os_version': 'XP',
+	'os_version': '7',
 	project: '<%= moduleName %>',
 	build: '<%= moduleName %> - integration',
 	name: 'IE8',
