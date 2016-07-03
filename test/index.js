@@ -281,6 +281,7 @@ describe('integration tests', function () {
 			'test/manual',
 			'gulpfile.js',
 			'test/integration',
+			'test/integration/.eslintrc',
 			'wdio.conf.js'
 		]);
 	});

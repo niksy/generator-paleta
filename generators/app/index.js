@@ -289,6 +289,7 @@ module.exports = generators.Base.extend({
 
 			if ( answers.integrationTests ) {
 				cp('test/integration/index.js', 'test/integration/index.js');
+				cp('test/integration/eslintrc', 'test/integration/.eslintrc');
 				cp('wdio.conf.js', 'wdio.conf.js');
 			} else {
 				rm('test/integration');
