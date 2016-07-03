@@ -214,6 +214,7 @@ module.exports = generators.Base.extend({
 
 			var tpl = {
 				moduleName: answers.name,
+				cleanModuleName: answers.name.replace(/^@.+?\//, ''),
 				moduleDescription: answers.description,
 				browserModule: answers.browserModule,
 				styles: answers.styles,
