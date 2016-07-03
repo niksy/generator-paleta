@@ -33,6 +33,7 @@ Method description.
 #### arg
 
 Type: `Mixed`
+**Required**
 
 arg description.
 
@@ -67,7 +68,7 @@ Default: `prop2Value`
 
 <% if ( manualTests && browserModule ) { %>## Test
 
-For manual tests, run `npm test -- --watch` and open <http://localhost:8000/> in your browser.
+For manual tests, run `npm test -- --watch` and open <http://localhost:9000/> in your browser.
 
 <% } %><% if ( browserModule ) { %>## Browser support
 
