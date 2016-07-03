@@ -14,7 +14,7 @@ module.exports = function ( config ) {
 			'test/automated/**/*.js': ['browserify']
 		},
 		reporters: ['mocha'<% if ( automatedTests && codeCoverage ) { %>, 'coverage'<% } %>],
-		port: 9876,
+		port: 9001,
 		colors: true,
 		logLevel: config.LOG_INFO,
 		autoWatch: false,

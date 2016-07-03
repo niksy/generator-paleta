@@ -12,7 +12,7 @@ var args = minimist(process.argv.slice(2), {
 	'default': {
 		local: false,
 		verbose: false,
-		port: 9000
+		port: 9002
 	}
 });
 var local = args.local;
