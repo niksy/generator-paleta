@@ -2,4 +2,5 @@
 node_modules/
 npm-debug.log<% if ( (automatedTests && browserModule) || manualTests || integrationTests ) { %>
 test-dist/<% } %><% if ( automatedTests && codeCoverage ) { %>
-coverage<% } %>
+coverage/<% } %><% if ( (automatedTests && browserModule) && integrationTests ) { %>
+errorShots/<% } %>
