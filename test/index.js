@@ -248,12 +248,12 @@ describe('automated tests, browser module', function () {
 				test: 'npm run lint && npm run test:automated'
 			},
 			devDependencies: {
-				'karma': '^0.13.22',
+				'karma': '^1.1.0',
 				'karma-browserify': '^5.0.5',
 				'karma-browserstack-launcher': '^1.0.0',
 				'karma-chrome-launcher': '^1.0.1',
 				'karma-html2js-preprocessor': '^1.0.0',
-				'karma-mocha': '^1.0.1',
+				'karma-mocha': '~1.0.1',
 				'karma-mocha-reporter': '^2.0.3'
 			}
 		});
