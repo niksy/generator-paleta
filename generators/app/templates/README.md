@@ -46,23 +46,35 @@ optionalArg description.
 ##### prop1
 
 Type: `String`  
-Default: `prop1Value`
+Default: `'3'`
 
 `prop1` description.
 
 ##### prop2
 
 Type: `Number`  
-Default: `prop2Value`
+Default: `3`
 
-`prop2` description.
+##### prop3
+
+Type: `Number[]`  
+Default: `[1, 2, 3]`
+
+##### prop4
+
+Type: `Number[]` `String[]`  
+Default: `['1', '2', '3']`
+
+`prop4` description.
 
 > Alternative approach
 
 | Property | Type | Default | Description |
 | --- | --- | --- | --- |
-| `prop1` | `String` | `prop1Value` | `prop1` description. |
-| `prop2` | `Number` | `prop2Value` | `prop2` description. |
+| `prop1` | `String` | `'3'` | `prop1` description. |
+| `prop2` | `Number` | `3` | `prop2` description. |
+| `prop3` | `Number[]` | `[1, 2, 3]` | `prop3` description. |
+| `prop4` | `Number[]` `String[]` | `['1', '2', '3']` | `prop4` description. |
 
 ---
 
