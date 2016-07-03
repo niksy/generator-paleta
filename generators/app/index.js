@@ -264,7 +264,8 @@ module.exports = generators.Base.extend({
 				cp('travis.yml', '.travis.yml');
 				cp('test/index.js', 'test/index.js');
 				if ( answers.browserModule ) {
-					cp('test/automated', 'test/automated');
+					cp('test/automated/fixtures', 'test/automated/fixtures');
+					cp('test/automated/index.js', 'test/automated/index.js');
 					cp('karma.conf.js', 'karma.conf.js');
 				}
 				if ( answers.codeCoverage ) {
@@ -287,7 +288,7 @@ module.exports = generators.Base.extend({
 			}
 
 			if ( answers.integrationTests ) {
-				cp('test/integration', 'test/integration');
+				cp('test/integration/index.js', 'test/integration/index.js');
 				cp('wdio.conf.js', 'wdio.conf.js');
 			} else {
 				rm('test/integration');
