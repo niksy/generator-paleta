@@ -24,7 +24,7 @@ var capabilities = [{
 	os: 'Windows',
 	'os_version': '7',
 	project: '<%= moduleName %>',
-	build: '<%= moduleName %> - integration',
+	build: 'Integration (WebdriverIO)',
 	name: 'Chrome',
 	'browserstack.local': 'true',
 	'browserstack.debug': 'true'
@@ -33,7 +33,7 @@ var capabilities = [{
 	os: 'Windows',
 	'os_version': '7',
 	project: '<%= moduleName %>',
-	build: '<%= moduleName %> - integration',
+	build: 'Integration (WebdriverIO)',
 	name: 'Firefox',
 	'browserstack.local': 'true',
 	'browserstack.debug': 'true'
@@ -43,7 +43,7 @@ var capabilities = [{
 	os: 'Windows',
 	'os_version': '7',
 	project: '<%= moduleName %>',
-	build: '<%= moduleName %> - integration',
+	build: 'Integration (WebdriverIO)',
 	name: 'IE8',
 	'browserstack.local': 'true',
 	'browserstack.debug': 'true'
@@ -98,7 +98,7 @@ exports.config = {
 
 			if ( local ) {
 
-				console.log('Starting WebDriverIO…');
+				console.log('Starting WebdriverIO…');
 				resolve();
 
 			} else {
@@ -118,7 +118,7 @@ exports.config = {
 						return;
 					}
 
-					console.log('Starting WebDriverIO…');
+					console.log('Starting WebdriverIO…');
 					resolve();
 				});
 
@@ -158,7 +158,7 @@ exports.config = {
 
 			if ( local ) {
 
-				console.log('Stopping WebDriverIO…');
+				console.log('Stopping WebdriverIO…');
 				resolve();
 
 			} else {
@@ -170,7 +170,7 @@ exports.config = {
 						return;
 					}
 
-					console.log('Stopping WebDriverIO…');
+					console.log('Stopping WebdriverIO…');
 					resolve();
 				});
 

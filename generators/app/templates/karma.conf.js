@@ -19,7 +19,9 @@ module.exports = function ( config ) {
 		logLevel: config.LOG_INFO,
 		autoWatch: false,
 		browserStack: {
-			startTunnel: true
+			startTunnel: true,
+			project: '<%= moduleName %>',
+			name: 'Automated (Karma)'
 		},
 		client: {
 			mocha: {
@@ -47,7 +49,7 @@ module.exports = function ( config ) {
 				os: 'Windows',
 				'os_version': '7',
 				project: '<%= moduleName %>',
-				build: '<%= moduleName %> - automated',
+				build: 'Automated (Karma)',
 				name: 'Chrome'
 			},
 			'BS-Firefox': {
@@ -56,7 +58,7 @@ module.exports = function ( config ) {
 				os: 'Windows',
 				'os_version': '7',
 				project: '<%= moduleName %>',
-				build: '<%= moduleName %> - automated',
+				build: 'Automated (Karma)',
 				name: 'Firefox'
 			},
 			'BS-IE8': {
@@ -66,7 +68,7 @@ module.exports = function ( config ) {
 				os: 'Windows',
 				'os_version': '7',
 				project: '<%= moduleName %>',
-				build: '<%= moduleName %> - automated',
+				build: 'Automated (Karma)',
 				name: 'IE8'
 			}
 		},
