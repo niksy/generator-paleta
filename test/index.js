@@ -311,7 +311,7 @@ describe('integration tests', function () {
 				'watchify': '^3.7.0',
 				'browserstacktunnel-wrapper': '^1.4.2',
 				'wdio-mocha-framework': '^0.2.13',
-				'wdio-spec-reporter': 'kevinlambert/wdio-spec-reporter#release',
+				'wdio-spec-reporter': '^0.0.2',
 				'webdriverio': '^4.0.9',
 				'http-shutdown': '^1.0.3'
 			}
