@@ -263,11 +263,12 @@ module.exports = generators.Base.extend({
 
 			if ( answers.automatedTests ) {
 				cp('travis.yml', '.travis.yml');
-				cp('test/index.js', 'test/index.js');
 				if ( answers.browserModule ) {
 					cp('test/automated/fixtures', 'test/automated/fixtures');
 					cp('test/automated/index.js', 'test/automated/index.js');
 					cp('karma.conf.js', 'karma.conf.js');
+				} else {
+					cp('test/index.js', 'test/index.js');
 				}
 				if ( answers.codeCoverage ) {
 					cp('istanbul.yml', '.istanbul.yml');
