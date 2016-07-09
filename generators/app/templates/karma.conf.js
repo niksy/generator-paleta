@@ -38,9 +38,14 @@ module.exports = function ( config ) {
 					type: 'html'
 				},
 				{
-					type: 'text-summary'
+					type: 'text'
 				}
-			]
+			],
+			check: {
+				global: {
+					statements: 80
+				}
+			}
 		},<% } %>
 		customLaunchers: {
 			'BS-Chrome': {

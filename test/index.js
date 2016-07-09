@@ -462,7 +462,7 @@ describe('code coverage', function () {
 	it('package.json', function () {
 		assert.JSONFileContent('package.json', {
 			scripts: {
-				test: 'eslint {index,test/**/*}.js && istanbul cover _mocha test/**/*.js'
+				test: 'eslint {index,test/**/*}.js && istanbul cover _mocha test/**/*.js && istanbul check-coverage'
 			},
 			devDependencies: {
 				istanbul: '^0.4.3'

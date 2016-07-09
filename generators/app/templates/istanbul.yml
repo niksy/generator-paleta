@@ -1,6 +1,9 @@
 instrumentation:
   default-excludes: true
 reporting:
-  print: summary
+  print: detail
   reports:
     - html
+check:
+  global:
+    statements: 80
