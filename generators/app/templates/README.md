@@ -67,6 +67,19 @@ Default: `['1', '2', '3']`
 
 `prop4` description.
 
+##### prop5
+
+Type: `Function`  
+Default: `noop`
+
+`prop5` description.
+
+Function arguments:
+
+* **arg1** `String` arg1 description
+* **arg2** `Number` arg2 description
+* **arg3** `Element` `Boolean` arg3 description
+
 > Alternative approach
 
 | Property | Type | Default | Description |
@@ -75,6 +88,7 @@ Default: `['1', '2', '3']`
 | `prop2` | `Number` | `3` | `prop2` description. |
 | `prop3` | `Number[]` | `[1, 2, 3]` | `prop3` description. |
 | `prop4` | `Number[]` `String[]` | `['1', '2', '3']` | `prop4` description. |
+| `prop5` | `Function` | `noop` | `prop5` description. (No function arguments description) |
 
 ---
 
