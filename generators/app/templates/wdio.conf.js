@@ -26,6 +26,7 @@ var capabilities = [{
 	project: '<%= moduleName %>',
 	build: 'Integration (WebdriverIO)',
 	name: 'Chrome',
+	browserName: 'Chrome',
 	'browserstack.local': 'true',
 	'browserstack.debug': 'true'
 }, {
@@ -35,6 +36,7 @@ var capabilities = [{
 	project: '<%= moduleName %>',
 	build: 'Integration (WebdriverIO)',
 	name: 'Firefox',
+	browserName: 'Firefox',
 	'browserstack.local': 'true',
 	'browserstack.debug': 'true'
 }, {
@@ -45,6 +47,7 @@ var capabilities = [{
 	project: '<%= moduleName %>',
 	build: 'Integration (WebdriverIO)',
 	name: 'IE8',
+	browserName: 'IE8',
 	'browserstack.local': 'true',
 	'browserstack.debug': 'true'
 }];
