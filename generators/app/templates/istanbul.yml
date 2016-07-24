@@ -3,7 +3,8 @@ instrumentation:
 reporting:
   print: detail
   reports:
-    - html
+  	- html<% if ( codeCoverageService ) { %>
+    - lcov<% } %>
 check:
   global:
     statements: 80

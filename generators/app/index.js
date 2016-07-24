@@ -201,6 +201,15 @@ module.exports = generators.Base.extend({
 				when: function ( answers ) {
 					return answers.automatedTests;
 				}
+			},
+			{
+				type: 'confirm',
+				name: 'codeCoverageService',
+				message: 'Do you want to send code coverage report to Coveralls?',
+				'default': false,
+				when: function ( answers ) {
+					return answers.codeCoverage;
+				}
 			}
 		], function ( answers ) {
 
@@ -226,6 +235,7 @@ module.exports = generators.Base.extend({
 				integrationTests: answers.integrationTests,
 				testingInterface: answers.testingInterface,
 				codeCoverage: answers.codeCoverage,
+				codeCoverageService: answers.codeCoverageService,
 				githubRepo: answers.githubRepo,
 				keywords: keywords,
 				version: pkg.version

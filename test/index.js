@@ -471,3 +471,36 @@ describe('code coverage', function () {
 	});
 
 });
+
+describe('code coverage service', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				automatedTests: true,
+				codeCoverage: true,
+				codeCoverageService: true
+			})
+			.toPromise();
+	});
+
+	it('adds coveralls entry to .travis.yml', function () {
+		assert.fileContent('.travis.yml', 'npm run posttest:ci');
+	});
+
+	it('adds coveralls entry to .istanbul.yml', function () {
+		assert.fileContent('.istanbul.yml', '- lcov');
+	});
+
+	it('package.json', function () {
+		assert.JSONFileContent('package.json', {
+			scripts: {
+				'posttest:ci': 'cat ./coverage/lcov.info | coveralls'
+			},
+			devDependencies: {
+				coveralls: '^2.11.11'
+			}
+		});
+	});
+
+});
