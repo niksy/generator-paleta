@@ -410,8 +410,8 @@ describe('Styles', function () {
 				test: 'eslint index.js && stylelint index.css'
 			},
 			devDependencies: {
-				stylelint: '^6.7.0',
-				'stylelint-config-niksy': '^2.2.0'
+				stylelint: '^7.0.3',
+				'stylelint-config-niksy': '^3.0.1'
 			}
 		});
 	});

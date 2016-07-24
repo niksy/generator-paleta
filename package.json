@@ -23,8 +23,8 @@
     "yeoman-generator": "^0.22.5"
   },
   "devDependencies": {
-    "eslint": "^2.13.1",
-    "eslint-config-niksy": "^2.1.0",
+    "eslint": "^3.1.1",
+    "eslint-config-niksy": "^3.0.1",
     "load-json-file": "^2.0.0",
     "mocha": "^2.5.3",
     "write-json-file": "^2.0.0",
