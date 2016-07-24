@@ -21,7 +21,8 @@ module.exports = function ( config ) {
 		browserStack: {
 			startTunnel: true,
 			project: '<%= moduleName %>',
-			name: 'Automated (Karma)'
+			name: 'Automated (Karma)',
+			build: 'Automated (Karma)'
 		},
 		client: {
 			mocha: {
