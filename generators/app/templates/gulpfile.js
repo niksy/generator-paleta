@@ -25,6 +25,11 @@ var args = minimist(process.argv.slice(2), {
 var watch = args.watch;
 var port = args.port;
 
+function handleError ( msg ) {
+	gutil.log(gutil.colors.red(msg.message));
+	this.emit('end');
+}
+
 gulp.task('test:cleanup', function () {
 	return del([
 		'./test-dist'
@@ -34,7 +39,9 @@ gulp.task('test:cleanup', function () {
 gulp.task('test:markup', ['test:cleanup'], function () {
 	function bundle () {
 		return gulp.src('./test/manual/suite/**/*.html')
+				.pipe(plumber(handleError))
 				.pipe(nunjucks())
+				.pipe(plumber.stop())
 				.pipe(gulp.dest('./test-dist'))
 				.pipe(debug({ title: 'Markup:' }));
 	}
@@ -46,12 +53,19 @@ gulp.task('test:markup', ['test:cleanup'], function () {
 
 gulp.task('test:style', ['test:cleanup'], function () {
 	function bundle () {
-		return gulp.src('./test/manual/assets/**/*.css')
-				.pipe(gulp.dest('./test-dist/assets'))
+		return gulp.src('./test/manual/suite/**/*.css')
+				.pipe(plumber(handleError))
+				.pipe(sourcemaps.init({
+					loadMaps: true
+				}))
+				// Tasks
+				.pipe(sourcemaps.write())
+				.pipe(plumber.stop())
+				.pipe(gulp.dest('./test-dist'))
 				.pipe(debug({ title: 'Style:' }));
 	}
 	if ( watch ) {
-		gulp.watch(['./test/manual/assets/**/*.css'], bundle);
+		gulp.watch(['./test/manual/suite/**/*.css'], bundle);
 	}
 	return bundle();
 });
@@ -60,11 +74,6 @@ gulp.task('test:script', ['test:cleanup'], function ( done ) {
 
 	globby(['./test/manual/suite/**/*.js'])
 		.then(function ( files ) {
-
-			function handleError ( msg ) {
-				gutil.log(gutil.colors.red(msg.message));
-				this.emit('end');
-			}
 
 			function task ( file ) {
 
@@ -122,7 +131,19 @@ gulp.task('test:script', ['test:cleanup'], function ( done ) {
 
 });
 
-gulp.task('test:prepare', ['test:cleanup', 'test:markup', 'test:style', 'test:script']);
+gulp.task('test:assets', ['test:cleanup'], function () {
+	function bundle () {
+		return gulp.src('./test/manual/assets/**/*')
+				.pipe(gulp.dest('./test-dist/assets'))
+				.pipe(debug({ title: 'Assets:' }));
+	}
+	if ( watch ) {
+		gulp.watch(['./test/manual/assets/**/*'], bundle);
+	}
+	return bundle();
+});
+
+gulp.task('test:prepare', ['test:cleanup', 'test:markup', 'test:style', 'test:script', 'test:assets']);
 
 gulp.task('test:local:manual', ['test:prepare'], function () {
 	if ( watch ) {
