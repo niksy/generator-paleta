@@ -6,7 +6,7 @@ var helpers = require('yeoman-test');
 var writeJson = require('write-json-file');
 var readJson = require('load-json-file');
 
-describe('new project', function () {
+describe('New project', function () {
 
 	before(function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
@@ -16,7 +16,7 @@ describe('new project', function () {
 			.toPromise();
 	});
 
-	it('creates files', function () {
+	it('creates necessary files', function () {
 		assert.file([
 			'package.json',
 			'.editorconfig',
@@ -35,7 +35,7 @@ describe('new project', function () {
 		});
 	});
 
-	it('fills the README with project data', function () {
+	it('fills README.md with project data', function () {
 		assert.fileContent('README.md', '# foo');
 		assert.fileContent('README.md', 'npm install foo --save');
 	});
@@ -57,7 +57,7 @@ describe('new project', function () {
 
 });
 
-describe('existing project', function () {
+describe('Existing project', function () {
 
 	var tmpPkgPath = '';
 
@@ -134,7 +134,7 @@ describe('package.json "keywords" property', function () {
 			.toPromise();
 	});
 
-	it('unique values sorted alphabetically', function () {
+	it('should have unique values sorted alphabetically', function () {
 		assert.JSONFileContent('package.json', {
 			keywords: ['1', '2', '3', '5', '6']
 		});
@@ -142,7 +142,7 @@ describe('package.json "keywords" property', function () {
 
 });
 
-describe('manual tests', function () {
+describe('Manual tests', function () {
 
 	before(function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
@@ -152,7 +152,7 @@ describe('manual tests', function () {
 			.toPromise();
 	});
 
-	it('creates files', function () {
+	it('creates necessary files', function () {
 		assert.file([
 			'test/.eslintrc',
 			'test/manual',
@@ -160,7 +160,7 @@ describe('manual tests', function () {
 		]);
 	});
 
-	it('package.json', function () {
+	it('fills package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			directories: {
 				test: 'test'
@@ -191,7 +191,7 @@ describe('manual tests', function () {
 
 });
 
-describe('automated tests', function () {
+describe('Automated tests', function () {
 
 	before(function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
@@ -201,7 +201,7 @@ describe('automated tests', function () {
 			.toPromise();
 	});
 
-	it('creates files', function () {
+	it('creates necessary files', function () {
 		assert.file([
 			'test/.eslintrc',
 			'.travis.yml',
@@ -209,7 +209,7 @@ describe('automated tests', function () {
 		]);
 	});
 
-	it('package.json', function () {
+	it('fills package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			scripts: {
 				test: 'eslint {index,test/**/*}.js && mocha test/**/*.js'
@@ -222,7 +222,7 @@ describe('automated tests', function () {
 
 });
 
-describe('automated tests, browser module', function () {
+describe('Automated tests, browser module', function () {
 
 	before(function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
@@ -233,14 +233,14 @@ describe('automated tests, browser module', function () {
 			.toPromise();
 	});
 
-	it('creates files', function () {
+	it('creates necessary files', function () {
 		assert.file([
 			'test/automated',
 			'karma.conf.js'
 		]);
 	});
 
-	it('package.json', function () {
+	it('fills package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			scripts: {
 				'test:automated': 'karma start',
@@ -259,13 +259,13 @@ describe('automated tests, browser module', function () {
 		});
 	});
 
-	it('karma.conf.js', function () {
+	it('should update karma.conf.js with correct information', function () {
 		assert.fileContent('karma.conf.js', 'ui: \'bdd\'');
 	});
 
 });
 
-describe('integration tests', function () {
+describe('Integration tests', function () {
 
 	before(function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
@@ -276,7 +276,7 @@ describe('integration tests', function () {
 			.toPromise();
 	});
 
-	it('creates files', function () {
+	it('creates necessary files', function () {
 		assert.file([
 			'test/manual',
 			'gulpfile.js',
@@ -286,7 +286,7 @@ describe('integration tests', function () {
 		]);
 	});
 
-	it('package.json', function () {
+	it('fills package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			scripts: {
 				'test:integration': 'gulp test:prepare && wdio',
@@ -318,13 +318,13 @@ describe('integration tests', function () {
 		});
 	});
 
-	it('wdio.conf.js', function () {
+	it('should update wdio.conf.js with correct information', function () {
 		assert.fileContent('wdio.conf.js', 'ui: \'bdd\'');
 	});
 
 });
 
-describe('browser module', function () {
+describe('Browser module', function () {
 
 	before(function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
@@ -334,7 +334,7 @@ describe('browser module', function () {
 			.toPromise();
 	});
 
-	it('README.md contains information regarding browser support', function () {
+	it('should add information regarding browser support to README.md', function () {
 		assert.fileContent('README.md', '## Browser support');
 	});
 
@@ -351,7 +351,7 @@ describe('jQuery module', function () {
 			.toPromise();
 	});
 
-	it('package.json', function () {
+	it('fills package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			dependencies: {
 				jquery: '^1.12.4'
@@ -365,7 +365,7 @@ describe('jQuery module', function () {
 
 });
 
-describe('testing interface', function () {
+describe('Testing interface', function () {
 
 	before(function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
@@ -376,7 +376,7 @@ describe('testing interface', function () {
 			.toPromise();
 	});
 
-	it('package.json', function () {
+	it('fills package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			scripts: {
 				test: 'eslint {index,test/**/*}.js && mocha test/**/*.js --ui tdd'
@@ -386,7 +386,7 @@ describe('testing interface', function () {
 
 });
 
-describe('styles', function () {
+describe('Styles', function () {
 
 	before(function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
@@ -397,13 +397,13 @@ describe('styles', function () {
 			.toPromise();
 	});
 
-	it('creates files', function () {
+	it('creates necesarry files', function () {
 		assert.file([
 			'.stylelintrc'
 		]);
 	});
 
-	it('package.json', function () {
+	it('fills package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			style: 'index.css',
 			scripts: {
@@ -428,13 +428,13 @@ describe('CLI', function () {
 			.toPromise();
 	});
 
-	it('creates files', function () {
+	it('creates necessary files', function () {
 		assert.file([
 			'cli.js'
 		]);
 	});
 
-	it('package.json', function () {
+	it('fills package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			bin: 'cli.js'
 		});
@@ -442,7 +442,7 @@ describe('CLI', function () {
 
 });
 
-describe('code coverage', function () {
+describe('Code coverage', function () {
 
 	before(function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
@@ -453,13 +453,13 @@ describe('code coverage', function () {
 			.toPromise();
 	});
 
-	it('creates files', function () {
+	it('creates necessary files', function () {
 		assert.file([
 			'.istanbul.yml'
 		]);
 	});
 
-	it('package.json', function () {
+	it('fills package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			scripts: {
 				test: 'eslint {index,test/**/*}.js && istanbul cover _mocha test/**/*.js && istanbul check-coverage'
@@ -472,7 +472,7 @@ describe('code coverage', function () {
 
 });
 
-describe('code coverage service', function () {
+describe('Code coverage service', function () {
 
 	before(function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
@@ -492,7 +492,7 @@ describe('code coverage service', function () {
 		assert.fileContent('.istanbul.yml', '- lcov');
 	});
 
-	it('package.json', function () {
+	it('fills package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			scripts: {
 				'posttest:ci': 'cat ./coverage/lcov.info | coveralls'
