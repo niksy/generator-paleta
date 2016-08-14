@@ -82,7 +82,11 @@ describe('Existing project', function () {
 						'a',
 						'c',
 						'b'
-					]
+					],
+					repository: {
+						type: 'git',
+						url: 'git+https://github.com/niksy/bar.git'
+					}
 				})
 					.then(done)
 					.catch(function ( err ) {

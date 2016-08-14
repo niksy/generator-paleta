@@ -61,16 +61,7 @@ module.exports = generators.Base.extend({
 	prompting: function () {
 
 		var done = this.async();
-		var pkg;
-
-		try {
-			pkg = this.fs.readJSON(this.destinationPath('package.json'));
-		} catch ( e ) {
-			pkg = {};
-		}
-		if ( typeof pkg === 'undefined' ) {
-			pkg = {};
-		}
+		var pkg = this.fs.readJSON(this.destinationPath('package.json'), {});
 
 		this.prompt([
 			{
