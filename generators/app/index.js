@@ -1,60 +1,9 @@
 var generators = require('yeoman-generator');
 var gh = require('parse-github-url');
-var sortKeys = require('sort-keys');
 var deepAssign = require('deep-assign');
 var compact = require('lodash.compact');
 var uniq = require('lodash.uniq');
-
-function sortPkg ( pkg ) {
-
-	var arr = [
-		'name',
-		'version',
-		'description',
-		'private',
-		'main',
-		'browser',
-		'author',
-		'contributors',
-		'license',
-		'files',
-		'style',
-		'bin',
-		'directories',
-		'scripts',
-		'dependencies',
-		'devDependencies',
-		'peerDependencies',
-		'engines',
-		'publishConfig',
-		'keywords',
-		'repository',
-		'bugs',
-		'homepage'
-	].reverse();
-	var newPkg;
-
-	newPkg = sortKeys(pkg, {
-		compare: function ( a, b ) {
-			return arr.indexOf(a) > arr.indexOf(b) ? -1 : 1;
-		}
-	});
-
-	['dependencies', 'devDependencies', 'scripts'].forEach(function ( prop ) {
-		if ( prop in newPkg ) {
-			newPkg[prop] = sortKeys(newPkg[prop]);
-		}
-	});
-
-	['keywords'].forEach(function ( prop ) {
-		if ( prop in newPkg ) {
-			newPkg[prop] = newPkg[prop].sort();
-		}
-	});
-
-	return newPkg;
-
-}
+var sortPkg = require('sort-pkg');
 
 module.exports = generators.Base.extend({
 
