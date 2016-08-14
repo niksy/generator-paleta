@@ -484,3 +484,39 @@ describe('Non-GitHub repository', function () {
 	});
 
 });
+
+describe('Dashed-case package name', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				name: 'fooBar'
+			})
+			.toPromise();
+	});
+
+	it('fills package.json with correct information', function () {
+		assert.JSONFileContent('package.json', {
+			name: 'foo-bar'
+		});
+	});
+
+});
+
+describe('Scoped package', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				name: '@foo/barBaz'
+			})
+			.toPromise();
+	});
+
+	it('fills package.json with correct information', function () {
+		assert.JSONFileContent('package.json', {
+			name: '@foo/bar-baz'
+		});
+	});
+
+});

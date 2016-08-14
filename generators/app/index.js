@@ -4,6 +4,22 @@ var deepAssign = require('deep-assign');
 var compact = require('lodash.compact');
 var uniq = require('lodash.uniq');
 var sortPkg = require('sort-pkg');
+var dashCase = require('lodash.kebabcase');
+var isScopedPackage = require('is-scoped-package');
+
+/**
+ * @param  {String} pkgName
+ *
+ * @return {String}
+ */
+function preparePkgName ( pkgName ) {
+	var scopedPkgName;
+	if ( isScopedPackage(pkgName) ) {
+		scopedPkgName = pkgName.split('/');
+		return [scopedPkgName[0], dashCase(scopedPkgName[1])].join('/');
+	}
+	return dashCase(pkgName);
+}
 
 module.exports = generators.Base.extend({
 
@@ -18,13 +34,15 @@ module.exports = generators.Base.extend({
 				name: 'name',
 				message: 'What is the name of the project?',
 				'default': function () {
+					var pkgName;
 					if ( pkg.name ) {
-						return pkg.name;
+						pkgName = pkg.name;
+					} else if ( this.appname ) {
+						pkgName = this.appname;
+					} else {
+						pkgName = '';
 					}
-					if ( this.appname ) {
-						return this.appname.replace(/\s/g, '-');
-					}
-					return '';
+					return preparePkgName(pkgName);
 				}.bind(this)
 			},
 			{
@@ -162,8 +180,8 @@ module.exports = generators.Base.extend({
 				})));
 
 			var tpl = {
-				moduleName: answers.name,
-				cleanModuleName: answers.name.replace(/^@.+?\//, ''),
+				moduleName: preparePkgName(answers.name),
+				cleanModuleName: preparePkgName(answers.name).replace(/^@.+?\//, ''),
 				moduleDescription: answers.description,
 				browserModule: answers.browserModule,
 				styles: answers.styles,
