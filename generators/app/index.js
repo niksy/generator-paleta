@@ -23,10 +23,14 @@ function preparePkgName ( pkgName ) {
 
 module.exports = generators.Base.extend({
 
+	initializing: function () {
+		this.pkg = this.fs.readJSON(this.destinationPath('package.json'), {});
+	},
+
 	prompting: function () {
 
 		var done = this.async();
-		var pkg = this.fs.readJSON(this.destinationPath('package.json'), {});
+		var pkg = this.pkg;
 
 		this.prompt([
 			{
@@ -170,126 +174,132 @@ module.exports = generators.Base.extend({
 				}
 			}
 		], function ( answers ) {
-
-			var keywords = uniq(compact(answers.keywords.split(',')
-				.map(function ( keyword ) {
-					return keyword.trim();
-				})
-				.filter(function ( keyword ) {
-					return keyword !== '';
-				})));
-
-			var tpl = {
-				moduleName: preparePkgName(answers.name),
-				cleanModuleName: preparePkgName(answers.name).replace(/^@.+?\//, ''),
-				moduleDescription: answers.description,
-				browserModule: answers.browserModule,
-				styles: answers.styles,
-				jqueryModule: answers.jqueryModule,
-				onlyNodeLts: answers.onlyNodeLts,
-				cli: answers.cli,
-				manualTests: answers.manualTests,
-				automatedTests: answers.automatedTests,
-				integrationTests: answers.integrationTests,
-				testingInterface: answers.testingInterface,
-				codeCoverage: answers.codeCoverage,
-				codeCoverageService: answers.codeCoverageService,
-				gitRepo: gh(answers.gitRepo),
-				keywords: keywords,
-				version: pkg.version,
-				humanName: 'Ivan Nikolić',
-				username: 'niksy',
-				website: 'http://ivannikolic.com',
-				email: 'niksy5@gmail.com'
-			};
-
-			var cp = function ( from, to ) {
-				this.fs.copyTpl(this.templatePath(from), this.destinationPath(to), tpl);
-			}.bind(this);
-			var rm = function ( to ) {
-				this.fs.delete(this.destinationPath(to));
-			}.bind(this);
-			var newPkg, mergedPkg;
-
-			cp('README.md', 'README.md');
-			cp('LICENSE.md', 'LICENSE.md');
-			cp('editorconfig', '.editorconfig');
-			cp('eslintrc', '.eslintrc');
-			cp('gitignore', '.gitignore');
-			cp('index.js', 'index.js');
-
-			if ( answers.cli ) {
-				cp('cli.js', 'cli.js');
-			}
-
-			if ( answers.browserModule && answers.styles ) {
-				cp('stylelintrc', '.stylelintrc');
-			}
-
-			if ( answers.manualTests || answers.automatedTests ) {
-				cp('test/eslintrc', 'test/.eslintrc');
-			}
-			if ( !answers.manualTests && !answers.automatedTests ) {
-				rm('test');
-			}
-
-			if ( answers.automatedTests ) {
-				cp('travis.yml', '.travis.yml');
-				if ( answers.browserModule ) {
-					cp('test/automated/fixtures', 'test/automated/fixtures');
-					cp('test/automated/index.js', 'test/automated/index.js');
-					cp('karma.conf.js', 'karma.conf.js');
-				} else {
-					cp('test/index.js', 'test/index.js');
-				}
-				if ( answers.codeCoverage ) {
-					cp('istanbul.yml', '.istanbul.yml');
-				}
-			} else {
-				rm('.travis.yml');
-				rm('test/index.js');
-				rm('test/automated');
-				rm('karma.conf.js');
-				rm('.istanbul.yml');
-			}
-
-			if ( answers.manualTests || answers.integrationTests ) {
-				cp('test/manual', 'test/manual');
-				cp('gulpfile.js', 'gulpfile.js');
-			} else {
-				rm('test/manual');
-				rm('gulpile.js');
-			}
-
-			if ( answers.integrationTests ) {
-				cp('test/integration/index.js', 'test/integration/index.js');
-				cp('test/integration/eslintrc', 'test/integration/.eslintrc');
-				cp('wdio.conf.js', 'wdio.conf.js');
-			} else {
-				rm('test/integration');
-				rm('wdio.conf.js');
-			}
-
-			// Write package.json, handling property order
-			cp('_package.json', '_package.json');
-			newPkg = this.fs.readJSON(this.destinationPath('_package.json'));
-			rm('_package.json');
-
-			mergedPkg = deepAssign({}, pkg, newPkg);
-
-			// deep-assign overwrites arrays so we have to prepare
-			// new array before writing new JSON file
-			if ( Array.isArray(keywords) && keywords.length ) {
-				mergedPkg.keywords = keywords;
-			}
-
-			mergedPkg = sortPkg(mergedPkg);
-
-			this.fs.writeJSON(this.destinationPath('package.json'), mergedPkg);
-
+			this.answers = answers;
 			done();
-
 		}.bind(this));
+
+	},
+
+	writing: function () {
+
+		var answers = this.answers;
+		var pkg = this.pkg;
+
+		var keywords = uniq(compact(answers.keywords.split(',')
+			.map(function ( keyword ) {
+				return keyword.trim();
+			})
+			.filter(function ( keyword ) {
+				return keyword !== '';
+			})));
+
+		var tpl = {
+			moduleName: preparePkgName(answers.name),
+			cleanModuleName: preparePkgName(answers.name).replace(/^@.+?\//, ''),
+			moduleDescription: answers.description,
+			browserModule: answers.browserModule,
+			styles: answers.styles,
+			jqueryModule: answers.jqueryModule,
+			onlyNodeLts: answers.onlyNodeLts,
+			cli: answers.cli,
+			manualTests: answers.manualTests,
+			automatedTests: answers.automatedTests,
+			integrationTests: answers.integrationTests,
+			testingInterface: answers.testingInterface,
+			codeCoverage: answers.codeCoverage,
+			codeCoverageService: answers.codeCoverageService,
+			gitRepo: gh(answers.gitRepo),
+			keywords: keywords,
+			version: pkg.version,
+			humanName: 'Ivan Nikolić',
+			username: 'niksy',
+			website: 'http://ivannikolic.com',
+			email: 'niksy5@gmail.com'
+		};
+
+		var cp = function ( from, to ) {
+			this.fs.copyTpl(this.templatePath(from), this.destinationPath(to), tpl);
+		}.bind(this);
+		var rm = function ( to ) {
+			this.fs.delete(this.destinationPath(to));
+		}.bind(this);
+		var newPkg, mergedPkg;
+
+		cp('README.md', 'README.md');
+		cp('LICENSE.md', 'LICENSE.md');
+		cp('editorconfig', '.editorconfig');
+		cp('eslintrc', '.eslintrc');
+		cp('gitignore', '.gitignore');
+		cp('index.js', 'index.js');
+
+		if ( answers.cli ) {
+			cp('cli.js', 'cli.js');
+		}
+
+		if ( answers.browserModule && answers.styles ) {
+			cp('stylelintrc', '.stylelintrc');
+		}
+
+		if ( answers.manualTests || answers.automatedTests ) {
+			cp('test/eslintrc', 'test/.eslintrc');
+		}
+		if ( !answers.manualTests && !answers.automatedTests ) {
+			rm('test');
+		}
+
+		if ( answers.automatedTests ) {
+			cp('travis.yml', '.travis.yml');
+			if ( answers.browserModule ) {
+				cp('test/automated/fixtures', 'test/automated/fixtures');
+				cp('test/automated/index.js', 'test/automated/index.js');
+				cp('karma.conf.js', 'karma.conf.js');
+			} else {
+				cp('test/index.js', 'test/index.js');
+			}
+			if ( answers.codeCoverage ) {
+				cp('istanbul.yml', '.istanbul.yml');
+			}
+		} else {
+			rm('.travis.yml');
+			rm('test/index.js');
+			rm('test/automated');
+			rm('karma.conf.js');
+			rm('.istanbul.yml');
+		}
+
+		if ( answers.manualTests || answers.integrationTests ) {
+			cp('test/manual', 'test/manual');
+			cp('gulpfile.js', 'gulpfile.js');
+		} else {
+			rm('test/manual');
+			rm('gulpile.js');
+		}
+
+		if ( answers.integrationTests ) {
+			cp('test/integration/index.js', 'test/integration/index.js');
+			cp('test/integration/eslintrc', 'test/integration/.eslintrc');
+			cp('wdio.conf.js', 'wdio.conf.js');
+		} else {
+			rm('test/integration');
+			rm('wdio.conf.js');
+		}
+
+		// Write package.json, handling property order
+		cp('_package.json', '_package.json');
+		newPkg = this.fs.readJSON(this.destinationPath('_package.json'));
+		rm('_package.json');
+
+		mergedPkg = deepAssign({}, pkg, newPkg);
+
+		// deep-assign overwrites arrays so we have to prepare
+		// new array before writing new JSON file
+		if ( Array.isArray(keywords) && keywords.length ) {
+			mergedPkg.keywords = keywords;
+		}
+
+		mergedPkg = sortPkg(mergedPkg);
+
+		this.fs.writeJSON(this.destinationPath('package.json'), mergedPkg);
 
 	},
 
