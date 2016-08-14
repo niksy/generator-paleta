@@ -74,10 +74,10 @@
   <% } %>]<% } %>,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/<%= githubRepo %>.git"
+    "url": "git+https://<%= gitRepo.host %>/<%= gitRepo.repository %>.git"
   },
   "bugs": {
-    "url": "https://github.com/<%= githubRepo %>/issues"
+    "url": "https://<%= gitRepo.host %>/<%= gitRepo.repository %>/issues"
   },
-  "homepage": "https://github.com/<%= githubRepo %>#readme"
+  "homepage": "https://<%= gitRepo.host %>/<%= gitRepo.repository %>#readme"
 }

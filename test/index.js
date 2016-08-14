@@ -508,3 +508,28 @@ describe('Code coverage service', function () {
 	});
 
 });
+
+describe('Non-GitHub repository', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				gitRepo: 'https://gitlab.com/niksy/bar'
+			})
+			.toPromise();
+	});
+
+	it('fills package.json with correct information', function () {
+		assert.JSONFileContent('package.json', {
+			repository: {
+				type: 'git',
+				url: 'git+https://gitlab.com/niksy/bar.git'
+			},
+			bugs: {
+				url: 'https://gitlab.com/niksy/bar/issues'
+			},
+			homepage: 'https://gitlab.com/niksy/bar#readme'
+		});
+	});
+
+});

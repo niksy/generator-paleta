@@ -102,11 +102,11 @@ module.exports = generators.Base.extend({
 			},
 			{
 				type: 'input',
-				name: 'githubRepo',
-				message: 'What is the GitHub repository of the project?',
+				name: 'gitRepo',
+				message: 'What is the Git repository of the project?',
 				'default': function ( answers ) {
 					if ( pkg.repository ) {
-						return gh(pkg.repository.url).repo;
+						return gh(pkg.repository.url).repository;
 					}
 					return 'niksy/' + answers.name;
 				}
@@ -227,7 +227,7 @@ module.exports = generators.Base.extend({
 				testingInterface: answers.testingInterface,
 				codeCoverage: answers.codeCoverage,
 				codeCoverageService: answers.codeCoverageService,
-				githubRepo: answers.githubRepo,
+				gitRepo: gh(answers.gitRepo),
 				keywords: keywords,
 				version: pkg.version
 			};
