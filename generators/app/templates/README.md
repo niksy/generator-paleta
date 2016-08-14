@@ -1,6 +1,6 @@
 # <%= cleanModuleName %><% if ( automatedTests ) { %>
 
-[![Build Status][ci-img]][ci]<% } %><% if ( (automatedTests && browserModule) || integrationTests ) { %> [![Browserstack][browserstack-img]][browserstack]<% } %>
+[![Build Status][ci-img]][ci]<% } %><% if ( (automatedTests && browserModule) || integrationTests ) { %> [![Browserstack][browserstack-img]][browserstack]<% } %><% if ( codeCoverageService ) { %> [![Coveralls][coveralls-img]][coveralls]<% } %>
 
 <%= moduleDescription %>
 
@@ -107,4 +107,6 @@ MIT © [Ivan Nikolić](http://ivannikolic.com)<% if ( automatedTests ) { %>
 [ci]: https://travis-ci.org/niksy/<%= cleanModuleName %>
 [ci-img]: https://img.shields.io/travis/niksy/<%= cleanModuleName %>.svg<% } %><% if ( (automatedTests && browserModule) || integrationTests ) { %>
 [browserstack]: https://www.browserstack.com/
-[browserstack-img]: https://cdn.rawgit.com/niksy/c73069b66d20e2e0005dc8479c125fbd/raw/f644159e3f5f07291f98f59a44146735e9962e0d/browserstack.svg<% } %>
+[browserstack-img]: https://cdn.rawgit.com/niksy/c73069b66d20e2e0005dc8479c125fbd/raw/f644159e3f5f07291f98f59a44146735e9962e0d/browserstack.svg<% } %><% if ( codeCoverageService ) { %>
+[coveralls]: https://coveralls.io/r/niksy/<%= cleanModuleName %>
+[coveralls-img]: https://img.shields.io/coveralls/niksy/<%= cleanModuleName %>.svg<% } %>
