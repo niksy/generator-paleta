@@ -2,7 +2,7 @@
   "name": "@niksy/generator-paleta",
   "version": "0.10.0",
   "description": "Simple generator for my personal projects.",
-  "author": "Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com/)",
+  "author": "Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com)",
   "license": "MIT",
   "files": [
     "generators/app"
