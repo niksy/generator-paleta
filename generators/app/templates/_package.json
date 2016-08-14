@@ -3,7 +3,7 @@
   "version": "<% if ( version ) { %><%= version %><% } else { %>0.0.0<% } %>",
   "description": "<%= moduleDescription %>",
   "main": "index.js",
-  "author": "Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com/)",
+  "author": "<%= humanName %> <<%= email %>> (<%= website %>)",
   "license": "MIT",<% if ( browserModule && styles ) { %>
   "style": "index.css",<% } %><% if ( cli ) { %>
   "bin": "cli.js",<% } %><% if ( manualTests || automatedTests || integrationTests ) { %>

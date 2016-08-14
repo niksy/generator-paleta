@@ -30,7 +30,7 @@ describe('New project', function () {
 	it('fills package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			name: 'foo',
-			author: 'Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com/)'
+			author: 'Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com)'
 		});
 	});
 
@@ -91,7 +91,7 @@ describe('Existing project', function () {
 		assert.JSONFileContent('package.json', {
 			name: 'bar',
 			description: 'bar description',
-			author: 'Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com/)'
+			author: 'Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com)'
 		});
 	});
 

@@ -178,7 +178,11 @@ module.exports = generators.Base.extend({
 				codeCoverageService: answers.codeCoverageService,
 				gitRepo: gh(answers.gitRepo),
 				keywords: keywords,
-				version: pkg.version
+				version: pkg.version,
+				humanName: 'Ivan Nikolić',
+				username: 'niksy',
+				website: 'http://ivannikolic.com',
+				email: 'niksy5@gmail.com'
 			};
 
 			var cp = function ( from, to ) {

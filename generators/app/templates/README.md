@@ -102,11 +102,11 @@ Tested in IE8+ and all modern browsers.
 
 <% } %>## License
 
-MIT © [Ivan Nikolić](http://ivannikolic.com)<% if ( automatedTests ) { %>
+MIT © [<%= humanName %>](<%= website %>)<% if ( automatedTests ) { %>
 
-[ci]: https://travis-ci.org/niksy/<%= cleanModuleName %>
-[ci-img]: https://img.shields.io/travis/niksy/<%= cleanModuleName %>.svg<% } %><% if ( (automatedTests && browserModule) || integrationTests ) { %>
+[ci]: https://travis-ci.org/<%= username %>/<%= cleanModuleName %>
+[ci-img]: https://img.shields.io/travis/<%= username %>/<%= cleanModuleName %>.svg<% } %><% if ( (automatedTests && browserModule) || integrationTests ) { %>
 [browserstack]: https://www.browserstack.com/
 [browserstack-img]: https://cdn.rawgit.com/niksy/c73069b66d20e2e0005dc8479c125fbd/raw/f644159e3f5f07291f98f59a44146735e9962e0d/browserstack.svg<% } %><% if ( codeCoverageService ) { %>
-[coveralls]: https://coveralls.io/r/niksy/<%= cleanModuleName %>
-[coveralls-img]: https://img.shields.io/coveralls/niksy/<%= cleanModuleName %>.svg<% } %>
+[coveralls]: https://coveralls.io/r/<%= username %>/<%= cleanModuleName %>
+[coveralls-img]: https://img.shields.io/coveralls/<%= username %>/<%= cleanModuleName %>.svg<% } %>
