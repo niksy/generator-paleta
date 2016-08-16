@@ -11,8 +11,8 @@
     "test": "test"
   },
   "scripts": {
-    "lint": "eslint {index,test/*}.js",
-    "test": "eslint {index,test/index}.js && istanbul cover _mocha test/**/*.js && istanbul check-coverage"
+    "lint": "eslint {generators/app/index,test/*}.js",
+    "test": "eslint {generators/app/index,test/index}.js && istanbul cover _mocha test/**/*.js && istanbul check-coverage"
   },
   "dependencies": {
     "deep-assign": "^2.0.0",
