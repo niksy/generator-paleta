@@ -17,7 +17,7 @@ npm install <%= moduleName %> --save
 ```<% if ( browserModule && styles ) { %>
 
 ```css
-// Module style usage
+/* Module style usage */
 ```<% } %>
 
 More usage examples.
