@@ -1,5 +1,6 @@
 var generators = require('yeoman-generator');
 var gh = require('parse-github-url');
+var isGithubUrl = require('is-github-url');
 var deepAssign = require('deep-assign');
 var compact = require('lodash.compact');
 var uniq = require('lodash.uniq');
@@ -82,7 +83,10 @@ module.exports = generators.Base.extend({
 				message: 'What is the Git repository of the project?',
 				'default': function ( answers ) {
 					if ( pkg.repository ) {
-						return gh(pkg.repository.url).repository;
+						if ( isGithubUrl(pkg.repository.url) ) {
+							return gh(pkg.repository.url).repository;
+						}
+						return pkg.repository.url;
 					}
 					return `${author.username}/${answers.name}`;
 				}

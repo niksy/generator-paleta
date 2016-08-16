@@ -485,6 +485,48 @@ describe('Non-GitHub repository', function () {
 
 });
 
+describe('Non-GitHub repository, existing project', function () {
+
+	var tmpPkgPath = '';
+
+	before(function () {
+
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.inTmpDir(function ( dir ) {
+				var done = this.async();
+				tmpPkgPath = path.join(dir, 'package.json');
+				writeJson(tmpPkgPath, {
+					repository: {
+						type: 'git',
+						url: 'git+https://gitlab.com/niksy/bar.git'
+					}
+				})
+					.then(done)
+					.catch(function ( err ) {
+						done(err);
+					});
+			})
+			.withOptions({ force: true })
+			.toPromise();
+
+	});
+
+	after(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.cleanTestDirectory();
+	});
+
+	it('reuses existing package.json information', function () {
+		assert.JSONFileContent('package.json', {
+			repository: {
+				type: 'git',
+				url: 'git+https://gitlab.com/niksy/bar.git'
+			}
+		});
+	});
+
+});
+
 describe('Dashed-case package name', function () {
 
 	before(function () {
