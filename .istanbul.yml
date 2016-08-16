@@ -3,7 +3,7 @@ instrumentation:
 reporting:
   print: detail
   reports:
-  	- html
+    - html
 check:
   global:
     statements: 80
