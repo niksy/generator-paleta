@@ -43,8 +43,6 @@ module.exports = generators.Base.extend({
 						pkgName = pkg.name;
 					} else if ( this.appname ) {
 						pkgName = this.appname;
-					} else {
-						pkgName = '';
 					}
 					return preparePkgName(pkgName);
 				}.bind(this)
