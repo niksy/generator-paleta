@@ -25,12 +25,19 @@ module.exports = generators.Base.extend({
 
 	initializing: function () {
 		this.pkg = this.fs.readJSON(this.destinationPath('package.json'), {});
+		this.author = {
+			humanName: 'Ivan Nikolić',
+			username: 'niksy',
+			website: 'http://ivannikolic.com',
+			email: 'niksy5@gmail.com'
+		};
 	},
 
 	prompting: function () {
 
 		var done = this.async();
 		var pkg = this.pkg;
+		var author = this.author;
 
 		this.prompt([
 			{
@@ -77,7 +84,7 @@ module.exports = generators.Base.extend({
 					if ( pkg.repository ) {
 						return gh(pkg.repository.url).repository;
 					}
-					return 'niksy/' + answers.name;
+					return `${author.username}/${answers.name}`;
 				}
 			},
 			{
@@ -182,6 +189,7 @@ module.exports = generators.Base.extend({
 
 		var answers = this.answers;
 		var pkg = this.pkg;
+		var author = this.author;
 
 		var keywords = uniq(compact(answers.keywords.split(',')
 			.map(function ( keyword ) {
@@ -209,10 +217,10 @@ module.exports = generators.Base.extend({
 			gitRepo: gh(answers.gitRepo),
 			keywords: keywords,
 			version: pkg.version,
-			humanName: 'Ivan Nikolić',
-			username: 'niksy',
-			website: 'http://ivannikolic.com',
-			email: 'niksy5@gmail.com'
+			humanName: author.humanName,
+			username: author.username,
+			website: author.website,
+			email: author.email
 		};
 
 		var cp = function ( from, to ) {
