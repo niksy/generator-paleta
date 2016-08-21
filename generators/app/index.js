@@ -110,19 +110,23 @@ module.exports = generators.Base.extend({
 				'default': false
 			},
 			{
-				type: 'confirm',
-				name: 'styles',
-				message: 'Does this project has styles?',
-				'default': false,
-				when: function ( answers ) {
-					return answers.browserModule;
-				}
-			},
-			{
-				type: 'confirm',
-				name: 'jqueryModule',
-				message: 'Does this project need jQuery as dependancy?',
-				'default': false,
+				type: 'checkbox',
+				name: 'browserModuleType',
+				message: 'What type of browser module is this project?',
+				'default': [],
+				choices: [{
+					name: 'jQuery module',
+					value: 'jqueryModule'
+				}, {
+					name: 'Sass module',
+					value: 'sassModule'
+				}, {
+					name: 'CSS module',
+					value: 'cssModule'
+				}, {
+					name: 'With styles',
+					value: 'styles'
+				}],
 				when: function ( answers ) {
 					return answers.browserModule;
 				}
@@ -183,8 +187,22 @@ module.exports = generators.Base.extend({
 				}
 			}
 		], function ( answers ) {
-			this.answers = answers;
+
+			var browserModuleType = answers.browserModuleType || [];
+
+			this.answers = Object.assign({}, answers, {
+				jqueryModule: browserModuleType.indexOf('jqueryModule') !== -1,
+				sassModule: browserModuleType.indexOf('sassModule') !== -1,
+				cssModule: browserModuleType.indexOf('cssModule') !== -1,
+				styles: browserModuleType.indexOf('styles') !== -1
+			});
+
+			if ( this.answers.cssModule || this.answers.sassModule ) {
+				this.answers.styles = true;
+			}
+
 			done();
+
 		}.bind(this));
 
 	},
@@ -210,6 +228,8 @@ module.exports = generators.Base.extend({
 			browserModule: answers.browserModule,
 			styles: answers.styles,
 			jqueryModule: answers.jqueryModule,
+			sassModule: answers.sassModule,
+			cssModule: answers.cssModule,
 			onlyNodeLts: answers.onlyNodeLts,
 			cli: answers.cli,
 			manualTests: answers.manualTests,
@@ -260,9 +280,13 @@ module.exports = generators.Base.extend({
 		if ( answers.automatedTests ) {
 			cp('travis.yml', '.travis.yml');
 			if ( answers.browserModule ) {
-				cp('test/automated/fixtures', 'test/automated/fixtures');
-				cp('test/automated/index.js', 'test/automated/index.js');
-				cp('karma.conf.js', 'karma.conf.js');
+				if ( !answers.sassModule ) {
+					cp('test/automated/fixtures', 'test/automated/fixtures');
+					cp('test/automated/index.js', 'test/automated/index.js');
+					cp('karma.conf.js', 'karma.conf.js');
+				} else {
+					cp('test/index.js', 'test/index.js');
+				}
 			} else {
 				cp('test/index.js', 'test/index.js');
 			}

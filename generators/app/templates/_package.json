@@ -2,22 +2,22 @@
   "name": "<%= moduleName %>",
   "version": "<% if ( version ) { %><%= version %><% } else { %>0.0.0<% } %>",
   "description": "<%= moduleDescription %>",
-  "main": "index.js",
+  "main": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %>index.js<% } %>",
   "author": "<%= humanName %> <<%= email %>> (<%= website %>)",
-  "license": "MIT",<% if ( browserModule && styles ) { %>
-  "style": "index.css",<% } %><% if ( cli ) { %>
+  "license": "MIT",<% if ( browserModule && styles || sassModule || cssModule ) { %>
+  "style": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %>index.css<% } %>",<% } %><% if ( cli ) { %>
   "bin": "cli.js",<% } %><% if ( manualTests || automatedTests || integrationTests ) { %>
   "directories": {
     "test": "test"
   },<% } %>
-  "scripts": {<% if ( (automatedTests && browserModule) || manualTests || integrationTests ) { %>
-    "lint": "<% if ( automatedTests || integrationTests ) { %>eslint {index,test/**/*}.js<% } else { %>eslint index.js<% } %><% if ( browserModule && styles ) { %> && stylelint index.css<% } %>"<% } %><% if ( automatedTests && browserModule ) { %>,
+  "scripts": {<% if ( (automatedTests && browserModule && !sassModule) || manualTests || integrationTests ) { %>
+    "lint": "<% if ( automatedTests || integrationTests ) { %>eslint {index,test/**/*}.js<% } else { %>eslint index.js<% } %><% if ( browserModule && styles ) { %> && stylelint index.css<% } %>"<% } %><% if ( automatedTests && browserModule && !sassModule ) { %>,
     "test:automated": "karma start",
     "test:automated:local": "karma start --browsers Chrome"<% } %><% if ( integrationTests ) { %>,
     "test:integration": "gulp test:prepare && wdio",
     "test:integration:local": "eval \"$(docker-machine env dev)\" && gulp test:prepare && wdio --local --host $(docker-machine ip dev)"<% } %><% if ( manualTests ) { %>,
-    "test:manual:local": "gulp test:local:manual --watch"<% } %><% if ( (automatedTests && browserModule) || manualTests || integrationTests ) { %>,
-    "test": "npm run lint<% if ( automatedTests && browserModule ) { %> && npm run test:automated<% } %><% if ( integrationTests ) { %> && npm run test:integration<% } %>"<% } else { %>
+    "test:manual:local": "gulp test:local:manual --watch"<% } %><% if ( (automatedTests && browserModule && !sassModule) || manualTests || integrationTests ) { %>,
+    "test": "npm run lint<% if ( automatedTests && browserModule && !sassModule ) { %> && npm run test:automated<% } %><% if ( integrationTests ) { %> && npm run test:integration<% } %>"<% } else { %>
     "test": "<% if ( automatedTests ) { %>eslint {index,test/**/*}.js && <% if ( codeCoverage ) { %>istanbul cover _mocha<% } else { %>mocha<% } %> test/**/*.js<% if ( codeCoverage ) { %> && istanbul check-coverage<% } %><% if ( testingInterface !== 'bdd' ) { %><% if ( codeCoverage ) { %> --<% } %> --ui <%= testingInterface %><% } %><% } else { %>eslint index.js<% } %><% if ( browserModule && styles ) { %> && stylelint index.css<% } %>"<% if ( codeCoverageService ) { %>,
     "posttest:ci": "cat ./coverage/lcov.info | coveralls"<% } %><% } %>
   }<% if ( jqueryModule ) { %>,
@@ -28,7 +28,7 @@
     "eslint": "^3.1.1",
     "eslint-config-niksy": "^3.0.1"<% if ( browserModule && styles ) { %>,
     "stylelint": "^7.0.3",
-    "stylelint-config-niksy": "^3.0.1"<% } %><% if ( automatedTests && browserModule ) { %>,
+    "stylelint-config-niksy": "^3.0.1"<% } %><% if ( automatedTests && browserModule && !sassModule ) { %>,
     "karma": "^1.1.0",
     "karma-browserify": "^5.0.5",
     "karma-browserstack-launcher": "^1.0.0",
@@ -37,7 +37,7 @@
     "karma-mocha": "~1.0.1",
     "karma-mocha-reporter": "^2.0.3"<% } %><% if ( automatedTests || integrationTests ) { %>,
     "mocha": "^2.5.3"<% } %><% if ( automatedTests && codeCoverage ) { %>,
-    "istanbul": "^0.4.3"<% } %><% if ( automatedTests && codeCoverage && browserModule ) { %>,
+    "istanbul": "^0.4.3"<% } %><% if ( automatedTests && codeCoverage && browserModule && !sassModule ) { %>,
     "browserify-istanbul": "^2.0.0",
     "karma-coverage": "^1.0.0"<% } %><% if ( codeCoverageService ) { %>,
     "coveralls": "^2.11.11"<% } %><% if ( manualTests || integrationTests ) { %>,
@@ -55,7 +55,8 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "local-web-server": "^1.2.4",
-    "watchify": "^3.7.0"<% } %><% if ( manualTests ) { %>,
+    "watchify": "^3.7.0"<% } %><% if ( sassModule ) { %>,
+    "sass-true": "^2.1.3"<% } %><% if ( manualTests ) { %>,
     "opn": "^4.0.2"<% } %><% if ( integrationTests ) { %>,
     "browserstacktunnel-wrapper": "^1.4.2",
     "wdio-mocha-framework": "^0.2.13",

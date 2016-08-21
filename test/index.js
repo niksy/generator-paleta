@@ -301,7 +301,7 @@ describe('jQuery module', function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
 				browserModule: true,
-				jqueryModule: true
+				browserModuleType: ['jqueryModule']
 			})
 			.toPromise();
 	});
@@ -347,7 +347,7 @@ describe('Styles', function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
 				browserModule: true,
-				styles: true
+				browserModuleType: ['styles']
 			})
 			.toPromise();
 	});
@@ -558,6 +558,51 @@ describe('Scoped package', function () {
 	it('fills package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			name: '@foo/bar-baz'
+		});
+	});
+
+});
+
+describe('Sass module', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				automatedTests: true,
+				browserModule: true,
+				browserModuleType: ['sassModule']
+			})
+			.toPromise();
+	});
+
+	it('fills package.json with correct information', function () {
+		assert.JSONFileContent('package.json', {
+			main: '_index.scss',
+			style: '_index.scss',
+			devDependencies: {
+				'sass-true': '^2.1.3'
+			}
+		});
+	});
+
+});
+
+describe('CSS module', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				automatedTests: true,
+				browserModule: true,
+				browserModuleType: ['cssModule']
+			})
+			.toPromise();
+	});
+
+	it('fills package.json with correct information', function () {
+		assert.JSONFileContent('package.json', {
+			main: 'index.css',
+			style: 'index.css'
 		});
 	});
 

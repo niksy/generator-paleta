@@ -1,6 +1,6 @@
 # <%= cleanModuleName %><% if ( automatedTests ) { %>
 
-[![Build Status][ci-img]][ci]<% } %><% if ( (automatedTests && browserModule) || integrationTests ) { %> [![Browserstack][browserstack-img]][browserstack]<% } %><% if ( codeCoverageService ) { %> [![Coveralls][coveralls-img]][coveralls]<% } %>
+[![Build Status][ci-img]][ci]<% } %><% if ( (automatedTests && browserModule && !sassModule) || integrationTests ) { %> [![Browserstack][browserstack-img]][browserstack]<% } %><% if ( codeCoverageService ) { %> [![Coveralls][coveralls-img]][coveralls]<% } %>
 
 <%= moduleDescription %>
 
@@ -14,9 +14,9 @@ npm install <%= moduleName %> --save
 
 ```js
 // Module usage
-```<% if ( browserModule && styles ) { %>
+```<% if ( browserModule && styles || sassModule ) { %>
 
-```css
+```<% if ( sassModule ) { %>scss<% } else { %>css<% } %>
 /* Module style usage */
 ```<% } %>
 
@@ -92,7 +92,7 @@ Function arguments:
 
 ---
 
-<% if ( manualTests && browserModule ) { %>## Test
+<% if ( manualTests && browserModule && !sassModule ) { %>## Test
 
 For manual tests, run `npm test -- --watch` and open <http://localhost:9000/> in your browser.
 
@@ -105,7 +105,7 @@ Tested in IE8+ and all modern browsers.
 MIT © [<%= humanName %>](<%= website %>)<% if ( automatedTests ) { %>
 
 [ci]: https://travis-ci.org/<%= username %>/<%= cleanModuleName %>
-[ci-img]: https://img.shields.io/travis/<%= username %>/<%= cleanModuleName %>.svg<% } %><% if ( (automatedTests && browserModule) || integrationTests ) { %>
+[ci-img]: https://img.shields.io/travis/<%= username %>/<%= cleanModuleName %>.svg<% } %><% if ( (automatedTests && browserModule && !sassModule) || integrationTests ) { %>
 [browserstack]: https://www.browserstack.com/
 [browserstack-img]: https://cdn.rawgit.com/niksy/c73069b66d20e2e0005dc8479c125fbd/raw/f644159e3f5f07291f98f59a44146735e9962e0d/browserstack.svg<% } %><% if ( codeCoverageService ) { %>
 [coveralls]: https://coveralls.io/r/<%= username %>/<%= cleanModuleName %>
