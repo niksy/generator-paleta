@@ -585,6 +585,12 @@ describe('Sass module', function () {
 		});
 	});
 
+	it('creates necesarry files', function () {
+		assert.file([
+			'test/index.scss'
+		]);
+	});
+
 });
 
 describe('CSS module', function () {

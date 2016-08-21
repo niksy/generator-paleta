@@ -286,6 +286,7 @@ module.exports = generators.Base.extend({
 					cp('karma.conf.js', 'karma.conf.js');
 				} else {
 					cp('test/index.js', 'test/index.js');
+					cp('test/index.scss', 'test/index.scss');
 				}
 			} else {
 				cp('test/index.js', 'test/index.js');

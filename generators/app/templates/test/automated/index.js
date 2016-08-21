@@ -1,4 +1,7 @@
-<% if ( automatedTests && browserModule ) { %>describe('foo', function () {
+<% if ( automatedTests && browserModule ) { %>var assert = require('assert');
+var fn = require('../../');
+
+describe('<%= moduleName %>', function () {
 
 	var html = document.getElementsByTagName('html')[0];
 
@@ -11,9 +14,9 @@
 		document.body.removeChild(document.getElementById('fixture'));
 	});
 
-	it('bar', function () {
+	it('test!', function () {
 
-		// ...
+		// …
 
 	});
 

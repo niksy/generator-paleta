@@ -1,0 +1,9 @@
+@import 'true';
+
+@include test-module('<%= moduleName %>') {
+
+	@include test('test!') {
+		// …
+	}
+
+}
