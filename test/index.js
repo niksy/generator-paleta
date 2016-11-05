@@ -151,7 +151,8 @@ describe('Automated tests', function () {
 	before(function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
-				automatedTests: true
+				automatedTests: true,
+				codeCoverage: false
 			})
 			.toPromise();
 	});
@@ -326,6 +327,7 @@ describe('Testing interface', function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
 				automatedTests: true,
+				codeCoverage: false,
 				testingInterface: 'tdd'
 			})
 			.toPromise();
@@ -346,6 +348,7 @@ describe('Styles', function () {
 	before(function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
+				automatedTests: false,
 				browserModule: true,
 				browserModuleType: ['styles']
 			})

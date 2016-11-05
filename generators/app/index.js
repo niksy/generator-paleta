@@ -141,7 +141,7 @@ module.exports = generators.Base.extend({
 				type: 'confirm',
 				name: 'automatedTests',
 				message: 'Do you have automated tests?',
-				'default': false
+				'default': true
 			},
 			{
 				type: 'confirm',
@@ -172,7 +172,7 @@ module.exports = generators.Base.extend({
 				type: 'confirm',
 				name: 'codeCoverage',
 				message: 'Do you need code coverage?',
-				'default': false,
+				'default': true,
 				when: function ( answers ) {
 					return answers.automatedTests;
 				}
