@@ -163,11 +163,20 @@ module.exports = generators.Base.extend({
 			},
 			{
 				type: 'confirm',
+				name: 'cloudBrowsers',
+				message: 'Do you need cloud browser service (Browserstack) for tests?',
+				'default': true,
+				when: function ( answers ) {
+					return answers.automatedTests && answers.browserModule;
+				}
+			},
+			{
+				type: 'confirm',
 				name: 'integrationTests',
-				message: 'Do you have integration (UI/E2E/Selenium) tests?',
+				message: 'Do you have integration (Selenium) tests?',
 				'default': false,
 				when: function ( answers ) {
-					return answers.automatedTests;
+					return answers.automatedTests && answers.browserModule;
 				}
 			},
 			{
@@ -264,7 +273,8 @@ module.exports = generators.Base.extend({
 			username: author.username,
 			website: author.website,
 			email: author.email,
-			isScopedPackage: isScopedPackage(answers.name)
+			isScopedPackage: isScopedPackage(answers.name),
+			cloudBrowsers: answers.cloudBrowsers
 		};
 
 		var cp = function ( from, to ) {

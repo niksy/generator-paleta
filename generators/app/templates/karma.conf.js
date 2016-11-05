@@ -48,7 +48,7 @@ module.exports = function ( config ) {
 				}
 			}
 		},<% } %>
-		customLaunchers: {
+		customLaunchers: {<% if ( cloudBrowsers ) { %>
 			'BS-Chrome': {
 				base: 'BrowserStack',
 				browser: 'Chrome',
@@ -76,9 +76,13 @@ module.exports = function ( config ) {
 				project: '<%= moduleName %>',
 				build: 'Automated (Karma)',
 				name: 'IE8'
-			}
+			}<% } else { %>,
+			'Chrome-Travis': {
+				base: 'Chrome',
+				flags: ['--no-sandbox']
+			}<% } %>
 		},
-		browsers: ['BS-Chrome', 'BS-Firefox', 'BS-IE8'],
+		browsers: <% if ( cloudBrowsers ) { %>['BS-Chrome', 'BS-Firefox', 'BS-IE8']<% } else { %>[(process.env.TRAVIS ? 'Chrome-Travis' : 'Chrome')]<% } %>,
 		singleRun: true,
 		concurrency: Infinity
 	});

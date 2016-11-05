@@ -227,6 +227,7 @@ describe('Integration tests', function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
 				automatedTests: true,
+				browserModule: true,
 				integrationTests: true
 			})
 			.toPromise();
@@ -246,7 +247,7 @@ describe('Integration tests', function () {
 		assert.JSONFileContent('package.json', {
 			scripts: {
 				'test:integration': 'gulp test:prepare && wdio',
-				test: 'npm run lint && npm run test:integration'
+				test: 'npm run lint && npm run test:automated && npm run test:integration'
 			},
 			devDependencies: {
 				'mocha': '^3.1.2',
