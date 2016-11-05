@@ -410,17 +410,41 @@ describe('Code coverage', function () {
 
 	it('creates necessary files', function () {
 		assert.file([
-			'.istanbul.yml'
+			'.nycrc'
 		]);
 	});
 
 	it('fills package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			scripts: {
-				test: 'eslint {index,test/**/*}.js && istanbul cover _mocha test/**/*.js && istanbul check-coverage'
+				test: 'eslint {index,test/**/*}.js && nyc mocha test/**/*.js && nyc check-coverage'
 			},
 			devDependencies: {
-				istanbul: '^0.4.3'
+				nyc: '^8.4.0'
+			}
+		});
+	});
+
+});
+
+describe('Code coverage, browser module', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				automatedTests: true,
+				codeCoverage: true,
+				browserModule: true
+			})
+			.toPromise();
+	});
+
+	it('fills package.json with correct information', function () {
+		assert.JSONFileContent('package.json', {
+			devDependencies: {
+				istanbul: '^0.4.3',
+				'browserify-istanbul': '^2.0.0',
+				'karma-coverage': '^1.0.0'
 			}
 		});
 	});
@@ -443,8 +467,8 @@ describe('Code coverage service', function () {
 		assert.fileContent('.travis.yml', 'npm run posttest:ci');
 	});
 
-	it('adds coveralls entry to .istanbul.yml', function () {
-		assert.fileContent('.istanbul.yml', '- lcov');
+	it('adds coveralls entry to .nycrc', function () {
+		assert.fileContent('.nycrc', '"lcov"');
 	});
 
 	it('fills package.json with correct information', function () {

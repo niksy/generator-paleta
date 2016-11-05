@@ -291,15 +291,15 @@ module.exports = generators.Base.extend({
 			} else {
 				cp('test/index.js', 'test/index.js');
 			}
-			if ( answers.codeCoverage ) {
-				cp('istanbul.yml', '.istanbul.yml');
+			if ( answers.codeCoverage && !answers.browserModule ) {
+				cp('nycrc', '.nycrc');
 			}
 		} else {
 			rm('.travis.yml');
 			rm('test/index.js');
 			rm('test/automated');
 			rm('karma.conf.js');
-			rm('.istanbul.yml');
+			rm('.nycrc');
 		}
 
 		if ( answers.manualTests || answers.integrationTests ) {

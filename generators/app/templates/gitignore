@@ -1,6 +1,7 @@
 .DS_Store
 node_modules/
 npm-debug.log<% if ( (automatedTests && browserModule && !sassModule) || manualTests || integrationTests ) { %>
-test-dist/<% } %><% if ( automatedTests && codeCoverage ) { %>
+test-dist/<% } %><% if ( automatedTests && codeCoverage ) { %><% if ( !browserModule ) { %>
+.nyc_output/<% } %>
 coverage/<% } %><% if ( (automatedTests && browserModule && !sassModule) && integrationTests ) { %>
 errorShots/<% } %>
