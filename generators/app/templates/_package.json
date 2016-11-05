@@ -38,7 +38,7 @@
     "karma-html2js-preprocessor": "^1.0.0",
     "karma-mocha": "~1.0.1",
     "karma-mocha-reporter": "^2.0.3"<% } %><% if ( automatedTests || integrationTests ) { %>,
-    "mocha": "^2.5.3"<% } %><% if ( automatedTests && codeCoverage && !browserModule ) { %>,
+    "mocha": "^3.1.2"<% } %><% if ( automatedTests && codeCoverage && !browserModule ) { %>,
     "nyc": "^8.4.0"<% } %><% if ( automatedTests && codeCoverage && browserModule && !sassModule ) { %>,
     "istanbul": "^0.4.3",
     "browserify-istanbul": "^2.0.0",

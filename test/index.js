@@ -171,7 +171,7 @@ describe('Automated tests', function () {
 				test: 'eslint \'{index,test/**/*}.js\' && mocha \'test/**/*.js\''
 			},
 			devDependencies: {
-				'mocha': '^2.5.3'
+				'mocha': '^3.1.2'
 			}
 		});
 	});
@@ -249,7 +249,7 @@ describe('Integration tests', function () {
 				test: 'npm run lint && npm run test:integration'
 			},
 			devDependencies: {
-				'mocha': '^2.5.3',
+				'mocha': '^3.1.2',
 				'browserify': '^13.0.1',
 				'del': '^2.2.0',
 				'event-stream': '^3.3.2',
