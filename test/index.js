@@ -381,6 +381,7 @@ describe('CLI', function () {
 	before(function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
+				name: '@sammy/ellie',
 				cli: true
 			})
 			.toPromise();
@@ -394,7 +395,9 @@ describe('CLI', function () {
 
 	it('fills package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
-			bin: 'cli.js',
+			bin: {
+				ellie: 'cli.js'
+			},
 			keywords: [
 				'cli',
 				'cli-app'

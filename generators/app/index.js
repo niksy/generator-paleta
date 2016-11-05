@@ -10,16 +10,23 @@ var isScopedPackage = require('is-scoped-package');
 
 /**
  * @param  {String} pkgName
+ * @param  {Object} opts
  *
  * @return {String}
  */
-function preparePkgName ( pkgName ) {
-	var scopedPkgName;
+function preparePkgName ( pkgName, opts ) {
+	var scopedPkgName, preparedPkgName;
+	opts = opts || {};
 	if ( isScopedPackage(pkgName) ) {
 		scopedPkgName = pkgName.split('/');
-		return [scopedPkgName[0], dashCase(scopedPkgName[1])].join('/');
+		preparedPkgName = [scopedPkgName[0], dashCase(scopedPkgName[1])].join('/');
+	} else {
+		preparedPkgName = dashCase(pkgName);
 	}
-	return dashCase(pkgName);
+	if ( opts.clean ) {
+		return preparedPkgName.replace(/^@.+?\//, '');
+	}
+	return preparedPkgName;
 }
 
 module.exports = generators.Base.extend({
@@ -102,6 +109,17 @@ module.exports = generators.Base.extend({
 				name: 'cli',
 				message: 'Does this project has CLI interface?',
 				'default': false
+			},
+			{
+				type: 'input',
+				name: 'cliCommandName',
+				message: 'What is the name of CLI command?',
+				'default': function ( answers ) {
+					return preparePkgName(answers.name, { clean: true });
+				},
+				when: function ( answers ) {
+					return answers.cli;
+				}
 			},
 			{
 				type: 'confirm',
@@ -223,7 +241,7 @@ module.exports = generators.Base.extend({
 
 		var tpl = {
 			moduleName: preparePkgName(answers.name),
-			cleanModuleName: preparePkgName(answers.name).replace(/^@.+?\//, ''),
+			cleanModuleName: preparePkgName(answers.name, { clean: true }),
 			moduleDescription: answers.description,
 			browserModule: answers.browserModule,
 			styles: answers.styles,
@@ -232,6 +250,7 @@ module.exports = generators.Base.extend({
 			cssModule: answers.cssModule,
 			onlyNodeLts: answers.onlyNodeLts,
 			cli: answers.cli,
+			cliCommandName: answers.cliCommandName,
 			manualTests: answers.manualTests,
 			automatedTests: answers.automatedTests,
 			integrationTests: answers.integrationTests,

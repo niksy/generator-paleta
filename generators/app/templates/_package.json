@@ -6,7 +6,9 @@
   "author": "<%= humanName %> <<%= email %>> (<%= website %>)",
   "license": "MIT",<% if ( browserModule && styles || sassModule || cssModule ) { %>
   "style": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %>index.css<% } %>",<% } %><% if ( cli ) { %>
-  "bin": "cli.js",<% } %><% if ( manualTests || automatedTests || integrationTests ) { %>
+  "bin": {
+  	"<%= cliCommandName %>": "cli.js"
+  },<% } %><% if ( manualTests || automatedTests || integrationTests ) { %>
   "directories": {
     "test": "test"
   },<% } %>
