@@ -12,9 +12,9 @@ npm install <%= moduleName %> --save
 
 ## Usage
 
-```js
+<% if ( !sassModule ) { %>```js
 // Module usage
-```<% if ( browserModule && styles || sassModule ) { %>
+```<% } %><% if ( browserModule && styles || sassModule ) { %>
 
 ```<% if ( sassModule ) { %>scss<% } else { %>css<% } %>
 /* Module style usage */

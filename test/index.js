@@ -616,14 +616,26 @@ describe('Sass module', function () {
 		assert.JSONFileContent('package.json', {
 			main: '_index.scss',
 			style: '_index.scss',
+			scripts: {
+				test: 'eslint \'test/**/*.js\' && stylelint \'{_index,test/**/*}.scss\' && mocha \'test/**/*.js\''
+			},
 			devDependencies: {
 				'sass-true': '^2.1.3'
 			}
 		});
 	});
 
+	it('fills .stylelintrc with correct information', function () {
+		assert.JSONFileContent('.stylelintrc', {
+			extends: [
+				'stylelint-config-niksy/scss'
+			]
+		});
+	});
+
 	it('creates necesarry files', function () {
 		assert.file([
+			'_index.scss',
 			'test/index.scss'
 		]);
 	});

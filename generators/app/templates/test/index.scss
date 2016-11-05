@@ -1,4 +1,5 @@
 @import 'true';
+@import '../index';
 
 @include test-module('<%= moduleName %>') {
 

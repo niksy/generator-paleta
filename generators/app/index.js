@@ -280,7 +280,12 @@ module.exports = generators.Base.extend({
 		cp('editorconfig', '.editorconfig');
 		cp('eslintrc', '.eslintrc');
 		cp('gitignore', '.gitignore');
-		cp('index.js', 'index.js');
+
+		if ( answers.sassModule ) {
+			cp('_index.scss', '_index.scss');
+		} else {
+			cp('index.js', 'index.js');
+		}
 
 		if ( answers.cli ) {
 			cp('cli.js', 'cli.js');
