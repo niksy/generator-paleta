@@ -12,12 +12,32 @@ npm install <%= moduleName %> --save
 
 ## Usage
 
-<% if ( !sassModule ) { %>```js
-// Module usage
-```<% } %><% if ( browserModule && styles || sassModule ) { %>
+<% if ( cli ) { %>```sh
+<%= cliCommandName %>
+```
 
-```<% if ( sassModule ) { %>scss<% } else { %>css<% } %>
+``` sh
+<%= cliCommandName %>
+
+  <%= moduleDescription %>
+
+  Usage
+    $ <%= cliCommandName %> [options]
+
+  Options
+    -a, --option-1  Option
+    -b, --option-2 [optional argument]  Option 2 description
+    -c, --option-3  Option 3 description [value-1|value-2] (Default: value-1)
+```<% } else if ( browserModule && styles || sassModule ) { %><% if ( sassModule ) { %>```scss
 /* Module style usage */
+```<% } else { %>```js
+// Module usage
+```
+
+```css
+/* Module style usage */
+```<% } %><% } else { %>```js
+// Module usage
 ```<% } %>
 
 More usage examples.
