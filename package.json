@@ -11,8 +11,7 @@
     "test": "test"
   },
   "scripts": {
-    "lint": "eslint {generators/app/index,test/*}.js",
-    "test": "eslint {generators/app/index,test/index}.js && istanbul cover _mocha test/**/*.js && istanbul check-coverage"
+    "test": "eslint '{generators/app/index,test/index}.js' && nyc mocha 'test/**/*.js' && nyc check-coverage"
   },
   "dependencies": {
     "deep-assign": "^2.0.0",
@@ -29,13 +28,17 @@
     "eslint": "^3.1.1",
     "eslint-config-niksy": "^3.0.1",
     "istanbul": "^0.4.3",
-    "mocha": "^2.5.3",
+    "mocha": "^3.1.2",
+    "nyc": "^8.4.0",
     "write-json-file": "^2.0.0",
     "yeoman-assert": "^2.1.2",
     "yeoman-test": "^1.4.0"
   },
   "engines": {
     "node": ">=4"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "keywords": [
     "yeoman-generator"

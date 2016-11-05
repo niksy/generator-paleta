@@ -4,3 +4,7 @@ node_js:
 branches:
   only:
     - /^v[0-9]/
+notifications:
+  email:
+    on_success: change
+    on_failure: always
