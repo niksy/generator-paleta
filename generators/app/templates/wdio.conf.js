@@ -18,6 +18,7 @@ var args = minimist(process.argv.slice(2), {
 var local = args.local;
 var verbose = args.verbose;
 var port = args.port;
+var dockerhost = 'dockerhost';
 
 var capabilities = [{
 	browser: 'Chrome',
@@ -72,7 +73,7 @@ exports.config = {
 	coloredLogs: true,
 	screenshotPath: './errorShots/',
 	screenshotOnReject: true,
-	baseUrl: (local ? 'http://dockerhost:' : 'http://localhost:') + port,
+	baseUrl: (local ? `http://${dockerhost}:` : 'http://localhost:') + port,
 	waitforTimeout: 10000,
 	connectionRetryTimeout: 90000,
 	connectionRetryCount: 3,
@@ -133,7 +134,7 @@ exports.config = {
 		return Promise.resolve()
 			.then(function () {
 				if ( local ) {
-					return execa.shell('docker run --name=wdio --add-host="dockerhost:10.0.2.2" -d -p 4444:4444 -v /dev/shm:/dev/shm selenium/standalone-chrome:2.53.0')
+					return execa.shell(`docker run --name=wdio --add-host="${dockerhost}:10.0.2.2" -d -p 4444:4444 -v /dev/shm:/dev/shm selenium/standalone-chrome:2.53.0`)
 						.then(function ( res ) {
 							console.log(res.stderr);
 							console.log(res.stdout);
