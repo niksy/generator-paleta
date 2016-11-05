@@ -11,14 +11,14 @@
     "test": "test"
   },<% } %>
   "scripts": {<% if ( (automatedTests && browserModule && !sassModule) || manualTests || integrationTests ) { %>
-    "lint": "<% if ( automatedTests || integrationTests ) { %>eslint {index,test/**/*}.js<% } else { %>eslint index.js<% } %><% if ( browserModule && styles ) { %> && stylelint index.css<% } %>"<% } %><% if ( automatedTests && browserModule && !sassModule ) { %>,
+    "lint": "<% if ( automatedTests || integrationTests ) { %>eslint '{index,test/**/*}.js'<% } else { %>eslint 'index.js'<% } %><% if ( browserModule && styles ) { %> && stylelint 'index.css'<% } %>"<% } %><% if ( automatedTests && browserModule && !sassModule ) { %>,
     "test:automated": "karma start",
     "test:automated:local": "karma start --browsers Chrome"<% } %><% if ( integrationTests ) { %>,
     "test:integration": "gulp test:prepare && wdio",
     "test:integration:local": "eval \"$(docker-machine env dev)\" && gulp test:prepare && wdio --local --host $(docker-machine ip dev)"<% } %><% if ( manualTests ) { %>,
     "test:manual:local": "gulp test:local:manual --watch"<% } %><% if ( (automatedTests && browserModule && !sassModule) || manualTests || integrationTests ) { %>,
     "test": "npm run lint<% if ( automatedTests && browserModule && !sassModule ) { %> && npm run test:automated<% } %><% if ( integrationTests ) { %> && npm run test:integration<% } %>"<% } else { %>
-    "test": "<% if ( automatedTests ) { %>eslint {index,test/**/*}.js && <% if ( codeCoverage ) { %>nyc mocha<% } else { %>mocha<% } %> test/**/*.js<% if ( codeCoverage ) { %> && nyc check-coverage<% } %><% if ( testingInterface !== 'bdd' ) { %><% if ( codeCoverage ) { %> --<% } %> --ui <%= testingInterface %><% } %><% } else { %>eslint index.js<% } %><% if ( browserModule && styles ) { %> && stylelint index.css<% } %>"<% if ( codeCoverageService ) { %>,
+    "test": "<% if ( automatedTests ) { %>eslint '{index,test/**/*}.js' && <% if ( codeCoverage ) { %>nyc mocha<% } else { %>mocha<% } %> 'test/**/*.js'<% if ( codeCoverage ) { %> && nyc check-coverage<% } %><% if ( testingInterface !== 'bdd' ) { %><% if ( codeCoverage ) { %> --<% } %> --ui <%= testingInterface %><% } %><% } else { %>eslint 'index.js'<% } %><% if ( browserModule && styles ) { %> && stylelint 'index.css'<% } %>"<% if ( codeCoverageService ) { %>,
     "posttest:ci": "cat ./coverage/lcov.info | coveralls"<% } %><% } %>
   }<% if ( jqueryModule ) { %>,
   "dependencies": {

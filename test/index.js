@@ -168,7 +168,7 @@ describe('Automated tests', function () {
 	it('fills package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			scripts: {
-				test: 'eslint {index,test/**/*}.js && mocha test/**/*.js'
+				test: 'eslint \'{index,test/**/*}.js\' && mocha \'test/**/*.js\''
 			},
 			devDependencies: {
 				'mocha': '^2.5.3'
@@ -336,7 +336,7 @@ describe('Testing interface', function () {
 	it('fills package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			scripts: {
-				test: 'eslint {index,test/**/*}.js && mocha test/**/*.js --ui tdd'
+				test: 'eslint \'{index,test/**/*}.js\' && mocha \'test/**/*.js\' --ui tdd'
 			}
 		});
 	});
@@ -365,7 +365,7 @@ describe('Styles', function () {
 		assert.JSONFileContent('package.json', {
 			style: 'index.css',
 			scripts: {
-				test: 'eslint index.js && stylelint index.css'
+				test: 'eslint \'index.js\' && stylelint \'index.css\''
 			},
 			devDependencies: {
 				stylelint: '^7.0.3',
@@ -420,7 +420,7 @@ describe('Code coverage', function () {
 	it('fills package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			scripts: {
-				test: 'eslint {index,test/**/*}.js && nyc mocha test/**/*.js && nyc check-coverage'
+				test: 'eslint \'{index,test/**/*}.js\' && nyc mocha \'test/**/*.js\' && nyc check-coverage'
 			},
 			devDependencies: {
 				nyc: '^8.4.0'
