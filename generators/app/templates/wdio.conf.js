@@ -71,6 +71,7 @@ exports.config = {
 	logLevel: verbose ? 'verbose' : 'silent',
 	coloredLogs: true,
 	screenshotPath: './errorShots/',
+	screenshotOnReject: true,
 	baseUrl: (local ? 'http://dockerhost:' : 'http://localhost:') + port,
 	waitforTimeout: 10000,
 	connectionRetryTimeout: 90000,
