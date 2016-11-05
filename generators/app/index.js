@@ -319,6 +319,13 @@ module.exports = generators.Base.extend({
 			rm('wdio.conf.js');
 		}
 
+		if ( answers.jqueryModule ) {
+			keywords.push('jquery-plugin', 'ecosystem:jquery');
+		}
+		if ( answers.cli ) {
+			keywords.push('cli', 'cli-app');
+		}
+
 		// Write package.json, handling property order
 		cp('_package.json', '_package.json');
 		newPkg = this.fs.readJSON(this.destinationPath('_package.json'));

@@ -394,7 +394,11 @@ describe('CLI', function () {
 
 	it('fills package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
-			bin: 'cli.js'
+			bin: 'cli.js',
+			keywords: [
+				'cli',
+				'cli-app'
+			]
 		});
 	});
 

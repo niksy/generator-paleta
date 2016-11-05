@@ -68,10 +68,8 @@
   },
   "engines": {
     "node": "<% if ( onlyNodeLts ) { %>>=4<% } else { %>>=0.10.0<% } %>"
-  }<% if ( keywords.length > 0 || jqueryModule ) { %>,
-  "keywords": [<% if ( jqueryModule ) { %>
-  	"jquery-plugin",
-  	"ecosystem:jquery"<% if ( keywords.length > 0 ) { %>,<% } %><% } %><% for ( var i = 0, keywordsLength = keywords.length; i < keywordsLength; i++ ) { %>
+  }<% if ( keywords.length > 0 ) { %>,
+  "keywords": [<% for ( var i = 0, keywordsLength = keywords.length; i < keywordsLength; i++ ) { %>
     "<%= keywords[i] %>"<% if ( i !== keywordsLength-1 ) { %>,<% } %>
   <% } %>]<% } %>,
   "repository": {
