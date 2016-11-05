@@ -10,7 +10,7 @@ describe('New project', function () {
 	before(function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
-				name: 'foo'
+				name: 'bella'
 			})
 			.toPromise();
 	});
@@ -29,14 +29,14 @@ describe('New project', function () {
 
 	it('fills package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
-			name: 'foo',
+			name: 'bella',
 			author: 'Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com)'
 		});
 	});
 
 	it('fills README.md with project data', function () {
-		assert.fileContent('README.md', '# foo');
-		assert.fileContent('README.md', 'npm install foo --save');
+		assert.fileContent('README.md', '# bella');
+		assert.fileContent('README.md', 'npm install bella --save');
 	});
 
 });
@@ -52,8 +52,8 @@ describe('Existing project', function () {
 				var done = this.async();
 				tmpPkgPath = path.join(dir, 'package.json');
 				writeJson(tmpPkgPath, {
-					name: 'bar',
-					description: 'bar description',
+					name: 'minnie',
+					description: 'minnie description',
 					main: 'index.js',
 					version: '1.0.0',
 					dependencies: {
@@ -69,7 +69,7 @@ describe('Existing project', function () {
 					],
 					repository: {
 						type: 'git',
-						url: 'git+https://github.com/niksy/bar.git'
+						url: 'git+https://github.com/niksy/minnie.git'
 					}
 				})
 					.then(done)
@@ -89,8 +89,8 @@ describe('Existing project', function () {
 
 	it('reuses existing package.json information', function () {
 		assert.JSONFileContent('package.json', {
-			name: 'bar',
-			description: 'bar description',
+			name: 'minnie',
+			description: 'minnie description',
 			author: 'Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com)'
 		});
 	});
@@ -499,7 +499,7 @@ describe('Non-GitHub repository', function () {
 	before(function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
-				gitRepo: 'https://gitlab.com/niksy/bar'
+				gitRepo: 'https://gitlab.com/niksy/otis'
 			})
 			.toPromise();
 	});
@@ -508,12 +508,12 @@ describe('Non-GitHub repository', function () {
 		assert.JSONFileContent('package.json', {
 			repository: {
 				type: 'git',
-				url: 'git+https://gitlab.com/niksy/bar.git'
+				url: 'git+https://gitlab.com/niksy/otis.git'
 			},
 			bugs: {
-				url: 'https://gitlab.com/niksy/bar/issues'
+				url: 'https://gitlab.com/niksy/otis/issues'
 			},
-			homepage: 'https://gitlab.com/niksy/bar#readme'
+			homepage: 'https://gitlab.com/niksy/otis#readme'
 		});
 	});
 
@@ -532,7 +532,7 @@ describe('Non-GitHub repository, existing project', function () {
 				writeJson(tmpPkgPath, {
 					repository: {
 						type: 'git',
-						url: 'git+https://gitlab.com/niksy/bar.git'
+						url: 'git+https://gitlab.com/niksy/chester.git'
 					}
 				})
 					.then(done)
@@ -554,7 +554,7 @@ describe('Non-GitHub repository, existing project', function () {
 		assert.JSONFileContent('package.json', {
 			repository: {
 				type: 'git',
-				url: 'git+https://gitlab.com/niksy/bar.git'
+				url: 'git+https://gitlab.com/niksy/chester.git'
 			}
 		});
 	});
@@ -566,14 +566,14 @@ describe('Dashed-case package name', function () {
 	before(function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
-				name: 'fooBar'
+				name: 'hankCharlie'
 			})
 			.toPromise();
 	});
 
 	it('fills package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
-			name: 'foo-bar'
+			name: 'hank-charlie'
 		});
 	});
 
@@ -584,14 +584,14 @@ describe('Scoped package', function () {
 	before(function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
-				name: '@foo/barBaz'
+				name: '@sadie/hankCharlie'
 			})
 			.toPromise();
 	});
 
 	it('fills package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
-			name: '@foo/bar-baz'
+			name: '@sadie/hank-charlie'
 		});
 	});
 
