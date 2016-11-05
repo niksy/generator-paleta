@@ -33,7 +33,6 @@ Method description.
 #### arg
 
 Type: `Mixed`
-**Required**
 
 arg description.
 
