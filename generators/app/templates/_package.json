@@ -67,7 +67,10 @@
     "webdriverio": "^4.0.9",
     "execa": "^0.4.0",
     "http-shutdown": "^1.0.3"<% } %>
-  },
+  },<% if ( isScopedPackage ) { %>
+  "publishConfig": {
+    "access": "public"
+  },<% } %>
   "engines": {
     "node": "<% if ( onlyNodeLts ) { %>>=4<% } else { %>>=0.10.0<% } %>"
   }<% if ( keywords.length > 0 ) { %>,

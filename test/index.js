@@ -591,7 +591,10 @@ describe('Scoped package', function () {
 
 	it('fills package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
-			name: '@sadie/hank-charlie'
+			name: '@sadie/hank-charlie',
+			publishConfig: {
+				access: 'public'
+			}
 		});
 	});
 

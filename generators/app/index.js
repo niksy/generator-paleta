@@ -263,7 +263,8 @@ module.exports = generators.Base.extend({
 			humanName: author.humanName,
 			username: author.username,
 			website: author.website,
-			email: author.email
+			email: author.email,
+			isScopedPackage: isScopedPackage(answers.name)
 		};
 
 		var cp = function ( from, to ) {
