@@ -1,9 +1,11 @@
 /* eslint-disable new-cap, quote-props */
 
-var path = require('path');
-var assert = require('yeoman-assert');
-var helpers = require('yeoman-test');
-var writeJson = require('write-json-file');
+'use strict';
+
+const path = require('path');
+const assert = require('yeoman-assert');
+const helpers = require('yeoman-test');
+const writeJson = require('write-json-file');
 
 describe('New project', function () {
 
@@ -73,7 +75,7 @@ describe('Existing project', function () {
 					}
 				})
 					.then(done)
-					.catch(function ( err ) {
+					.catch(( err ) => {
 						done(err);
 					});
 			})
@@ -537,7 +539,7 @@ describe('Non-GitHub repository, existing project', function () {
 					}
 				})
 					.then(done)
-					.catch(function ( err ) {
+					.catch(( err ) => {
 						done(err);
 					});
 			})

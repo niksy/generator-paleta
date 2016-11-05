@@ -1,12 +1,14 @@
-var generators = require('yeoman-generator');
-var gh = require('parse-github-url');
-var isGithubUrl = require('is-github-url');
-var deepAssign = require('deep-assign');
-var compact = require('lodash.compact');
-var uniq = require('lodash.uniq');
-var sortPkg = require('sort-pkg');
-var dashCase = require('lodash.kebabcase');
-var isScopedPackage = require('is-scoped-package');
+'use strict';
+
+const generators = require('yeoman-generator');
+const gh = require('parse-github-url');
+const isGithubUrl = require('is-github-url');
+const deepAssign = require('deep-assign');
+const compact = require('lodash.compact');
+const uniq = require('lodash.uniq');
+const sortPkg = require('sort-pkg');
+const dashCase = require('lodash.kebabcase');
+const isScopedPackage = require('is-scoped-package');
 
 /**
  * @param  {String} pkgName
@@ -15,10 +17,10 @@ var isScopedPackage = require('is-scoped-package');
  * @return {String}
  */
 function preparePkgName ( pkgName, opts ) {
-	var scopedPkgName, preparedPkgName;
+	let preparedPkgName;
 	opts = opts || {};
 	if ( isScopedPackage(pkgName) ) {
-		scopedPkgName = pkgName.split('/');
+		const scopedPkgName = pkgName.split('/');
 		preparedPkgName = [scopedPkgName[0], dashCase(scopedPkgName[1])].join('/');
 	} else {
 		preparedPkgName = dashCase(pkgName);
@@ -39,47 +41,30 @@ module.exports = generators.Base.extend({
 			website: 'http://ivannikolic.com',
 			email: 'niksy5@gmail.com'
 		};
-	},
-
-	prompting: function () {
-
-		var done = this.async();
-		var pkg = this.pkg;
-		var author = this.author;
-
-		this.prompt([
+		this.questions = [
 			{
 				type: 'input',
 				name: 'name',
 				message: 'What is the name of the project?',
-				'default': function () {
-					var pkgName;
-					if ( pkg.name ) {
-						pkgName = pkg.name;
-					} else if ( this.appname ) {
-						pkgName = this.appname;
-					}
-					return preparePkgName(pkgName);
-				}.bind(this)
+				'default': () => {
+					return preparePkgName(this.pkg.name || this.appname);
+				}
 			},
 			{
 				type: 'input',
 				name: 'description',
 				message: 'What is the description of the project?',
-				'default': function () {
-					if ( pkg.description ) {
-						return pkg.description;
-					}
-					return '';
+				'default': () => {
+					return this.pkg.description || '';
 				}
 			},
 			{
 				type: 'input',
 				name: 'keywords',
 				message: 'What are the keywords for this project?',
-				'default': function () {
-					if ( pkg.keywords ) {
-						return pkg.keywords.join(', ');
+				'default': () => {
+					if ( this.pkg.keywords ) {
+						return this.pkg.keywords.join(', ');
 					}
 					return '';
 				}
@@ -88,14 +73,14 @@ module.exports = generators.Base.extend({
 				type: 'input',
 				name: 'gitRepo',
 				message: 'What is the Git repository of the project?',
-				'default': function ( answers ) {
-					if ( pkg.repository ) {
-						if ( isGithubUrl(pkg.repository.url) ) {
-							return gh(pkg.repository.url).repository;
+				'default': ( answers ) => {
+					if ( this.pkg.repository ) {
+						if ( isGithubUrl(this.pkg.repository.url) ) {
+							return gh(this.pkg.repository.url).repository;
 						}
-						return pkg.repository.url;
+						return this.pkg.repository.url;
 					}
-					return `${author.username}/${answers.name}`;
+					return `${this.author.username}/${answers.name}`;
 				}
 			},
 			{
@@ -114,10 +99,10 @@ module.exports = generators.Base.extend({
 				type: 'input',
 				name: 'cliCommandName',
 				message: 'What is the name of CLI command?',
-				'default': function ( answers ) {
+				'default': ( answers ) => {
 					return preparePkgName(answers.name, { clean: true });
 				},
-				when: function ( answers ) {
+				when: ( answers ) => {
 					return answers.cli;
 				}
 			},
@@ -145,7 +130,7 @@ module.exports = generators.Base.extend({
 					name: 'With styles',
 					value: 'styles'
 				}],
-				when: function ( answers ) {
+				when: ( answers ) => {
 					return answers.browserModule;
 				}
 			},
@@ -166,7 +151,7 @@ module.exports = generators.Base.extend({
 				name: 'cloudBrowsers',
 				message: 'Do you need cloud browser service (Browserstack) for tests?',
 				'default': true,
-				when: function ( answers ) {
+				when: ( answers ) => {
 					return answers.automatedTests && answers.browserModule;
 				}
 			},
@@ -175,7 +160,7 @@ module.exports = generators.Base.extend({
 				name: 'integrationTests',
 				message: 'Do you have integration (Selenium) tests?',
 				'default': false,
-				when: function ( answers ) {
+				when: ( answers ) => {
 					return answers.automatedTests && answers.browserModule;
 				}
 			},
@@ -191,7 +176,7 @@ module.exports = generators.Base.extend({
 					name: 'TDD',
 					value: 'tdd'
 				}],
-				when: function ( answers ) {
+				when: ( answers ) => {
 					return answers.automatedTests;
 				}
 			},
@@ -200,7 +185,7 @@ module.exports = generators.Base.extend({
 				name: 'codeCoverage',
 				message: 'Do you need code coverage?',
 				'default': true,
-				when: function ( answers ) {
+				when: ( answers ) => {
 					return answers.automatedTests;
 				}
 			},
@@ -209,13 +194,20 @@ module.exports = generators.Base.extend({
 				name: 'codeCoverageService',
 				message: 'Do you want to send code coverage report to Coveralls?',
 				'default': false,
-				when: function ( answers ) {
+				when: ( answers ) => {
 					return answers.codeCoverage;
 				}
 			}
-		], function ( answers ) {
+		];
+	},
 
-			var browserModuleType = answers.browserModuleType || [];
+	prompting: function () {
+
+		const done = this.async();
+
+		this.prompt(this.questions, ( answers ) => {
+
+			const browserModuleType = answers.browserModuleType || [];
 
 			this.answers = Object.assign({}, answers, {
 				jqueryModule: browserModuleType.indexOf('jqueryModule') !== -1,
@@ -230,25 +222,25 @@ module.exports = generators.Base.extend({
 
 			done();
 
-		}.bind(this));
+		});
 
 	},
 
 	writing: function () {
 
-		var answers = this.answers;
-		var pkg = this.pkg;
-		var author = this.author;
+		const answers = this.answers;
+		const pkg = this.pkg;
+		const author = this.author;
 
-		var keywords = uniq(compact(answers.keywords.split(',')
-			.map(function ( keyword ) {
+		const keywords = uniq(compact(answers.keywords.split(',')
+			.map(( keyword ) => {
 				return keyword.trim();
 			})
-			.filter(function ( keyword ) {
+			.filter(( keyword ) => {
 				return keyword !== '';
 			})));
 
-		var tpl = {
+		const tpl = {
 			moduleName: preparePkgName(answers.name),
 			cleanModuleName: preparePkgName(answers.name, { clean: true }),
 			moduleDescription: answers.description,
@@ -277,13 +269,13 @@ module.exports = generators.Base.extend({
 			cloudBrowsers: answers.cloudBrowsers
 		};
 
-		var cp = function ( from, to ) {
+		const cp = ( from, to ) => {
 			this.fs.copyTpl(this.templatePath(from), this.destinationPath(to), tpl);
-		}.bind(this);
-		var rm = function ( to ) {
+		};
+		const rm = ( to ) => {
 			this.fs.delete(this.destinationPath(to));
-		}.bind(this);
-		var newPkg, mergedPkg;
+		};
+		let newPkg, mergedPkg;
 
 		cp('README.md', 'README.md');
 		cp('LICENSE.md', 'LICENSE.md');
