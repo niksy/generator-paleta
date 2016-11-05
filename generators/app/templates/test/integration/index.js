@@ -1,11 +1,13 @@
-<% if ( automatedTests && browserModule && integrationTests ) { %>describe('foo', function() {
+<% if ( automatedTests && browserModule && integrationTests ) { %>var assert = require('assert');
 
-	it('bar', function () {
+describe('<%= moduleName %>', function () {
+
+	it('test!', function () {
 
 		return browser
 			.url('/')
 			.getTitle().then(function ( title ) {
-				assert.equal(title, 'foobar');
+				assert.equal(title, 'test');
 			});
 
 	});
