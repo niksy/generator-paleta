@@ -1,6 +1,6 @@
 'use strict';
 
-<% if ( automatedTests && browserModule && integrationTests ) { %>var assert = require('assert');
+<% if ( automatedTests && browserModule && integrationTests ) { %>const assert = require('assert');
 
 describe('<%= moduleName %>', function () {
 
@@ -8,7 +8,7 @@ describe('<%= moduleName %>', function () {
 
 		return browser
 			.url('/')
-			.getTitle().then(function ( title ) {
+			.getTitle().then(( title ) => {
 				assert.equal(title, 'test');
 			});
 

@@ -1,7 +1,7 @@
 'use strict';
 
-<% if ( automatedTests ) { %><% if ( !sassModule ) { %>var assert = require('assert');
-var fn = require('../<% if ( transpile ) { %>index<% } %>');<% } else { %>var sassTrue = require('sass-true');<% } %>
+<% if ( automatedTests ) { %><% if ( !sassModule ) { %>const assert = require('assert');
+const fn = require('../<% if ( transpile ) { %>index<% } %>');<% } else { %>const sassTrue = require('sass-true');<% } %>
 
 <% if ( !sassModule ) { %>describe('<%= moduleName %>', function () {
 

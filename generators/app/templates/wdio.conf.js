@@ -1,25 +1,25 @@
-/* eslint-disable no-process-env, no-process-exit, quote-props */
+/* eslint-disable no-process-env, no-process-exit */
 
 'use strict';
 
-var http = require('http');
-var ws = require('local-web-server');
-var shutdown = require('http-shutdown');
-var execa = require('execa');
-var minimist = require('minimist');
-var server, config;
+const http = require('http');
+const ws = require('local-web-server');
+const shutdown = require('http-shutdown');
+const execa = require('execa');
+const minimist = require('minimist');
+let server, config;
 
-var args = minimist(process.argv.slice(2), {
+const args = minimist(process.argv.slice(2), {
 	'default': {
 		local: false,
 		verbose: false,
 		port: 9002
 	}
 });
-var local = args.local;
-var verbose = args.verbose;
-var port = args.port;
-var dockerhost = 'dockerhost';
+const local = args.local;
+const verbose = args.verbose;
+const port = args.port;
+const dockerhost = 'dockerhost';
 
 if ( local ) {
 	config = {
@@ -92,7 +92,7 @@ module.exports.config = Object.assign({
 	},
 	onPrepare: function () {
 
-		var startProcess = new Promise(function ( resolve, reject ) {
+		const startProcess = new Promise(( resolve, reject ) => {
 
 			server = shutdown(http.createServer(ws({
 				'static': {
@@ -106,7 +106,7 @@ module.exports.config = Object.assign({
 				}
 			}).callback()));
 
-			console.log('Starting local web server on port ' + port + '…');
+			console.log(`Starting local web server on port ${port}…`);
 			server.listen(port);
 
 			console.log('Starting WebdriverIO…');
@@ -115,10 +115,10 @@ module.exports.config = Object.assign({
 		});
 
 		return Promise.resolve()
-			.then(function () {
+			.then(() => {
 				if ( local ) {
 					return execa.shell(`docker run --name=wdio --add-host="${dockerhost}:10.0.2.2" -d -p 4444:4444 -v /dev/shm:/dev/shm selenium/standalone-chrome:2.53.0`)
-						.then(function ( res ) {
+						.then(( res ) => {
 							console.log(res.stderr);
 							console.log(res.stdout);
 							return startProcess;
@@ -126,7 +126,7 @@ module.exports.config = Object.assign({
 				}
 				return startProcess;
 			})
-			.catch(function ( err ) {
+			.catch(( err ) => {
 				console.log(err);
 
 				console.log('Stopping local web server…');
@@ -139,7 +139,7 @@ module.exports.config = Object.assign({
 
 	onComplete: function () {
 
-		var stopProcess = new Promise(function ( resolve, reject ) {
+		const stopProcess = new Promise(( resolve, reject ) => {
 
 			console.log('Stopping local web server…');
 			server.shutdown();
@@ -150,10 +150,10 @@ module.exports.config = Object.assign({
 		});
 
 		return Promise.resolve()
-			.then(function () {
+			.then(() => {
 				if ( local ) {
 					return execa.shell('docker stop wdio && docker rm wdio')
-						.then(function ( res ) {
+						.then(( res ) => {
 							console.log(res.stdout);
 							console.log(res.stderr);
 							return stopProcess;
@@ -161,7 +161,7 @@ module.exports.config = Object.assign({
 				}
 				return stopProcess;
 			})
-			.catch(function ( err ) {
+			.catch(( err ) => {
 				console.log(err);
 				process.exit(1);
 			});

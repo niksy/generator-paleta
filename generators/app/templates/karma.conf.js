@@ -1,7 +1,8 @@
+/* eslint-disable no-process-env */
+
 'use strict';
 
 module.exports = function ( config ) {
-	/* eslint-disable quote-props */
 
 	config.set({
 		basePath: '',
