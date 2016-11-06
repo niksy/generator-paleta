@@ -111,9 +111,13 @@ Function arguments:
 
 ---
 
-<% if ( manualTests && browserModule && !sassModule ) { %>## Test
+<% if ( (automatedTests || manualTests || integrationTests) && browserModule && !sassModule ) { %>## Test<% if ( automatedTests ) { %>
 
-For manual tests, run `npm test -- --watch` and open <http://localhost:9000/> in your browser.
+For local automated tests, run `npm run test:automated:local`.<% } %><% if ( integrationTests ) { %>
+
+For local integration tests, run `npm run test:integration:local`.<% } %><% if ( manualTests ) { %>
+
+For manual tests, run `npm run test:manual:local` and open <http://localhost:9000/> in your browser.<% } %>
 
 <% } %><% if ( browserModule ) { %>## Browser support
 
