@@ -21,7 +21,7 @@
     "test:manual:local": "gulp test:local:manual --watch"<% } %><% if ( (automatedTests && browserModule && !sassModule) || manualTests || integrationTests ) { %>,
     "test": "npm run lint<% if ( automatedTests && browserModule && !sassModule ) { %> && npm run test:automated<% } %><% if ( integrationTests ) { %> && npm run test:integration<% } %>"<% } else if ( sassModule ) { %>
     "test": "<% if ( automatedTests ) { %>eslint 'test/**/*.js' && stylelint '{_index,test/**/*}.scss' && mocha 'test/**/*.js'<% if ( testingInterface !== 'bdd' ) { %> --ui <%= testingInterface %><% } %><% } else { %>stylelint '_index.scss'<% } %>"<% } else { %>
-    "test": "<% if ( automatedTests ) { %><% if ( transpile ) { %>BABEL_ENV=test <% } %>eslint '{index,test/**/*}.js' && <% if ( codeCoverage ) { %>nyc mocha<% } else { %>mocha<% } %><% if ( transpile ) { %> --compilers js:babel-register<% } %> 'test/**/*.js'<% if ( codeCoverage ) { %> && nyc check-coverage<% } %><% if ( testingInterface !== 'bdd' ) { %><% if ( codeCoverage ) { %> --<% } %> --ui <%= testingInterface %><% } %><% } else { %>eslint 'index.js'<% } %><% if ( browserModule && styles ) { %> && stylelint 'index.css'<% } %>"<% if ( codeCoverageService ) { %>,
+    "test": "<% if ( automatedTests ) { %><% if ( transpile && codeCoverage && codeCoverageTool === 'nyc' ) { %>BABEL_ENV=test <% } %>eslint '{index,test/**/*}.js' && <% if ( codeCoverage ) { %><% if ( codeCoverageTool === 'nyc' ) { %>nyc mocha<% } else { %>istanbul cover _mocha<% } %><% } else { %>mocha<% } %><% if ( transpile ) { %> --compilers js:babel-register<% } %> 'test/**/*.js'<% if ( codeCoverage ) { %> && <% if ( codeCoverageTool === 'nyc' ) { %>nyc check-coverage<% } else { %>istanbul check-coverage<% } %><% } %><% if ( testingInterface !== 'bdd' ) { %><% if ( codeCoverage ) { %> --<% } %> --ui <%= testingInterface %><% } %><% } else { %>eslint 'index.js'<% } %><% if ( browserModule && styles ) { %> && stylelint 'index.css'<% } %>"<% if ( codeCoverageService ) { %>,
     "posttest:ci": "cat ./coverage/lcov.info | coveralls"<% } %><% } %><% if ( transpile ) { %>,
     "build": "babel '{index,lib/**/*}.js' --out-dir dist/",
     "prepublish": "npm run build"<% } %>
@@ -41,8 +41,9 @@
     "karma-html2js-preprocessor": "^1.0.0",
     "karma-mocha": "~1.0.1",
     "karma-mocha-reporter": "^2.0.3"<% } %><% if ( automatedTests || integrationTests ) { %>,
-    "mocha": "^3.1.2"<% } %><% if ( automatedTests && codeCoverage && !browserModule ) { %>,
-    "nyc": "^8.4.0"<% } %><% if ( automatedTests && codeCoverage && browserModule && !sassModule ) { %>,
+    "mocha": "^3.1.2"<% } %><% if ( automatedTests && codeCoverage && !browserModule ) { %>,<% if ( codeCoverageTool === 'nyc' ) { %>
+    "nyc": "^8.4.0"<% } else { %>
+    "istanbul": "^0.4.3"<% } %><% } %><% if ( automatedTests && codeCoverage && browserModule && !sassModule ) { %>,
     "istanbul": "^0.4.3",
     "browserify-istanbul": "^2.0.0",
     "karma-coverage": "^1.0.0"<% } %><% if ( codeCoverageService ) { %>,

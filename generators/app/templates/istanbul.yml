@@ -1,0 +1,10 @@
+instrumentation:
+  default-excludes: true
+reporting:
+  print: detail
+  reports:
+    - html<% if ( codeCoverageService ) { %>
+    - lcov<% } %>
+check:
+  global:
+    statements: 80

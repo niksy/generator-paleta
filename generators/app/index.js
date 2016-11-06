@@ -184,6 +184,22 @@ module.exports = generators.Base.extend({
 				}
 			},
 			{
+				type: 'list',
+				name: 'codeCoverageTool',
+				message: 'What code coverage tool do you want to use?',
+				'default': 'nyc',
+				choices: [{
+					name: 'nyc',
+					value: 'nyc'
+				}, {
+					name: 'Istanbul',
+					value: 'istanbul'
+				}],
+				when: ( answers ) => {
+					return answers.automatedTests && answers.codeCoverage && !answers.browserModule;
+				}
+			},
+			{
 				type: 'confirm',
 				name: 'codeCoverageService',
 				message: 'Do you want to send code coverage report to Coveralls?',
@@ -260,6 +276,7 @@ module.exports = generators.Base.extend({
 			integrationTests: answers.integrationTests,
 			testingInterface: answers.testingInterface,
 			codeCoverage: answers.codeCoverage,
+			codeCoverageTool: answers.codeCoverageTool,
 			codeCoverageService: answers.codeCoverageService,
 			gitRepo: gh(answers.gitRepo),
 			keywords: keywords,
@@ -323,7 +340,11 @@ module.exports = generators.Base.extend({
 				cp('test/index.js', 'test/index.js');
 			}
 			if ( answers.codeCoverage && !answers.browserModule ) {
-				cp('nycrc', '.nycrc');
+				if ( answers.codeCoverageTool === 'nyc' ) {
+					cp('nycrc', '.nycrc');
+				} else {
+					cp('istanbul.yml', '.istanbul.yml');
+				}
 			}
 		} else {
 			rm('.travis.yml');
@@ -331,6 +352,7 @@ module.exports = generators.Base.extend({
 			rm('test/automated');
 			rm('karma.conf.js');
 			rm('.nycrc');
+			rm('.istanbul.yml');
 		}
 
 		if ( answers.manualTests || answers.integrationTests ) {
