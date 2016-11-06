@@ -208,26 +208,25 @@ module.exports = generators.Base.extend({
 
 	prompting: function () {
 
-		const done = this.async();
+		return this.prompt(this.questions)
+			.then(( answers ) => {
 
-		this.prompt(this.questions, ( answers ) => {
+				const browserModuleType = answers.browserModuleType || [];
 
-			const browserModuleType = answers.browserModuleType || [];
+				this.answers = Object.assign({}, answers, {
+					jqueryModule: browserModuleType.indexOf('jqueryModule') !== -1,
+					sassModule: browserModuleType.indexOf('sassModule') !== -1,
+					cssModule: browserModuleType.indexOf('cssModule') !== -1,
+					styles: browserModuleType.indexOf('styles') !== -1
+				});
 
-			this.answers = Object.assign({}, answers, {
-				jqueryModule: browserModuleType.indexOf('jqueryModule') !== -1,
-				sassModule: browserModuleType.indexOf('sassModule') !== -1,
-				cssModule: browserModuleType.indexOf('cssModule') !== -1,
-				styles: browserModuleType.indexOf('styles') !== -1
+				if ( this.answers.cssModule || this.answers.sassModule ) {
+					this.answers.styles = true;
+				}
+
+				return this.answers;
+
 			});
-
-			if ( this.answers.cssModule || this.answers.sassModule ) {
-				this.answers.styles = true;
-			}
-
-			done();
-
-		});
 
 	},
 
