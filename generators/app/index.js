@@ -306,12 +306,10 @@ module.exports = generators.Base.extend({
 
 		if ( answers.sassModule ) {
 			cp('_index.scss', '_index.scss');
+		} else if ( answers.cli ) {
+			cp('cli.js', 'cli.js');
 		} else {
 			cp('index.js', 'index.js');
-		}
-
-		if ( answers.cli ) {
-			cp('cli.js', 'cli.js');
 		}
 
 		if ( answers.browserModule && answers.styles ) {

@@ -396,6 +396,10 @@ describe('CLI', function () {
 		]);
 	});
 
+	it('adds global install instruction to README.md', function () {
+		assert.fileContent('README.md', 'npm install -g @sammy/ellie');
+	});
+
 	it('fills package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			bin: {

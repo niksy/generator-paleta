@@ -7,7 +7,7 @@
 ## Install
 
 ```sh
-npm install <%= moduleName %> --save
+<% if ( !cli ) { %>npm install <%= moduleName %> --save<% } else { %>npm install -g <%= moduleName %><% } %>
 ```
 
 ## Usage
