@@ -268,7 +268,7 @@ describe('Integration tests', function () {
 				'vinyl-source-stream': '^1.1.0',
 				'local-web-server': '^1.2.4',
 				'watchify': '^3.7.0',
-				'browserstacktunnel-wrapper': '^1.4.2',
+				'wdio-browserstack-service': '^0.1.3',
 				'wdio-mocha-framework': '^0.2.13',
 				'wdio-spec-reporter': '^0.0.2',
 				'webdriverio': '^4.0.9',

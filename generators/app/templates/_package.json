@@ -64,7 +64,7 @@
     "watchify": "^3.7.0"<% } %><% if ( sassModule ) { %>,
     "sass-true": "^2.1.3"<% } %><% if ( manualTests ) { %>,
     "opn": "^4.0.2"<% } %><% if ( integrationTests ) { %>,
-    "browserstacktunnel-wrapper": "^1.4.2",
+    "wdio-browserstack-service": "^0.1.3",
     "wdio-mocha-framework": "^0.2.13",
     "wdio-spec-reporter": "^0.0.2",
     "webdriverio": "^4.0.9",
