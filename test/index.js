@@ -666,6 +666,24 @@ describe('CSS module', function () {
 
 });
 
+describe('Cloud browsers', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				automatedTests: true,
+				browserModule: true,
+				cloudBrowsers: false
+			})
+			.toPromise();
+	});
+
+	it('adjusts Karma configuration', function () {
+		assert.fileContent('karma.conf.js', 'browsers: [(process.env.TRAVIS ? \'Chrome-Travis\' : \'Chrome\')]');
+	});
+
+});
+
 describe('Transpile', function () {
 
 	before(function () {
@@ -719,7 +737,7 @@ describe('Transpile, browser module', function () {
 	it('fills package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			devDependencies: {
-				'babelify': '^7.3.0',
+				'babelify': '^7.3.0'
 			}
 		});
 	});
