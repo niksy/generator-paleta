@@ -85,12 +85,6 @@ module.exports = generators.Base.extend({
 			},
 			{
 				type: 'confirm',
-				name: 'onlyNodeLts',
-				message: 'Run only on Node LTS (>=4)?',
-				'default': true
-			},
-			{
-				type: 'confirm',
 				name: 'cli',
 				message: 'Does this project has CLI interface?',
 				'default': false
@@ -260,7 +254,6 @@ module.exports = generators.Base.extend({
 			jqueryModule: answers.jqueryModule,
 			sassModule: answers.sassModule,
 			cssModule: answers.cssModule,
-			onlyNodeLts: answers.onlyNodeLts,
 			cli: answers.cli,
 			cliCommandName: answers.cliCommandName,
 			manualTests: answers.manualTests,
