@@ -1,3 +1,5 @@
+'use strict';
+
 <% if ( automatedTests && browserModule && integrationTests ) { %>var assert = require('assert');
 
 describe('<%= moduleName %>', function () {

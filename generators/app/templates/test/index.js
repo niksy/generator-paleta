@@ -1,3 +1,5 @@
+'use strict';
+
 <% if ( automatedTests ) { %><% if ( !sassModule ) { %>var assert = require('assert');
 var fn = require('../');<% } else { %>var sassTrue = require('sass-true');<% } %>
 

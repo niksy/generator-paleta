@@ -1,5 +1,7 @@
 /* eslint-disable no-process-env, no-process-exit, quote-props */
 
+'use strict';
+
 var http = require('http');
 var BrowserStackTunnel = require('browserstacktunnel-wrapper');
 var ws = require('local-web-server');
