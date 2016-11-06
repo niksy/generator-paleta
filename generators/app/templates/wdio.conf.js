@@ -82,7 +82,8 @@ exports.config = {
 	framework: 'mocha',
 	reporters: ['spec'],
 	mochaOpts: {
-		ui: '<%= testingInterface %>'
+		ui: '<%= testingInterface %>'<% if ( transpile ) { %>,
+		compilers: ['js:babel-register']<% } %>
 	},
 	onPrepare: function () {
 

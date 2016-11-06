@@ -33,7 +33,11 @@ module.exports = function ( config ) {
 		},<% if ( automatedTests && codeCoverage ) { %>
 		browserify: {
 			debug: true,
-			transform: [['browserify-istanbul', { defaultIgnore: true }]]
+			transform: [
+				<% if ( transpile ) { %>'babelify'<% if ( codeCoverage ) { %>,
+				['browserify-babel-istanbul', { defaultIgnore: true }]<% } %><% } else { %>
+				['browserify-istanbul', { defaultIgnore: true }]<% } %>
+			]
 		},
 		coverageReporter: {
 			reporters: [

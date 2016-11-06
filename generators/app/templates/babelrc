@@ -1,0 +1,12 @@
+{
+	"presets": [
+		"niksy"
+	]<% if ( automatedTests && codeCoverage && !browserModule ) { %>,
+	"env": {
+		"test": {
+			"plugins": [
+				"istanbul"
+			]
+		}
+	}<% } %>
+}

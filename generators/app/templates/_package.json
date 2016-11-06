@@ -2,12 +2,12 @@
   "name": "<%= moduleName %>",
   "version": "<% if ( version ) { %><%= version %><% } else { %>0.0.0<% } %>",
   "description": "<%= moduleDescription %>",
-  "main": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %>index.js<% } %>",
+  "main": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( transpile ) { %>dist/<% } %>index.js<% } %>",
   "author": "<%= humanName %> <<%= email %>> (<%= website %>)",
   "license": "MIT",<% if ( browserModule && styles || sassModule || cssModule ) { %>
   "style": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %>index.css<% } %>",<% } %><% if ( cli ) { %>
   "bin": {
-  	"<%= cliCommandName %>": "cli.js"
+    "<%= cliCommandName %>": "cli.js"
   },<% } %><% if ( manualTests || automatedTests || integrationTests ) { %>
   "directories": {
     "test": "test"
@@ -21,8 +21,10 @@
     "test:manual:local": "gulp test:local:manual --watch"<% } %><% if ( (automatedTests && browserModule && !sassModule) || manualTests || integrationTests ) { %>,
     "test": "npm run lint<% if ( automatedTests && browserModule && !sassModule ) { %> && npm run test:automated<% } %><% if ( integrationTests ) { %> && npm run test:integration<% } %>"<% } else if ( sassModule ) { %>
     "test": "<% if ( automatedTests ) { %>eslint 'test/**/*.js' && stylelint '{_index,test/**/*}.scss' && mocha 'test/**/*.js'<% if ( testingInterface !== 'bdd' ) { %> --ui <%= testingInterface %><% } %><% } else { %>stylelint '_index.scss'<% } %>"<% } else { %>
-    "test": "<% if ( automatedTests ) { %>eslint '{index,test/**/*}.js' && <% if ( codeCoverage ) { %>nyc mocha<% } else { %>mocha<% } %> 'test/**/*.js'<% if ( codeCoverage ) { %> && nyc check-coverage<% } %><% if ( testingInterface !== 'bdd' ) { %><% if ( codeCoverage ) { %> --<% } %> --ui <%= testingInterface %><% } %><% } else { %>eslint 'index.js'<% } %><% if ( browserModule && styles ) { %> && stylelint 'index.css'<% } %>"<% if ( codeCoverageService ) { %>,
-    "posttest:ci": "cat ./coverage/lcov.info | coveralls"<% } %><% } %>
+    "test": "<% if ( automatedTests ) { %><% if ( transpile ) { %>BABEL_ENV=test <% } %>eslint '{index,test/**/*}.js' && <% if ( codeCoverage ) { %>nyc mocha<% } else { %>mocha<% } %><% if ( transpile ) { %> --compilers js:babel-register<% } %> 'test/**/*.js'<% if ( codeCoverage ) { %> && nyc check-coverage<% } %><% if ( testingInterface !== 'bdd' ) { %><% if ( codeCoverage ) { %> --<% } %> --ui <%= testingInterface %><% } %><% } else { %>eslint 'index.js'<% } %><% if ( browserModule && styles ) { %> && stylelint 'index.css'<% } %>"<% if ( codeCoverageService ) { %>,
+    "posttest:ci": "cat ./coverage/lcov.info | coveralls"<% } %><% } %><% if ( transpile ) { %>,
+    "build": "babel '{index,lib/**/*}.js' --out-dir dist/",
+    "prepublish": "npm run build"<% } %>
   }<% if ( jqueryModule ) { %>,
   "dependencies": {
     "jquery": "^1.12.4"
@@ -67,7 +69,13 @@
     "wdio-spec-reporter": "^0.0.2",
     "webdriverio": "^4.0.9",
     "execa": "^0.4.0",
-    "http-shutdown": "^1.0.3"<% } %>
+    "http-shutdown": "^1.0.3"<% } %><% if ( transpile ) { %>,
+    "babel-cli": "^6.18.0",
+    "babel-preset-niksy": "^1.0.0"<% if ( browserModule && !sassModule ) { %>,
+    "babelify": "^7.3.0"<% } %><% if ( automatedTests ) { %>,
+    "babel-register": "^6.18.0"<% if ( browserModule && !sassModule ) { %>,
+    "browserify-babel-istanbul": "^0.4.0"<% } else { %>,
+    "babel-plugin-istanbul": "^2.0.3"<% } %><% } %><% } %>
   },<% if ( isScopedPackage ) { %>
   "publishConfig": {
     "access": "public"

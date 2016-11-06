@@ -5,5 +5,7 @@
 		"html"<% if ( codeCoverageService ) { %>,
 		"lcov"<% } %>,
 		"text"
-	]
+	]<% if ( transpile && codeCoverage ) { %>,
+	"sourceMap": false,
+	"instrument": false<% } %>
 }

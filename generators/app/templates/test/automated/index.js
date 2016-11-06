@@ -1,7 +1,7 @@
 'use strict';
 
 <% if ( automatedTests && browserModule ) { %>var assert = require('assert');
-var fn = require('../../');
+var fn = require('../../<% if ( transpile ) { %>index<% } %>');
 
 describe('<%= moduleName %>', function () {
 

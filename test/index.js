@@ -665,3 +665,131 @@ describe('CSS module', function () {
 	});
 
 });
+
+describe('Transpile', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				automatedTests: false,
+				transpile: true
+			})
+			.toPromise();
+	});
+
+	it('creates necesarry files', function () {
+		assert.file([
+			'.babelrc',
+			'.npmignore'
+		]);
+	});
+
+	it('adds dist folder to .gitignore', function () {
+		assert.fileContent('.gitignore', 'dist/');
+	});
+
+	it('fills package.json with correct information', function () {
+		assert.JSONFileContent('package.json', {
+			main: 'dist/index.js',
+			scripts: {
+				build: 'babel \'{index,lib/**/*}.js\' --out-dir dist/',
+				prepublish: 'npm run build'
+			},
+			devDependencies: {
+				'babel-cli': '^6.18.0',
+				'babel-preset-niksy': '^1.0.0'
+			}
+		});
+	});
+
+});
+
+describe('Transpile, browser module', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				automatedTests: false,
+				browserModule: true,
+				transpile: true
+			})
+			.toPromise();
+	});
+
+	it('fills package.json with correct information', function () {
+		assert.JSONFileContent('package.json', {
+			devDependencies: {
+				'babelify': '^7.3.0',
+			}
+		});
+	});
+
+});
+
+describe('Transpile, with automated tests and code coverage', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				automatedTests: true,
+				codeCoverage: true,
+				transpile: true
+			})
+			.toPromise();
+	});
+
+	it('fills .babelrc with correct information', function () {
+		assert.JSONFileContent('.babelrc', {
+			env: {
+				test: {
+					plugins: [
+						'istanbul'
+					]
+				}
+			}
+		});
+	});
+
+	it('fills .nycrc with correct information', function () {
+		assert.JSONFileContent('.nycrc', {
+			sourceMap: false,
+			instrument: false
+		});
+	});
+
+	it('fills package.json with correct information', function () {
+		assert.JSONFileContent('package.json', {
+			scripts: {
+				test: 'BABEL_ENV=test eslint \'{index,test/**/*}.js\' && nyc mocha --compilers js:babel-register \'test/**/*.js\' && nyc check-coverage'
+			},
+			devDependencies: {
+				'babel-register': '^6.18.0',
+				'babel-plugin-istanbul': '^2.0.3'
+			}
+		});
+	});
+
+});
+
+describe('Transpile, browser module, with automated tests and code coverage', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				automatedTests: true,
+				codeCoverage: true,
+				browserModule: true,
+				transpile: true
+			})
+			.toPromise();
+	});
+
+	it('fills package.json with correct information', function () {
+		assert.JSONFileContent('package.json', {
+			devDependencies: {
+				'browserify-babel-istanbul': '^0.4.0'
+			}
+		});
+	});
+
+});

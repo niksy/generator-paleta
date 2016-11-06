@@ -8,7 +8,8 @@ var nunjucks = require('gulp-nunjucks-render');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var browserify = require('browserify');
-var watchify = require('watchify');
+var watchify = require('watchify');<% if ( transpile ) { %>
+var babelify = require('babelify');<% } %>
 var del = require('del');
 var ws = require('local-web-server');
 var opn = require('opn');
@@ -82,7 +83,8 @@ gulp.task('test:script', ['test:cleanup'], function ( done ) {
 					debug: true,
 					cache: {},
 					packageCache: {}
-				});
+				});<% if ( transpile ) { %>
+				b.transform(babelify);<% } %>
 				if ( watch ) {
 					b.plugin(watchify);
 				}

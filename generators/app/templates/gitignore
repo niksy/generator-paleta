@@ -4,4 +4,5 @@ npm-debug.log<% if ( (automatedTests && browserModule && !sassModule) || manualT
 test-dist/<% } %><% if ( automatedTests && codeCoverage ) { %><% if ( !browserModule ) { %>
 .nyc_output/<% } %>
 coverage/<% } %><% if ( (automatedTests && browserModule && !sassModule) && integrationTests ) { %>
-errorShots/<% } %>
+errorShots/<% } %><% if ( transpile ) { %>
+dist/<% } %>

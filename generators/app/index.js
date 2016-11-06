@@ -197,6 +197,17 @@ module.exports = generators.Base.extend({
 				when: ( answers ) => {
 					return answers.codeCoverage;
 				}
+			},
+			{
+				type: 'confirm',
+				name: 'transpile',
+				message: 'Do you need code transpiling via Babel?',
+				'default': ( answers ) => {
+					if ( answers.browserModule ) {
+						return true;
+					}
+					return false;
+				}
 			}
 		];
 	},
@@ -266,7 +277,8 @@ module.exports = generators.Base.extend({
 			website: author.website,
 			email: author.email,
 			isScopedPackage: isScopedPackage(answers.name),
-			cloudBrowsers: answers.cloudBrowsers
+			cloudBrowsers: answers.cloudBrowsers,
+			transpile: answers.transpile
 		};
 
 		const cp = ( from, to ) => {
@@ -344,6 +356,14 @@ module.exports = generators.Base.extend({
 		} else {
 			rm('test/integration');
 			rm('wdio.conf.js');
+		}
+
+		if ( answers.transpile ) {
+			cp('babelrc', '.babelrc');
+			cp('npmignore', '.npmignore');
+		} else {
+			rm('.babelrc');
+			rm('.npmignore');
 		}
 
 		if ( answers.jqueryModule ) {
