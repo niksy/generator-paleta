@@ -856,6 +856,11 @@ describe('Transpile, browser module, with automated tests and code coverage', fu
 			.toPromise();
 	});
 
+	it('adds proper data to karma.conf.js', function () {
+		assert.fileContent('karma.conf.js', 'babelify');
+		assert.fileContent('karma.conf.js', 'browserify-babel-istanbul');
+	});
+
 	it('fills package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			devDependencies: {

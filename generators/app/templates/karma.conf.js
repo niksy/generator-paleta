@@ -16,7 +16,7 @@ module.exports = function ( config ) {
 			'test/automated/**/*.html': ['html2js'],
 			'test/automated/**/*.js': ['browserify']
 		},
-		reporters: ['mocha'<% if ( automatedTests && codeCoverage ) { %>, 'coverage'<% } %>],
+		reporters: ['mocha'<% if ( codeCoverage ) { %>, 'coverage'<% } %>],
 		port: 9001,
 		colors: true,
 		logLevel: config.LOG_INFO,
@@ -31,15 +31,15 @@ module.exports = function ( config ) {
 			mocha: {
 				ui: '<%= testingInterface %>'
 			}
-		},<% if ( automatedTests && codeCoverage ) { %>
+		},
 		browserify: {
 			debug: true,
 			transform: [
-				<% if ( transpile ) { %>'babelify'<% if ( codeCoverage ) { %>,
-				['browserify-babel-istanbul', { defaultIgnore: true }]<% } %><% } else { %>
-				['browserify-istanbul', { defaultIgnore: true }]<% } %>
+				<% if ( transpile ) { %>'babelify'<% } %><% if ( codeCoverage ) { %><% if ( transpile ) { %>,
+				['browserify-babel-istanbul', { defaultIgnore: true }]<% } else { %>
+				['browserify-istanbul', { defaultIgnore: true }]<% } %><% } %>
 			]
-		},
+		},<% if ( codeCoverage ) { %>
 		coverageReporter: {
 			reporters: [
 				{
@@ -83,7 +83,7 @@ module.exports = function ( config ) {
 				project: '<%= moduleName %>',
 				build: 'Automated (Karma)',
 				name: 'IE8'
-			}<% } else { %>,
+			},<% } else { %>
 			'Chrome-Travis': {
 				base: 'Chrome',
 				flags: ['--no-sandbox']
