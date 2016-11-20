@@ -121,7 +121,7 @@ For manual tests, run `npm run test:manual:local` and open <http://localhost:900
 
 <% } %><% if ( browserModule ) { %>## Browser support
 
-Tested in IE8+ and all modern browsers.
+Tested in IE9+ and all modern browsers.
 
 <% } %>## License
 

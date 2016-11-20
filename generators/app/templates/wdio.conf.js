@@ -57,13 +57,13 @@ if ( local ) {
 			'browserstack.debug': 'true'
 		}, {
 			browser: 'IE',
-			'browser_version': '8',
+			'browser_version': '9',
 			os: 'Windows',
 			'os_version': '7',
 			project: '<%= moduleName %>',
 			build: 'Integration (WebdriverIO)',
-			name: 'IE8',
-			browserName: 'IE8',
+			name: 'IE9',
+			browserName: 'IE9',
 			'browserstack.local': 'true',
 			'browserstack.debug': 'true'
 		}]

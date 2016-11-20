@@ -75,22 +75,22 @@ module.exports = function ( config ) {
 				build: 'Automated (Karma)',
 				name: 'Firefox'
 			},
-			'BS-IE8': {
+			'BS-IE9': {
 				base: 'BrowserStack',
 				browser: 'IE',
-				'browser_version': '8',
+				'browser_version': '9',
 				os: 'Windows',
 				'os_version': '7',
 				project: '<%= moduleName %>',
 				build: 'Automated (Karma)',
-				name: 'IE8'
+				name: 'IE9'
 			},<% } else { %>
 			'Chrome-Travis': {
 				base: 'Chrome',
 				flags: ['--no-sandbox']
 			}<% } %>
 		},
-		browsers: <% if ( cloudBrowsers ) { %>['BS-Chrome', 'BS-Firefox', 'BS-IE8']<% } else { %>[(process.env.TRAVIS ? 'Chrome-Travis' : 'Chrome')]<% } %>,
+		browsers: <% if ( cloudBrowsers ) { %>['BS-Chrome', 'BS-Firefox', 'BS-IE9']<% } else { %>[(process.env.TRAVIS ? 'Chrome-Travis' : 'Chrome')]<% } %>,
 		singleRun: true,
 		concurrency: Infinity
 	});
