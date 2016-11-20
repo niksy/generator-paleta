@@ -16,7 +16,7 @@ const args = minimist(process.argv.slice(2), {
 		port: 9002
 	}
 });
-const local = args.local;
+const local = <% if ( cloudBrowsers ) { %>args.local<% } else { %>true<% } %>;
 const verbose = args.verbose;
 const port = args.port;
 const dockerhost = 'dockerhost';
@@ -28,7 +28,7 @@ if ( local ) {
 			browserName: 'chrome'
 		}]
 	};
-} else {
+}<% if ( cloudBrowsers ) { %> else {
 	config = {
 		baseUrl: `http://localhost:${port}`,
 		user: process.env.BROWSER_STACK_USERNAME,
@@ -68,7 +68,7 @@ if ( local ) {
 			'browserstack.debug': 'true'
 		}]
 	}
-}
+}<% } %>
 
 module.exports.config = Object.assign({
 	specs: [
