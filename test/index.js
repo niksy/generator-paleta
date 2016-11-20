@@ -9,6 +9,8 @@ const writeJson = require('write-json-file');
 
 describe('New project', function () {
 
+	this.timeout(5000);
+
 	before(function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
