@@ -1,3 +1,4 @@
+/* globals process:false */
 /* eslint-disable no-process-env */
 
 'use strict';
