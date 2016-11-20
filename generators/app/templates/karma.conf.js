@@ -21,13 +21,13 @@ module.exports = function ( config ) {
 		port: 9001,
 		colors: true,
 		logLevel: config.LOG_INFO,
-		autoWatch: false,
+		autoWatch: false,<% if ( cloudBrowsers ) { %>
 		browserStack: {
 			startTunnel: true,
 			project: '<%= moduleName %>',
 			name: 'Automated (Karma)',
 			build: 'Automated (Karma)'
-		},
+		},<% } %>
 		client: {
 			mocha: {
 				ui: '<%= testingInterface %>'
