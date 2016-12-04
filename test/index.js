@@ -128,9 +128,8 @@ describe('Manual tests', function () {
 				'test:manual:local': 'gulp test:local:manual --watch'
 			},
 			devDependencies: {
-				'browserify': '^13.0.1',
+				'@niksy/babayaga': '^0.1.1',
 				'del': '^2.2.0',
-				'event-stream': '^3.3.2',
 				'globby': '^4.1.0',
 				'gulp': '^3.9.1',
 				'gulp-debug': '^2.1.2',
@@ -139,10 +138,7 @@ describe('Manual tests', function () {
 				'gulp-sourcemaps': '^1.6.0',
 				'gulp-util': '^3.0.7',
 				'minimist': '^1.2.0',
-				'vinyl-buffer': '^1.0.0',
-				'vinyl-source-stream': '^1.1.0',
 				'local-web-server': '^1.2.4',
-				'watchify': '^3.7.0',
 				'opn': '^4.0.2'
 			}
 		});
@@ -256,9 +252,8 @@ describe('Integration tests', function () {
 			},
 			devDependencies: {
 				'mocha': '^3.1.2',
-				'browserify': '^13.0.1',
+				'@niksy/babayaga': '^0.1.1',
 				'del': '^2.2.0',
-				'event-stream': '^3.3.2',
 				'globby': '^4.1.0',
 				'gulp': '^3.9.1',
 				'gulp-debug': '^2.1.2',
@@ -267,10 +262,7 @@ describe('Integration tests', function () {
 				'gulp-sourcemaps': '^1.6.0',
 				'gulp-util': '^3.0.7',
 				'minimist': '^1.2.0',
-				'vinyl-buffer': '^1.0.0',
-				'vinyl-source-stream': '^1.1.0',
 				'local-web-server': '^1.2.4',
-				'watchify': '^3.7.0',
 				'wdio-browserstack-service': '^0.1.3',
 				'wdio-mocha-framework': '^0.2.13',
 				'wdio-spec-reporter': '^0.0.2',

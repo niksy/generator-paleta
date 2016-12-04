@@ -10,17 +10,13 @@ const plumber = require('gulp-plumber');
 const gutil = require('gulp-util');
 const debug = require('gulp-debug');
 const nunjucks = require('gulp-nunjucks-render');
-const source = require('vinyl-source-stream');
-const buffer = require('vinyl-buffer');
-const browserify = require('browserify');
-const watchify = require('watchify');<% if ( transpile ) { %>
+const babayaga = require('@niksy/babayaga');<% if ( transpile ) { %>
 const babelify = require('babelify');<% } %>
 const del = require('del');
 const ws = require('local-web-server');
 const opn = require('opn');
 const minimist = require('minimist');
 const globby = require('globby');
-const es = require('event-stream');
 
 const args = minimist(process.argv.slice(2), {
 	'default': {
@@ -76,64 +72,55 @@ gulp.task('test:style', ['test:cleanup'], () => {
 	return bundle();
 });
 
-gulp.task('test:script', ['test:cleanup'], ( done ) => {
+gulp.task('test:script', ['test:cleanup'], () => {
 
-	globby(['./test/manual/suite/**/*.js'])
+	return globby(['./test/manual/suite/**/*.js'])
 		.then(( files ) => {
-
-			function task ( file ) {
-
-				const b = browserify({
-					entries: [file],
-					debug: true,
-					cache: {},
-					packageCache: {}
-				});<% if ( transpile ) { %>
-				b.transform(babelify);<% } %>
-				if ( watch ) {
-					b.plugin(watchify);
-				}
-
-				function bundle () {
-					return b.bundle()
-						.on('error', handleError)
-						.pipe(plumber(handleError))
-						.pipe(source(path.basename(file)))
-						.pipe(buffer())
-						.pipe(sourcemaps.init({
-							loadMaps: true
-						}))
-						.pipe(sourcemaps.write())
-						.pipe(plumber.stop())
-						.pipe(gulp.dest(path.join('./test-dist', path.dirname(file).split(path.sep).pop())));
-				}
-
-				if ( watch ) {
-					b.on('update', () => {
-						bundle()
-							.pipe(debug({ title: 'Script:' }));
-					});
-					b.on('log', gutil.log);
-				}
-
-				return bundle();
-
-			}
-
-			if ( files.length ) {
-				es.merge(files.map(task))
-					.pipe(debug({ title: 'Script:' }))
-					.on('data', () => {})
-					.on('end', done);
-			} else {
-				done();
-			}
-
-			return files;
-
+			return files
+				.map(( file ) => {
+					const extname = path.extname(file);
+					const key = path.basename(file, extname);
+					const obj = {};
+					obj[`${path.dirname(file).split(path.sep).pop()}/${key}`] = file;
+					return obj;
+				})
+				.reduce(( prev, next ) => {
+					return Object.assign(prev, next);
+				}, {});
 		})
-		.catch(( err ) => {
-			done(err);
+		.then(( entries ) => {
+
+			return babayaga({
+				entries: entries,
+				output: {
+					path: './test-dist'
+				},
+				dev: true,
+				watch: watch,
+				setupBundle: ( bundle ) => {<% if ( transpile ) { %>
+					bundle.transform(babelify);<% } %>
+					return bundle;
+				},
+				onAfterWrite: ( stream, isAsyncTask, isWatchUpdate ) => {
+					if ( isWatchUpdate ) {
+						return stream
+							.pipe(debug({ title: 'Script:' }));
+					}
+					return stream;
+				},
+				onStartBuild: ( stream, isAsyncTask ) => {
+					if ( isAsyncTask ) {
+						return stream
+							.pipe(debug({ title: 'Script:' }));
+					}
+					return stream
+						.pipe(debug({ title: 'Script:' }));
+				},
+				onError: ( err ) => {
+					gutil.log(gutil.colors.red(err.message));
+				}
+			}).build();
+
 		});
 
 });
