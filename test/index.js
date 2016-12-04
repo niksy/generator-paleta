@@ -19,7 +19,7 @@ describe('New project', function () {
 			.toPromise();
 	});
 
-	it('creates necessary files', function () {
+	it('should create necessary files', function () {
 		assert.file([
 			'package.json',
 			'.editorconfig',
@@ -31,14 +31,14 @@ describe('New project', function () {
 		]);
 	});
 
-	it('fills package.json with correct information', function () {
+	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			name: 'bella',
 			author: 'Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com)'
 		});
 	});
 
-	it('fills README.md with project data', function () {
+	it('should fill README.md with project data', function () {
 		assert.fileContent('README.md', '# bella');
 		assert.fileContent('README.md', 'npm install bella --save');
 	});
@@ -91,7 +91,7 @@ describe('Existing project', function () {
 			.cleanTestDirectory();
 	});
 
-	it('reuses existing package.json information', function () {
+	it('should reuse existing package.json information', function () {
 		assert.JSONFileContent('package.json', {
 			name: 'minnie',
 			description: 'minnie description',
@@ -111,7 +111,7 @@ describe('Manual tests', function () {
 			.toPromise();
 	});
 
-	it('creates necessary files', function () {
+	it('should create necessary files', function () {
 		assert.file([
 			'test/.eslintrc',
 			'test/manual',
@@ -119,7 +119,7 @@ describe('Manual tests', function () {
 		]);
 	});
 
-	it('fills package.json with correct information', function () {
+	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			directories: {
 				test: 'test'
@@ -161,7 +161,7 @@ describe('Automated tests', function () {
 			.toPromise();
 	});
 
-	it('creates necessary files', function () {
+	it('should create necessary files', function () {
 		assert.file([
 			'test/.eslintrc',
 			'.travis.yml',
@@ -169,7 +169,7 @@ describe('Automated tests', function () {
 		]);
 	});
 
-	it('fills package.json with correct information', function () {
+	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			scripts: {
 				test: 'eslint \'{index,test/**/*}.js\' && mocha \'test/**/*.js\''
@@ -193,14 +193,14 @@ describe('Automated tests, browser module', function () {
 			.toPromise();
 	});
 
-	it('creates necessary files', function () {
+	it('should create necessary file', function () {
 		assert.file([
 			'test/automated',
 			'karma.conf.js'
 		]);
 	});
 
-	it('fills package.json with correct information', function () {
+	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			scripts: {
 				'test:automated': 'karma start',
@@ -238,7 +238,7 @@ describe('Integration tests', function () {
 			.toPromise();
 	});
 
-	it('creates necessary files', function () {
+	it('should create necessary file', function () {
 		assert.file([
 			'test/manual',
 			'gulpfile.js',
@@ -248,7 +248,7 @@ describe('Integration tests', function () {
 		]);
 	});
 
-	it('fills package.json with correct information', function () {
+	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			scripts: {
 				'test:integration': 'gulp test:prepare && wdio',
@@ -313,7 +313,7 @@ describe('jQuery module', function () {
 			.toPromise();
 	});
 
-	it('fills package.json with correct information', function () {
+	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			dependencies: {
 				jquery: '^1.12.4'
@@ -339,7 +339,7 @@ describe('Testing interface', function () {
 			.toPromise();
 	});
 
-	it('fills package.json with correct information', function () {
+	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			scripts: {
 				test: 'eslint \'{index,test/**/*}.js\' && mocha \'test/**/*.js\' --ui tdd'
@@ -361,13 +361,13 @@ describe('Styles', function () {
 			.toPromise();
 	});
 
-	it('creates necesarry files', function () {
+	it('should create necessary files', function () {
 		assert.file([
 			'.stylelintrc'
 		]);
 	});
 
-	it('fills package.json with correct information', function () {
+	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			style: 'index.css',
 			scripts: {
@@ -393,17 +393,17 @@ describe('CLI', function () {
 			.toPromise();
 	});
 
-	it('creates necessary files', function () {
+	it('should create necessary file', function () {
 		assert.file([
 			'cli.js'
 		]);
 	});
 
-	it('adds global install instruction to README.md', function () {
+	it('should add global install instruction to README.md', function () {
 		assert.fileContent('README.md', 'npm install -g @sammy/ellie');
 	});
 
-	it('fills package.json with correct information', function () {
+	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			bin: {
 				ellie: 'cli.js'
@@ -428,13 +428,13 @@ describe('Code coverage, nyc', function () {
 			.toPromise();
 	});
 
-	it('creates necessary files', function () {
+	it('should create necessary file', function () {
 		assert.file([
 			'.nycrc'
 		]);
 	});
 
-	it('fills package.json with correct information', function () {
+	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			scripts: {
 				test: 'eslint \'{index,test/**/*}.js\' && nyc mocha \'test/**/*.js\' && nyc check-coverage'
@@ -459,13 +459,13 @@ describe('Code coverage, Istanbul', function () {
 			.toPromise();
 	});
 
-	it('creates necessary files', function () {
+	it('should create necessary file', function () {
 		assert.file([
 			'.istanbul.yml'
 		]);
 	});
 
-	it('fills package.json with correct information', function () {
+	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			scripts: {
 				test: 'eslint \'{index,test/**/*}.js\' && istanbul cover _mocha \'test/**/*.js\' && istanbul check-coverage'
@@ -490,7 +490,7 @@ describe('Code coverage, browser module', function () {
 			.toPromise();
 	});
 
-	it('fills package.json with correct information', function () {
+	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			devDependencies: {
 				istanbul: '^0.4.3',
@@ -514,15 +514,15 @@ describe('Code coverage service, nyc', function () {
 			.toPromise();
 	});
 
-	it('adds coveralls entry to .travis.yml', function () {
+	it('should add coveralls entry to .travis.yml', function () {
 		assert.fileContent('.travis.yml', 'npm run posttest:ci');
 	});
 
-	it('adds coveralls entry to .nycrc', function () {
+	it('should add coveralls entry to .nycrc', function () {
 		assert.fileContent('.nycrc', '"lcov"');
 	});
 
-	it('fills package.json with correct information', function () {
+	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			scripts: {
 				'posttest:ci': 'cat ./coverage/lcov.info | coveralls'
@@ -548,7 +548,7 @@ describe('Code coverage service, Istanbul', function () {
 			.toPromise();
 	});
 
-	it('adds coveralls entry to .istanbul.yml', function () {
+	it('should add coveralls entry to .istanbul.yml', function () {
 		assert.fileContent('.istanbul.yml', '- lcov');
 	});
 
@@ -564,7 +564,7 @@ describe('Non-GitHub repository', function () {
 			.toPromise();
 	});
 
-	it('fills package.json with correct information', function () {
+	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			repository: {
 				type: 'git',
@@ -610,7 +610,7 @@ describe('Non-GitHub repository, existing project', function () {
 			.cleanTestDirectory();
 	});
 
-	it('reuses existing package.json information', function () {
+	it('should reuse existing package.json information', function () {
 		assert.JSONFileContent('package.json', {
 			repository: {
 				type: 'git',
@@ -631,7 +631,7 @@ describe('Dashed-case package name', function () {
 			.toPromise();
 	});
 
-	it('fills package.json with correct information', function () {
+	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			name: 'hank-charlie'
 		});
@@ -649,7 +649,7 @@ describe('Scoped package', function () {
 			.toPromise();
 	});
 
-	it('fills package.json with correct information', function () {
+	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			name: '@sadie/hank-charlie',
 			publishConfig: {
@@ -672,7 +672,7 @@ describe('Sass module', function () {
 			.toPromise();
 	});
 
-	it('fills package.json with correct information', function () {
+	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			main: '_index.scss',
 			style: '_index.scss',
@@ -685,7 +685,7 @@ describe('Sass module', function () {
 		});
 	});
 
-	it('fills .stylelintrc with correct information', function () {
+	it('should fill .stylelintrc with correct information', function () {
 		assert.JSONFileContent('.stylelintrc', {
 			extends: [
 				'stylelint-config-niksy/scss'
@@ -693,7 +693,7 @@ describe('Sass module', function () {
 		});
 	});
 
-	it('creates necesarry files', function () {
+	it('should create necessary files', function () {
 		assert.file([
 			'_index.scss',
 			'test/index.scss'
@@ -714,7 +714,7 @@ describe('CSS module', function () {
 			.toPromise();
 	});
 
-	it('fills package.json with correct information', function () {
+	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			main: 'index.css',
 			style: 'index.css'
@@ -735,7 +735,7 @@ describe('Cloud browsers', function () {
 			.toPromise();
 	});
 
-	it('adjusts Karma configuration', function () {
+	it('should adjust Karma configuration', function () {
 		assert.fileContent('karma.conf.js', 'browsers: [(process.env.TRAVIS ? \'Chrome-Travis\' : \'Chrome\')]');
 	});
 
@@ -752,18 +752,18 @@ describe('Transpile', function () {
 			.toPromise();
 	});
 
-	it('creates necesarry files', function () {
+	it('should create necessary files', function () {
 		assert.file([
 			'.babelrc',
 			'.npmignore'
 		]);
 	});
 
-	it('adds dist folder to .gitignore', function () {
+	it('should add dist folder to .gitignore', function () {
 		assert.fileContent('.gitignore', 'dist/');
 	});
 
-	it('fills package.json with correct information', function () {
+	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			main: 'dist/index.js',
 			scripts: {
@@ -791,7 +791,7 @@ describe('Transpile, browser module', function () {
 			.toPromise();
 	});
 
-	it('fills package.json with correct information', function () {
+	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			devDependencies: {
 				'babelify': '^7.3.0'
@@ -813,7 +813,7 @@ describe('Transpile, with automated tests and code coverage', function () {
 			.toPromise();
 	});
 
-	it('fills .babelrc with correct information', function () {
+	it('should fill .babelrc with correct information', function () {
 		assert.JSONFileContent('.babelrc', {
 			env: {
 				test: {
@@ -825,14 +825,14 @@ describe('Transpile, with automated tests and code coverage', function () {
 		});
 	});
 
-	it('fills .nycrc with correct information', function () {
+	it('should fill .nycrc with correct information', function () {
 		assert.JSONFileContent('.nycrc', {
 			sourceMap: false,
 			instrument: false
 		});
 	});
 
-	it('fills package.json with correct information', function () {
+	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			scripts: {
 				test: 'BABEL_ENV=test eslint \'{index,test/**/*}.js\' && nyc mocha --compilers js:babel-register \'test/**/*.js\' && nyc check-coverage'
@@ -859,12 +859,12 @@ describe('Transpile, browser module, with automated tests and code coverage', fu
 			.toPromise();
 	});
 
-	it('adds proper data to karma.conf.js', function () {
+	it('should add proper data to karma.conf.js', function () {
 		assert.fileContent('karma.conf.js', 'babelify');
 		assert.fileContent('karma.conf.js', 'browserify-babel-istanbul');
 	});
 
-	it('fills package.json with correct information', function () {
+	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			devDependencies: {
 				'browserify-babel-istanbul': '^0.4.0'
