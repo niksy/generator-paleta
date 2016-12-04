@@ -1,3 +1,6 @@
+/* globals process:false */
+/* eslint-disable no-process-env */
+
 'use strict';
 
 const path = require('path');
