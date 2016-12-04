@@ -264,7 +264,7 @@ describe('Integration tests', function () {
 				'minimist': '^1.2.0',
 				'local-web-server': '^1.2.4',
 				'wdio-browserstack-service': '^0.1.3',
-				'wdio-mocha-framework': '^0.2.13',
+				'wdio-mocha-framework': '^0.5.4',
 				'wdio-spec-reporter': '^0.0.2',
 				'webdriverio': '^4.0.9',
 				'http-shutdown': '^1.0.3'

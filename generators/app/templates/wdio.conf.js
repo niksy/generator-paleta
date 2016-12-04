@@ -1,4 +1,5 @@
-/* eslint-disable no-process-env, no-process-exit */
+/* globals process:false */
+/* eslint-disable no-process-env, no-process-exit, no-console */
 
 'use strict';
 
@@ -67,7 +68,7 @@ if ( local ) {
 			'browserstack.local': 'true',
 			'browserstack.debug': 'true'
 		}]
-	}
+	};
 }<% } %>
 
 module.exports.config = Object.assign({
