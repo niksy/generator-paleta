@@ -506,12 +506,17 @@ describe('Code coverage service, nyc', function () {
 			.toPromise();
 	});
 
-	it('should add coveralls entry to .travis.yml', function () {
+	it('should add coverage entry to .travis.yml', function () {
 		assert.fileContent('.travis.yml', 'npm run posttest:ci');
 	});
 
-	it('should add coveralls entry to .nycrc', function () {
+	it('should add coverage entry to .nycrc', function () {
 		assert.fileContent('.nycrc', '"lcov"');
+	});
+
+	it('should add coverage entry to README.md', function () {
+		assert.fileContent('README.md', '[coverage]');
+		assert.fileContent('README.md', '[coverage-img]');
 	});
 
 	it('should fill package.json with correct information', function () {
@@ -540,7 +545,7 @@ describe('Code coverage service, Istanbul', function () {
 			.toPromise();
 	});
 
-	it('should add coveralls entry to .istanbul.yml', function () {
+	it('should add coverage entry to .istanbul.yml', function () {
 		assert.fileContent('.istanbul.yml', '- lcov');
 	});
 
