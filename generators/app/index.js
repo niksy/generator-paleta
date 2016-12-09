@@ -34,6 +34,7 @@ function preparePkgName ( pkgName, opts ) {
 module.exports = generators.Base.extend({
 
 	initializing: function () {
+		this.tpl = {};
 		this.pkg = this.fs.readJSON(this.destinationPath('package.json'), {});
 		this.author = {
 			humanName: 'Ivan Nikolić',
@@ -289,12 +290,13 @@ module.exports = generators.Base.extend({
 			cloudBrowsers: answers.cloudBrowsers,
 			transpile: answers.transpile
 		};
+		this.tpl = tpl;
 
 		const cp = ( from, to ) => {
-			this.fs.copyTpl(this.templatePath(from), this.destinationPath(to), tpl);
+			this._copyResource(from, to);
 		};
 		const rm = ( to ) => {
-			this.fs.delete(this.destinationPath(to));
+			this._removeResource(to);
 		};
 		let newPkg, mergedPkg;
 
@@ -406,6 +408,14 @@ module.exports = generators.Base.extend({
 
 	install: function () {
 		this.npmInstall();
+	},
+
+	_copyResource: function ( from, to ) {
+		this.fs.copyTpl(this.templatePath(from), this.destinationPath(to), this.tpl);
+	},
+
+	_removeResource: function ( to ) {
+		this.fs.delete(this.destinationPath(to));
 	}
 
 });
