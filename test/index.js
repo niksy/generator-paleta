@@ -733,7 +733,7 @@ describe('Cloud browsers', function () {
 	});
 
 	it('should adjust Karma configuration', function () {
-		assert.fileContent('karma.conf.js', 'browsers: [(process.env.TRAVIS ? \'Chrome-Travis\' : \'Chrome\')]');
+		assert.fileContent('karma.conf.js', 'browsers: [(process.env.TRAVIS ? \'Chrome-CI\' : \'Chrome\')]');
 	});
 
 });

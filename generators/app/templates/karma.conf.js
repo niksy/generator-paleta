@@ -85,12 +85,12 @@ module.exports = function ( config ) {
 				build: 'Automated (Karma)',
 				name: 'IE9'
 			},<% } else { %>
-			'Chrome-Travis': {
+			'Chrome-CI': {
 				base: 'Chrome',
 				flags: ['--no-sandbox']
 			}<% } %>
 		},
-		browsers: <% if ( cloudBrowsers ) { %>['BS-Chrome', 'BS-Firefox', 'BS-IE9']<% } else { %>[(process.env.TRAVIS ? 'Chrome-Travis' : 'Chrome')]<% } %>,
+		browsers: <% if ( cloudBrowsers ) { %>['BS-Chrome', 'BS-Firefox', 'BS-IE9']<% } else { %>[(process.env.TRAVIS ? 'Chrome-CI' : 'Chrome')]<% } %>,
 		singleRun: true,
 		concurrency: Infinity
 	});
