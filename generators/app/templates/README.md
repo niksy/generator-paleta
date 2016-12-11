@@ -128,8 +128,8 @@ Tested in IE9+ and all modern browsers.
 MIT © [<%= humanName %>](<%= website %>)<% if ( automatedTests ) { %>
 
 [ci]: https://travis-ci.org/<%= username %>/<%= cleanModuleName %>
-[ci-img]: https://img.shields.io/travis/<%= username %>/<%= cleanModuleName %>.svg<% } %><% if ( cloudBrowsers && ( (automatedTests && browserModule && !sassModule) || integrationTests ) ) { %>
+[ci-img]: https://travis-ci.org/<%= username %>/<%= cleanModuleName %>.svg?branch=master<% } %><% if ( cloudBrowsers && ( (automatedTests && browserModule && !sassModule) || integrationTests ) ) { %>
 [browserstack]: https://www.browserstack.com/
 [browserstack-img]: https://cdn.rawgit.com/niksy/c73069b66d20e2e0005dc8479c125fbd/raw/f644159e3f5f07291f98f59a44146735e9962e0d/browserstack.svg<% } %><% if ( codeCoverageService ) { %>
-[coverage]: https://coveralls.io/r/<%= username %>/<%= cleanModuleName %>
-[coverage-img]: https://img.shields.io/coveralls/<%= username %>/<%= cleanModuleName %>.svg<% } %>
+[coverage]: https://coveralls.io/github/<%= username %>/<%= cleanModuleName %>?branch=master
+[coverage-img]: https://coveralls.io/repos/github/<%= username %>/<%= cleanModuleName %>/badge.svg?branch=master<% } %>
