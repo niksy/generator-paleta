@@ -9,13 +9,13 @@ module.exports = function ( config ) {
 		basePath: '',
 		frameworks: ['browserify', 'mocha'],
 		files: [
-			'test/automated/**/*.html',
-			'test/automated/**/*.js'
+			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.html',
+			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.js'
 		],
 		exclude: [],
 		preprocessors: {
-			'test/automated/**/*.html': ['html2js'],
-			'test/automated/**/*.js': ['browserify']
+			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.html': ['html2js'],
+			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.js': ['browserify']
 		},
 		reporters: ['mocha'<% if ( codeCoverage ) { %>, 'coverage'<% } %>],
 		port: 9001,

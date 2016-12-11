@@ -191,7 +191,8 @@ describe('Automated tests, browser module', function () {
 
 	it('should create necessary file', function () {
 		assert.file([
-			'test/automated',
+			'test/fixtures/index.html',
+			'test/index.js',
 			'karma.conf.js'
 		]);
 	});
@@ -218,6 +219,7 @@ describe('Automated tests, browser module', function () {
 	it('should update karma.conf.js with correct information', function () {
 		assert.fileContent('karma.conf.js', '/* globals process:false */');
 		assert.fileContent('karma.conf.js', 'ui: \'bdd\'');
+		assert.fileContent('karma.conf.js', 'test/**/*.js');
 	});
 
 });
@@ -278,6 +280,34 @@ describe('Integration tests', function () {
 
 });
 
+describe('All tests, browser module', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				automatedTests: true,
+				manualTests: true,
+				integrationTests: true,
+				browserModule: true
+			})
+			.toPromise();
+	});
+
+	it('should create necessary file', function () {
+		assert.file([
+			'test/automated/fixtures/index.html',
+			'test/automated/index.js',
+			'test/manual',
+			'test/integration'
+		]);
+	});
+
+	it('should update karma.conf.js with correct information', function () {
+		assert.fileContent('karma.conf.js', 'test/automated/**/*.js');
+	});
+
+});
+
 describe('Browser module', function () {
 
 	before(function () {
@@ -294,7 +324,7 @@ describe('Browser module', function () {
 
 });
 
-describe('jQuery module', function () {
+describe('jQuery module', function () { // eslint-disable-line mocha/valid-suite-description
 
 	before(function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))

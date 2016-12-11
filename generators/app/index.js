@@ -334,8 +334,9 @@ module.exports = generators.Base.extend({
 			cp('travis.yml', '.travis.yml');
 			if ( answers.browserModule ) {
 				if ( !answers.sassModule ) {
-					cp('test/automated/fixtures', 'test/automated/fixtures');
-					cp('test/automated/index.js', 'test/automated/index.js');
+					const automatedTestsFolder = (answers.manualTests || answers.integrationTests) ? 'automated/' : '';
+					cp('test/automated/fixtures', `test/${automatedTestsFolder}fixtures`);
+					cp('test/automated/index.js', `test/${automatedTestsFolder}index.js`);
 					cp('karma.conf.js', 'karma.conf.js');
 				} else {
 					cp('test/index.js', 'test/index.js');
