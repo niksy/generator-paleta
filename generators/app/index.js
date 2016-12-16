@@ -289,6 +289,7 @@ module.exports = generators.Base.extend({
 			cloudBrowsers: answers.cloudBrowsers,
 			transpile: answers.transpile
 		};
+		this.tpl = tpl;
 
 		this.copyResource = ( from, to ) => {
 			this.fs.copyTpl(this.templatePath(from), this.destinationPath(to), tpl);
