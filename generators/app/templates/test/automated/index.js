@@ -1,15 +1,13 @@
-'use strict';
+<% if ( transpile ) { %>'use strict';
 
-<% if ( automatedTests && browserModule ) { %>var assert = require('assert');
-var fn = require('../<% if ( manualTests || integrationTests ) { %>../<% } %><% if ( transpile ) { %>index<% } %>');
+<% } %><% if ( automatedTests && browserModule ) { %><% if ( transpile ) { %>const<% } else { %>var<% } %> assert = require('assert');
+<% if ( transpile ) { %>const<% } else { %>var<% } %> fn = require('../<% if ( manualTests || integrationTests ) { %>../<% } %><% if ( transpile ) { %>index<% } %>');
 
 describe('<%= moduleName %>', function () {
 
-	var html = document.getElementsByTagName('html')[0];
-
 	before(function () {
-		var fixture = window.__html__['test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>fixtures/index.html'];
-		document.body.insertAdjacentHTML('beforeend', '<div id="fixture">' + fixture + '</div>');
+		<% if ( transpile ) { %>const<% } else { %>var<% } %> fixture = window.__html__['test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>fixtures/index.html'];
+		document.body.insertAdjacentHTML('beforeend', <% if ( transpile ) { %>`<div id="fixture">${fixture}</div>`<% } else { %>'<div id="fixture">' + fixture + '</div>'<% } %>);
 	});
 
 	after(function () {
