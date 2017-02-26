@@ -1,6 +1,6 @@
 # <%= cleanModuleName %><% if ( automatedTests ) { %>
 
-[![Build Status][ci-img]][ci]<% } %><% if ( cloudBrowsers && ( (automatedTests && browserModule && !sassModule) || integrationTests ) ) { %> [![Browserstack][browserstack-img]][browserstack]<% } %><% if ( codeCoverageService ) { %> [![Coverage report][coverage-img]][coverage]<% } %>
+[![Build Status][ci-img]][ci]<% } %><% if ( cloudBrowsers && ( (automatedTests && browserModule && !sassModule) || integrationTests ) ) { %> [![BrowserStack Status][browserstack-img]][browserstack]<% } %><% if ( codeCoverageService ) { %> [![Coverage report][coverage-img]][coverage]<% } %>
 
 <%= moduleDescription %>
 
@@ -130,6 +130,6 @@ MIT © [<%= humanName %>](<%= website %>)<% if ( automatedTests ) { %>
 [ci]: https://travis-ci.org/<%= username %>/<%= cleanModuleName %>
 [ci-img]: https://travis-ci.org/<%= username %>/<%= cleanModuleName %>.svg?branch=master<% } %><% if ( cloudBrowsers && ( (automatedTests && browserModule && !sassModule) || integrationTests ) ) { %>
 [browserstack]: https://www.browserstack.com/
-[browserstack-img]: https://cdn.rawgit.com/niksy/c73069b66d20e2e0005dc8479c125fbd/raw/f644159e3f5f07291f98f59a44146735e9962e0d/browserstack.svg<% } %><% if ( codeCoverageService ) { %>
+[browserstack-img]: https://www.browserstack.com/automate/badge.svg?badge_key=<badge_key><% } %><% if ( codeCoverageService ) { %>
 [coverage]: https://coveralls.io/github/<%= username %>/<%= cleanModuleName %>?branch=master
 [coverage-img]: https://coveralls.io/repos/github/<%= username %>/<%= cleanModuleName %>/badge.svg?branch=master<% } %>

@@ -222,6 +222,10 @@ describe('Automated tests, browser module', function () {
 		assert.fileContent('karma.conf.js', 'test/**/*.js');
 	});
 
+	it('should add information regarding BrowserStack to README.md', function () {
+		assert.fileContent('README.md', '[browserstack-img]: https://www.browserstack.com/automate/badge.svg?badge_key=<badge_key>');
+	});
+
 });
 
 describe('Integration tests', function () {
