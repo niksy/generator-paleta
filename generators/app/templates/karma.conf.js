@@ -29,9 +29,15 @@ module.exports = function ( config ) {
 			build: 'Automated (Karma)'
 		},<% } %>
 		client: {
+			captureConsole: true,
 			mocha: {
 				ui: '<%= testingInterface %>'
 			}
+		},
+		browserConsoleLogOptions: {
+			level: 'log',
+			format: '%b %T: %m',
+			terminal: true
 		},
 		browserify: {
 			debug: true,
