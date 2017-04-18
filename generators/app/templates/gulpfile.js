@@ -17,6 +17,8 @@ const ws = require('local-web-server');
 const opn = require('opn');
 const minimist = require('minimist');
 const globby = require('globby');
+const postcss = require('gulp-postcss');
+const atImport = require('postcss-import');
 
 const args = minimist(process.argv.slice(2), {
 	'default': {
@@ -60,6 +62,9 @@ gulp.task('test:style', ['test:cleanup'], () => {
 				.pipe(sourcemaps.init({
 					loadMaps: true
 				}))
+				.pipe(postcss([
+					atImport()
+				]))
 				// Tasks
 				.pipe(sourcemaps.write())
 				.pipe(plumber.stop())

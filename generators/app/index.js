@@ -370,7 +370,9 @@ module.exports = generators.Base.extend({
 		}
 
 		if ( answers.manualTests || answers.integrationTests ) {
-			cp('test/manual', 'test/manual');
+			cp('test/manual/suite/basic/index.html', 'test/manual/suite/basic/index.html');
+			cp('test/manual/suite/basic/index.css', 'test/manual/suite/basic/index.css');
+			cp('test/manual/suite/basic/index.js', 'test/manual/suite/basic/index.js');
 			cp('gulpfile.js', 'gulpfile.js');
 		} else {
 			rm('test/manual');

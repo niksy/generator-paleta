@@ -1,0 +1,2 @@
+@import url('suitcss-components-test');<% if ( cssModule || ( browserModule && styles ) ) { %>
+@import url('../../../../index.css');<% } %>

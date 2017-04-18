@@ -119,6 +119,10 @@ describe('Manual tests', function () {
 		]);
 	});
 
+	it('should add proper data to manual test styles', function () {
+		assert.fileContent('test/manual/suite/basic/index.css', '@import url(\'suitcss-components-test\');');
+	});
+
 	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			directories: {
