@@ -1,6 +1,6 @@
 'use strict';
 
-const generators = require('yeoman-generator');
+const Generator = require('yeoman-generator');
 const gh = require('parse-github-url');
 const isGithubUrl = require('is-github-url');
 const deepAssign = require('deep-assign');
@@ -31,7 +31,7 @@ function preparePkgName ( pkgName, opts ) {
 	return preparedPkgName;
 }
 
-module.exports = generators.Base.extend({
+module.exports = Generator.extend({
 
 	initializing: function () {
 		this.pkg = this.fs.readJSON(this.destinationPath('package.json'), {});
