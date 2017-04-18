@@ -218,6 +218,12 @@ module.exports = generators.Base.extend({
 					}
 					return false;
 				}
+			},
+			{
+				type: 'confirm',
+				name: 'filesProperty',
+				message: 'Do you want to use "files" property instead of ".npmignore"?',
+				'default': false
 			}
 		];
 	},
@@ -287,7 +293,8 @@ module.exports = generators.Base.extend({
 			email: author.email,
 			isScopedPackage: isScopedPackage(answers.name),
 			cloudBrowsers: answers.cloudBrowsers,
-			transpile: answers.transpile
+			transpile: answers.transpile,
+			filesProperty: answers.filesProperty
 		};
 		this.tpl = tpl;
 
@@ -381,10 +388,14 @@ module.exports = generators.Base.extend({
 
 		if ( answers.transpile ) {
 			cp('babelrc', '.babelrc');
-			cp('npmignore', '.npmignore');
+			if ( !answers.filesProperty ) {
+				cp('npmignore', '.npmignore');
+			}
 		} else {
 			rm('.babelrc');
-			rm('.npmignore');
+			if ( !answers.filesProperty ) {
+				rm('.npmignore');
+			}
 		}
 
 		if ( answers.jqueryModule ) {

@@ -904,3 +904,50 @@ describe('Transpile, browser module, with automated tests and code coverage', fu
 	});
 
 });
+
+describe('Files property', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				filesProperty: true
+			})
+			.toPromise();
+	});
+
+	it('should fill package.json with correct information', function () {
+		assert.JSONFileContent('package.json', {
+			files: [
+				'index.js',
+				'lib/',
+				'LICENSE.md',
+				'README.md'
+			]
+		});
+	});
+
+});
+
+describe('Files property, transpile', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				transpile: true,
+				filesProperty: true
+			})
+			.toPromise();
+	});
+
+	it('should fill package.json with correct information', function () {
+		assert.JSONFileContent('package.json', {
+			files: [
+				'dist/index.js',
+				'dist/',
+				'LICENSE.md',
+				'README.md'
+			]
+		});
+	});
+
+});
