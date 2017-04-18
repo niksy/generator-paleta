@@ -221,6 +221,15 @@ module.exports = generators.Base.extend({
 			},
 			{
 				type: 'confirm',
+				name: 'complexTranspile',
+				message: 'Is this complex transpiling (source files are in "src" folder)?',
+				'default': false,
+				when: ( answers ) => {
+					return answers.transpile;
+				}
+			},
+			{
+				type: 'confirm',
 				name: 'filesProperty',
 				message: 'Do you want to use "files" property instead of ".npmignore"?',
 				'default': false
@@ -294,6 +303,7 @@ module.exports = generators.Base.extend({
 			isScopedPackage: isScopedPackage(answers.name),
 			cloudBrowsers: answers.cloudBrowsers,
 			transpile: answers.transpile,
+			complexTranspile: answers.complexTranspile,
 			filesProperty: answers.filesProperty
 		};
 		this.tpl = tpl;

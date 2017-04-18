@@ -2,10 +2,10 @@
   "name": "<%= moduleName %>",
   "version": "<% if ( version ) { %><%= version %><% } else { %>0.0.0<% } %>",
   "description": "<%= moduleDescription %>",<% if ( !cli ) { %>
-  "main": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( transpile ) { %>dist/<% } %>index.js<% } %>",<% } %>
+  "main": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( transpile && !complexTranspile ) { %>dist/<% } %>index.js<% } %>",<% } %>
   "author": "<%= humanName %> <<%= email %>> (<%= website %>)",<% if ( filesProperty ) { %>
   "files": [
-  	"<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( transpile ) { %>dist/<% } %>index.js<% } %>",<% if ( transpile ) { %>
+  	"<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( transpile && !complexTranspile ) { %>dist/<% } %>index.js<% } %>",<% if ( transpile && !complexTranspile ) { %>
   	"dist/"<% } else { %>"lib/"<% } %>,
   	"LICENSE.md",
   	"README.md"
@@ -29,7 +29,7 @@
     "test": "<% if ( automatedTests ) { %>eslint 'test/**/*.js' && stylelint '{_index,test/**/*}.scss' && mocha 'test/**/*.js'<% if ( testingInterface !== 'bdd' ) { %> --ui <%= testingInterface %><% } %><% } else { %>stylelint '_index.scss'<% } %>"<% } else { %>
     "test": "<% if ( automatedTests ) { %><% if ( transpile && codeCoverage && codeCoverageTool === 'nyc' ) { %>BABEL_ENV=test <% } %>eslint '{index,test/**/*}.js' && <% if ( codeCoverage ) { %><% if ( codeCoverageTool === 'nyc' ) { %>nyc mocha<% } else { %>istanbul cover _mocha<% } %><% } else { %>mocha<% } %><% if ( transpile ) { %> --compilers js:babel-register<% } %> 'test/**/*.js'<% if ( codeCoverage ) { %> && <% if ( codeCoverageTool === 'nyc' ) { %>nyc check-coverage<% } else { %>istanbul check-coverage<% } %><% } %><% if ( testingInterface !== 'bdd' ) { %><% if ( codeCoverage ) { %> --<% } %> --ui <%= testingInterface %><% } %><% } else { %>eslint 'index.js'<% } %><% if ( browserModule && styles ) { %> && stylelint 'index.css'<% } %>"<% if ( codeCoverageService ) { %>,
     "posttest:ci": "cat ./coverage/lcov.info | coveralls"<% } %><% } %><% if ( transpile ) { %>,
-    "build": "babel '{index,lib/**/*}.js' --out-dir dist/",
+    "build": "babel <% if ( complexTranspile ) { %>'{src/index,src/lib/**/*}.js'<% } else { %>'{index,lib/**/*}.js'<% } %> --out-dir <% if ( complexTranspile ) { %>./<% } else { %>dist/<% } %>",
     "prepublish": "npm run build"<% } %>
   }<% if ( jqueryModule ) { %>,
   "dependencies": {

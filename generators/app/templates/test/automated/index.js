@@ -1,7 +1,7 @@
 <% if ( transpile ) { %>'use strict';
 
 <% } %><% if ( automatedTests && browserModule ) { %><% if ( transpile ) { %>const<% } else { %>var<% } %> assert = require('assert');
-<% if ( transpile ) { %>const<% } else { %>var<% } %> fn = require('../<% if ( manualTests || integrationTests ) { %>../<% } %><% if ( transpile ) { %>index<% } %>');
+<% if ( transpile ) { %>const<% } else { %>var<% } %> fn = require('../<% if ( manualTests || integrationTests ) { %>../<% } %><% if ( transpile ) { %><% if ( complexTranspile ) { %>src/<% } %>index<% } %>');
 
 describe('<%= moduleName %>', function () {
 

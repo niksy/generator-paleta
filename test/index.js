@@ -909,6 +909,38 @@ describe('Transpile, browser module, with automated tests and code coverage', fu
 
 });
 
+describe('Transpile, complex', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				transpile: true,
+				complexTranspile: true
+			})
+			.toPromise();
+	});
+
+	it('should add proper data to .gitignore', function () {
+		assert.fileContent('.gitignore', 'index.js');
+		assert.fileContent('.gitignore', 'lib/*');
+		assert.fileContent('.gitignore', '!src/*');
+	});
+
+	it('should add proper data to .npmignore', function () {
+		assert.fileContent('.npmignore', 'src/');
+	});
+
+	it('should fill package.json with correct information', function () {
+		assert.JSONFileContent('package.json', {
+			main: 'index.js',
+			scripts: {
+				build: 'babel \'{src/index,src/lib/**/*}.js\' --out-dir ./'
+			}
+		});
+	});
+
+});
+
 describe('Files property', function () {
 
 	before(function () {
