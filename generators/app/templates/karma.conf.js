@@ -46,6 +46,9 @@ module.exports = function ( config ) {
 				['browserify-babel-istanbul', { defaultIgnore: true }]<% } else { %>
 				['browserify-istanbul', { defaultIgnore: true }]<% } %><% } %>
 			]
+		},
+		mochaReporter: {
+			showDiff: true
 		},<% if ( codeCoverage ) { %>
 		coverageReporter: {
 			reporters: [
