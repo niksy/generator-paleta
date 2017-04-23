@@ -21,9 +21,11 @@
   "scripts": {<% if ( (automatedTests && browserModule && !sassModule) || manualTests || integrationTests ) { %>
     "lint": "<% if ( automatedTests || integrationTests ) { %>eslint '{index,test/**/*}.js'<% } else { %>eslint 'index.js'<% } %><% if ( browserModule && styles ) { %> && stylelint 'index.css'<% } %>"<% } %><% if ( automatedTests && browserModule && !sassModule ) { %>,
     "test:automated": "karma start",
-    "test:automated:local": "karma start --browsers Chrome"<% } %><% if ( integrationTests ) { %>,
+    "test:automated:local": "karma start --browsers Chrome",
+    "test:automated:local:watch": "npm run test:automated:local -- --auto-watch --no-single-run"<% } %><% if ( integrationTests ) { %>,
     "test:integration": "gulp test:prepare && wdio",
-    "test:integration:local": "eval \"$(docker-machine env dev)\" && gulp test:prepare && wdio --local --host $(docker-machine ip dev)"<% } %><% if ( manualTests ) { %>,
+    "test:integration:local": "eval \"$(docker-machine env dev)\" && gulp test:prepare && wdio --local --host $(docker-machine ip dev)",
+    "test:integration:local:watch": "eval \"$(docker-machine env dev)\" && gulp test:prepare --watch | wdio --local --host $(docker-machine ip dev) --watch"<% } %><% if ( manualTests ) { %>,
     "test:manual:local": "gulp test:local:manual --watch"<% } %><% if ( (automatedTests && browserModule && !sassModule) || manualTests || integrationTests ) { %>,
     "test": "npm run lint<% if ( automatedTests && browserModule && !sassModule ) { %> && npm run test:automated<% } %><% if ( integrationTests ) { %> && npm run test:integration<% } %>"<% } else if ( sassModule ) { %>
     "test": "<% if ( automatedTests ) { %>eslint 'test/**/*.js' && stylelint '{_index,test/**/*}.scss' && mocha 'test/**/*.js'<% if ( testingInterface !== 'bdd' ) { %> --ui <%= testingInterface %><% } %><% } else { %>stylelint '_index.scss'<% } %>"<% } else { %>
