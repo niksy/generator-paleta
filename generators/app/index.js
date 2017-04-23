@@ -380,9 +380,9 @@ module.exports = Generator.extend({
 		}
 
 		if ( answers.manualTests || answers.integrationTests ) {
-			cp('test/manual/suite/basic/index.html', 'test/manual/suite/basic/index.html');
-			cp('test/manual/suite/basic/index.css', 'test/manual/suite/basic/index.css');
-			cp('test/manual/suite/basic/index.js', 'test/manual/suite/basic/index.js');
+			cp('test/manual/index.html', 'test/manual/index.html');
+			cp('test/manual/index.css', 'test/manual/index.css');
+			cp('test/manual/index.js', 'test/manual/index.js');
 			cp('gulpfile.js', 'gulpfile.js');
 		} else {
 			rm('test/manual');
