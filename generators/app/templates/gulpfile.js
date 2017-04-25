@@ -86,7 +86,7 @@ gulp.task('test:script', ['test:cleanup'], () => {
 					const extname = path.extname(file);
 					const key = path.basename(file, extname);
 					const obj = {};
-					obj[`${path.dirname(file).split(path.sep).pop()}/${key}`] = file;
+					obj[`${file.replace('./test/manual/', '').replace(path.basename(file), '')}${key}`] = file;
 					return obj;
 				})
 				.reduce(( prev, next ) => {
