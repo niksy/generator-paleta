@@ -934,7 +934,7 @@ describe('Transpile, complex', function () {
 		assert.JSONFileContent('package.json', {
 			main: 'index.js',
 			scripts: {
-				build: 'babel \'{src/index,src/lib/**/*}.js\' --out-dir ./'
+				build: 'babel src --out-dir ./'
 			}
 		});
 	});

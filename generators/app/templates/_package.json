@@ -31,7 +31,7 @@
     "test": "<% if ( automatedTests ) { %>eslint 'test/**/*.js' && stylelint '{_index,test/**/*}.scss' && mocha 'test/**/*.js'<% if ( testingInterface !== 'bdd' ) { %> --ui <%= testingInterface %><% } %><% } else { %>stylelint '_index.scss'<% } %>"<% } else { %>
     "test": "<% if ( automatedTests ) { %><% if ( transpile && codeCoverage && codeCoverageTool === 'nyc' ) { %>BABEL_ENV=test <% } %>eslint '{index,test/**/*}.js' && <% if ( codeCoverage ) { %><% if ( codeCoverageTool === 'nyc' ) { %>nyc mocha<% } else { %>istanbul cover _mocha<% } %><% } else { %>mocha<% } %><% if ( transpile ) { %> --compilers js:babel-register<% } %> 'test/**/*.js'<% if ( codeCoverage ) { %> && <% if ( codeCoverageTool === 'nyc' ) { %>nyc check-coverage<% } else { %>istanbul check-coverage<% } %><% } %><% if ( testingInterface !== 'bdd' ) { %><% if ( codeCoverage ) { %> --<% } %> --ui <%= testingInterface %><% } %><% } else { %>eslint 'index.js'<% } %><% if ( browserModule && styles ) { %> && stylelint 'index.css'<% } %>"<% if ( codeCoverageService ) { %>,
     "posttest:ci": "cat ./coverage/lcov.info | coveralls"<% } %><% } %><% if ( transpile ) { %>,
-    "build": "babel <% if ( complexTranspile ) { %>'{src/index,src/lib/**/*}.js'<% } else { %>'{index,lib/**/*}.js'<% } %> --out-dir <% if ( complexTranspile ) { %>./<% } else { %>dist/<% } %>",
+    "build": "babel <% if ( complexTranspile ) { %>src<% } else { %>'{index,lib/**/*}.js'<% } %> --out-dir <% if ( complexTranspile ) { %>./<% } else { %>dist/<% } %>",
     "prepublish": "npm run build"<% } %>
   }<% if ( jqueryModule ) { %>,
   "dependencies": {
