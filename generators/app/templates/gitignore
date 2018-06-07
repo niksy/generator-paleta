@@ -1,5 +1,7 @@
 .DS_Store
 node_modules/
+package-lock.json
+yarn.lock
 npm-debug.log<% if ( (automatedTests && browserModule && !sassModule) || manualTests || integrationTests ) { %>
 test-dist/<% } %><% if ( automatedTests && codeCoverage ) { %><% if ( codeCoverageTool === 'nyc' && !browserModule ) { %>
 .nyc_output/<% } %>
