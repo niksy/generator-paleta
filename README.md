@@ -2,12 +2,12 @@
 
 [![Build Status][ci-img]][ci]
 
-Simple generator for my personal projects.
+Generator for my projects.
 
 ## Install
 
 ```sh
-npm install @niksy/generator-paleta --save
+npm install -g @niksy/generator-paleta --save
 ```
 
 ## Usage
