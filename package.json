@@ -2,10 +2,13 @@
   "name": "@niksy/generator-paleta",
   "version": "3.1.4",
   "description": "Generator for my projects.",
+  "main": "generators/app/index.js",
   "author": "Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com)",
   "license": "MIT",
   "files": [
-    "generators/app"
+    "generators/",
+    "LICENSE.md",
+    "README.md"
   ],
   "directories": {
     "test": "test"
