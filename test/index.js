@@ -175,7 +175,7 @@ describe('Automated tests', function () {
 				test: 'eslint \'{index,test/**/*}.js\' && mocha \'test/**/*.js\''
 			},
 			devDependencies: {
-				'mocha': '^3.1.2'
+				'mocha': '^4.1.0'
 			}
 		});
 	});
@@ -214,8 +214,8 @@ describe('Automated tests, browser module', function () {
 				'karma-browserstack-launcher': '^1.0.0',
 				'karma-chrome-launcher': '^1.0.1',
 				'karma-html2js-preprocessor': '^1.0.0',
-				'karma-mocha': '~1.0.1',
-				'karma-mocha-reporter': '^2.0.3'
+				'karma-mocha': '^1.3.0',
+				'karma-mocha-reporter': '^2.2.5'
 			}
 		});
 	});
@@ -261,7 +261,7 @@ describe('Integration tests', function () {
 				test: 'npm run lint && npm run test:automated && npm run test:integration'
 			},
 			devDependencies: {
-				'mocha': '^3.1.2',
+				'mocha': '^4.1.0',
 				'@niksy/babayaga': '^0.1.1',
 				'del': '^2.2.0',
 				'globby': '^4.1.0',
@@ -274,7 +274,7 @@ describe('Integration tests', function () {
 				'minimist': '^1.2.0',
 				'local-web-server': '^1.2.4',
 				'wdio-browserstack-service': '^0.1.3',
-				'wdio-mocha-framework': '^0.5.4',
+				'wdio-mocha-framework': '^0.5.13',
 				'wdio-spec-reporter': '^0.0.2',
 				'webdriverio': '^4.0.9',
 				'http-shutdown': '^1.0.3'
