@@ -327,7 +327,11 @@ module.exports = Generator.extend({
 		} else if ( answers.cli ) {
 			cp('cli.js', 'cli.js');
 		} else {
-			cp('index.js', 'index.js');
+			if ( answers.complexTranspile ) {
+				cp('index.js', 'src/index.js');
+			} else {
+				cp('index.js', 'index.js');
+			}
 		}
 
 		if ( answers.browserModule && answers.styles ) {

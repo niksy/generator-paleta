@@ -934,6 +934,12 @@ describe('Transpile, complex', function () {
 			.toPromise();
 	});
 
+	it('should create necessary files', function () {
+		assert.file([
+			'src/index.js'
+		]);
+	});
+
 	it('should add proper data to .gitignore', function () {
 		assert.fileContent('.gitignore', 'index.js');
 		assert.fileContent('.gitignore', 'lib/*');
