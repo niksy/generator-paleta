@@ -31,9 +31,9 @@ function preparePkgName ( pkgName, opts ) {
 	return preparedPkgName;
 }
 
-module.exports = Generator.extend({
+module.exports = class extends Generator {
 
-	initializing: function () {
+	initializing () {
 		this.pkg = this.fs.readJSON(this.destinationPath('package.json'), {});
 		this.author = {
 			humanName: 'Ivan Nikolić',
@@ -239,9 +239,9 @@ module.exports = Generator.extend({
 				}
 			}
 		];
-	},
+	}
 
-	prompting: function () {
+	prompting () {
 
 		return this.prompt(this.questions)
 			.then(( answers ) => {
@@ -263,9 +263,9 @@ module.exports = Generator.extend({
 
 			});
 
-	},
+	}
 
-	writing: function () {
+	writing () {
 
 		const answers = this.answers;
 		const pkg = this.pkg;
@@ -442,10 +442,10 @@ module.exports = Generator.extend({
 
 		this.fs.writeJSON(this.destinationPath('package.json'), mergedPkg);
 
-	},
+	}
 
-	install: function () {
+	install () {
 		this.npmInstall();
 	}
 
-});
+};
