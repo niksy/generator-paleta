@@ -8,7 +8,7 @@ const compact = require('lodash.compact');
 const uniq = require('lodash.uniq');
 const sortPkg = require('sort-pkg');
 const dashCase = require('lodash.kebabcase');
-const isScopedPackage = require('is-scoped-package');
+const isScopedPackage = require('is-scoped');
 
 /**
  * @param  {String} pkgName

@@ -19,7 +19,7 @@
   "dependencies": {
     "deep-assign": "^2.0.0",
     "is-github-url": "^1.2.2",
-    "is-scoped-package": "^1.0.0",
+    "is-scoped": "^1.0.0",
     "lodash.compact": "^3.0.1",
     "lodash.kebabcase": "^4.1.1",
     "lodash.uniq": "^4.3.0",
