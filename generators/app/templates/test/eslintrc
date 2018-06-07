@@ -1,6 +1,7 @@
 {
 	"extends": [
-		"niksy",
+		"niksy"<% if ( esModules ) { %>,
+		"niksy/next"<% } %>,
 		"niksy/tests"
 	]
 }

@@ -974,3 +974,87 @@ describe('Transpile, complex', function () {
 	});
 
 });
+
+describe('ES Modules', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				esModules: true
+			})
+			.toPromise();
+	});
+
+	it('should create necessary files', function () {
+		assert.file([
+			'index.js',
+			'.rollup.js'
+		]);
+	});
+
+	it('should fill package.json with correct information', function () {
+		assert.JSONFileContent('package.json', {
+			main: 'index.cjs.js',
+			module: 'index.esm.js',
+			sideEffects: false,
+			files: [
+				'index.cjs.js',
+				'index.esm.js'
+			],
+			scripts: {
+				build: 'rollup --config .rollup.js'
+			},
+			devDependencies: {
+				'rollup': '^0.60.1',
+				'rollupify': '^0.5.0'
+			}
+		});
+	});
+
+});
+
+describe('ES Modules, transpile', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				esModules: true,
+				transpile: true
+			})
+			.toPromise();
+	});
+
+	it('should create necessary files', function () {
+		assert.file([
+			'.babelrc'
+		]);
+	});
+
+	it('should fill package.json with correct information', function () {
+		assert.JSONFileContent('package.json', {
+			devDependencies: {
+				'rollup-plugin-babel': '^3.0.4'
+			}
+		});
+	});
+
+});
+
+describe('ES Modules, transpile, complex', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				esModules: true,
+				transpile: true,
+				complexTranspile: true
+			})
+			.toPromise();
+	});
+
+	it('should add proper data to .gitignore', function () {
+		assert.fileContent('.gitignore', 'index.cjs.js');
+		assert.fileContent('.gitignore', 'index.esm.js');
+	});
+
+});

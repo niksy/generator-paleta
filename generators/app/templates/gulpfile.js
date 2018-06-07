@@ -10,7 +10,8 @@ const plumber = require('gulp-plumber');
 const gutil = require('gulp-util');
 const debug = require('gulp-debug');
 const nunjucks = require('gulp-nunjucks-render');
-const babayaga = require('@niksy/babayaga');<% if ( transpile ) { %>
+const babayaga = require('@niksy/babayaga');<% if ( esModules ) { %>
+const rollupify = require('rollupify');<% } %><% if ( transpile ) { %>
 const babelify = require('babelify');<% } %>
 const del = require('del');
 const ws = require('local-web-server');
@@ -102,7 +103,8 @@ gulp.task('test:script', ['test:cleanup'], () => {
 				},
 				dev: true,
 				watch: watch,
-				setupBundle: ( bundle ) => {<% if ( transpile ) { %>
+				setupBundle: ( bundle ) => {<% if ( esModules ) { %>
+					bundle.transform(rollupify, { config: '.rollup.js', sourceMaps: true });<% } %><% if ( transpile ) { %>
 					bundle.transform(babelify);<% } %>
 					return bundle;
 				},

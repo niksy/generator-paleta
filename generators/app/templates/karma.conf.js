@@ -42,6 +42,7 @@ module.exports = function ( config ) {
 		browserify: {
 			debug: true,
 			transform: [
+				<% if ( esModules ) { %>['rollupify', { config: '.rollup.js', sourceMaps: true }],<% } %>
 				<% if ( transpile ) { %>'babelify'<% } %><% if ( codeCoverage ) { %><% if ( transpile ) { %>,
 				['browserify-babel-istanbul', { defaultIgnore: true }]<% } else { %>
 				['browserify-istanbul', { defaultIgnore: true }]<% } %><% } %>

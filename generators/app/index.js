@@ -227,6 +227,16 @@ module.exports = Generator.extend({
 				when: ( answers ) => {
 					return answers.transpile;
 				}
+			},
+			{
+				type: 'confirm',
+				name: 'esModules',
+				message: 'Do you want to use ES Modules?',
+				'default': false,
+				when: ( answers ) => {
+					const browserModuleType = answers.browserModuleType || [];
+					return browserModuleType.indexOf('sassModule') === -1;
+				}
 			}
 		];
 	},
@@ -297,7 +307,8 @@ module.exports = Generator.extend({
 			isScopedPackage: isScopedPackage(answers.name),
 			cloudBrowsers: answers.cloudBrowsers,
 			transpile: answers.transpile,
-			complexTranspile: answers.complexTranspile
+			complexTranspile: answers.complexTranspile,
+			esModules: answers.esModules
 		};
 		this.tpl = tpl;
 
@@ -399,6 +410,12 @@ module.exports = Generator.extend({
 			cp('babelrc', '.babelrc');
 		} else {
 			rm('.babelrc');
+		}
+
+		if ( answers.esModules ) {
+			cp('rollup.js', '.rollup.js');
+		} else {
+			rm('.rollup.js');
 		}
 
 		if ( answers.jqueryModule ) {

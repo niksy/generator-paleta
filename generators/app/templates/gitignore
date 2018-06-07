@@ -6,8 +6,9 @@ npm-debug.log<% if ( (automatedTests && browserModule && !sassModule) || manualT
 test-dist/<% } %><% if ( automatedTests && codeCoverage ) { %><% if ( codeCoverageTool === 'nyc' && !browserModule ) { %>
 .nyc_output/<% } %>
 coverage/<% } %><% if ( (automatedTests && browserModule && !sassModule) && integrationTests ) { %>
-errorShots/<% } %><% if ( transpile ) { %><% if ( complexTranspile ) { %>
-index.js
+errorShots/<% } %><% if ( transpile || esModules ) { %><% if ( complexTranspile ) { %>
+<% if ( !esModules ) { %>index.js<% } else { %>index.cjs.js
+index.esm.js<% } %>
 lib/*
 !src/*<% } else { %>
 dist/<% } %><% } %>
