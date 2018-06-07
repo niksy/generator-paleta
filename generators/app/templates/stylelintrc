@@ -1,5 +1,6 @@
 {
 	"extends": [
-		<% if ( !sassModule ) { %>"stylelint-config-niksy"<% } else { %>"stylelint-config-niksy/scss"<% } %>
+		"stylelint-config-niksy"<% if ( sassModule ) { %>,
+		"stylelint-config-niksy/scss"<% } %>
 	]
 }

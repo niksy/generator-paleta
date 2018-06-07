@@ -1,6 +1,7 @@
 {
 	"root": true,
 	"extends": [
-		"<% if ( browserModule ) { %>niksy/browser<% } else { %>niksy<% } %>"
+		"niksy"<% if ( browserModule ) { %>,
+		"niksy/browser"<% } %>
 	]
 }

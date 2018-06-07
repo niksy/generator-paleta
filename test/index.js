@@ -44,6 +44,14 @@ describe('New project', function () {
 		});
 	});
 
+	it('should fill .eslintrc with correct information', function () {
+		assert.JSONFileContent('.eslintrc', {
+			extends: [
+				'niksy'
+			]
+		});
+	});
+
 	it('should fill README.md with project data', function () {
 		assert.fileContent('README.md', '# bella');
 		assert.fileContent('README.md', 'npm install bella --save');
@@ -336,6 +344,15 @@ describe('Browser module', function () {
 		assert.fileContent('README.md', '## Browser support');
 	});
 
+	it('should fill .eslintrc with correct information', function () {
+		assert.JSONFileContent('.eslintrc', {
+			extends: [
+				'niksy',
+				'niksy/browser'
+			]
+		});
+	});
+
 });
 
 describe('jQuery module', function () { // eslint-disable-line mocha/valid-suite-description
@@ -410,8 +427,8 @@ describe('Styles', function () {
 				test: 'eslint \'{index,lib/**/*}.js\' && stylelint \'index.css\''
 			},
 			devDependencies: {
-				stylelint: '^7.0.3',
-				'stylelint-config-niksy': '^3.0.1'
+				stylelint: '^9.2.1',
+				'stylelint-config-niksy': '^5.0.2'
 			}
 		});
 	});
@@ -732,6 +749,7 @@ describe('Sass module', function () {
 	it('should fill .stylelintrc with correct information', function () {
 		assert.JSONFileContent('.stylelintrc', {
 			extends: [
+				'stylelint-config-niksy',
 				'stylelint-config-niksy/scss'
 			]
 		});
@@ -820,8 +838,8 @@ describe('Transpile', function () {
 				prepublish: 'npm run build'
 			},
 			devDependencies: {
-				'babel-cli': '^6.18.0',
-				'babel-preset-niksy': '^1.0.0'
+				'babel-cli': '^6.26.0',
+				'babel-preset-niksy': '^3.0.0'
 			}
 		});
 	});
@@ -843,7 +861,7 @@ describe('Transpile, browser module', function () {
 	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			devDependencies: {
-				'babelify': '^7.3.0'
+				'babelify': '^8.0.0'
 			}
 		});
 	});
@@ -887,8 +905,8 @@ describe('Transpile, with automated tests and code coverage', function () {
 				test: 'BABEL_ENV=test eslint \'{index,lib/**/*,test/**/*}.js\' && nyc mocha --compilers js:babel-register \'test/**/*.js\' && nyc check-coverage'
 			},
 			devDependencies: {
-				'babel-register': '^6.18.0',
-				'babel-plugin-istanbul': '^2.0.3'
+				'babel-register': '^6.26.0',
+				'babel-plugin-istanbul': '^4.1.6'
 			}
 		});
 	});
