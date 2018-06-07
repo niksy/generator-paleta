@@ -172,7 +172,7 @@ describe('Automated tests', function () {
 	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			scripts: {
-				test: 'eslint \'{index,test/**/*}.js\' && mocha \'test/**/*.js\''
+				test: 'eslint \'{index,lib/**/*,test/**/*}.js\' && mocha \'test/**/*.js\''
 			},
 			devDependencies: {
 				'mocha': '^4.1.0'
@@ -372,7 +372,7 @@ describe('Testing interface', function () {
 	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			scripts: {
-				test: 'eslint \'{index,test/**/*}.js\' && mocha \'test/**/*.js\' --ui tdd'
+				test: 'eslint \'{index,lib/**/*,test/**/*}.js\' && mocha \'test/**/*.js\' --ui tdd'
 			}
 		});
 	});
@@ -401,7 +401,7 @@ describe('Styles', function () {
 		assert.JSONFileContent('package.json', {
 			style: 'index.css',
 			scripts: {
-				test: 'eslint \'index.js\' && stylelint \'index.css\''
+				test: 'eslint \'{index,lib/**/*}.js\' && stylelint \'index.css\''
 			},
 			devDependencies: {
 				stylelint: '^7.0.3',
@@ -467,7 +467,7 @@ describe('Code coverage, nyc', function () {
 	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			scripts: {
-				test: 'eslint \'{index,test/**/*}.js\' && nyc mocha \'test/**/*.js\' && nyc check-coverage'
+				test: 'eslint \'{index,lib/**/*,test/**/*}.js\' && nyc mocha \'test/**/*.js\' && nyc check-coverage'
 			},
 			devDependencies: {
 				nyc: '^8.4.0'
@@ -498,7 +498,7 @@ describe('Code coverage, Istanbul', function () {
 	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			scripts: {
-				test: 'eslint \'{index,test/**/*}.js\' && istanbul cover _mocha \'test/**/*.js\' && istanbul check-coverage'
+				test: 'eslint \'{index,lib/**/*,test/**/*}.js\' && istanbul cover _mocha \'test/**/*.js\' && istanbul check-coverage'
 			},
 			devDependencies: {
 				istanbul: '^0.4.3'
@@ -870,7 +870,7 @@ describe('Transpile, with automated tests and code coverage', function () {
 	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			scripts: {
-				test: 'BABEL_ENV=test eslint \'{index,test/**/*}.js\' && nyc mocha --compilers js:babel-register \'test/**/*.js\' && nyc check-coverage'
+				test: 'BABEL_ENV=test eslint \'{index,lib/**/*,test/**/*}.js\' && nyc mocha --compilers js:babel-register \'test/**/*.js\' && nyc check-coverage'
 			},
 			devDependencies: {
 				'babel-register': '^6.18.0',
