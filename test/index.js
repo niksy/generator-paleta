@@ -438,6 +438,9 @@ describe('CLI', function () {
 			bin: {
 				ellie: 'cli.js'
 			},
+			scripts: {
+				test: 'eslint \'{index,lib/**/*,cli,test/**/*}.js\' && nyc mocha \'test/**/*.js\' && nyc check-coverage'
+			},
 			keywords: [
 				'cli',
 				'cli-app'
