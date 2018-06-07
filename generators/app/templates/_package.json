@@ -3,13 +3,13 @@
   "version": "<% if ( version ) { %><%= version %><% } else { %>0.0.0<% } %>",
   "description": "<%= moduleDescription %>",<% if ( !cli ) { %>
   "main": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( transpile && !complexTranspile ) { %>dist/<% } %>index.js<% } %>",<% } %>
-  "author": "<%= humanName %> <<%= email %>> (<%= website %>)",<% if ( filesProperty ) { %>
+  "author": "<%= humanName %> <<%= email %>> (<%= website %>)",
   "files": [
   	"<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( transpile && !complexTranspile ) { %>dist/<% } %>index.js<% } %>",<% if ( transpile && !complexTranspile ) { %>
   	"dist/"<% } else { %>"lib/"<% } %>,
   	"LICENSE.md",
   	"README.md"
-  ],<% } %>
+  ],
   "license": "MIT",<% if ( browserModule && styles || sassModule || cssModule ) { %>
   "style": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %>index.css<% } %>",<% } %><% if ( cli ) { %>
   "bin": {

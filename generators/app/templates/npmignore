@@ -1,4 +1,0 @@
-<% if ( transpile ) { %><% if ( complexTranspile ) { %>src/<% } else { %>index.js
-lib/*
-!dist/*<% } %><% } %>
-test-dist/

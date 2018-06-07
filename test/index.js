@@ -34,7 +34,13 @@ describe('New project', function () {
 	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			name: 'bella',
-			author: 'Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com)'
+			author: 'Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com)',
+			files: [
+				'index.js',
+				'lib/',
+				'LICENSE.md',
+				'README.md'
+			]
 		});
 	});
 
@@ -792,8 +798,7 @@ describe('Transpile', function () {
 
 	it('should create necessary files', function () {
 		assert.file([
-			'.babelrc',
-			'.npmignore'
+			'.babelrc'
 		]);
 	});
 
@@ -804,6 +809,12 @@ describe('Transpile', function () {
 	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			main: 'dist/index.js',
+			files: [
+				'dist/index.js',
+				'dist/',
+				'LICENSE.md',
+				'README.md'
+			],
 			scripts: {
 				build: 'babel \'{index,lib/**/*}.js\' --out-dir dist/',
 				prepublish: 'npm run build'
@@ -929,63 +940,12 @@ describe('Transpile, complex', function () {
 		assert.fileContent('.gitignore', '!src/*');
 	});
 
-	it('should add proper data to .npmignore', function () {
-		assert.fileContent('.npmignore', 'src/');
-	});
-
 	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			main: 'index.js',
 			scripts: {
 				build: 'babel src --out-dir ./'
 			}
-		});
-	});
-
-});
-
-describe('Files property', function () {
-
-	before(function () {
-		return helpers.run(path.join(__dirname, '../generators/app'))
-			.withPrompts({
-				filesProperty: true
-			})
-			.toPromise();
-	});
-
-	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
-			files: [
-				'index.js',
-				'lib/',
-				'LICENSE.md',
-				'README.md'
-			]
-		});
-	});
-
-});
-
-describe('Files property, transpile', function () {
-
-	before(function () {
-		return helpers.run(path.join(__dirname, '../generators/app'))
-			.withPrompts({
-				transpile: true,
-				filesProperty: true
-			})
-			.toPromise();
-	});
-
-	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
-			files: [
-				'dist/index.js',
-				'dist/',
-				'LICENSE.md',
-				'README.md'
-			]
 		});
 	});
 
