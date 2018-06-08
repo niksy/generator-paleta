@@ -2,7 +2,7 @@
 
 [![Build Status][ci-img]][ci]
 
-Generator for my projects.
+[Yeoman][yeoman] generator for my projects.
 
 ## Install
 
@@ -22,3 +22,4 @@ MIT © [Ivan Nikolić](http://ivannikolic.com)
 
 [ci]: https://travis-ci.org/niksy/generator-paleta
 [ci-img]: https://travis-ci.org/niksy/generator-paleta.svg?branch=master
+[yeoman]: http://yeoman.io/
