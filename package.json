@@ -28,17 +28,23 @@
     "yeoman-generator": "^2.0.5"
   },
   "devDependencies": {
-    "eslint": "^3.1.1",
-    "eslint-config-niksy": "^3.0.1",
+    "eslint": "^4.19.1",
+    "eslint-config-niksy": "^5.0.0",
+    "eslint-plugin-extend": "^0.1.1",
+    "eslint-plugin-mocha": "^4.9.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-react": "^7.9.1",
+    "eslint-plugin-unicorn": "^4.0.3",
     "istanbul": "^0.4.3",
-    "mocha": "^3.1.2",
+    "mocha": "^4.1.0",
     "nyc": "^8.4.0",
     "write-json-file": "^2.0.0",
     "yeoman-assert": "^3.1.1",
     "yeoman-test": "^1.4.0"
   },
   "engines": {
-    "node": ">=4"
+    "node": ">=8"
   },
   "publishConfig": {
     "access": "public"
