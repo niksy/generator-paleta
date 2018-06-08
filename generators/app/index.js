@@ -237,6 +237,12 @@ module.exports = class extends Generator {
 					const browserModuleType = answers.browserModuleType || [];
 					return browserModuleType.indexOf('sassModule') === -1;
 				}
+			},
+			{
+				type: 'input',
+				name: 'nodeEngineVersion',
+				message: 'Which Node engine version this project supports?',
+				'default': 4
 			}
 		];
 	}
@@ -308,7 +314,8 @@ module.exports = class extends Generator {
 			cloudBrowsers: answers.cloudBrowsers,
 			transpile: answers.transpile,
 			complexTranspile: answers.complexTranspile,
-			esModules: answers.esModules
+			esModules: answers.esModules,
+			nodeEngineVersion: parseInt(answers.nodeEngineVersion, 10)
 		};
 		this.tpl = tpl;
 

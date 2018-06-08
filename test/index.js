@@ -1058,3 +1058,27 @@ describe('ES Modules, transpile, complex', function () {
 	});
 
 });
+
+describe('Node engine version', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				nodeEngineVersion: 8
+			})
+			.toPromise();
+	});
+
+	it('should fill package.json with correct information', function () {
+		assert.JSONFileContent('package.json', {
+			engines: {
+				node: '>=8'
+			}
+		});
+	});
+
+	it('should properly fill .travis.yml engine infromation', function () {
+		assert.fileContent('.travis.yml', '- \'8\'');
+	});
+
+});

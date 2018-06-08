@@ -102,7 +102,7 @@
     "access": "public"
   },<% } %>
   "engines": {
-    "node": ">=4"
+    "node": ">=<%= nodeEngineVersion %>"
   }<% if ( keywords.length > 0 ) { %>,
   "keywords": [<% for ( var i = 0, keywordsLength = keywords.length; i < keywordsLength; i++ ) { %>
     "<%= keywords[i] %>"<% if ( i !== keywordsLength-1 ) { %>,<% } %>
