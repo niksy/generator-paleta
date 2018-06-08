@@ -7,7 +7,7 @@
 ## Install
 
 ```sh
-npm install -g @niksy/generator-paleta --save
+npm install -g @niksy/generator-paleta
 ```
 
 ## Usage
