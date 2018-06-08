@@ -10,7 +10,7 @@ module.exports = {
 			format: 'cjs'
 		},
 		{
-			file: '<% if ( transpile && !complexTranspile ) { %>dist/<% } %>index.es.js',
+			file: '<% if ( transpile && !complexTranspile ) { %>dist/<% } %>index.esm.js',
 			format: 'es'
 		}
 	]<% if ( transpile ) { %>,
