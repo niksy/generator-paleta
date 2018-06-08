@@ -995,6 +995,11 @@ describe('ES Modules', function () {
 		});
 	});
 
+	it('should add proper data to .gitignore', function () {
+		assert.fileContent('.gitignore', 'index.cjs.js');
+		assert.fileContent('.gitignore', 'index.esm.js');
+	});
+
 });
 
 describe('ES Modules, transpile', function () {
