@@ -21,7 +21,10 @@ function preparePkgName ( pkgName, opts ) {
 	opts = opts || {};
 	if ( isScopedPackage(pkgName) ) {
 		const scopedPkgName = pkgName.split('/');
-		preparedPkgName = [scopedPkgName[0], dashCase(scopedPkgName[1])].join('/');
+		preparedPkgName = [
+			scopedPkgName[0],
+			dashCase(scopedPkgName[1])
+		].join('/');
 	} else {
 		preparedPkgName = dashCase(pkgName);
 	}
@@ -46,17 +49,13 @@ module.exports = class extends Generator {
 				type: 'input',
 				name: 'name',
 				message: 'What is the name of the project?',
-				'default': () => {
-					return preparePkgName(this.pkg.name || this.appname);
-				}
+				'default': () => preparePkgName(this.pkg.name || this.appname)
 			},
 			{
 				type: 'input',
 				name: 'description',
 				message: 'What is the description of the project?',
-				'default': () => {
-					return this.pkg.description || '';
-				}
+				'default': () => this.pkg.description || ''
 			},
 			{
 				type: 'input',
@@ -93,12 +92,8 @@ module.exports = class extends Generator {
 				type: 'input',
 				name: 'cliCommandName',
 				message: 'What is the name of CLI command?',
-				'default': ( answers ) => {
-					return preparePkgName(answers.name, { clean: true });
-				},
-				when: ( answers ) => {
-					return answers.cli;
-				}
+				'default': ( answers ) => preparePkgName(answers.name, { clean: true }),
+				when: ( answers ) => answers.cli
 			},
 			{
 				type: 'confirm',
@@ -111,22 +106,25 @@ module.exports = class extends Generator {
 				name: 'browserModuleType',
 				message: 'What type of browser module is this project?',
 				'default': [],
-				choices: [{
-					name: 'jQuery module',
-					value: 'jqueryModule'
-				}, {
-					name: 'Sass module',
-					value: 'sassModule'
-				}, {
-					name: 'CSS module',
-					value: 'cssModule'
-				}, {
-					name: 'With styles',
-					value: 'styles'
-				}],
-				when: ( answers ) => {
-					return answers.browserModule;
-				}
+				choices: [
+					{
+						name: 'jQuery module',
+						value: 'jqueryModule'
+					},
+					{
+						name: 'Sass module',
+						value: 'sassModule'
+					},
+					{
+						name: 'CSS module',
+						value: 'cssModule'
+					},
+					{
+						name: 'With styles',
+						value: 'styles'
+					}
+				],
+				when: ( answers ) => answers.browserModule
 			},
 			{
 				type: 'confirm',
@@ -145,68 +143,62 @@ module.exports = class extends Generator {
 				name: 'cloudBrowsers',
 				message: 'Do you need cloud browser service (Browserstack) for tests?',
 				'default': true,
-				when: ( answers ) => {
-					return answers.automatedTests && answers.browserModule;
-				}
+				when: ( answers ) => answers.automatedTests && answers.browserModule
 			},
 			{
 				type: 'confirm',
 				name: 'integrationTests',
 				message: 'Do you have integration (Selenium) tests?',
 				'default': false,
-				when: ( answers ) => {
-					return answers.automatedTests && answers.browserModule;
-				}
+				when: ( answers ) => answers.automatedTests && answers.browserModule
 			},
 			{
 				type: 'list',
 				name: 'testingInterface',
 				message: 'What testing interface do you use?',
 				'default': 'bdd',
-				choices: [{
-					name: 'BDD',
-					value: 'bdd'
-				}, {
-					name: 'TDD',
-					value: 'tdd'
-				}],
-				when: ( answers ) => {
-					return answers.automatedTests;
-				}
+				choices: [
+					{
+						name: 'BDD',
+						value: 'bdd'
+					},
+					{
+						name: 'TDD',
+						value: 'tdd'
+					}
+				],
+				when: ( answers ) => answers.automatedTests
 			},
 			{
 				type: 'confirm',
 				name: 'codeCoverage',
 				message: 'Do you need code coverage?',
 				'default': true,
-				when: ( answers ) => {
-					return answers.automatedTests;
-				}
+				when: ( answers ) => answers.automatedTests
 			},
 			{
 				type: 'list',
 				name: 'codeCoverageTool',
 				message: 'What code coverage tool do you want to use?',
 				'default': 'nyc',
-				choices: [{
-					name: 'nyc',
-					value: 'nyc'
-				}, {
-					name: 'Istanbul',
-					value: 'istanbul'
-				}],
-				when: ( answers ) => {
-					return answers.automatedTests && answers.codeCoverage && !answers.browserModule;
-				}
+				choices: [
+					{
+						name: 'nyc',
+						value: 'nyc'
+					},
+					{
+						name: 'Istanbul',
+						value: 'istanbul'
+					}
+				],
+				when: ( answers ) => answers.automatedTests && answers.codeCoverage && !answers.browserModule
 			},
 			{
 				type: 'confirm',
 				name: 'codeCoverageService',
 				message: 'Do you want to send code coverage report to Coveralls?',
 				'default': false,
-				when: ( answers ) => {
-					return answers.codeCoverage;
-				}
+				when: ( answers ) => answers.codeCoverage
 			},
 			{
 				type: 'confirm',
@@ -224,9 +216,7 @@ module.exports = class extends Generator {
 				name: 'complexTranspile',
 				message: 'Is this complex transpiling (source files are in "src" folder)?',
 				'default': false,
-				when: ( answers ) => {
-					return answers.transpile;
-				}
+				when: ( answers ) => answers.transpile
 			},
 			{
 				type: 'confirm',
@@ -278,12 +268,8 @@ module.exports = class extends Generator {
 		const author = this.author;
 
 		const keywords = uniq(compact(answers.keywords.split(',')
-			.map(( keyword ) => {
-				return keyword.trim();
-			})
-			.filter(( keyword ) => {
-				return keyword !== '';
-			})));
+			.map(( keyword ) => keyword.trim())
+			.filter(( keyword ) => keyword !== '')));
 
 		const tpl = {
 			moduleName: preparePkgName(answers.name),
@@ -344,12 +330,10 @@ module.exports = class extends Generator {
 			cp('_index.scss', '_index.scss');
 		} else if ( answers.cli ) {
 			cp('cli.js', 'cli.js');
+		} else if ( answers.complexTranspile ) {
+			cp('index.js', 'src/index.js');
 		} else {
-			if ( answers.complexTranspile ) {
-				cp('index.js', 'src/index.js');
-			} else {
-				cp('index.js', 'index.js');
-			}
+			cp('index.js', 'index.js');
 		}
 
 		if ( answers.browserModule && answers.styles ) {
@@ -439,8 +423,10 @@ module.exports = class extends Generator {
 
 		mergedPkg = deepAssign({}, pkg, newPkg);
 
-		// deep-assign overwrites arrays so we have to prepare
-		// new array before writing new JSON file
+		/*
+		 * Deep-assign overwrites arrays so we have to prepare
+		 * new array before writing new JSON file
+		 */
 		if ( Array.isArray(keywords) && keywords.length ) {
 			mergedPkg.keywords = keywords;
 		}

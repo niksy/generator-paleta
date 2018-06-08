@@ -46,9 +46,7 @@ describe('New project', function () {
 
 	it('should fill .eslintrc with correct information', function () {
 		assert.JSONFileContent('.eslintrc', {
-			extends: [
-				'niksy'
-			]
+			extends: ['niksy']
 		});
 	});
 
@@ -415,9 +413,7 @@ describe('Styles', function () {
 	});
 
 	it('should create necessary files', function () {
-		assert.file([
-			'.stylelintrc'
-		]);
+		assert.file(['.stylelintrc']);
 	});
 
 	it('should fill package.json with correct information', function () {
@@ -447,9 +443,7 @@ describe('CLI', function () {
 	});
 
 	it('should create necessary file', function () {
-		assert.file([
-			'cli.js'
-		]);
+		assert.file(['cli.js']);
 	});
 
 	it('should add global install instruction to README.md', function () {
@@ -485,9 +479,7 @@ describe('Code coverage, nyc', function () {
 	});
 
 	it('should create necessary file', function () {
-		assert.file([
-			'.nycrc'
-		]);
+		assert.file(['.nycrc']);
 	});
 
 	it('should fill package.json with correct information', function () {
@@ -516,9 +508,7 @@ describe('Code coverage, Istanbul', function () {
 	});
 
 	it('should create necessary file', function () {
-		assert.file([
-			'.istanbul.yml'
-		]);
+		assert.file(['.istanbul.yml']);
 	});
 
 	it('should fill package.json with correct information', function () {
@@ -815,9 +805,7 @@ describe('Transpile', function () {
 	});
 
 	it('should create necessary files', function () {
-		assert.file([
-			'.babelrc'
-		]);
+		assert.file(['.babelrc']);
 	});
 
 	it('should add dist folder to .gitignore', function () {
@@ -884,9 +872,7 @@ describe('Transpile, with automated tests and code coverage', function () {
 		assert.JSONFileContent('.babelrc', {
 			env: {
 				test: {
-					plugins: [
-						'istanbul'
-					]
+					plugins: ['istanbul']
 				}
 			}
 		});
@@ -953,9 +939,7 @@ describe('Transpile, complex', function () {
 	});
 
 	it('should create necessary files', function () {
-		assert.file([
-			'src/index.js'
-		]);
+		assert.file(['src/index.js']);
 	});
 
 	it('should add proper data to .gitignore', function () {
@@ -1025,9 +1009,7 @@ describe('ES Modules, transpile', function () {
 	});
 
 	it('should create necessary files', function () {
-		assert.file([
-			'.babelrc'
-		]);
+		assert.file(['.babelrc']);
 	});
 
 	it('should fill package.json with correct information', function () {
