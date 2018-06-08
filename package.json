@@ -1,7 +1,7 @@
 {
   "name": "@niksy/generator-paleta",
   "version": "4.0.0",
-  "description": "Generator for my projects.",
+  "description": "Yeoman generator for my projects.",
   "main": "generators/app/index.js",
   "author": "Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com)",
   "license": "MIT",
