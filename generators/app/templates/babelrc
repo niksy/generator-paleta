@@ -1,6 +1,6 @@
 {
 	"presets": [<% if ( esModules ) { %>
-		"niksy/next,"<% } %>
+		"niksy/next",<% } %>
 		"niksy"
 	]<% if ( automatedTests && codeCoverage && !browserModule ) { %>,
 	"env": {
