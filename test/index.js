@@ -491,7 +491,7 @@ describe('Code coverage, nyc', function () {
 				test: 'eslint \'{index,lib/**/*,test/**/*}.js\' && nyc mocha \'test/**/*.js\' && nyc check-coverage'
 			},
 			devDependencies: {
-				nyc: '^8.4.0'
+				nyc: '^12.0.2'
 			}
 		});
 	});
@@ -891,7 +891,7 @@ describe('Transpile, with automated tests and code coverage', function () {
 	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			scripts: {
-				test: 'BABEL_ENV=test eslint \'{index,lib/**/*,test/**/*}.js\' && nyc mocha --compilers js:babel-register \'test/**/*.js\' && nyc check-coverage'
+				test: 'eslint \'{index,lib/**/*,test/**/*}.js\' && BABEL_ENV=test nyc mocha --require babel-register \'test/**/*.js\' && nyc check-coverage'
 			},
 			devDependencies: {
 				'babel-register': '^6.26.0',
@@ -1037,6 +1037,57 @@ describe('ES Modules, transpile, complex', function () {
 	it('should add proper data to .gitignore', function () {
 		assert.fileContent('.gitignore', 'index.cjs.js');
 		assert.fileContent('.gitignore', 'index.esm.js');
+	});
+
+});
+
+describe('ES Modules, automated tests', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				esModules: true,
+				automatedTests: true,
+				codeCoverage: false
+			})
+			.toPromise();
+	});
+
+	it('should fill package.json with correct information', function () {
+		assert.JSONFileContent('package.json', {
+			scripts: {
+				test: 'eslint \'{index,lib/**/*,test/**/*}.js\' && mocha --require esm \'test/**/*.js\''
+			},
+			devDependencies: {
+				esm: '^3.0.51'
+			}
+		});
+	});
+
+});
+
+describe('ES Modules, automated tests, code coverage, transpile', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				esModules: true,
+				automatedTests: true,
+				codeCoverage: true,
+				transpile: true
+			})
+			.toPromise();
+	});
+
+	it('should fill package.json with correct information', function () {
+		assert.JSONFileContent('package.json', {
+			scripts: {
+				test: 'eslint \'{index,lib/**/*,test/**/*}.js\' && BABEL_ENV=test nyc mocha --require babel-register --require esm \'test/**/*.js\' && nyc check-coverage'
+			},
+			devDependencies: {
+				esm: '^3.0.51'
+			}
+		});
 	});
 
 });

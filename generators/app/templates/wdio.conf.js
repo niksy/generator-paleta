@@ -88,8 +88,8 @@ module.exports.config = Object.assign({
 	framework: 'mocha',
 	reporters: ['spec'],
 	mochaOpts: {
-		ui: '<%= testingInterface %>'<% if ( transpile ) { %>,
-		compilers: ['js:babel-register']<% } %>
+		ui: '<%= testingInterface %>'<% if ( transpile || esModules ) { %>,
+		require: [<% if ( transpile ) { %>'babel-register'<% } %><% if ( transpile && esModules ) { %>, <% } %><% if ( esModules ) { %>'esm'<% } %>]<% } %>
 	},
 	onPrepare: function () {
 
