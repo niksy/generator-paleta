@@ -1048,7 +1048,8 @@ describe('ES Modules, automated tests', function () {
 			.withPrompts({
 				esModules: true,
 				automatedTests: true,
-				codeCoverage: false
+				codeCoverage: false,
+				nodeEngineVersion: 8
 			})
 			.toPromise();
 	});
@@ -1074,7 +1075,8 @@ describe('ES Modules, automated tests, code coverage, transpile', function () {
 				esModules: true,
 				automatedTests: true,
 				codeCoverage: true,
-				transpile: true
+				transpile: true,
+				nodeEngineVersion: 8
 			})
 			.toPromise();
 	});
