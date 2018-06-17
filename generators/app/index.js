@@ -177,23 +177,6 @@ module.exports = class extends Generator {
 				when: ( answers ) => answers.automatedTests
 			},
 			{
-				type: 'list',
-				name: 'codeCoverageTool',
-				message: 'What code coverage tool do you want to use?',
-				'default': 'nyc',
-				choices: [
-					{
-						name: 'nyc',
-						value: 'nyc'
-					},
-					{
-						name: 'Istanbul',
-						value: 'istanbul'
-					}
-				],
-				when: ( answers ) => answers.automatedTests && answers.codeCoverage && !answers.browserModule
-			},
-			{
 				type: 'confirm',
 				name: 'codeCoverageService',
 				message: 'Do you want to send code coverage report to Coveralls?',
@@ -287,7 +270,6 @@ module.exports = class extends Generator {
 			integrationTests: answers.integrationTests,
 			testingInterface: answers.testingInterface,
 			codeCoverage: answers.codeCoverage,
-			codeCoverageTool: answers.codeCoverageTool,
 			codeCoverageService: answers.codeCoverageService,
 			gitRepo: gh(answers.gitRepo),
 			keywords: keywords,
@@ -364,11 +346,7 @@ module.exports = class extends Generator {
 				cp('test/index.js', 'test/index.js');
 			}
 			if ( answers.codeCoverage && !answers.browserModule ) {
-				if ( answers.codeCoverageTool === 'nyc' ) {
-					cp('nycrc', '.nycrc');
-				} else {
-					cp('istanbul.yml', '.istanbul.yml');
-				}
+				cp('nycrc', '.nycrc');
 			}
 		} else {
 			rm('.travis.yml');

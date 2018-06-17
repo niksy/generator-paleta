@@ -470,7 +470,7 @@ describe('CLI', function () {
 
 });
 
-describe('Code coverage, nyc', function () {
+describe('Code coverage', function () {
 
 	before(function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
@@ -492,35 +492,6 @@ describe('Code coverage, nyc', function () {
 			},
 			devDependencies: {
 				nyc: '^12.0.2'
-			}
-		});
-	});
-
-});
-
-describe('Code coverage, Istanbul', function () {
-
-	before(function () {
-		return helpers.run(path.join(__dirname, '../generators/app'))
-			.withPrompts({
-				automatedTests: true,
-				codeCoverage: true,
-				codeCoverageTool: 'istanbul'
-			})
-			.toPromise();
-	});
-
-	it('should create necessary file', function () {
-		assert.file(['.istanbul.yml']);
-	});
-
-	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
-			scripts: {
-				test: 'eslint \'{index,lib/**/*,test/**/*}.js\' && istanbul cover _mocha \'test/**/*.js\' && istanbul check-coverage'
-			},
-			devDependencies: {
-				istanbul: '^0.4.3'
 			}
 		});
 	});
@@ -550,7 +521,7 @@ describe('Code coverage, browser module', function () {
 
 });
 
-describe('Code coverage service, nyc', function () {
+describe('Code coverage service', function () {
 
 	before(function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
@@ -584,25 +555,6 @@ describe('Code coverage service, nyc', function () {
 				coveralls: '^2.11.11'
 			}
 		});
-	});
-
-});
-
-describe('Code coverage service, Istanbul', function () {
-
-	before(function () {
-		return helpers.run(path.join(__dirname, '../generators/app'))
-			.withPrompts({
-				automatedTests: true,
-				codeCoverage: true,
-				codeCoverageTool: 'istanbul',
-				codeCoverageService: true
-			})
-			.toPromise();
-	});
-
-	it('should add coverage entry to .istanbul.yml', function () {
-		assert.fileContent('.istanbul.yml', '- lcov');
 	});
 
 });
