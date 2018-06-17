@@ -144,7 +144,7 @@ describe('Manual tests', function () {
 				'test:manual:local': 'gulp test:local:manual --watch'
 			},
 			devDependencies: {
-				'@niksy/babayaga': '^0.1.1',
+				'webpack': '^4.12.0',
 				'del': '^2.2.0',
 				'globby': '^4.1.0',
 				'gulp': '^3.9.1',
@@ -209,6 +209,7 @@ describe('Automated tests, browser module', function () {
 		assert.file([
 			'test/fixtures/index.html',
 			'test/index.js',
+			'test/.webpack.js',
 			'karma.conf.js'
 		]);
 	});
@@ -222,7 +223,8 @@ describe('Automated tests, browser module', function () {
 			},
 			devDependencies: {
 				'karma': '^1.1.0',
-				'karma-browserify': '^5.0.5',
+				'karma-sourcemap-loader': '^0.3.7',
+				'karma-webpack': '^3.0.0',
 				'karma-browserstack-launcher': '^1.0.0',
 				'karma-chrome-launcher': '^1.0.1',
 				'karma-html2js-preprocessor': '^1.0.0',
@@ -235,7 +237,7 @@ describe('Automated tests, browser module', function () {
 	it('should update karma.conf.js with correct information', function () {
 		assert.fileContent('karma.conf.js', '/* globals process:false */');
 		assert.fileContent('karma.conf.js', 'ui: \'bdd\'');
-		assert.fileContent('karma.conf.js', 'test/**/*.js');
+		assert.fileContent('karma.conf.js', 'test/**/.webpack.js');
 	});
 
 	it('should add information regarding BrowserStack to README.md', function () {
@@ -274,7 +276,7 @@ describe('Integration tests', function () {
 			},
 			devDependencies: {
 				'mocha': '^4.1.0',
-				'@niksy/babayaga': '^0.1.1',
+				'webpack': '^4.12.0',
 				'del': '^2.2.0',
 				'globby': '^4.1.0',
 				'gulp': '^3.9.1',
@@ -317,13 +319,14 @@ describe('All tests, browser module', function () {
 		assert.file([
 			'test/automated/fixtures/index.html',
 			'test/automated/index.js',
+			'test/automated/.webpack.js',
 			'test/manual',
 			'test/integration'
 		]);
 	});
 
 	it('should update karma.conf.js with correct information', function () {
-		assert.fileContent('karma.conf.js', 'test/automated/**/*.js');
+		assert.fileContent('karma.conf.js', 'test/automated/**/.webpack.js');
 	});
 
 });
@@ -539,9 +542,8 @@ describe('Code coverage, browser module', function () {
 	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			devDependencies: {
-				istanbul: '^0.4.3',
-				'browserify-istanbul': '^2.0.0',
-				'karma-coverage': '^1.0.0'
+				'istanbul-instrumenter-loader': '^3.0.1',
+				'karma-coverage-istanbul-reporter': '^2.0.1'
 			}
 		});
 	});
@@ -849,7 +851,8 @@ describe('Transpile, browser module', function () {
 	it('should fill package.json with correct information', function () {
 		assert.JSONFileContent('package.json', {
 			devDependencies: {
-				'babelify': '^8.0.0'
+				'babel-core': '^6.26.3',
+				'babel-loader': '^7.1.4'
 			}
 		});
 	});
@@ -913,16 +916,8 @@ describe('Transpile, browser module, with automated tests and code coverage', fu
 	});
 
 	it('should add proper data to karma.conf.js', function () {
-		assert.fileContent('karma.conf.js', 'babelify');
-		assert.fileContent('karma.conf.js', 'browserify-babel-istanbul');
-	});
-
-	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
-			devDependencies: {
-				'browserify-babel-istanbul': '^0.4.0'
-			}
-		});
+		assert.fileContent('karma.conf.js', 'babel-loader');
+		assert.fileContent('karma.conf.js', 'istanbul-instrumenter-loader');
 	});
 
 });

@@ -354,6 +354,7 @@ module.exports = class extends Generator {
 					const automatedTestsFolder = (answers.manualTests || answers.integrationTests) ? 'automated/' : '';
 					cp('test/automated/fixtures', `test/${automatedTestsFolder}fixtures`);
 					cp('test/automated/index.js', `test/${automatedTestsFolder}index.js`);
+					cp('test/automated/webpack.js', `test/${automatedTestsFolder}.webpack.js`);
 					cp('karma.conf.js', 'karma.conf.js');
 				} else {
 					cp('test/index.js', 'test/index.js');

@@ -7,17 +7,17 @@ module.exports = function ( config ) {
 
 	config.set({
 		basePath: '',
-		frameworks: ['browserify', 'mocha'],
+		frameworks: ['mocha'],
 		files: [
 			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.html',
-			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.js'
+			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/.webpack.js'
 		],
 		exclude: [],
 		preprocessors: {
 			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.html': ['html2js'],
-			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.js': ['browserify']
+			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/.webpack.js': ['webpack', 'sourcemap']
 		},
-		reporters: ['mocha'<% if ( codeCoverage ) { %>, 'coverage'<% } %>],
+		reporters: ['mocha'<% if ( codeCoverage ) { %>, 'coverage-istanbul'<% } %>],
 		port: 9001,
 		colors: true,
 		logLevel: config.LOG_INFO,
@@ -39,25 +39,36 @@ module.exports = function ( config ) {
 			format: '%b %T: %m',
 			terminal: true
 		},
-		browserify: {
-			debug: true,
-			transform: [
-				<% if ( esModules ) { %>['rollupify', { config: '.rollup.js', sourceMaps: true }],<% } %>
-				<% if ( transpile ) { %>'babelify'<% } %><% if ( codeCoverage ) { %><% if ( transpile ) { %>,
-				['browserify-babel-istanbul', { defaultIgnore: true }]<% } else { %>
-				['browserify-istanbul', { defaultIgnore: true }]<% } %><% } %>
-			]
+		webpack: {
+			mode: 'none'
+			devtool: 'cheap-module-inline-source-map'<% if ( transpile || codeCoverage ) { %>,
+			module: {
+				rules: [<% if ( transpile ) { %>
+					{
+						test: /\.js$/,
+						exclude: /node_modules/,
+						use: [{
+							loader: 'babel-loader'
+						}]
+					}<% } %><% if ( transpile && codeCoverage ) { %>,<% } %><% if ( codeCoverage ) { %>
+					{
+						test: /\.js$/,
+						exclude: /(node_modules|test)/,
+						enforce: 'post',
+						use: [{
+							loader: 'istanbul-instrumenter-loader'<% if ( esModules ) { %>,
+							options: {
+								esModules: true
+							}<% } %>
+						}]
+					}<% } %>
+				]
+			}<% } %>
 		},<% if ( codeCoverage ) { %>
-		coverageReporter: {
-			reporters: [
-				{
-					type: 'html'
-				},
-				{
-					type: 'text'
-				}
-			],
-			check: {
+		coverageIstanbulReporter: {
+			fixWebpackSourcePaths: true,
+			reports: ['html', 'text'],
+			thresholds: {
 				global: {
 					statements: 80
 				}

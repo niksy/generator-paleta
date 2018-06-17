@@ -10,7 +10,7 @@ const plumber = require('gulp-plumber');
 const gutil = require('gulp-util');
 const debug = require('gulp-debug');
 const nunjucks = require('gulp-nunjucks-render');
-const babayaga = require('@niksy/babayaga');<% if ( esModules ) { %>
+const webpack = require('webpack');<% if ( esModules ) { %>
 const rollupify = require('rollupify');<% } %><% if ( transpile ) { %>
 const babelify = require('babelify');<% } %>
 const del = require('del');
@@ -96,37 +96,40 @@ gulp.task('test:script', ['test:cleanup'], () => {
 		})
 		.then(( entries ) => {
 
-			return babayaga({
-				entries: entries,
+			const compiler = webpack({
+				entry: entries,
 				output: {
-					path: './test-dist'
+					filename: '[name].js',
+					path: path.resolve(__dirname, './test-dist')
 				},
-				dev: true,
-				watch: watch,
-				setupBundle: ( bundle ) => {<% if ( esModules ) { %>
-					bundle.transform(rollupify, { config: '.rollup.js', sourceMaps: true });<% } %><% if ( transpile ) { %>
-					bundle.transform(babelify);<% } %>
-					return bundle;
-				},
-				onAfterWrite: ( stream, isAsyncTask, isWatchUpdate ) => {
-					if ( isWatchUpdate ) {
-						return stream
-							.pipe(debug({ title: 'Script:' }));
+				mode: 'none',
+				devtool: 'cheap-module-inline-source-map'<% if ( transpile ) { %>,
+				module: {
+					rules: [
+						{
+							test: /\.js$/,
+							exclude: /node_modules/,
+							use: [{
+								loader: 'babel-loader'
+							}]
+						}
+					]
+				}<% } %>
+			});
+
+			return new Promise(( resolve, reject ) => {
+
+				compiler.watch({}, ( err, stats ) => {
+					if ( err ) {
+						return reject(err);
 					}
-					return stream;
-				},
-				onStartBuild: ( stream, isAsyncTask ) => {
-					if ( isAsyncTask ) {
-						return stream
-							.pipe(debug({ title: 'Script:' }));
-					}
-					return stream
-						.pipe(debug({ title: 'Script:' }));
-				},
-				onError: ( err ) => {
-					gutil.log(gutil.colors.red(err.message));
-				}
-			}).build();
+					gutil.log(stats.toString({
+						colors: true
+					}));
+					return resolve();
+				});
+
+			});
 
 		});
 
