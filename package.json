@@ -38,7 +38,7 @@
     "eslint-plugin-unicorn": "^4.0.3",
     "istanbul": "^0.4.3",
     "mocha": "^4.1.0",
-    "nyc": "^8.4.0",
+    "nyc": "^12.0.2",
     "write-json-file": "^2.0.0",
     "yeoman-assert": "^3.1.1",
     "yeoman-test": "^1.4.0"
