@@ -117,7 +117,7 @@ gulp.task('test:script', ['test:cleanup'], () => {
 
 			return new Promise(( resolve, reject ) => {
 
-				compiler.watch({}, ( err, stats ) => {
+				function cb ( err, stats ) {
 					if ( err ) {
 						return reject(err);
 					}
@@ -125,7 +125,13 @@ gulp.task('test:script', ['test:cleanup'], () => {
 						colors: true
 					}));
 					return resolve();
-				});
+				}
+
+				if ( watch ) {
+					compiler.watch({}, cb);
+				} else {
+					compiler.run(cb);
+				}
 
 			});
 
