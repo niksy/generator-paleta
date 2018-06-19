@@ -80,7 +80,7 @@
     "local-web-server": "^1.2.4",
     "suitcss-components-test": "^1.0.0",
     "webpack": "^4.12.0"<% } %><% if ( sassModule ) { %>,
-    "sass-true": "^2.1.3"<% } %><% if ( manualTests ) { %>,
+    "sass-true": "^2.1.3"<% } %><% if ( manualTests || integrationTests ) { %>,
     "opn": "^4.0.2"<% } %><% if ( integrationTests ) { %><% if ( cloudBrowsers ) { %>,
     "wdio-browserstack-service": "^0.1.3"<% } %>,
     "wdio-mocha-framework": "^0.5.13",

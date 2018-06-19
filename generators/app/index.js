@@ -150,7 +150,7 @@ module.exports = class extends Generator {
 				name: 'integrationTests',
 				message: 'Do you have integration (Selenium) tests?',
 				'default': false,
-				when: ( answers ) => answers.automatedTests && answers.browserModule
+				when: ( answers ) => answers.automatedTests && answers.manualTests && answers.browserModule
 			},
 			{
 				type: 'list',

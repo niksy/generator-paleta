@@ -252,6 +252,7 @@ describe('Integration tests', function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
 				automatedTests: true,
+				manualTests: true,
 				browserModule: true,
 				integrationTests: true
 			})
