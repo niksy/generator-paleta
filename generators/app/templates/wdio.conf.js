@@ -6,7 +6,6 @@
 const http = require('http');
 const ws = require('local-web-server');
 const shutdown = require('http-shutdown');
-const execa = require('execa');
 const minimist = require('minimist');
 let server, config;
 
@@ -20,14 +19,23 @@ const args = minimist(process.argv.slice(2), {
 const local = <% if ( cloudBrowsers ) { %>args.local<% } else { %>true<% } %>;
 const verbose = args.verbose;
 const port = args.port;
-const dockerhost = 'dockerhost';
 
 if ( local ) {
 	config = {
-		baseUrl: `http://${dockerhost}:${port}`,
+		baseUrl: `http://host.docker.internal:${port}`,
+		services: ['docker'],
 		capabilities: [{
 			browserName: 'chrome'
-		}]
+		}],
+		dockerLogs: './wdioDockerLogs',
+		dockerOptions: {
+			image: 'selenium/standalone-chrome',
+			healthCheck: 'http://localhost:4444',
+			options: {
+				p: ['4444:4444'],
+				shmSize: '2g'
+			}
+		}
 	};
 }<% if ( cloudBrowsers ) { %> else {
 	config = {
@@ -93,7 +101,7 @@ module.exports.config = Object.assign({
 	},
 	onPrepare: function () {
 
-		const startProcess = new Promise(( resolve, reject ) => {
+		return new Promise(( resolve, reject ) => {
 
 			server = shutdown(http.createServer(ws({
 				'static': {
@@ -115,32 +123,11 @@ module.exports.config = Object.assign({
 
 		});
 
-		return Promise.resolve()
-			.then(() => {
-				if ( local ) {
-					return execa.shell(`docker run --name=wdio --add-host="${dockerhost}:10.0.2.2" -d -p 4444:4444 -v /dev/shm:/dev/shm selenium/standalone-chrome:2.53.0`)
-						.then(( res ) => {
-							console.log(res.stderr);
-							console.log(res.stdout);
-							return startProcess;
-						});
-				}
-				return startProcess;
-			})
-			.catch(( err ) => {
-				console.log(err);
-
-				console.log('Stopping local web server…');
-				server.shutdown();
-
-				process.exit(1);
-			});
-
 	},
 
 	onComplete: function () {
 
-		const stopProcess = new Promise(( resolve, reject ) => {
+		return new Promise(( resolve, reject ) => {
 
 			console.log('Stopping local web server…');
 			server.shutdown();
@@ -149,23 +136,6 @@ module.exports.config = Object.assign({
 			resolve();
 
 		});
-
-		return Promise.resolve()
-			.then(() => {
-				if ( local ) {
-					return execa.shell('docker stop wdio && docker rm wdio')
-						.then(( res ) => {
-							console.log(res.stdout);
-							console.log(res.stderr);
-							return stopProcess;
-						});
-				}
-				return stopProcess;
-			})
-			.catch(( err ) => {
-				console.log(err);
-				process.exit(1);
-			});
 
 	}
 }, config);

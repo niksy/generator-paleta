@@ -288,10 +288,10 @@ describe('Integration tests', function () {
 				'gulp-util': '^3.0.7',
 				'minimist': '^1.2.0',
 				'local-web-server': '^1.2.4',
-				'wdio-browserstack-service': '^0.1.3',
+				'wdio-browserstack-service': '^0.1.16',
 				'wdio-mocha-framework': '^0.5.13',
-				'wdio-spec-reporter': '^0.0.2',
-				'webdriverio': '^4.0.9',
+				'wdio-spec-reporter': '^0.1.4',
+				'webdriverio': '^4.12.0',
 				'http-shutdown': '^1.0.3'
 			}
 		});
