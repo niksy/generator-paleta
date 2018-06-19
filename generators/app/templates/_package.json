@@ -94,8 +94,7 @@
     "babel-loader": "^7.1.4"<% } %><% if ( automatedTests ) { %><% if ( !browserModule || (browserModule && integrationTests) ) { %>,
     "babel-register": "^6.26.0"<% } %><% if ( codeCoverage ) { %><% if ( !browserModule && !sassModule ) { %>,
     "babel-plugin-istanbul": "^4.1.6"<% } %><% } %><% } %><% } %><% if ( esModules ) { %>,
-    "rollup": "^0.60.1",
-    "rollupify": "^0.5.0"<% if ( transpile ) { %>,
+    "rollup": "^0.60.1"<% if ( transpile ) { %>,
     "rollup-plugin-babel": "^3.0.4"<% } %><% } %>
   },<% if ( isScopedPackage ) { %>
   "publishConfig": {

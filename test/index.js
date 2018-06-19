@@ -936,8 +936,7 @@ describe('ES Modules', function () {
 				build: 'rollup --config .rollup.js'
 			},
 			devDependencies: {
-				'rollup': '^0.60.1',
-				'rollupify': '^0.5.0'
+				'rollup': '^0.60.1'
 			}
 		});
 	});

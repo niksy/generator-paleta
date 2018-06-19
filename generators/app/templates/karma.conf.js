@@ -40,7 +40,7 @@ module.exports = function ( config ) {
 			terminal: true
 		},
 		webpack: {
-			mode: 'none'
+			mode: 'none',
 			devtool: 'cheap-module-inline-source-map'<% if ( transpile || codeCoverage ) { %>,
 			module: {
 				rules: [<% if ( transpile ) { %>
