@@ -187,12 +187,7 @@ module.exports = class extends Generator {
 				type: 'confirm',
 				name: 'transpile',
 				message: 'Do you need code transpiling via Babel?',
-				'default': ( answers ) => {
-					if ( answers.browserModule ) {
-						return true;
-					}
-					return false;
-				}
+				'default': ( answers ) => answers.browserModule
 			},
 			{
 				type: 'confirm',
