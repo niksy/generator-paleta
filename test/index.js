@@ -25,6 +25,7 @@ describe('New project', function () {
 			'.editorconfig',
 			'.eslintrc',
 			'.gitignore',
+			'.npmrc',
 			'index.js',
 			'LICENSE.md',
 			'README.md'

@@ -302,6 +302,7 @@ module.exports = class extends Generator {
 		cp('editorconfig', '.editorconfig');
 		cp('eslintrc', '.eslintrc');
 		cp('gitignore', '.gitignore');
+		cp('npmrc', '.npmrc');
 
 		if ( answers.sassModule ) {
 			cp('_index.scss', '_index.scss');
