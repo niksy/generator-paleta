@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - '<%= nodeEngineVersion %>'<% if ( codeCoverageService ) { %>
+  - '8'<% if ( codeCoverageService ) { %>
 after_success:
   - npm run posttest:ci<% } %><% if ( automatedTests && browserModule && !cloudBrowsers ) { %>
 before_install:

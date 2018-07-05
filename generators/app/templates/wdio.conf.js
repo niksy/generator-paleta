@@ -97,7 +97,7 @@ module.exports.config = Object.assign({
 	reporters: ['spec'],
 	mochaOpts: {
 		ui: '<%= testingInterface %>'<% if ( transpile || esModules ) { %>,
-		require: [<% if ( transpile ) { %>'babel-register'<% } %><% if ( transpile && esModules ) { %>, <% } %><% if ( esModules ) { %>'<% if ( nodeEngineVersion === 4 ) { %>@std/esm<% } else  { %>esm<% } %>'<% } %>]<% } %>
+		require: [<% if ( transpile ) { %>'babel-register'<% } %><% if ( transpile && esModules ) { %>, <% } %><% if ( esModules ) { %>'esm'<% } %>]<% } %>
 	},
 	onPrepare: function () {
 
