@@ -2,7 +2,10 @@
 	"presets": [<% if ( esModules ) { %>
 		"niksy/next",<% } %>
 		"niksy"
-	]<% if ( automatedTests && codeCoverage && !browserModule ) { %>,
+	]<% if ( browserModule ) { %>,
+	"plugins": [
+		"transform-object-assign"
+	]<% } %><% if ( automatedTests && codeCoverage && !browserModule ) { %>,
 	"env": {
 		"test": {
 			"plugins": [

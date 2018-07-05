@@ -869,6 +869,14 @@ describe('Transpile, browser module, with automated tests and code coverage', fu
 			.toPromise();
 	});
 
+	it('should fill .babelrc with correct information', function () {
+		assert.JSONFileContent('.babelrc', {
+			plugins: [
+				'transform-object-assign'
+			]
+		});
+	});
+
 	it('should add proper data to karma.conf.js', function () {
 		assert.fileContent('karma.conf.js', 'babel-loader');
 		assert.fileContent('karma.conf.js', 'istanbul-instrumenter-loader');
