@@ -428,7 +428,7 @@ describe('Styles', function () {
 			},
 			devDependencies: {
 				stylelint: '^9.2.1',
-				'stylelint-config-niksy': '^5.0.2'
+				'stylelint-config-niksy': '^5.1.1'
 			}
 		});
 	});
@@ -782,7 +782,7 @@ describe('Transpile', function () {
 			},
 			devDependencies: {
 				'babel-cli': '^6.26.0',
-				'babel-preset-niksy': '^3.0.0'
+				'babel-preset-niksy': '^3.3.1'
 			}
 		});
 	});
