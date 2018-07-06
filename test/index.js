@@ -33,7 +33,7 @@ describe('New project', function () {
 	});
 
 	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			name: 'bella',
 			author: 'Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com)',
 			files: [
@@ -46,7 +46,7 @@ describe('New project', function () {
 	});
 
 	it('should fill .eslintrc with correct information', function () {
-		assert.JSONFileContent('.eslintrc', {
+		assert.jsonFileContent('.eslintrc', {
 			extends: ['niksy']
 		});
 	});
@@ -105,7 +105,7 @@ describe('Existing project', function () {
 	});
 
 	it('should reuse existing package.json information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			name: 'minnie',
 			description: 'minnie description',
 			author: 'Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com)'
@@ -137,7 +137,7 @@ describe('Manual tests', function () {
 	});
 
 	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			directories: {
 				test: 'test'
 			},
@@ -183,7 +183,7 @@ describe('Automated tests', function () {
 	});
 
 	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			scripts: {
 				test: 'eslint \'{index,lib/**/*,test/**/*}.js\' && mocha \'test/**/*.js\''
 			},
@@ -216,7 +216,7 @@ describe('Automated tests, browser module', function () {
 	});
 
 	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			scripts: {
 				'test:automated': 'karma start',
 				'test:automated:local': 'karma start --browsers Chrome',
@@ -271,7 +271,7 @@ describe('Integration tests', function () {
 	});
 
 	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			scripts: {
 				'test:integration': 'gulp test:prepare && wdio',
 				test: 'npm run lint && npm run test:automated && npm run test:integration'
@@ -348,7 +348,7 @@ describe('Browser module', function () {
 	});
 
 	it('should fill .eslintrc with correct information', function () {
-		assert.JSONFileContent('.eslintrc', {
+		assert.jsonFileContent('.eslintrc', {
 			extends: [
 				'niksy',
 				'niksy/browser'
@@ -370,7 +370,7 @@ describe('jQuery module', function () { // eslint-disable-line mocha/valid-suite
 	});
 
 	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			dependencies: {
 				jquery: '^1.12.4'
 			},
@@ -396,7 +396,7 @@ describe('Testing interface', function () {
 	});
 
 	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			scripts: {
 				test: 'eslint \'{index,lib/**/*,test/**/*}.js\' && mocha \'test/**/*.js\' --ui tdd'
 			}
@@ -422,7 +422,7 @@ describe('Styles', function () {
 	});
 
 	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			style: 'index.css',
 			scripts: {
 				test: 'eslint \'{index,lib/**/*}.js\' && stylelint \'index.css\''
@@ -456,7 +456,7 @@ describe('CLI', function () {
 	});
 
 	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			bin: {
 				ellie: 'cli.js'
 			},
@@ -488,7 +488,7 @@ describe('Code coverage', function () {
 	});
 
 	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			scripts: {
 				test: 'eslint \'{index,lib/**/*,test/**/*}.js\' && nyc mocha \'test/**/*.js\' && nyc check-coverage'
 			},
@@ -513,7 +513,7 @@ describe('Code coverage, browser module', function () {
 	});
 
 	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			devDependencies: {
 				'istanbul-instrumenter-loader': '^3.0.1',
 				'karma-coverage-istanbul-reporter': '^2.0.1'
@@ -549,7 +549,7 @@ describe('Code coverage service', function () {
 	});
 
 	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			scripts: {
 				'posttest:ci': 'cat ./coverage/lcov.info | coveralls'
 			},
@@ -572,7 +572,7 @@ describe('Non-GitHub repository', function () {
 	});
 
 	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			repository: {
 				type: 'git',
 				url: 'git+https://gitlab.com/niksy/otis.git'
@@ -618,7 +618,7 @@ describe('Non-GitHub repository, existing project', function () {
 	});
 
 	it('should reuse existing package.json information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			repository: {
 				type: 'git',
 				url: 'git+https://gitlab.com/niksy/chester.git'
@@ -639,7 +639,7 @@ describe('Dashed-case package name', function () {
 	});
 
 	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			name: 'hank-charlie'
 		});
 	});
@@ -657,7 +657,7 @@ describe('Scoped package', function () {
 	});
 
 	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			name: '@sadie/hank-charlie',
 			publishConfig: {
 				access: 'public'
@@ -680,7 +680,7 @@ describe('Sass module', function () {
 	});
 
 	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			main: '_index.scss',
 			style: '_index.scss',
 			scripts: {
@@ -693,7 +693,7 @@ describe('Sass module', function () {
 	});
 
 	it('should fill .stylelintrc with correct information', function () {
-		assert.JSONFileContent('.stylelintrc', {
+		assert.jsonFileContent('.stylelintrc', {
 			extends: [
 				'stylelint-config-niksy',
 				'stylelint-config-niksy/scss'
@@ -723,7 +723,7 @@ describe('CSS module', function () {
 	});
 
 	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			main: 'index.css',
 			style: 'index.css'
 		});
@@ -769,7 +769,7 @@ describe('Transpile', function () {
 	});
 
 	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			main: 'dist/index.js',
 			files: [
 				'dist/index.js',
@@ -803,7 +803,7 @@ describe('Transpile, browser module', function () {
 	});
 
 	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			devDependencies: {
 				'babel-core': '^6.26.3',
 				'babel-loader': '^7.1.4'
@@ -826,7 +826,7 @@ describe('Transpile, with automated tests and code coverage', function () {
 	});
 
 	it('should fill .babelrc with correct information', function () {
-		assert.JSONFileContent('.babelrc', {
+		assert.jsonFileContent('.babelrc', {
 			env: {
 				test: {
 					plugins: ['istanbul']
@@ -836,14 +836,14 @@ describe('Transpile, with automated tests and code coverage', function () {
 	});
 
 	it('should fill .nycrc with correct information', function () {
-		assert.JSONFileContent('.nycrc', {
+		assert.jsonFileContent('.nycrc', {
 			sourceMap: false,
 			instrument: false
 		});
 	});
 
 	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			scripts: {
 				test: 'eslint \'{index,lib/**/*,test/**/*}.js\' && BABEL_ENV=test nyc mocha --require babel-register \'test/**/*.js\' && nyc check-coverage'
 			},
@@ -870,7 +870,7 @@ describe('Transpile, browser module, with automated tests and code coverage', fu
 	});
 
 	it('should fill .babelrc with correct information', function () {
-		assert.JSONFileContent('.babelrc', {
+		assert.jsonFileContent('.babelrc', {
 			plugins: [
 				'transform-object-assign'
 			]
@@ -906,7 +906,7 @@ describe('Transpile, complex', function () {
 	});
 
 	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			main: 'index.js',
 			scripts: {
 				build: 'babel src --out-dir ./'
@@ -934,7 +934,7 @@ describe('ES Modules', function () {
 	});
 
 	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			main: 'index.cjs.js',
 			module: 'index.esm.js',
 			sideEffects: false,
@@ -974,7 +974,7 @@ describe('ES Modules, transpile', function () {
 	});
 
 	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			devDependencies: {
 				'rollup-plugin-babel': '^3.0.4'
 			}
@@ -1016,7 +1016,7 @@ describe('ES Modules, automated tests', function () {
 	});
 
 	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			scripts: {
 				test: 'eslint \'{index,lib/**/*,test/**/*}.js\' && mocha --require esm \'test/**/*.js\''
 			},
@@ -1043,7 +1043,7 @@ describe('ES Modules, automated tests, code coverage, transpile', function () {
 	});
 
 	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			scripts: {
 				test: 'eslint \'{index,lib/**/*,test/**/*}.js\' && BABEL_ENV=test nyc mocha --require babel-register --require esm \'test/**/*.js\' && nyc check-coverage'
 			},
@@ -1066,7 +1066,7 @@ describe('Node engine version', function () {
 	});
 
 	it('should fill package.json with correct information', function () {
-		assert.JSONFileContent('package.json', {
+		assert.jsonFileContent('package.json', {
 			engines: {
 				node: '>=8'
 			}
