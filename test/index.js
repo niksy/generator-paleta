@@ -1,5 +1,3 @@
-/* eslint-disable new-cap, quote-props */
-
 'use strict';
 
 const path = require('path');
@@ -66,14 +64,16 @@ describe('New project', function () {
 
 describe('Existing project', function () {
 
-	var tmpPkgPath = '';
+	let helperContext;
 
 	before(function () {
 
-		return helpers.run(path.join(__dirname, '../generators/app'))
+		helperContext = helpers.run(path.join(__dirname, '../generators/app'));
+
+		return helperContext
 			.inTmpDir(function ( dir ) {
-				var done = this.async();
-				tmpPkgPath = path.join(dir, 'package.json');
+				const done = this.async();
+				const tmpPkgPath = path.join(dir, 'package.json');
 				writeJson(tmpPkgPath, {
 					name: 'minnie',
 					description: 'minnie description',
@@ -106,7 +106,7 @@ describe('Existing project', function () {
 	});
 
 	after(function () {
-		return helpers.run(path.join(__dirname, '../generators/app'))
+		helperContext
 			.cleanTestDirectory();
 	});
 
@@ -595,14 +595,16 @@ describe('Non-GitHub repository', function () {
 
 describe('Non-GitHub repository, existing project', function () {
 
-	var tmpPkgPath = '';
+	let helperContext;
 
 	before(function () {
 
-		return helpers.run(path.join(__dirname, '../generators/app'))
+		helperContext = helpers.run(path.join(__dirname, '../generators/app'));
+
+		return helperContext
 			.inTmpDir(function ( dir ) {
-				var done = this.async();
-				tmpPkgPath = path.join(dir, 'package.json');
+				const done = this.async();
+				const tmpPkgPath = path.join(dir, 'package.json');
 				writeJson(tmpPkgPath, {
 					repository: {
 						type: 'git',
@@ -620,7 +622,7 @@ describe('Non-GitHub repository, existing project', function () {
 	});
 
 	after(function () {
-		return helpers.run(path.join(__dirname, '../generators/app'))
+		helperContext
 			.cleanTestDirectory();
 	});
 
