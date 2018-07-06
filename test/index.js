@@ -43,6 +43,12 @@ describe('New project', function () {
 				'README.md'
 			]
 		});
+		assert.noJsonFileContent('package.json', {
+			devDependencies: {
+				'eslint-plugin-react': '^7.9.1',
+				'eslint-plugin-vue': '^4.5.0'
+			}
+		});
 	});
 
 	it('should fill .eslintrc with correct information', function () {
@@ -188,7 +194,8 @@ describe('Automated tests', function () {
 				test: 'eslint \'{index,lib/**/*,test/**/*}.js\' && mocha \'test/**/*.js\''
 			},
 			devDependencies: {
-				'mocha': '^4.1.0'
+				'mocha': '^4.1.0',
+				'eslint-plugin-mocha': '^4.9.0'
 			}
 		});
 	});
