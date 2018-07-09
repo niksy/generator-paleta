@@ -792,7 +792,7 @@ describe('Transpile', function () {
 			},
 			devDependencies: {
 				'babel-cli': '^6.26.0',
-				'babel-preset-niksy': '^3.3.1'
+				'babel-preset-niksy': '^3.4.1'
 			}
 		});
 	});

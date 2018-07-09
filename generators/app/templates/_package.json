@@ -43,7 +43,7 @@
   }<% } %>,
   "devDependencies": {
     "eslint": "^4.19.1",
-    "eslint-config-niksy": "^5.2.1",
+    "eslint-config-niksy": "^5.3.1",
     "eslint-plugin-extend": "^0.1.1",
     "eslint-plugin-import": "^2.13.0"<% if ( automatedTests ) { %>,
     "eslint-plugin-mocha": "^4.9.0"<% } %>,
@@ -91,7 +91,7 @@
     "webdriverio": "^4.12.0",
     "http-shutdown": "^1.0.3"<% } %><% if ( transpile ) { %>,
     "babel-cli": "^6.26.0",
-    "babel-preset-niksy": "^3.3.1"<% if ( browserModule ) { %>,
+    "babel-preset-niksy": "^3.4.1"<% if ( browserModule ) { %>,
     "babel-plugin-transform-object-assign": "^6.22.0"<% } %><% if ( browserModule && !sassModule ) { %>,
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4"<% } %><% if ( automatedTests ) { %><% if ( !browserModule || (browserModule && integrationTests) ) { %>,
