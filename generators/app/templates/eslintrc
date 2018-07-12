@@ -4,5 +4,18 @@
 		"niksy"<% if ( esModules ) { %>,
 		"niksy/next"<% } %><% if ( browserModule ) { %>,
 		"niksy/browser"<% } %>
-	]
+	]<% if ( browserModule ) { %>,
+	"overrides": [
+		{
+			"files": [<% if ( manualTests || automatedTests ) { %>
+				"gulpfile.js"<% } %><% if ( automatedTests ) { %>,
+				"karma.conf.js"<% } %><% if ( integrationTests ) { %>,
+				"wdio.conf.js"<% } %>
+			],
+			"env": {
+				"node": true<% if ( esModules ) { %>,
+				"es6": true<% } %>
+			}
+		}
+	]<% } %>
 }

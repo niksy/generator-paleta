@@ -243,7 +243,6 @@ describe('Automated tests, browser module', function () {
 	});
 
 	it('should update karma.conf.js with correct information', function () {
-		assert.fileContent('karma.conf.js', '/* globals process:false */');
 		assert.fileContent('karma.conf.js', 'ui: \'bdd\'');
 		assert.fileContent('karma.conf.js', 'test/**/.webpack.js');
 	});
@@ -359,6 +358,14 @@ describe('Browser module', function () {
 			extends: [
 				'niksy',
 				'niksy/browser'
+			],
+			overrides: [
+				{
+					files: ['gulpfile.js', 'karma.conf.js'],
+					env: {
+						node: true
+					}
+				}
 			]
 		});
 	});

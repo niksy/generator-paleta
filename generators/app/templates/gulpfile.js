@@ -1,6 +1,3 @@
-/* globals process:false */
-/* eslint-disable no-process-env */
-
 'use strict';
 
 const path = require('path');
@@ -42,11 +39,11 @@ gulp.task('test:cleanup', () => {
 gulp.task('test:markup', ['test:cleanup'], () => {
 	function bundle () {
 		return gulp.src('./test/manual/**/*.html')
-				.pipe(plumber(handleError))
-				.pipe(nunjucks())
-				.pipe(plumber.stop())
-				.pipe(gulp.dest('./test-dist'))
-				.pipe(debug({ title: 'Markup:' }));
+			.pipe(plumber(handleError))
+			.pipe(nunjucks())
+			.pipe(plumber.stop())
+			.pipe(gulp.dest('./test-dist'))
+			.pipe(debug({ title: 'Markup:' }));
 	}
 	if ( watch ) {
 		gulp.watch(['./test/manual/**/*.html'], bundle);
@@ -57,18 +54,18 @@ gulp.task('test:markup', ['test:cleanup'], () => {
 gulp.task('test:style', ['test:cleanup'], () => {
 	function bundle () {
 		return gulp.src('./test/manual/**/*.css')
-				.pipe(plumber(handleError))
-				.pipe(sourcemaps.init({
-					loadMaps: true
-				}))
-				.pipe(postcss([
-					atImport()
-				]))
-				// Tasks
-				.pipe(sourcemaps.write())
-				.pipe(plumber.stop())
-				.pipe(gulp.dest('./test-dist'))
-				.pipe(debug({ title: 'Style:' }));
+			.pipe(plumber(handleError))
+			.pipe(sourcemaps.init({
+				loadMaps: true
+			}))
+			.pipe(postcss([
+				atImport()
+			]))
+			// Tasks
+			.pipe(sourcemaps.write())
+			.pipe(plumber.stop())
+			.pipe(gulp.dest('./test-dist'))
+			.pipe(debug({ title: 'Style:' }));
 	}
 	if ( watch ) {
 		gulp.watch(['./test/manual/**/*.css'], bundle);
@@ -142,8 +139,8 @@ gulp.task('test:script', ['test:cleanup'], () => {
 gulp.task('test:assets', ['test:cleanup'], () => {
 	function bundle () {
 		return gulp.src('./test/manual/assets/**/*')
-				.pipe(gulp.dest('./test-dist/assets'))
-				.pipe(debug({ title: 'Assets:' }));
+			.pipe(gulp.dest('./test-dist/assets'))
+			.pipe(debug({ title: 'Assets:' }));
 	}
 	if ( watch ) {
 		gulp.watch(['./test/manual/assets/**/*'], bundle);

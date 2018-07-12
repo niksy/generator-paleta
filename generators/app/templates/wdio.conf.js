@@ -1,6 +1,3 @@
-/* globals process:false */
-/* eslint-disable no-process-env, no-process-exit, no-console */
-
 'use strict';
 
 const http = require('http');
