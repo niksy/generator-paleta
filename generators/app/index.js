@@ -360,7 +360,7 @@ module.exports = class extends Generator {
 			cp('gulpfile.js', 'gulpfile.js');
 		} else {
 			rm('test/manual');
-			rm('gulpile.js');
+			rm('gulpfile.js');
 		}
 
 		if ( answers.integrationTests ) {

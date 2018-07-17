@@ -361,7 +361,7 @@ describe('Browser module', function () {
 			],
 			overrides: [
 				{
-					files: ['gulpfile.js', 'karma.conf.js'],
+					files: ['karma.conf.js'],
 					env: {
 						node: true
 					}

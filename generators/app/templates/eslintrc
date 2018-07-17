@@ -1,4 +1,7 @@
-{
+<% var files = []; if ( manualTests || integrationTests ) {
+files.push("gulpfile.js"); } if ( automatedTests && !sassModule ) {
+files.push("karma.conf.js"); } if ( integrationTests ) {
+files.push("wdio.conf.js"); } %>{
 	"root": true,
 	"extends": [
 		"niksy"<% if ( esModules ) { %>,
@@ -7,11 +10,9 @@
 	]<% if ( browserModule ) { %>,
 	"overrides": [
 		{
-			"files": [<% if ( manualTests || automatedTests ) { %>
-				"gulpfile.js"<% } %><% if ( automatedTests ) { %>,
-				"karma.conf.js"<% } %><% if ( integrationTests ) { %>,
-				"wdio.conf.js"<% } %>
-			],
+			"files": [<% for ( var i = 0, filesLength = files.length; i < filesLength; i++ ) { %>
+				"<%= files[i] %>"<% if ( i !== filesLength-1 ) { %>,<% } %>
+			<% } %>],
 			"env": {
 				"node": true<% if ( esModules ) { %>,
 				"es6": true<% } %>
