@@ -237,7 +237,8 @@ describe('Automated tests, browser module', function () {
 				'karma-chrome-launcher': '^1.0.1',
 				'karma-html2js-preprocessor': '^1.0.0',
 				'karma-mocha': '^1.3.0',
-				'karma-mocha-reporter': '^2.2.5'
+				'karma-mocha-reporter': '^2.2.5',
+				'webpack': '^4.12.0'
 			}
 		});
 	});
@@ -822,7 +823,8 @@ describe('Transpile, browser module', function () {
 		assert.jsonFileContent('package.json', {
 			devDependencies: {
 				'babel-core': '^6.26.3',
-				'babel-loader': '^7.1.4'
+				'babel-loader': '^7.1.4',
+				'webpack': '^4.12.0'
 			}
 		});
 	});
