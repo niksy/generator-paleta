@@ -18,12 +18,11 @@ const atImport = require('postcss-import');
 
 const args = minimist(process.argv.slice(2), {
 	'default': {
-		watch: false,
-		port: 9000
+		watch: false
 	}
 });
 const watch = args.watch;
-const port = args.port;
+const port = 9000;
 
 function handleError ( msg ) {
 	gutil.log(gutil.colors.red(msg.message));

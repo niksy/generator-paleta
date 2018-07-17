@@ -226,7 +226,7 @@ describe('Automated tests, browser module', function () {
 		assert.jsonFileContent('package.json', {
 			scripts: {
 				'test:automated': 'karma start',
-				'test:automated:local': 'karma start --browsers Chrome',
+				'test:automated:local': 'karma start --local',
 				test: 'npm run lint && npm run test:automated'
 			},
 			devDependencies: {
@@ -238,7 +238,8 @@ describe('Automated tests, browser module', function () {
 				'karma-html2js-preprocessor': '^1.0.0',
 				'karma-mocha': '^1.3.0',
 				'karma-mocha-reporter': '^2.2.5',
-				'webpack': '^4.12.0'
+				'webpack': '^4.12.0',
+				'minimist': '^1.2.0'
 			}
 		});
 	});

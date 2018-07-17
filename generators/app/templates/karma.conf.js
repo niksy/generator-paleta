@@ -1,8 +1,71 @@
 'use strict';
 
-module.exports = function ( config ) {
+const minimist = require('minimist');
 
-	config.set({
+let config;
+
+const args = minimist(process.argv.slice(2), {
+	'default': {
+		local: false
+	}
+});
+
+const local = args.local;
+const port = 9001;
+
+if ( local ) {
+	config = {
+		browsers: ['Chrome'],
+	};
+} else {
+	config = {<% if ( cloudBrowsers ) { %>
+		browserStack: {
+			startTunnel: true,
+			project: '<%= moduleName %>',
+			name: 'Automated (Karma)',
+			build: 'Automated (Karma)'
+		},<% } %>
+		customLaunchers: {<% if ( cloudBrowsers ) { %>
+			'BS-Chrome': {
+				base: 'BrowserStack',
+				browser: 'Chrome',
+				os: 'Windows',
+				'os_version': '7',
+				project: '<%= moduleName %>',
+				build: 'Automated (Karma)',
+				name: 'Chrome'
+			},
+			'BS-Firefox': {
+				base: 'BrowserStack',
+				browser: 'Firefox',
+				os: 'Windows',
+				'os_version': '7',
+				project: '<%= moduleName %>',
+				build: 'Automated (Karma)',
+				name: 'Firefox'
+			},
+			'BS-IE9': {
+				base: 'BrowserStack',
+				browser: 'IE',
+				'browser_version': '9',
+				os: 'Windows',
+				'os_version': '7',
+				project: '<%= moduleName %>',
+				build: 'Automated (Karma)',
+				name: 'IE9'
+			},<% } else { %>
+			'Chrome-CI': {
+				base: 'Chrome',
+				flags: ['--no-sandbox']
+			}<% } %>
+		},
+		browsers: <% if ( cloudBrowsers ) { %>['BS-Chrome', 'BS-Firefox', 'BS-IE9']<% } else { %>[(process.env.TRAVIS ? 'Chrome-CI' : 'Chrome')]<% } %>
+	};
+}
+
+module.exports = function ( baseConfig ) {
+
+	baseConfig.set(Object.assign({
 		basePath: '',
 		frameworks: ['mocha'],
 		files: [
@@ -15,16 +78,10 @@ module.exports = function ( config ) {
 			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/.webpack.js': ['webpack', 'sourcemap']
 		},
 		reporters: ['mocha'<% if ( codeCoverage ) { %>, 'coverage-istanbul'<% } %>],
-		port: 9001,
+		port: port,
 		colors: true,
-		logLevel: config.LOG_INFO,
-		autoWatch: false,<% if ( cloudBrowsers ) { %>
-		browserStack: {
-			startTunnel: true,
-			project: '<%= moduleName %>',
-			name: 'Automated (Karma)',
-			build: 'Automated (Karma)'
-		},<% } %>
+		logLevel: baseConfig.LOG_INFO,
+		autoWatch: false,
 		client: {
 			captureConsole: true,
 			mocha: {
@@ -71,43 +128,8 @@ module.exports = function ( config ) {
 				}
 			}
 		},<% } %>
-		customLaunchers: {<% if ( cloudBrowsers ) { %>
-			'BS-Chrome': {
-				base: 'BrowserStack',
-				browser: 'Chrome',
-				os: 'Windows',
-				'os_version': '7',
-				project: '<%= moduleName %>',
-				build: 'Automated (Karma)',
-				name: 'Chrome'
-			},
-			'BS-Firefox': {
-				base: 'BrowserStack',
-				browser: 'Firefox',
-				os: 'Windows',
-				'os_version': '7',
-				project: '<%= moduleName %>',
-				build: 'Automated (Karma)',
-				name: 'Firefox'
-			},
-			'BS-IE9': {
-				base: 'BrowserStack',
-				browser: 'IE',
-				'browser_version': '9',
-				os: 'Windows',
-				'os_version': '7',
-				project: '<%= moduleName %>',
-				build: 'Automated (Karma)',
-				name: 'IE9'
-			},<% } else { %>
-			'Chrome-CI': {
-				base: 'Chrome',
-				flags: ['--no-sandbox']
-			}<% } %>
-		},
-		browsers: <% if ( cloudBrowsers ) { %>['BS-Chrome', 'BS-Firefox', 'BS-IE9']<% } else { %>[(process.env.TRAVIS ? 'Chrome-CI' : 'Chrome')]<% } %>,
 		singleRun: true,
 		concurrency: Infinity
-	});
+	}, config));
 
 };

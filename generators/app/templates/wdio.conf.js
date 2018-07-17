@@ -4,18 +4,17 @@ const http = require('http');
 const ws = require('local-web-server');
 const shutdown = require('http-shutdown');
 const minimist = require('minimist');
+
 let server, config;
 
 const args = minimist(process.argv.slice(2), {
 	'default': {
-		local: false,
-		verbose: false,
-		port: 9002
+		local: false
 	}
 });
+
 const local = <% if ( cloudBrowsers ) { %>args.local<% } else { %>true<% } %>;
-const verbose = args.verbose;
-const port = args.port;
+const port = 9002;
 
 if ( local ) {
 	config = {
@@ -83,7 +82,7 @@ module.exports.config = Object.assign({
 	exclude: [],
 	maxInstances: 10,
 	sync: false,
-	logLevel: verbose ? 'verbose' : 'silent',
+	logLevel: 'silent',
 	coloredLogs: true,
 	screenshotPath: './errorShots/',
 	screenshotOnReject: true,
@@ -96,7 +95,7 @@ module.exports.config = Object.assign({
 		ui: '<%= testingInterface %>'<% if ( transpile || esModules ) { %>,
 		require: [<% if ( transpile ) { %>'babel-register'<% } %><% if ( transpile && esModules ) { %>, <% } %><% if ( esModules ) { %>'esm'<% } %>]<% } %>
 	},
-	onPrepare: function () {
+	onPrepare: function ( currentConfig ) {
 
 		return new Promise(( resolve, reject ) => {
 
@@ -108,7 +107,7 @@ module.exports.config = Object.assign({
 					path: './test-dist'
 				},
 				log: {
-					format: verbose ? 'tiny' : 'none'
+					format: currentConfig.logLevel === 'verbose' ? 'tiny' : 'none'
 				}
 			}).callback()));
 
