@@ -83,10 +83,7 @@ module.exports = function ( baseConfig ) {
 		logLevel: baseConfig.LOG_INFO,
 		autoWatch: false,
 		client: {
-			captureConsole: true,
-			mocha: {
-				ui: '<%= testingInterface %>'
-			}
+			captureConsole: true
 		},
 		browserConsoleLogOptions: {
 			level: 'log',

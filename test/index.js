@@ -245,7 +245,6 @@ describe('Automated tests, browser module', function () {
 	});
 
 	it('should update karma.conf.js with correct information', function () {
-		assert.fileContent('karma.conf.js', 'ui: \'bdd\'');
 		assert.fileContent('karma.conf.js', 'test/**/.webpack.js');
 	});
 
@@ -307,7 +306,7 @@ describe('Integration tests', function () {
 	});
 
 	it('should update wdio.conf.js with correct information', function () {
-		assert.fileContent('wdio.conf.js', 'ui: \'bdd\'');
+		assert.fileContent('wdio.conf.js', 'framework: \'mocha\'');
 	});
 
 });
@@ -394,28 +393,6 @@ describe('jQuery module', function () { // eslint-disable-line mocha/valid-suite
 				'ecosystem:jquery',
 				'jquery-plugin'
 			]
-		});
-	});
-
-});
-
-describe('Testing interface', function () {
-
-	before(function () {
-		return helpers.run(path.join(__dirname, '../generators/app'))
-			.withPrompts({
-				automatedTests: true,
-				codeCoverage: false,
-				testingInterface: 'tdd'
-			})
-			.toPromise();
-	});
-
-	it('should fill package.json with correct information', function () {
-		assert.jsonFileContent('package.json', {
-			scripts: {
-				test: 'eslint \'{index,lib/**/*,test/**/*}.js\' && mocha \'test/**/*.js\' --ui tdd'
-			}
 		});
 	});
 

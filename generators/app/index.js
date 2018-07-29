@@ -153,23 +153,6 @@ module.exports = class extends Generator {
 				when: ( answers ) => answers.automatedTests && answers.manualTests && answers.browserModule
 			},
 			{
-				type: 'list',
-				name: 'testingInterface',
-				message: 'What testing interface do you use?',
-				'default': 'bdd',
-				choices: [
-					{
-						name: 'BDD',
-						value: 'bdd'
-					},
-					{
-						name: 'TDD',
-						value: 'tdd'
-					}
-				],
-				when: ( answers ) => answers.automatedTests
-			},
-			{
 				type: 'confirm',
 				name: 'codeCoverage',
 				message: 'Do you need code coverage?',
@@ -272,7 +255,6 @@ module.exports = class extends Generator {
 			manualTests: answers.manualTests,
 			automatedTests: answers.automatedTests,
 			integrationTests: answers.integrationTests,
-			testingInterface: answers.testingInterface,
 			codeCoverage: answers.codeCoverage,
 			codeCoverageService: answers.codeCoverageService,
 			gitRepo: gh(answers.gitRepo),
