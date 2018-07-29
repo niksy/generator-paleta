@@ -211,6 +211,13 @@ module.exports = class extends Generator {
 				name: 'nodeEngineVersion',
 				message: 'Which Node engine version this project supports?',
 				'default': 4
+			},
+			{
+				type: 'input',
+				name: 'browserVersion',
+				message: 'Which browser versions this project supports?',
+				'default': 'last 2 versions, ie >= 9',
+				when: ( answers ) => answers.browserModule
 			}
 		];
 	}
@@ -245,9 +252,11 @@ module.exports = class extends Generator {
 		const pkg = this.pkg;
 		const author = this.author;
 
-		const keywords = uniq(compact(answers.keywords.split(',')
-			.map(( keyword ) => keyword.trim())
-			.filter(( keyword ) => keyword !== '')));
+		const [keywords, browserVersion] = [answers.keywords, answers.browserVersion]
+			.map(( str ) => typeof str === 'string' ? str : '')
+			.map(( str ) => uniq(compact(str.split(',')
+				.map(( item ) => item.trim())
+				.filter(( item ) => item !== ''))));
 
 		const tpl = {
 			moduleName: preparePkgName(answers.name),
@@ -278,7 +287,8 @@ module.exports = class extends Generator {
 			transpile: answers.transpile,
 			complexTranspile: answers.complexTranspile,
 			esModules: answers.esModules,
-			nodeEngineVersion: parseInt(answers.nodeEngineVersion, 10)
+			nodeEngineVersion: parseInt(answers.nodeEngineVersion, 10),
+			browserVersion: browserVersion
 		};
 		this.tpl = tpl;
 

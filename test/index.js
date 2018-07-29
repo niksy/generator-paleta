@@ -806,6 +806,18 @@ describe('Transpile', function () {
 		});
 	});
 
+	it('should fill .babelrc with correct information', function () {
+		assert.jsonFileContent('.babelrc', {
+			presets: [
+				['niksy', {
+					targets: {
+						node: '4'
+					}
+				}]
+			]
+		});
+	});
+
 });
 
 describe('Transpile, browser module', function () {
@@ -827,6 +839,21 @@ describe('Transpile, browser module', function () {
 				'babel-loader': '^7.1.4',
 				'webpack': '^4.12.0'
 			}
+		});
+	});
+
+	it('should fill .babelrc with correct information', function () {
+		assert.jsonFileContent('.babelrc', {
+			presets: [
+				['niksy', {
+					targets: {
+						browsers: [
+							'last 2 versions',
+							'ie >= 9'
+						]
+					}
+				}]
+			]
 		});
 	});
 
@@ -1069,6 +1096,19 @@ describe('ES Modules, automated tests, code coverage, transpile', function () {
 			devDependencies: {
 				esm: '^3.0.51'
 			}
+		});
+	});
+
+	it('should fill .babelrc with correct information', function () {
+		assert.jsonFileContent('.babelrc', {
+			presets: [
+				'niksy/next',
+				['niksy', {
+					targets: {
+						node: '8'
+					}
+				}]
+			]
 		});
 	});
 

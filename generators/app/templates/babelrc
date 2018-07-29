@@ -1,7 +1,14 @@
 {
 	"presets": [<% if ( esModules ) { %>
 		"niksy/next",<% } %>
-		"niksy"
+		["niksy", {
+			"targets": {
+				"node": "<%= nodeEngineVersion %>"<% if ( browserModule ) { %>,
+				"browsers": [<% for ( var i = 0, browserVersionLength = browserVersion.length; i < browserVersionLength; i++ ) { %>
+					"<%- browserVersion[i] %>"<% if ( i !== browserVersionLength-1 ) { %>,<% } %><% } %>
+				]<% } %>
+			}
+		}]
 	]<% if ( browserModule ) { %>,
 	"plugins": [
 		"transform-object-assign"
