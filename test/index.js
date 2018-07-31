@@ -39,7 +39,13 @@ describe('New project', function () {
 				'lib/',
 				'LICENSE.md',
 				'README.md'
-			]
+			],
+			scripts: {
+				release: 'np'
+			},
+			devDependencies: {
+				'np': '^3.0.4'
+			}
 		});
 		assert.noJsonFileContent('package.json', {
 			devDependencies: {
