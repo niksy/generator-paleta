@@ -4,7 +4,8 @@ const path = require('path');
 const gulp = require('gulp');
 const sourcemaps = require('gulp-sourcemaps');
 const plumber = require('gulp-plumber');
-const gutil = require('gulp-util');
+const fancyLog = require('fancy-log');
+const colors = require('ansi-colors');
 const debug = require('gulp-debug');
 const nunjucks = require('gulp-nunjucks-render');
 const webpack = require('webpack');
@@ -25,17 +26,17 @@ const watch = args.watch;
 const port = 9000;
 
 function handleError ( msg ) {
-	gutil.log(gutil.colors.red(msg.message));
+	fancyLog(colors.red(msg.message));
 	this.emit('end');
 }
 
-gulp.task('test:cleanup', () => {
+function testCleanup () {
 	return del([
 		'./test-dist'
 	]);
-});
+}
 
-gulp.task('test:markup', ['test:cleanup'], () => {
+function testMarkup () {
 	function bundle () {
 		return gulp.src('./test/manual/**/*.html')
 			.pipe(plumber(handleError))
@@ -48,9 +49,9 @@ gulp.task('test:markup', ['test:cleanup'], () => {
 		gulp.watch(['./test/manual/**/*.html'], bundle);
 	}
 	return bundle();
-});
+}
 
-gulp.task('test:style', ['test:cleanup'], () => {
+function testStyle () {
 	function bundle () {
 		return gulp.src('./test/manual/**/*.css')
 			.pipe(plumber(handleError))
@@ -70,9 +71,9 @@ gulp.task('test:style', ['test:cleanup'], () => {
 		gulp.watch(['./test/manual/**/*.css'], bundle);
 	}
 	return bundle();
-});
+}
 
-gulp.task('test:script', ['test:cleanup'], () => {
+function testScript () {
 
 	return globby(['./test/manual/**/*.js'])
 		.then(( files ) => {
@@ -117,7 +118,7 @@ gulp.task('test:script', ['test:cleanup'], () => {
 					if ( err ) {
 						return reject(err);
 					}
-					gutil.log(stats.toString({
+					fancyLog(stats.toString({
 						colors: true
 					}));
 					return resolve();
@@ -133,9 +134,9 @@ gulp.task('test:script', ['test:cleanup'], () => {
 
 		});
 
-});
+}
 
-gulp.task('test:assets', ['test:cleanup'], () => {
+function testAssets () {
 	function bundle () {
 		return gulp.src('./test/manual/assets/**/*')
 			.pipe(gulp.dest('./test-dist/assets'))
@@ -145,11 +146,11 @@ gulp.task('test:assets', ['test:cleanup'], () => {
 		gulp.watch(['./test/manual/assets/**/*'], bundle);
 	}
 	return bundle();
-});
+}
 
-gulp.task('test:prepare', ['test:cleanup', 'test:markup', 'test:style', 'test:script', 'test:assets']);
+const testPrepare = parallel(testMarkup, testStyle, testScript, testAssets);
 
-gulp.task('test:local:manual', ['test:prepare'], () => {
+function testLocalManual () {
 	if ( watch ) {
 		ws({
 			'static': {
@@ -161,4 +162,12 @@ gulp.task('test:local:manual', ['test:prepare'], () => {
 		}).listen(port);
 		opn(`http://localhost:${port}`);
 	}
-});
+}
+
+module.exports['test:cleanup'] = testCleanup;
+module.exports['test:markup'] = series(testCleanup, testMarkup);
+module.exports['test:style'] = series(testCleanup, testStyle);
+module.exports['test:script'] = series(testCleanup, testScript);
+module.exports['test:assets'] = series(testCleanup, testAssets);
+module.exports['test:prepare'] = series(testCleanup, testPrepare);
+module.exports['test:local:manual'] = series(testCleanup, testPrepare, testLocalManual);
