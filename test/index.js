@@ -254,6 +254,32 @@ describe('Automated tests, browser module', function () {
 
 });
 
+describe('Automated tests, browser module, headless browser', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				automatedTests: true,
+				browserModule: true,
+				browserTestType: 'headless'
+			})
+			.toPromise();
+	});
+
+	it('should fill package.json with correct information', function () {
+		assert.jsonFileContent('package.json', {
+			devDependencies: {
+				'puppeteer': '^1.6.1'
+			}
+		});
+	});
+
+	it('should update karma.conf.js with correct information', function () {
+		assert.fileContent('karma.conf.js', 'process.env.CHROME_BIN = puppeteer.executablePath();');
+	});
+
+});
+
 describe('Integration tests', function () {
 
 	before(function () {

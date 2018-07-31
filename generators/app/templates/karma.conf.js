@@ -1,6 +1,9 @@
 'use strict';
 
-const minimist = require('minimist');
+const minimist = require('minimist');<% if ( browserTestType === 'headless' ) { %>
+const puppeteer = require('puppeteer');
+
+process.env.CHROME_BIN = puppeteer.executablePath();<% } %>
 
 let config;
 
@@ -15,7 +18,7 @@ const port = 9001;
 
 if ( local ) {
 	config = {
-		browsers: ['Chrome'],
+		browsers: <% if ( browserTestType !== 'headless' ) { %>['Chrome']<% } else { %>['ChromeHeadless']<% } %>,
 	};
 } else {
 	config = {<% if ( cloudBrowsers ) { %>
@@ -59,7 +62,7 @@ if ( local ) {
 				flags: ['--no-sandbox']
 			}<% } %>
 		},
-		browsers: <% if ( cloudBrowsers ) { %>['BS-Chrome', 'BS-Firefox', 'BS-IE9']<% } else { %>[(process.env.TRAVIS ? 'Chrome-CI' : 'Chrome')]<% } %>
+		browsers: <% if ( cloudBrowsers ) { %>['BS-Chrome', 'BS-Firefox', 'BS-IE9']<% } else { %><% if ( browserTestType !== 'headless' ) { %>[(process.env.TRAVIS ? 'Chrome-CI' : 'Chrome')]<% } else { %>['ChromeHeadless']<% } %><% } %>
 	};
 }
 

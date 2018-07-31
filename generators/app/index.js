@@ -139,6 +139,23 @@ module.exports = class extends Generator {
 				'default': true
 			},
 			{
+				type: 'list',
+				name: 'browserTestType',
+				message: 'What kind of browser testing do you want?',
+				'default': 'real',
+				choices: [
+					{
+						name: 'Real browser',
+						value: 'real'
+					},
+					{
+						name: 'Headless browser',
+						value: 'headless'
+					}
+				],
+				when: ( answers ) => answers.automatedTests && answers.browserModule
+			},
+			{
 				type: 'confirm',
 				name: 'cloudBrowsers',
 				message: 'Do you need cloud browser service (Browserstack) for tests?',
@@ -270,7 +287,8 @@ module.exports = class extends Generator {
 			complexTranspile: answers.complexTranspile,
 			esModules: answers.esModules,
 			nodeEngineVersion: parseInt(answers.nodeEngineVersion, 10),
-			browserVersion: browserVersion
+			browserVersion: browserVersion,
+			browserTestType: answers.browserTestType
 		};
 		this.tpl = tpl;
 
