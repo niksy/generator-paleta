@@ -43,7 +43,7 @@
     "nyc": "^12.0.2",
     "write-json-file": "^2.0.0",
     "yeoman-assert": "^3.1.1",
-    "yeoman-test": "^1.4.0"
+    "yeoman-test": "~1.8.0"
   },
   "engines": {
     "node": ">=8"
