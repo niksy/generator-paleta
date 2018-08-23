@@ -8,7 +8,7 @@
   "author": "<%= humanName %> <<%= email %>> (<%= website %>)",
   "files": [
     "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( transpile && !complexTranspile ) { %>dist/<% } %>index<% if ( esModules ) { %>.cjs<% } %>.js<% } %>",<% if ( esModules ) { %>
-    "index.esm.js",<% } %><% if ( transpile && !complexTranspile ) { %>
+    "<% if ( transpile && !complexTranspile ) { %>dist/<% } %>index.esm.js",<% } %><% if ( transpile && !complexTranspile ) { %>
     "dist/",<% } else if ( !transpile && !esModules ) { %>
     "lib/",<% } %>
     "LICENSE.md",

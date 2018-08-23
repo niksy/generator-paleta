@@ -1019,7 +1019,8 @@ describe('ES Modules, transpile', function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
 				esModules: true,
-				transpile: true
+				transpile: true,
+				complexTranspile: false
 			})
 			.toPromise();
 	});
@@ -1030,6 +1031,11 @@ describe('ES Modules, transpile', function () {
 
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
+			files: [
+				'dist/index.cjs.js',
+				'dist/index.esm.js',
+				'dist/'
+			],
 			devDependencies: {
 				'rollup-plugin-babel': '^3.0.4'
 			}
@@ -1053,6 +1059,15 @@ describe('ES Modules, transpile, complex', function () {
 	it('should add proper data to .gitignore', function () {
 		assert.fileContent('.gitignore', 'index.cjs.js');
 		assert.fileContent('.gitignore', 'index.esm.js');
+	});
+
+	it('should fill package.json with correct information', function () {
+		assert.jsonFileContent('package.json', {
+			files: [
+				'index.cjs.js',
+				'index.esm.js'
+			]
+		});
 	});
 
 });
