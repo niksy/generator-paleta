@@ -127,8 +127,8 @@ For manual tests, run `npm run test:manual:local` and open <http://localhost:900
 
 MIT © [<%= humanName %>](<%= website %>)<% if ( automatedTests ) { %>
 
-[ci]: https://travis-ci.org/<%= username %>/<%= cleanModuleName %>
-[ci-img]: https://travis-ci.org/<%= username %>/<%= cleanModuleName %>.svg?branch=master<% } %><% if ( cloudBrowsers && ( (automatedTests && browserModule && !sassModule) || integrationTests ) ) { %>
+[ci]: https://travis-ci.com/<%= username %>/<%= cleanModuleName %>
+[ci-img]: https://travis-ci.com/<%= username %>/<%= cleanModuleName %>.svg?branch=master<% } %><% if ( cloudBrowsers && ( (automatedTests && browserModule && !sassModule) || integrationTests ) ) { %>
 [browserstack]: https://www.browserstack.com/
 [browserstack-img]: https://www.browserstack.com/automate/badge.svg?badge_key=<badge_key><% } %><% if ( codeCoverageService ) { %>
 [coverage]: https://coveralls.io/github/<%= username %>/<%= cleanModuleName %>?branch=master
