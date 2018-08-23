@@ -1,3 +1,3 @@
-'use strict';
+<% if ( !esModules ) { %>'use strict';
 
-module.exports = function () {};
+module.exports = function () {};<% } else { %>export default function () {};<% } %>
