@@ -16,9 +16,8 @@ const isScopedPackage = require('is-scoped');
  *
  * @return {String}
  */
-function preparePkgName ( pkgName, opts ) {
+function preparePkgName ( pkgName, opts = {} ) {
 	let preparedPkgName;
-	opts = opts || {};
 	if ( isScopedPackage(pkgName) ) {
 		const scopedPkgName = pkgName.split('/');
 		preparedPkgName = [
@@ -46,21 +45,21 @@ module.exports = class extends Generator {
 		};
 		this.questions = [
 			{
-				type: 'input',
-				name: 'name',
-				message: 'What is the name of the project?',
+				'type': 'input',
+				'name': 'name',
+				'message': 'What is the name of the project?',
 				'default': () => preparePkgName(this.pkg.name || this.appname)
 			},
 			{
-				type: 'input',
-				name: 'description',
-				message: 'What is the description of the project?',
+				'type': 'input',
+				'name': 'description',
+				'message': 'What is the description of the project?',
 				'default': () => this.pkg.description || ''
 			},
 			{
-				type: 'input',
-				name: 'keywords',
-				message: 'What are the keywords for this project?',
+				'type': 'input',
+				'name': 'keywords',
+				'message': 'What are the keywords for this project?',
 				'default': () => {
 					if ( this.pkg.keywords ) {
 						return this.pkg.keywords.join(', ');
@@ -69,9 +68,9 @@ module.exports = class extends Generator {
 				}
 			},
 			{
-				type: 'input',
-				name: 'gitRepo',
-				message: 'What is the Git repository of the project?',
+				'type': 'input',
+				'name': 'gitRepo',
+				'message': 'What is the Git repository of the project?',
 				'default': ( answers ) => {
 					if ( this.pkg.repository ) {
 						if ( isGithubUrl(this.pkg.repository.url) ) {
@@ -83,30 +82,30 @@ module.exports = class extends Generator {
 				}
 			},
 			{
-				type: 'confirm',
-				name: 'cli',
-				message: 'Does this project has CLI interface?',
+				'type': 'confirm',
+				'name': 'cli',
+				'message': 'Does this project has CLI interface?',
 				'default': false
 			},
 			{
-				type: 'input',
-				name: 'cliCommandName',
-				message: 'What is the name of CLI command?',
+				'type': 'input',
+				'name': 'cliCommandName',
+				'message': 'What is the name of CLI command?',
 				'default': ( answers ) => preparePkgName(answers.name, { clean: true }),
-				when: ( answers ) => answers.cli
+				'when': ( answers ) => answers.cli
 			},
 			{
-				type: 'confirm',
-				name: 'browserModule',
-				message: 'Is this project meant to be used in browser?',
+				'type': 'confirm',
+				'name': 'browserModule',
+				'message': 'Is this project meant to be used in browser?',
 				'default': false
 			},
 			{
-				type: 'checkbox',
-				name: 'browserModuleType',
-				message: 'What type of browser module is this project?',
+				'type': 'checkbox',
+				'name': 'browserModuleType',
+				'message': 'What type of browser module is this project?',
 				'default': [],
-				choices: [
+				'choices': [
 					{
 						name: 'jQuery module',
 						value: 'jqueryModule'
@@ -124,26 +123,26 @@ module.exports = class extends Generator {
 						value: 'styles'
 					}
 				],
-				when: ( answers ) => answers.browserModule
+				'when': ( answers ) => answers.browserModule
 			},
 			{
-				type: 'confirm',
-				name: 'manualTests',
-				message: 'Do you have manual tests?',
+				'type': 'confirm',
+				'name': 'manualTests',
+				'message': 'Do you have manual tests?',
 				'default': false
 			},
 			{
-				type: 'confirm',
-				name: 'automatedTests',
-				message: 'Do you have automated tests?',
+				'type': 'confirm',
+				'name': 'automatedTests',
+				'message': 'Do you have automated tests?',
 				'default': true
 			},
 			{
-				type: 'list',
-				name: 'browserTestType',
-				message: 'What kind of browser testing do you want?',
+				'type': 'list',
+				'name': 'browserTestType',
+				'message': 'What kind of browser testing do you want?',
 				'default': 'real',
-				choices: [
+				'choices': [
 					{
 						name: 'Real browser',
 						value: 'real'
@@ -153,71 +152,71 @@ module.exports = class extends Generator {
 						value: 'headless'
 					}
 				],
-				when: ( answers ) => answers.automatedTests && answers.browserModule
+				'when': ( answers ) => answers.automatedTests && answers.browserModule
 			},
 			{
-				type: 'confirm',
-				name: 'cloudBrowsers',
-				message: 'Do you need cloud browser service (Browserstack) for tests?',
+				'type': 'confirm',
+				'name': 'cloudBrowsers',
+				'message': 'Do you need cloud browser service (Browserstack) for tests?',
 				'default': true,
-				when: ( answers ) => answers.automatedTests && answers.browserModule
+				'when': ( answers ) => answers.automatedTests && answers.browserModule
 			},
 			{
-				type: 'confirm',
-				name: 'integrationTests',
-				message: 'Do you have integration (Selenium) tests?',
+				'type': 'confirm',
+				'name': 'integrationTests',
+				'message': 'Do you have integration (Selenium) tests?',
 				'default': false,
-				when: ( answers ) => answers.automatedTests && answers.manualTests && answers.browserModule
+				'when': ( answers ) => answers.automatedTests && answers.manualTests && answers.browserModule
 			},
 			{
-				type: 'confirm',
-				name: 'codeCoverage',
-				message: 'Do you need code coverage?',
+				'type': 'confirm',
+				'name': 'codeCoverage',
+				'message': 'Do you need code coverage?',
 				'default': true,
-				when: ( answers ) => answers.automatedTests
+				'when': ( answers ) => answers.automatedTests
 			},
 			{
-				type: 'confirm',
-				name: 'codeCoverageService',
-				message: 'Do you want to send code coverage report to Coveralls?',
+				'type': 'confirm',
+				'name': 'codeCoverageService',
+				'message': 'Do you want to send code coverage report to Coveralls?',
 				'default': false,
-				when: ( answers ) => answers.codeCoverage
+				'when': ( answers ) => answers.codeCoverage
 			},
 			{
-				type: 'confirm',
-				name: 'transpile',
-				message: 'Do you need code transpiling via Babel?',
+				'type': 'confirm',
+				'name': 'transpile',
+				'message': 'Do you need code transpiling via Babel?',
 				'default': ( answers ) => answers.browserModule
 			},
 			{
-				type: 'confirm',
-				name: 'complexTranspile',
-				message: 'Is this complex transpiling (source files are in "src" folder)?',
+				'type': 'confirm',
+				'name': 'complexTranspile',
+				'message': 'Is this complex transpiling (source files are in "src" folder)?',
 				'default': false,
-				when: ( answers ) => answers.transpile
+				'when': ( answers ) => answers.transpile
 			},
 			{
-				type: 'confirm',
-				name: 'esModules',
-				message: 'Do you want to use ES Modules?',
+				'type': 'confirm',
+				'name': 'esModules',
+				'message': 'Do you want to use ES Modules?',
 				'default': false,
-				when: ( answers ) => {
+				'when': ( answers ) => {
 					const browserModuleType = answers.browserModuleType || [];
 					return browserModuleType.indexOf('sassModule') === -1;
 				}
 			},
 			{
-				type: 'input',
-				name: 'nodeEngineVersion',
-				message: 'Which Node engine version this project supports?',
+				'type': 'input',
+				'name': 'nodeEngineVersion',
+				'message': 'Which Node engine version this project supports?',
 				'default': 4
 			},
 			{
-				type: 'input',
-				name: 'browserVersion',
-				message: 'Which browser versions this project supports?',
+				'type': 'input',
+				'name': 'browserVersion',
+				'message': 'Which browser versions this project supports?',
 				'default': 'last 2 versions, ie >= 9',
-				when: ( answers ) => answers.browserModule
+				'when': ( answers ) => answers.browserModule
 			}
 		];
 	}
@@ -248,12 +247,10 @@ module.exports = class extends Generator {
 
 	writing () {
 
-		const answers = this.answers;
-		const pkg = this.pkg;
-		const author = this.author;
+		const { answers, pkg, author } = this;
 
 		const [keywords, browserVersion] = [answers.keywords, answers.browserVersion]
-			.map(( str ) => typeof str === 'string' ? str : '')
+			.map(( str ) => (typeof str === 'string' ? str : ''))
 			.map(( str ) => uniq(compact(str.split(',')
 				.map(( item ) => item.trim())
 				.filter(( item ) => item !== ''))));
@@ -412,7 +409,7 @@ module.exports = class extends Generator {
 		 * Deep-assign overwrites arrays so we have to prepare
 		 * new array before writing new JSON file
 		 */
-		if ( Array.isArray(keywords) && keywords.length ) {
+		if ( Array.isArray(keywords) && keywords.length !== 0 ) {
 			mergedPkg.keywords = keywords;
 		}
 

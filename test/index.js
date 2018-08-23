@@ -44,7 +44,7 @@ describe('New project', function () {
 				release: 'np'
 			},
 			devDependencies: {
-				'np': '^3.0.4'
+				np: '^3.0.4'
 			}
 		});
 		assert.noJsonFileContent('package.json', {
@@ -57,7 +57,7 @@ describe('New project', function () {
 
 	it('should fill .eslintrc with correct information', function () {
 		assert.jsonFileContent('.eslintrc', {
-			extends: ['niksy']
+			'extends': ['niksy']
 		});
 	});
 
@@ -233,7 +233,7 @@ describe('Automated tests, browser module', function () {
 			scripts: {
 				'test:automated': 'karma start',
 				'test:automated:local': 'karma start --local',
-				test: 'npm run lint && npm run test:automated'
+				'test': 'npm run lint && npm run test:automated'
 			},
 			devDependencies: {
 				'karma': '^1.1.0',
@@ -275,7 +275,7 @@ describe('Automated tests, browser module, headless browser', function () {
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			devDependencies: {
-				'puppeteer': '^1.6.1'
+				puppeteer: '^1.6.1'
 			}
 		});
 	});
@@ -313,7 +313,7 @@ describe('Integration tests', function () {
 		assert.jsonFileContent('package.json', {
 			scripts: {
 				'test:integration': 'gulp test:prepare && wdio',
-				test: 'npm run lint && npm run test:automated && npm run test:integration'
+				'test': 'npm run lint && npm run test:automated && npm run test:integration'
 			},
 			devDependencies: {
 				'mocha': '^4.1.0',
@@ -388,11 +388,11 @@ describe('Browser module', function () {
 
 	it('should fill .eslintrc with correct information', function () {
 		assert.jsonFileContent('.eslintrc', {
-			extends: [
+			'extends': [
 				'niksy',
 				'niksy/browser'
 			],
-			overrides: [
+			'overrides': [
 				{
 					files: ['karma.conf.js'],
 					env: {
@@ -453,7 +453,7 @@ describe('Styles', function () {
 				test: 'eslint \'{index,lib/**/*}.js\' && stylelint \'index.css\''
 			},
 			devDependencies: {
-				stylelint: '^9.2.1',
+				'stylelint': '^9.2.1',
 				'stylelint-config-niksy': '^5.1.1'
 			}
 		});
@@ -721,7 +721,7 @@ describe('Sass module', function () {
 
 	it('should fill .stylelintrc with correct information', function () {
 		assert.jsonFileContent('.stylelintrc', {
-			extends: [
+			'extends': [
 				'stylelint-config-niksy',
 				'stylelint-config-niksy/scss'
 			]
@@ -1001,7 +1001,7 @@ describe('ES Modules', function () {
 				build: 'rollup --config .rollup.js'
 			},
 			devDependencies: {
-				'rollup': '^0.60.1'
+				rollup: '^0.60.1'
 			}
 		});
 	});

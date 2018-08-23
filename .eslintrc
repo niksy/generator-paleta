@@ -2,13 +2,5 @@
 	"root": true,
 	"extends": [
 		"niksy"
-	],
-	"plugins": [
-		"node"
-	],
-	"rules": {
-		"node/no-unsupported-features": [2, {
-			"version": 8
-		}]
-	}
+	]
 }
