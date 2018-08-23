@@ -201,7 +201,7 @@ describe('Automated tests', function () {
 			},
 			devDependencies: {
 				'mocha': '^4.1.0',
-				'eslint-plugin-mocha': '^4.9.0'
+				'eslint-plugin-mocha': '^5.1.0'
 			}
 		});
 	});
