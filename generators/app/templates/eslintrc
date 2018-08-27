@@ -10,9 +10,9 @@ files.push("wdio.conf.js"); } %>{
 	]<% if ( browserModule ) { %>,
 	"overrides": [
 		{
-			"files": [<% for ( var i = 0, filesLength = files.length; i < filesLength; i++ ) { %>
-				"<%= files[i] %>"<% if ( i !== filesLength-1 ) { %>,<% } %>
-			<% } %>],
+			<% if ( files.length !== 0 ) { %>"files": [<% for ( var i = 0, filesLength = files.length; i < filesLength; i++ ) { %>
+				"<%= files[i] %>"<% if ( i !== filesLength-1 ) { %>,<% } %><% } %>
+			],<% } %>
 			"env": {
 				"node": true<% if ( esModules ) { %>,
 				"es6": true<% } %>
