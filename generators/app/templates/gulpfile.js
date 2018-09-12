@@ -148,7 +148,7 @@ function testAssets () {
 	return bundle();
 }
 
-const testPrepare = parallel(testMarkup, testStyle, testScript, testAssets);
+const testPrepare = gulp.parallel(testMarkup, testStyle, testScript, testAssets);
 
 function testLocalManual () {
 	if ( watch ) {
@@ -165,9 +165,9 @@ function testLocalManual () {
 }
 
 module.exports['test:cleanup'] = testCleanup;
-module.exports['test:markup'] = series(testCleanup, testMarkup);
-module.exports['test:style'] = series(testCleanup, testStyle);
-module.exports['test:script'] = series(testCleanup, testScript);
-module.exports['test:assets'] = series(testCleanup, testAssets);
-module.exports['test:prepare'] = series(testCleanup, testPrepare);
-module.exports['test:local:manual'] = series(testCleanup, testPrepare, testLocalManual);
+module.exports['test:markup'] = gulp.series(testCleanup, testMarkup);
+module.exports['test:style'] = gulp.series(testCleanup, testStyle);
+module.exports['test:script'] = gulp.series(testCleanup, testScript);
+module.exports['test:assets'] = gulp.series(testCleanup, testAssets);
+module.exports['test:prepare'] = gulp.series(testCleanup, testPrepare);
+module.exports['test:local:manual'] = gulp.series(testCleanup, testPrepare, testLocalManual);
