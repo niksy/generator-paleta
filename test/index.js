@@ -809,8 +809,8 @@ describe('Transpile', function () {
 				prepublish: 'npm run build'
 			},
 			devDependencies: {
-				'babel-cli': '^6.26.0',
-				'babel-preset-niksy': '^3.4.1'
+				'@babel/cli': '^7.2.3',
+				'babel-preset-niksy': '^4.1.0'
 			}
 		});
 	});
@@ -818,7 +818,7 @@ describe('Transpile', function () {
 	it('should fill .babelrc with correct information', function () {
 		assert.jsonFileContent('.babelrc', {
 			presets: [
-				['niksy', {
+				['babel-preset-niksy', {
 					targets: {
 						node: '4'
 					}
@@ -844,8 +844,8 @@ describe('Transpile, browser module', function () {
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			devDependencies: {
-				'babel-core': '^6.26.3',
-				'babel-loader': '^7.1.4',
+				'@babel/core': '^7.2.2',
+				'babel-loader': '^8.0.4',
 				'webpack': '^4.12.0'
 			}
 		});
@@ -854,7 +854,7 @@ describe('Transpile, browser module', function () {
 	it('should fill .babelrc with correct information', function () {
 		assert.jsonFileContent('.babelrc', {
 			presets: [
-				['niksy', {
+				['babel-preset-niksy', {
 					targets: {
 						browsers: [
 							'last 2 versions',
@@ -884,7 +884,7 @@ describe('Transpile, with automated tests and code coverage', function () {
 		assert.jsonFileContent('.babelrc', {
 			env: {
 				test: {
-					plugins: ['istanbul']
+					plugins: ['babel-plugin-istanbul']
 				}
 			}
 		});
@@ -900,11 +900,11 @@ describe('Transpile, with automated tests and code coverage', function () {
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			scripts: {
-				test: 'eslint \'{index,lib/**/*,test/**/*}.js\' && BABEL_ENV=test nyc mocha --require babel-register \'test/**/*.js\' && nyc check-coverage'
+				test: 'eslint \'{index,lib/**/*,test/**/*}.js\' && BABEL_ENV=test nyc mocha --require @babel/register \'test/**/*.js\' && nyc check-coverage'
 			},
 			devDependencies: {
-				'babel-register': '^6.26.0',
-				'babel-plugin-istanbul': '^4.1.6'
+				'@babel/register': '^7.0.0',
+				'babel-plugin-istanbul': '^5.1.0'
 			}
 		});
 	});
@@ -927,7 +927,7 @@ describe('Transpile, browser module, with automated tests and code coverage', fu
 	it('should fill .babelrc with correct information', function () {
 		assert.jsonFileContent('.babelrc', {
 			plugins: [
-				'transform-object-assign'
+				'@babel/plugin-transform-object-assign'
 			]
 		});
 	});
@@ -1037,7 +1037,7 @@ describe('ES Modules, transpile', function () {
 				'dist/'
 			],
 			devDependencies: {
-				'rollup-plugin-babel': '^3.0.4'
+				'rollup-plugin-babel': '^4.1.0'
 			}
 		});
 	});
@@ -1115,7 +1115,7 @@ describe('ES Modules, automated tests, code coverage, transpile', function () {
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			scripts: {
-				test: 'eslint \'{index,lib/**/*,test/**/*}.js\' && BABEL_ENV=test nyc mocha --require babel-register --require esm \'test/**/*.js\' && nyc check-coverage'
+				test: 'eslint \'{index,lib/**/*,test/**/*}.js\' && BABEL_ENV=test nyc mocha --require @babel/register --require esm \'test/**/*.js\' && nyc check-coverage'
 			},
 			devDependencies: {
 				esm: '^3.0.51'
@@ -1126,8 +1126,8 @@ describe('ES Modules, automated tests, code coverage, transpile', function () {
 	it('should fill .babelrc with correct information', function () {
 		assert.jsonFileContent('.babelrc', {
 			presets: [
-				'niksy/next',
-				['niksy', {
+				'babel-preset-niksy/next',
+				['babel-preset-niksy', {
 					targets: {
 						node: '8'
 					}

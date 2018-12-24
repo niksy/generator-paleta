@@ -92,7 +92,7 @@ module.exports.config = Object.assign({
 	framework: 'mocha',
 	reporters: ['spec'],<% if ( transpile || esModules ) { %>
 	mochaOpts: {
-		require: [<% if ( transpile ) { %>'babel-register'<% } %><% if ( transpile && esModules ) { %>, <% } %><% if ( esModules ) { %>'esm'<% } %>]
+		require: [<% if ( transpile ) { %>'@babel/register'<% } %><% if ( transpile && esModules ) { %>, <% } %><% if ( esModules ) { %>'esm'<% } %>]
 	},<% } %>
 	onPrepare: function ( currentConfig ) {
 

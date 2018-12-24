@@ -1,7 +1,7 @@
 {
 	"presets": [<% if ( esModules ) { %>
-		"niksy/next",<% } %>
-		["niksy", {
+		"babel-preset-niksy/next",<% } %>
+		["babel-preset-niksy", {
 			"targets": {
 				"node": "<%= nodeEngineVersion %>"<% if ( browserModule ) { %>,
 				"browsers": [<% for ( var i = 0, browserVersionLength = browserVersion.length; i < browserVersionLength; i++ ) { %>
@@ -11,12 +11,12 @@
 		}]
 	]<% if ( browserModule ) { %>,
 	"plugins": [
-		"transform-object-assign"
+		"@babel/plugin-transform-object-assign"
 	]<% } %><% if ( automatedTests && codeCoverage && !browserModule ) { %>,
 	"env": {
 		"test": {
 			"plugins": [
-				"istanbul"
+				"babel-plugin-istanbul"
 			]
 		}
 	}<% } %>
