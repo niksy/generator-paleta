@@ -302,6 +302,7 @@ module.exports = class extends Generator {
 		const rm = ( to ) => {
 			this.removeResource(to);
 		};
+		const automatedTestsDir = (answers.browserModule && !answers.sassModule && (answers.manualTests || answers.integrationTests)) ? 'automated/' : '';
 		let newPkg, mergedPkg;
 
 		cp('README.md', 'README.md');
@@ -325,8 +326,8 @@ module.exports = class extends Generator {
 			cp('stylelintrc', '.stylelintrc');
 		}
 
-		if ( answers.manualTests || answers.automatedTests ) {
-			cp('test/eslintrc', 'test/.eslintrc');
+		if ( answers.automatedTests ) {
+			cp('test/eslintrc', `test/${automatedTestsDir}.eslintrc`);
 		}
 		if ( !answers.manualTests && !answers.automatedTests ) {
 			rm('test');
@@ -336,10 +337,9 @@ module.exports = class extends Generator {
 			cp('travis.yml', '.travis.yml');
 			if ( answers.browserModule ) {
 				if ( !answers.sassModule ) {
-					const automatedTestsFolder = (answers.manualTests || answers.integrationTests) ? 'automated/' : '';
-					cp('test/automated/fixtures', `test/${automatedTestsFolder}fixtures`);
-					cp('test/automated/index.js', `test/${automatedTestsFolder}index.js`);
-					cp('test/automated/webpack.js', `test/${automatedTestsFolder}.webpack.js`);
+					cp('test/automated/fixtures', `test/${automatedTestsDir}fixtures`);
+					cp('test/automated/index.js', `test/${automatedTestsDir}index.js`);
+					cp('test/automated/webpack.js', `test/${automatedTestsDir}.webpack.js`);
 					cp('karma.conf.js', 'karma.conf.js');
 				} else {
 					cp('test/index.js', 'test/index.js');

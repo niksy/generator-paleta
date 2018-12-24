@@ -305,6 +305,7 @@ describe('Integration tests', function () {
 			'gulpfile.js',
 			'test/integration',
 			'test/integration/.eslintrc',
+			'test/automated/.eslintrc',
 			'wdio.conf.js'
 		]);
 	});
@@ -358,6 +359,7 @@ describe('All tests, browser module', function () {
 
 	it('should create necessary file', function () {
 		assert.file([
+			'test/automated/.eslintrc',
 			'test/automated/fixtures/index.html',
 			'test/automated/index.js',
 			'test/automated/.webpack.js',
