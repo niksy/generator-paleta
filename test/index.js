@@ -816,7 +816,7 @@ describe('Transpile', function () {
 			],
 			scripts: {
 				build: 'babel \'{index,lib/**/*}.js\' --out-dir dist/',
-				prepublish: 'npm run build'
+				prepublishOnly: 'npm run build'
 			},
 			devDependencies: {
 				'@babel/cli': '^7.2.3',
