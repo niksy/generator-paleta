@@ -1,0 +1,2 @@
+<% for ( var i = 0, browserVersionLength = browserVersion.length; i < browserVersionLength; i++ ) { %><%- browserVersion[i] %>
+<% } %>

@@ -384,6 +384,10 @@ describe('Browser module', function () {
 			.toPromise();
 	});
 
+	it('should create necessary files', function () {
+		assert.file(['.browserslistrc']);
+	});
+
 	it('should add information regarding browser support to README.md', function () {
 		assert.fileContent('README.md', '## Browser support');
 	});
@@ -403,6 +407,10 @@ describe('Browser module', function () {
 				}
 			]
 		});
+	});
+
+	it('should fill .browserslistrc with correct information', function () {
+		assert.fileContent('.browserslistrc', 'last 2 versions\nie >= 9');
 	});
 
 });
@@ -856,14 +864,7 @@ describe('Transpile, browser module', function () {
 	it('should fill .babelrc with correct information', function () {
 		assert.jsonFileContent('.babelrc', {
 			presets: [
-				['babel-preset-niksy', {
-					targets: {
-						browsers: [
-							'last 2 versions',
-							'ie >= 9'
-						]
-					}
-				}]
+				'babel-preset-niksy'
 			]
 		});
 	});

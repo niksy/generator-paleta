@@ -322,6 +322,10 @@ module.exports = class extends Generator {
 			cp('index.js', 'index.js');
 		}
 
+		if ( answers.browserModule ) {
+			cp('browserslistrc', '.browserslistrc');
+		}
+
 		if ( answers.browserModule && answers.styles ) {
 			cp('stylelintrc', '.stylelintrc');
 		}
