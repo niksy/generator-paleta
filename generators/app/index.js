@@ -217,6 +217,12 @@ module.exports = class extends Generator {
 				'message': 'Which browser versions this project supports?',
 				'default': 'last 2 versions, ie >= 9',
 				'when': ( answers ) => answers.browserModule
+			},
+			{
+				'type': 'confirm',
+				'name': 'changelog',
+				'message': 'Do you want to keep a changelog?',
+				'default': false
 			}
 		];
 	}
@@ -285,7 +291,8 @@ module.exports = class extends Generator {
 			esModules: answers.esModules,
 			nodeEngineVersion: parseInt(answers.nodeEngineVersion, 10),
 			browserVersion: browserVersion,
-			browserTestType: answers.browserTestType
+			browserTestType: answers.browserTestType,
+			changelog: answers.changelog
 		};
 		this.tpl = tpl;
 
@@ -393,6 +400,12 @@ module.exports = class extends Generator {
 			cp('rollup.js', '.rollup.js');
 		} else {
 			rm('.rollup.js');
+		}
+
+		if ( answers.changelog ) {
+			cp('CHANGELOG.md', 'CHANGELOG.md');
+		} else {
+			rm('CHANGELOG.md');
 		}
 
 		if ( answers.jqueryModule ) {

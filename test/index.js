@@ -1164,3 +1164,35 @@ describe('Node engine version', function () {
 	});
 
 });
+
+describe('Changelog', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				changelog: true
+			})
+			.toPromise();
+	});
+
+	it('should fill package.json with correct information', function () {
+		assert.jsonFileContent('package.json', {
+			files: [
+				'index.js',
+				'lib/',
+				'CHANGELOG.md'
+			],
+			devDependencies: {
+				'version-changelog': '^3.1.1',
+				'changelog-verify': '^1.1.2'
+			}
+		});
+	});
+
+	it('should create necessary files', function () {
+		assert.file([
+			'CHANGELOG.md'
+		]);
+	});
+
+});

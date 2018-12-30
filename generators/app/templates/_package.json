@@ -10,7 +10,8 @@
     "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( transpile && !complexTranspile ) { %>dist/<% } %>index<% if ( esModules ) { %>.cjs<% } %>.js<% } %>",<% if ( esModules ) { %>
     "<% if ( transpile && !complexTranspile ) { %>dist/<% } %>index.esm.js",<% } %><% if ( transpile && !complexTranspile ) { %>
     "dist/",<% } else if ( !transpile && !esModules ) { %>
-    "lib/",<% } %>
+    "lib/",<% } %><% if ( changelog ) { %>
+    "CHANGELOG.md",<% } %>
     "LICENSE.md",
     "README.md"
   ],
@@ -23,7 +24,8 @@
     "test": "test"
   },<% } %>
   "scripts": {
-    "release": "np",<% if ( (automatedTests && browserModule && !sassModule) || manualTests || integrationTests ) { %>
+    "release": "np",<% if ( changelog ) { %>
+    "version": "version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md",<% } %><% if ( (automatedTests && browserModule && !sassModule) || manualTests || integrationTests ) { %>
     "lint": "<% if ( automatedTests || integrationTests ) { %>eslint '{<% if ( complexTranspile ) { %>src/index,src/lib/**/*<% if ( cli ) { %>,src/cli<% } %><% } else { %>index,lib/**/*<% if ( cli ) { %>,cli<% } %><% } %>,test/**/*}.js'<% } else { %>eslint '{<% if ( complexTranspile ) { %>src/index,src/lib/**/*<% if ( cli ) { %>,src/cli<% } %><% } else { %>index,lib/**/*<% if ( cli ) { %>,cli<% } %><% } %>}.js'<% } %><% if ( browserModule && styles ) { %> && stylelint 'index.css'<% } %>"<% } %><% if ( automatedTests && browserModule && !sassModule ) { %>,
     "test:automated": "karma start",
     "test:automated:local": "karma start --local",
@@ -51,7 +53,9 @@
     "eslint-plugin-mocha": "^5.1.0"<% } %>,
     "eslint-plugin-node": "^7.0.1",
     "eslint-plugin-promise": "^4.0.0",
-    "eslint-plugin-unicorn": "^5.0.0"<% if ( false ) { %>,
+    "eslint-plugin-unicorn": "^5.0.0"<% if ( changelog ) { %>,
+    "version-changelog": "^3.1.1",
+    "changelog-verify": "^1.1.2"<% } %><% if ( false ) { %>,
     "eslint-plugin-react": "^7.9.1",
     "eslint-plugin-vue": "^5.0.0-beta.3"<% } %><% if ( browserModule && styles ) { %>,
     "stylelint": "^9.2.1",
