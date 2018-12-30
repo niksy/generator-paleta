@@ -1196,3 +1196,27 @@ describe('Changelog', function () {
 	});
 
 });
+
+describe('Changelog, GitHub Release', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				changelog: true,
+				githubRelease: true
+			})
+			.toPromise();
+	});
+
+	it('should fill package.json with correct information', function () {
+		assert.jsonFileContent('package.json', {
+			scripts: {
+				postpublish: 'github-release-from-changelog'
+			},
+			devDependencies: {
+				'github-release-from-changelog': '^1.3.2'
+			}
+		});
+	});
+
+});

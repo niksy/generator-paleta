@@ -223,6 +223,13 @@ module.exports = class extends Generator {
 				'name': 'changelog',
 				'message': 'Do you want to keep a changelog?',
 				'default': false
+			},
+			{
+				'type': 'confirm',
+				'name': 'githubRelease',
+				'message': 'Do you want to create GitHub Release?',
+				'default': false,
+				'when': ( answers ) => answers.changelog
 			}
 		];
 	}
@@ -292,7 +299,8 @@ module.exports = class extends Generator {
 			nodeEngineVersion: parseInt(answers.nodeEngineVersion, 10),
 			browserVersion: browserVersion,
 			browserTestType: answers.browserTestType,
-			changelog: answers.changelog
+			changelog: answers.changelog,
+			githubRelease: answers.githubRelease
 		};
 		this.tpl = tpl;
 
