@@ -308,10 +308,10 @@ describe('Integration tests', function() {
 			},
 			devDependencies: {
 				'local-web-server': '^1.2.4',
-				'wdio-browserstack-service': '^0.1.16',
-				'wdio-mocha-framework': '^0.5.13',
-				'wdio-spec-reporter': '^0.1.4',
-				webdriverio: '^4.12.0',
+				'@wdio/browserstack-service': '^5.8.0',
+				'@wdio/mocha-framework': '^5.8.0',
+				'@wdio/spec-reporter': '^5.8.0',
+				webdriverio: '^5.8.0',
 				'http-shutdown': '^1.0.3'
 			}
 		});

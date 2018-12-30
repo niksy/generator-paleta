@@ -2,12 +2,12 @@
 
 <% } %><% if ( automatedTests && browserModule && integrationTests ) { %><% if ( esModules ) { %>import assert from 'assert';<% } else { %>const assert = require('assert');<% } %>
 
-it('test!', function () {
+it('test!', async function () {
 
-	return browser
-		.url('/')
-		.getTitle().then(( title ) => {
-			assert.equal(title, 'test');
-		});
+	await browser.url('/');
+
+	const title = await browser.getTitle();
+
+	assert.equal(title, 'test');
 
 });<% } %>
