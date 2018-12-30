@@ -1004,7 +1004,7 @@ describe('ES Modules', function () {
 				build: 'rollup --config .rollup.js'
 			},
 			devDependencies: {
-				rollup: '^0.60.1'
+				rollup: '^1.0.0'
 			}
 		});
 	});
@@ -1040,7 +1040,7 @@ describe('ES Modules, transpile', function () {
 				'dist/'
 			],
 			devDependencies: {
-				'rollup-plugin-babel': '^4.1.0'
+				'rollup-plugin-babel': '^4.2.0'
 			}
 		});
 	});

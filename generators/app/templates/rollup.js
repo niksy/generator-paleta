@@ -11,7 +11,7 @@ module.exports = {
 		},
 		{
 			file: '<% if ( transpile && !complexTranspile ) { %>dist/<% } %>index.esm.js',
-			format: 'es'
+			format: 'esm'
 		}
 	]<% if ( transpile ) { %>,
 	plugins: [
