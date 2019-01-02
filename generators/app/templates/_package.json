@@ -26,7 +26,7 @@
   "scripts": {
     "release": "np",<% if ( changelog ) { %>
     "version": "version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md"<% if ( githubRelease ) { %>,
-    "postpublish": "github-release-from-changelog"<% } %>,<% } %><% if ( (automatedTests && browserModule && !sassModule) || manualTests || integrationTests ) { %>
+    "postpublish": "GITHUB_TOKEN=GITHUB_RELEASE_TOKEN github-release-from-changelog"<% } %>,<% } %><% if ( (automatedTests && browserModule && !sassModule) || manualTests || integrationTests ) { %>
     "lint": "<% if ( automatedTests || integrationTests ) { %>eslint '{<% if ( complexTranspile ) { %>src/index,src/lib/**/*<% if ( cli ) { %>,src/cli<% } %><% } else { %>index,lib/**/*<% if ( cli ) { %>,cli<% } %><% } %>,test/**/*}.js'<% } else { %>eslint '{<% if ( complexTranspile ) { %>src/index,src/lib/**/*<% if ( cli ) { %>,src/cli<% } %><% } else { %>index,lib/**/*<% if ( cli ) { %>,cli<% } %><% } %>}.js'<% } %><% if ( browserModule && styles ) { %> && stylelint 'index.css'<% } %>"<% } %><% if ( automatedTests && browserModule && !sassModule ) { %>,
     "test:automated": "karma start",
     "test:automated:local": "karma start --local",
