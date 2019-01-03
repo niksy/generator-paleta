@@ -1,2 +1,2 @@
-<% for ( var i = 0, browserVersionLength = browserVersion.length; i < browserVersionLength; i++ ) { %><%- browserVersion[i] %>
-<% } %>
+<% for ( var i = 0, browserVersionLength = browserVersion.length; i < browserVersionLength; i++ ) { %><%- browserVersion[i] %><% if ( i !== browserVersionLength-1 ) { %>
+<% } %><% } %>
