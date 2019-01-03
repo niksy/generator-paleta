@@ -1,5 +1,5 @@
-'use strict';
-<% if ( transpile ) { %>
+'use strict';<% if ( transpile ) { %>
+
 const babel = require('rollup-plugin-babel');<% } %>
 
 module.exports = {
