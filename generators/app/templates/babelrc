@@ -3,8 +3,10 @@
 		"babel-preset-niksy/next",<% } %><% if ( browserModule ) { %>
 		"babel-preset-niksy"<% } else { %>
 		["babel-preset-niksy", {
-			"targets": {
-				"node": "<%= nodeEngineVersion %>"
+			"@babel/preset-env": {
+				"targets": {
+					"node": "<%= nodeEngineVersion %>"
+				}
 			}
 		}]<% } %>
 	]<% if ( browserModule ) { %>,
@@ -17,5 +19,19 @@
 				"babel-plugin-istanbul"
 			]
 		}
-	}<% } %>
+	}<% } %><% if ( integrationTests ) { %>,
+	"overrides": [
+		{
+			"test": "./test/integration",
+			"presets": [
+				["babel-preset-niksy", {
+					"@babel/preset-env": {
+						"targets": {
+							"node": "<%= nodeEngineVersion %>"
+						}
+					}
+				}]
+			]
+		}
+	]<% } %>
 }

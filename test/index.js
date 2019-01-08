@@ -342,6 +342,25 @@ describe('Integration tests', function () {
 		assert.fileContent('wdio.conf.js', 'framework: \'mocha\'');
 	});
 
+	it('should fill .babelrc with correct information', function () {
+		assert.jsonFileContent('.babelrc', {
+			overrides: [
+				{
+					test: './test/integration',
+					presets: [
+						['babel-preset-niksy', {
+							'@babel/preset-env': {
+								targets: {
+									node: '4'
+								}
+							}
+						}]
+					]
+				}
+			]
+		});
+	});
+
 });
 
 describe('Integration tests, ES Modules', function () {
@@ -853,8 +872,10 @@ describe('Transpile', function () {
 		assert.jsonFileContent('.babelrc', {
 			presets: [
 				['babel-preset-niksy', {
-					targets: {
-						node: '4'
+					'@babel/preset-env': {
+						targets: {
+							node: '4'
+						}
 					}
 				}]
 			]
@@ -1155,8 +1176,10 @@ describe('ES Modules, automated tests, code coverage, transpile', function () {
 			presets: [
 				'babel-preset-niksy/next',
 				['babel-preset-niksy', {
-					targets: {
-						node: '8'
+					'@babel/preset-env': {
+						targets: {
+							node: '8'
+						}
 					}
 				}]
 			]
