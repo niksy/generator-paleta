@@ -242,6 +242,7 @@ describe('Automated tests, browser module', function () {
 				'karma-browserstack-launcher': '^1.0.0',
 				'karma-chrome-launcher': '^1.0.1',
 				'karma-html2js-preprocessor': '^1.0.0',
+				'karma-fixture': '^0.2.6',
 				'karma-mocha': '^1.3.0',
 				'karma-mocha-reporter': '^2.2.5',
 				'webpack': '^4.12.0',

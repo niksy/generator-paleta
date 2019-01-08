@@ -70,7 +70,7 @@ module.exports = function ( baseConfig ) {
 
 	baseConfig.set(Object.assign({
 		basePath: '',
-		frameworks: ['mocha'],
+		frameworks: ['mocha', 'fixture'],
 		files: [
 			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.html',
 			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/.webpack.js'

@@ -6,12 +6,11 @@
 describe('<%= moduleName %>', function () {
 
 	before(function () {
-		<% if ( transpile ) { %>const<% } else { %>var<% } %> fixture = window.__html__['test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>fixtures/index.html'];
-		document.body.insertAdjacentHTML('beforeend', <% if ( transpile ) { %>`<div id="fixture">${fixture}</div>`<% } else { %>'<div id="fixture">' + fixture + '</div>'<% } %>);
+		window.fixture.load('/test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>fixtures/index.html');
 	});
 
 	after(function () {
-		document.body.removeChild(document.getElementById('fixture'));
+		window.fixture.cleanup();
 	});
 
 	it('test!', function () {
