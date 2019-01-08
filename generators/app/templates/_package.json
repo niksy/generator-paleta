@@ -31,9 +31,9 @@
     "test:automated": "karma start",
     "test:automated:local": "karma start --local",
     "test:automated:local:watch": "npm run test:automated:local -- --auto-watch --no-single-run"<% } %><% if ( integrationTests ) { %>,
-    "test:integration": "gulp test:prepare && wdio",
-    "test:integration:local": "gulp test:prepare && wdio --local",
-    "test:integration:local:watch": "gulp test:prepare --watch & wdio --local"<% } %><% if ( manualTests ) { %>,
+    "test:integration": "gulp test:prepare && <% if ( esModules ) { %>npx -n=--require -n=esm <% } %>wdio",
+    "test:integration:local": "gulp test:prepare && <% if ( esModules ) { %>npx -n=--require -n=esm <% } %>wdio --local",
+    "test:integration:local:watch": "gulp test:prepare --watch & <% if ( esModules ) { %>npx -n=--require -n=esm <% } %>wdio --local"<% } %><% if ( manualTests ) { %>,
     "test:manual:local": "gulp test:local:manual --watch"<% } %><% if ( (automatedTests && browserModule && !sassModule) || manualTests || integrationTests ) { %>,
     "test": "npm run lint<% if ( automatedTests && browserModule && !sassModule ) { %> && npm run test:automated<% } %><% if ( integrationTests ) { %> && npm run test:integration<% } %>"<% } else if ( sassModule ) { %>
     "test": "<% if ( automatedTests ) { %>eslint 'test/**/*.js' && stylelint '{_index,test/**/*}.scss' && mocha 'test/**/*.js'<% } else { %>stylelint '_index.scss'<% } %>"<% } else { %>

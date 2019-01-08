@@ -344,6 +344,30 @@ describe('Integration tests', function () {
 
 });
 
+describe('Integration tests, ES Modules', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				automatedTests: true,
+				manualTests: true,
+				browserModule: true,
+				integrationTests: true,
+				esModules: true
+			})
+			.toPromise();
+	});
+
+	it('should fill package.json with correct information', function () {
+		assert.jsonFileContent('package.json', {
+			scripts: {
+				'test:integration': 'gulp test:prepare && npx -n=--require -n=esm wdio'
+			}
+		});
+	});
+
+});
+
 describe('All tests, browser module', function () {
 
 	before(function () {
