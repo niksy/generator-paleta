@@ -19,8 +19,19 @@
 				"babel-plugin-istanbul"
 			]
 		}
-	}<% } %><% if ( integrationTests ) { %>,
-	"overrides": [
+	}<% } %><% if ( integrationTests || (automatedTests && browserModule && !sassModule) ) { %>,
+	"overrides": [<% if ( automatedTests && browserModule && !sassModule ) { %>
+		{
+			"test": "./test/<% if ( manualTests || integrationTests ) { %>automated<% } %>",
+			"plugins": [
+				["@babel/plugin-transform-runtime", {
+					"corejs": 2,
+					"helpers": true,
+					"regenerator": true,
+					"useESModules": true
+				}]
+			]
+		}<% } %><% if ( integrationTests ) { %>,
 		{
 			"test": "./test/integration",
 			"presets": [
@@ -32,6 +43,6 @@
 					}
 				}]
 			]
-		}
+		}<% } %>
 	]<% } %>
 }

@@ -347,6 +347,17 @@ describe('Integration tests', function () {
 		assert.jsonFileContent('.babelrc', {
 			overrides: [
 				{
+					test: './test/automated',
+					plugins: [
+						['@babel/plugin-transform-runtime', {
+							corejs: 2,
+							helpers: true,
+							regenerator: true,
+							useESModules: true
+						}]
+					]
+				},
+				{
 					test: './test/integration',
 					presets: [
 						['babel-preset-niksy', {
