@@ -1279,3 +1279,37 @@ describe('Changelog, GitHub Release', function () {
 	});
 
 });
+
+describe('Bundling tool, Rollup', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				automatedTests: true,
+				browserModule: true,
+				esModules: true,
+				bundlingTool: 'rollup'
+			})
+			.toPromise();
+	});
+
+	it('should fill package.json with correct information', function () {
+		assert.jsonFileContent('package.json', {
+			devDependencies: {
+				'rollup': '^1.0.0',
+				'rollup-plugin-babel': '^4.2.0',
+				'rollup-plugin-node-resolve': '^4.0.0',
+				'rollup-plugin-commonjs': '^9.2.0',
+				'rollup-plugin-node-builtins': '^2.1.2',
+				'rollup-plugin-node-globals': '^1.4.0',
+				'rollup-plugin-istanbul': '^2.0.1',
+				'karma-rollup-preprocessor': '^6.1.2'
+			}
+		});
+	});
+
+	it('should update karma.conf.js with correct information', function () {
+		assert.fileContent('karma.conf.js', 'rollupPreprocessor');
+	});
+
+});

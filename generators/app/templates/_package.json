@@ -63,8 +63,9 @@
     "stylelint": "^9.2.1",
     "stylelint-config-niksy": "^5.1.1"<% } %><% if ( automatedTests && browserModule && !sassModule ) { %>,
     "karma": "^1.1.0",
-    "karma-sourcemap-loader": "^0.3.7",
-    "karma-webpack": "^3.0.0"<% if ( cloudBrowsers ) { %>,
+    "karma-sourcemap-loader": "^0.3.7"<% if ( bundlingTool === 'webpack' ) { %>,
+    "karma-webpack": "^3.0.0"<% } %><% if ( bundlingTool === 'rollup' ) { %>,
+    "karma-rollup-preprocessor": "^6.1.2"<% } %><% if ( cloudBrowsers ) { %>,
     "karma-browserstack-launcher": "^1.0.0"<% } %>,
     "karma-chrome-launcher": "^1.0.1",<% if ( browserTestType === 'headless' ) { %>
     "puppeteer": "^1.6.1",<% } %>
@@ -74,8 +75,9 @@
     "karma-mocha-reporter": "^2.2.5"<% } %><% if ( automatedTests || integrationTests ) { %>,
     "mocha": "^4.1.0"<% if ( esModules ) { %>,
     "esm": "^3.0.51"<% } %><% } %><% if ( automatedTests && codeCoverage && !browserModule ) { %>,
-    "nyc": "^12.0.2"<% } %><% if ( automatedTests && codeCoverage && browserModule && !sassModule ) { %>,
-    "istanbul-instrumenter-loader": "^3.0.1",
+    "nyc": "^12.0.2"<% } %><% if ( automatedTests && codeCoverage && browserModule && !sassModule ) { %><% if ( bundlingTool === 'webpack' ) { %>,
+    "istanbul-instrumenter-loader": "^3.0.1"<% } %><% if ( bundlingTool === 'rollup' ) { %>,
+    "rollup-plugin-istanbul": "^2.0.1"<% } %>,
     "karma-coverage-istanbul-reporter": "^2.0.1"<% } %><% if ( codeCoverageService ) { %>,
     "coveralls": "^2.11.11"<% } %><% if ( manualTests || integrationTests ) { %>,
     "del": "^2.2.0",
@@ -92,8 +94,8 @@
     "ansi-colors": "^2.0.5",
     "fancy-log": "^1.3.2",
     "suitcss-components-test": "^1.0.0"<% } %><% if ( (manualTests || integrationTests) || (automatedTests && browserModule && !sassModule) ) { %>,
-    "minimist": "^1.2.0"<% } %><% if ( (manualTests || integrationTests) || ((browserModule && !sassModule) && (transpile || automatedTests)) ) { %>,
-    "webpack": "^4.12.0"<% } %><% if ( sassModule ) { %>,
+    "minimist": "^1.2.0"<% } %><% if ( (manualTests || integrationTests) || ((browserModule && !sassModule) && (transpile || automatedTests)) ) { %><% if ( bundlingTool === 'webpack' ) { %>,
+    "webpack": "^4.12.0"<% } %><% } %><% if ( sassModule ) { %>,
     "sass-true": "^2.1.3"<% } %><% if ( manualTests || integrationTests ) { %>,
     "opn": "^4.0.2"<% } %><% if ( integrationTests ) { %><% if ( cloudBrowsers ) { %>,
     "wdio-browserstack-service": "^0.1.16"<% } %>,
@@ -105,14 +107,18 @@
     "@babel/core": "^7.2.2",
     "@babel/cli": "^7.2.3",
     "babel-preset-niksy": "^4.1.0"<% if ( browserModule ) { %>,
-    "@babel/plugin-transform-object-assign": "^7.2.0"<% } %><% if ( browserModule && !sassModule ) { %>,
-    "babel-loader": "^8.0.4"<% } %><% if ( automatedTests && browserModule && !sassModule ) { %>,
+    "@babel/plugin-transform-object-assign": "^7.2.0"<% } %><% if ( browserModule && !sassModule ) { %><% if ( bundlingTool === 'webpack' ) { %>,
+    "babel-loader": "^8.0.4"<% } %><% } %><% if ( automatedTests && browserModule && !sassModule ) { %>,
     "@babel/plugin-transform-runtime": "^7.2.0",
     "@babel/runtime-corejs2": "^7.2.0"<% } %><% if ( automatedTests ) { %><% if ( !browserModule || (browserModule && integrationTests) ) { %>,
     "@babel/register": "^7.0.0"<% } %><% if ( codeCoverage ) { %><% if ( !browserModule && !sassModule ) { %>,
     "babel-plugin-istanbul": "^5.1.0"<% } %><% } %><% } %><% } %><% if ( esModules ) { %>,
     "rollup": "^1.0.0"<% if ( transpile ) { %>,
-    "rollup-plugin-babel": "^4.2.0"<% } %><% } %>
+    "rollup-plugin-babel": "^4.2.0"<% } %><% } %><% if ( bundlingTool === 'rollup' ) { %>,
+    "rollup-plugin-node-resolve": "^4.0.0",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-globals": "^1.4.0"<% } %>
   },<% if ( isScopedPackage ) { %>
   "publishConfig": {
     "access": "public"

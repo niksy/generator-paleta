@@ -8,6 +8,7 @@ const compact = require('lodash.compact');
 const uniq = require('lodash.uniq');
 const sortPkg = require('sort-pkg');
 const dashCase = require('lodash.kebabcase');
+const camelCase = require('lodash.camelcase');
 const isScopedPackage = require('is-scoped');
 
 /**
@@ -206,6 +207,23 @@ module.exports = class extends Generator {
 				}
 			},
 			{
+				'type': 'list',
+				'name': 'bundlingTool',
+				'message': 'What bundling tool do you want to use?',
+				'default': 'webpack',
+				'choices': [
+					{
+						name: 'Webpack',
+						value: 'webpack'
+					},
+					{
+						name: 'Rollup',
+						value: 'rollup'
+					}
+				],
+				'when': ( answers ) => answers.automatedTests && answers.browserModule && !answers.sassModule && answers.esModules
+			},
+			{
 				'type': 'input',
 				'name': 'nodeEngineVersion',
 				'message': 'Which Node engine version this project supports?',
@@ -252,6 +270,10 @@ module.exports = class extends Generator {
 					this.answers.styles = true;
 				}
 
+				if ( !this.answers.bundlingTool ) {
+					this.answers.bundlingTool = 'webpack';
+				}
+
 				return this.answers;
 
 			});
@@ -271,6 +293,7 @@ module.exports = class extends Generator {
 		const tpl = {
 			moduleName: preparePkgName(answers.name),
 			cleanModuleName: preparePkgName(answers.name, { clean: true }),
+			camelCasedModuleName: camelCase(preparePkgName(answers.name, { clean: true })),
 			moduleDescription: answers.description,
 			browserModule: answers.browserModule,
 			styles: answers.styles,
@@ -300,7 +323,8 @@ module.exports = class extends Generator {
 			browserVersion: browserVersion,
 			browserTestType: answers.browserTestType,
 			changelog: answers.changelog,
-			githubRelease: answers.githubRelease
+			githubRelease: answers.githubRelease,
+			bundlingTool: answers.bundlingTool
 		};
 		this.tpl = tpl;
 
@@ -358,7 +382,9 @@ module.exports = class extends Generator {
 				if ( !answers.sassModule ) {
 					cp('test/automated/fixtures', `test/${automatedTestsDir}fixtures`);
 					cp('test/automated/index.js', `test/${automatedTestsDir}index.js`);
-					cp('test/automated/webpack.js', `test/${automatedTestsDir}.webpack.js`);
+					if ( answers.bundlingTool === 'webpack' ) {
+						cp('test/automated/webpack.js', `test/${automatedTestsDir}.webpack.js`);
+					}
 					cp('karma.conf.js', 'karma.conf.js');
 				} else {
 					cp('test/index.js', 'test/index.js');

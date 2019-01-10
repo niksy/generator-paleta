@@ -1,6 +1,13 @@
 'use strict';
 
-const minimist = require('minimist');<% if ( browserTestType === 'headless' ) { %>
+const minimist = require('minimist');<% if ( bundlingTool === 'rollup' ) { %>
+const resolve = require('rollup-plugin-node-resolve');
+const commonjs = require('rollup-plugin-commonjs');
+const nodeBuiltins = require('rollup-plugin-node-builtins');
+const globals = require('rollup-plugin-node-globals');<% if ( transpile ) { %>
+const babel = require('rollup-plugin-babel');<% } %><% if ( codeCoverage ) { %>
+const istanbul = require('rollup-plugin-istanbul');<% } %>
+const rollupConfig = require('./.rollup');<% } %><% if ( browserTestType === 'headless' ) { %>
 const puppeteer = require('puppeteer');
 
 process.env.CHROME_BIN = puppeteer.executablePath();<% } %>
@@ -72,13 +79,15 @@ module.exports = function ( baseConfig ) {
 		basePath: '',
 		frameworks: ['mocha', 'fixture'],
 		files: [
-			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.html',
-			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/.webpack.js'
+			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.html',<% if ( bundlingTool === 'webpack' ) { %>
+			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/.webpack.js'<% } %><% if ( bundlingTool === 'rollup' ) { %>
+			{ pattern: 'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.js', watched: false }<% } %>
 		],
 		exclude: [],
 		preprocessors: {
-			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.html': ['html2js'],
-			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/.webpack.js': ['webpack', 'sourcemap']
+			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.html': ['html2js'],<% if ( bundlingTool === 'webpack' ) { %>
+			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/.webpack.js': ['webpack', 'sourcemap']<% } %><% if ( bundlingTool === 'rollup' ) { %>
+			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.js': ['rollup', 'sourcemap']<% } %>
 		},
 		reporters: ['mocha'<% if ( codeCoverage ) { %>, 'coverage-istanbul'<% } %>],
 		port: port,
@@ -92,7 +101,7 @@ module.exports = function ( baseConfig ) {
 			level: 'log',
 			format: '%b %T: %m',
 			terminal: true
-		},
+		},<% if ( bundlingTool === 'webpack' ) { %>
 		webpack: {
 			mode: 'none',
 			devtool: 'cheap-module-inline-source-map'<% if ( transpile || codeCoverage ) { %>,
@@ -118,7 +127,30 @@ module.exports = function ( baseConfig ) {
 					}<% } %>
 				]
 			}<% } %>
-		},<% if ( codeCoverage ) { %>
+		}<% } %><% if ( bundlingTool === 'rollup' ) { %>
+		rollupPreprocessor: {
+			plugins: [
+				nodeBuiltins()<% if ( transpile ) { %>,
+				babel({
+					exclude: 'node_modules/**',
+					runtimeHelpers: true
+				})<% } %>,
+				resolve({
+					preferBuiltins: true
+				}),
+				commonjs(),
+				globals(),
+				...rollupConfig.plugins<% if ( transpile ) { %>.filter(({ name }) => !['babel'].includes(name))<% } %><% if ( codeCoverage ) { %>,
+				istanbul({
+					exclude: ['test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.js', 'node_modules/**/*']
+				})<% } %>
+			],
+			output: {
+				format: 'iife',
+				name: '<%= camelCasedModuleName %>',
+				sourceMap: 'inline'
+			}
+		}<% } %>,<% if ( codeCoverage ) { %>
 		coverageIstanbulReporter: {
 			fixWebpackSourcePaths: true,
 			reports: ['html', 'text'],

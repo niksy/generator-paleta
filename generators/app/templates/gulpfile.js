@@ -7,8 +7,10 @@ const plumber = require('gulp-plumber');
 const fancyLog = require('fancy-log');
 const colors = require('ansi-colors');
 const debug = require('gulp-debug');
-const nunjucks = require('gulp-nunjucks-render');
-const webpack = require('webpack');
+const nunjucks = require('gulp-nunjucks-render');<% if ( bundlingTool === 'webpack' ) { %>
+const webpack = require('webpack');<% } %><% if ( bundlingTool === 'rollup' ) { %>
+const rollup = require('rollup');<% if ( transpile ) { %>
+const babel = require('rollup-plugin-babel');<% } %><% } %>
 const del = require('del');
 const ws = require('local-web-server');
 const opn = require('opn');
@@ -89,7 +91,7 @@ function testScript () {
 					return Object.assign(prev, next);
 				}, {});
 		})
-		.then(( entries ) => {
+		.then(( entries ) => {<% if ( bundlingTool === 'webpack' ) { %>
 
 			const compiler = webpack({
 				entry: entries,
@@ -130,7 +132,36 @@ function testScript () {
 					compiler.run(cb);
 				}
 
-			});
+			});<% } %><% if ( bundlingTool === 'rollup' ) { %>
+
+			const inputOptions = {
+				input: entries<% if ( transpile ) { %>,
+				plugins: [
+					babel({
+						exclude: 'node_modules/**'
+					})
+				]<% } %>
+			};
+
+			const outputOptions = {
+				entryFileNames: '[name].js'
+				dir: path.resolve(__dirname, './test-dist'),
+				format: 'iife',
+				name: '<%= camelCasedModuleName %>'
+				sourceMap: 'inline'
+			};
+
+			if ( watch ) {
+				rollup.watch(Object.assign({}, inputOptions, {
+					output: outputOptions
+				}));
+				return Promise.resolve();
+			} else {
+				return rollup.rollup(inputOptions)
+					.then(( bundle ) => {
+						return bundle.write(outputOptions);
+					});
+			}<% } %>
 
 		});
 
