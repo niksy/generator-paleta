@@ -140,7 +140,7 @@ describe('Manual tests', function () {
 		assert.file([
 			'test/.eslintrc',
 			'test/manual',
-			'gulpfile.js'
+			'test/manual/webpack.config.js'
 		]);
 	});
 
@@ -154,21 +154,20 @@ describe('Manual tests', function () {
 				test: 'test'
 			},
 			scripts: {
-				'test:manual:local': 'gulp test:local:manual --watch'
+				'test:manual:local': 'npm run test:generate-static-site:watch'
 			},
 			devDependencies: {
 				'webpack': '^4.12.0',
 				'del': '^2.2.0',
 				'globby': '^4.1.0',
-				'gulp': '^4.0.0',
-				'gulp-cli': '^2.0.1',
-				'gulp-debug': '^4.0.0',
-				'gulp-nunjucks-render': '^2.0.0',
-				'gulp-plumber': '^1.1.0',
-				'gulp-sourcemaps': '^2.6.4',
 				'minimist': '^1.2.0',
-				'local-web-server': '^1.2.4',
-				'opn': '^4.0.2'
+				'css-loader': '^2.1.0',
+				'html-webpack-plugin': '^3.2.0',
+				'mini-css-extract-plugin': '^0.5.0',
+				'postcss-import': '^11.1.0',
+				'postcss-loader': '^3.0.0',
+				'webpack-cli': '^3.2.1',
+				'webpack-dev-server': '^3.1.14'
 			}
 		});
 	});
@@ -303,7 +302,7 @@ describe('Integration tests', function () {
 	it('should create necessary file', function () {
 		assert.file([
 			'test/manual',
-			'gulpfile.js',
+			'test/manual/webpack.config.js',
 			'test/integration',
 			'test/integration/.eslintrc',
 			'test/automated/.eslintrc',
@@ -314,21 +313,10 @@ describe('Integration tests', function () {
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			scripts: {
-				'test:integration': 'gulp test:prepare && wdio',
+				'test:integration': 'npm run test:generate-static-site && wdio',
 				'test': 'npm run lint && npm run test:automated && npm run test:integration'
 			},
 			devDependencies: {
-				'mocha': '^4.1.0',
-				'webpack': '^4.12.0',
-				'del': '^2.2.0',
-				'globby': '^4.1.0',
-				'gulp': '^4.0.0',
-				'gulp-cli': '^2.0.1',
-				'gulp-debug': '^4.0.0',
-				'gulp-nunjucks-render': '^2.0.0',
-				'gulp-plumber': '^1.1.0',
-				'gulp-sourcemaps': '^2.6.4',
-				'minimist': '^1.2.0',
 				'local-web-server': '^1.2.4',
 				'wdio-browserstack-service': '^0.1.16',
 				'wdio-mocha-framework': '^0.5.13',
@@ -392,7 +380,7 @@ describe('Integration tests, ES Modules', function () {
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			scripts: {
-				'test:integration': 'gulp test:prepare && npx -n=--require -n=esm wdio'
+				'test:integration': 'npm run test:generate-static-site && npx -n=--require -n=esm wdio'
 			}
 		});
 	});
@@ -1280,7 +1268,7 @@ describe('Changelog, GitHub Release', function () {
 
 });
 
-describe('Bundling tool, Rollup', function () {
+describe('Bundling tool, Rollup, automated tests', function () {
 
 	before(function () {
 		return helpers.run(path.join(__dirname, '../generators/app'))
@@ -1310,6 +1298,38 @@ describe('Bundling tool, Rollup', function () {
 
 	it('should update karma.conf.js with correct information', function () {
 		assert.fileContent('karma.conf.js', 'rollupPreprocessor');
+	});
+
+});
+
+describe('Bundling tool, Rollup, manual tests', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				manualTests: true,
+				browserModule: true,
+				esModules: true,
+				bundlingTool: 'rollup'
+			})
+			.toPromise();
+	});
+
+	it('should create necessary files', function () {
+		assert.file([
+			'test/manual/rollup.config.js'
+		]);
+	});
+
+	it('should fill package.json with correct information', function () {
+		assert.jsonFileContent('package.json', {
+			devDependencies: {
+				'rollup': '^1.0.0',
+				'rollup-plugin-postcss': '^1.6.3',
+				'rollup-plugin-serve': '^0.6.1',
+				'rollup-plugin-static-site': '0.0.3'
+			}
+		});
 	});
 
 });

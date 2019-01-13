@@ -1,5 +1,5 @@
-<% var files = []; if ( manualTests || integrationTests ) {
-files.push("gulpfile.js"); } if ( automatedTests && !sassModule ) {
+<% var files = []; if ( manualTests || integrationTests ) { if ( bundlingTool === 'webpack' ) {
+files.push("test/manual/webpack.config.js"); } if ( bundlingTool === 'rollup' ) { files.push("test/manual/rollup.config.js"); } } if ( automatedTests && !sassModule ) {
 files.push("karma.conf.js"); } if ( integrationTests ) {
 files.push("wdio.conf.js"); } %>{
 	"root": true,

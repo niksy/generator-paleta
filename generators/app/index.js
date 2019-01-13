@@ -409,10 +409,16 @@ module.exports = class extends Generator {
 			cp('test/manual/index.html', 'test/manual/index.html');
 			cp('test/manual/index.css', 'test/manual/index.css');
 			cp('test/manual/index.js', 'test/manual/index.js');
-			cp('gulpfile.js', 'gulpfile.js');
+			if ( answers.bundlingTool === 'webpack' ) {
+				cp('test/manual/webpack.config.js', 'test/manual/webpack.config.js');
+			}
+			if ( answers.bundlingTool === 'rollup' ) {
+				cp('test/manual/rollup.config.js', 'test/manual/rollup.config.js');
+			}
 		} else {
 			rm('test/manual');
-			rm('gulpfile.js');
+			rm('test/manual/webpack.config.js');
+			rm('test/manual/rollup.config.js');
 		}
 
 		if ( answers.integrationTests ) {
