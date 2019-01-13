@@ -1032,7 +1032,7 @@ describe('ES Modules', function () {
 	it('should create necessary files', function () {
 		assert.file([
 			'index.js',
-			'.rollup.js'
+			'rollup.config.js'
 		]);
 	});
 
@@ -1046,7 +1046,7 @@ describe('ES Modules', function () {
 				'index.esm.js'
 			],
 			scripts: {
-				build: 'rollup --config .rollup.js'
+				build: 'rollup --config rollup.config.js'
 			},
 			devDependencies: {
 				rollup: '^1.0.0'

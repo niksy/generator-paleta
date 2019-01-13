@@ -437,9 +437,9 @@ module.exports = class extends Generator {
 		}
 
 		if ( answers.esModules ) {
-			cp('rollup.js', '.rollup.js');
+			cp('rollup.config.js', 'rollup.config.js');
 		} else {
-			rm('.rollup.js');
+			rm('rollup.config.js');
 		}
 
 		if ( answers.changelog ) {
