@@ -7,7 +7,7 @@ const nodeBuiltins = require('rollup-plugin-node-builtins');
 const globals = require('rollup-plugin-node-globals');<% if ( transpile ) { %>
 const babel = require('rollup-plugin-babel');<% } %><% if ( codeCoverage ) { %>
 const istanbul = require('rollup-plugin-istanbul');<% } %>
-const rollupConfig = require('./.rollup');<% } %><% if ( browserTestType === 'headless' ) { %>
+const rollupConfig = require('./rollup.config');<% } %><% if ( browserTestType === 'headless' ) { %>
 const puppeteer = require('puppeteer');
 
 process.env.CHROME_BIN = puppeteer.executablePath();<% } %>
