@@ -65,7 +65,7 @@
     "karma": "^1.1.0",
     "karma-sourcemap-loader": "^0.3.7"<% if ( bundlingTool === 'webpack' ) { %>,
     "karma-webpack": "^3.0.0"<% } %><% if ( bundlingTool === 'rollup' ) { %>,
-    "karma-rollup-preprocessor": "^6.1.2"<% } %><% if ( cloudBrowsers ) { %>,
+    "karma-rollup-preprocessor": "^7.0.0-rc.1"<% } %><% if ( cloudBrowsers ) { %>,
     "karma-browserstack-launcher": "^1.0.0"<% } %>,
     "karma-chrome-launcher": "^1.0.1",<% if ( browserTestType === 'headless' ) { %>
     "puppeteer": "^1.6.1",<% } %>

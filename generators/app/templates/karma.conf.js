@@ -148,7 +148,7 @@ module.exports = function ( baseConfig ) {
 			output: {
 				format: 'iife',
 				name: '<%= camelCasedModuleName %>',
-				sourceMap: 'inline'
+				sourcemap: 'inline'
 			}
 		}<% } %>,<% if ( codeCoverage ) { %>
 		coverageIstanbulReporter: {

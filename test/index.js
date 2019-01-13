@@ -1303,7 +1303,7 @@ describe('Bundling tool, Rollup', function () {
 				'rollup-plugin-node-builtins': '^2.1.2',
 				'rollup-plugin-node-globals': '^1.4.0',
 				'rollup-plugin-istanbul': '^2.0.1',
-				'karma-rollup-preprocessor': '^6.1.2'
+				'karma-rollup-preprocessor': '^7.0.0-rc.1'
 			}
 		});
 	});
