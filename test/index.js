@@ -230,8 +230,8 @@ describe('Automated tests, browser module', function () {
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			scripts: {
-				'test:automated': 'karma start',
-				'test:automated:local': 'karma start --local',
+				'test:automated': 'BABEL_ENV=test karma start',
+				'test:automated:local': 'BABEL_ENV=test karma start --local',
 				'test': 'npm run lint && npm run test:automated'
 			},
 			devDependencies: {
@@ -334,17 +334,6 @@ describe('Integration tests', function () {
 	it('should fill .babelrc with correct information', function () {
 		assert.jsonFileContent('.babelrc', {
 			overrides: [
-				{
-					test: './test/automated',
-					plugins: [
-						['@babel/plugin-transform-runtime', {
-							corejs: 2,
-							helpers: true,
-							regenerator: true,
-							useESModules: true
-						}]
-					]
-				},
 				{
 					test: './test/integration',
 					presets: [

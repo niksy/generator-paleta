@@ -1,5 +1,6 @@
 'use strict';
 
+const path = require('path');
 const minimist = require('minimist');<% if ( bundlingTool === 'rollup' ) { %>
 const resolve = require('rollup-plugin-node-resolve');
 const commonjs = require('rollup-plugin-commonjs');
@@ -148,10 +149,12 @@ module.exports = function ( baseConfig ) {
 			output: {
 				format: 'iife',
 				name: '<%= camelCasedModuleName %>',
-				sourcemap: 'inline'
+				sourcemap: 'inline',
+				intro: 'window.TYPED_ARRAY_SUPPORT = false;' // IE9
 			}
 		}<% } %>,<% if ( codeCoverage ) { %>
 		coverageIstanbulReporter: {
+			dir: path.join(__dirname, 'coverage/%browser%'),
 			fixWebpackSourcePaths: true,
 			reports: ['html', 'text'],
 			thresholds: {

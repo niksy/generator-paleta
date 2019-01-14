@@ -19,19 +19,27 @@
 				"babel-plugin-istanbul"
 			]
 		}
-	}<% } %><% if ( integrationTests || (automatedTests && browserModule && !sassModule) ) { %>,
-	"overrides": [<% if ( automatedTests && browserModule && !sassModule ) { %>
-		{
-			"test": "./test/<% if ( manualTests || integrationTests ) { %>automated<% } %>",
+	}<% } %><% if ( automatedTests && browserModule && !sassModule ) { %>,
+	"env": {
+		"test": {
+			"presets": [
+				["babel-preset-niksy", {
+					"@babel/preset-env": {
+						"useBuiltIns": "usage"
+					}
+				}]
+			],
 			"plugins": [
 				["@babel/plugin-transform-runtime", {
-					"corejs": 2,
+					"corejs": false,
 					"helpers": true,
-					"regenerator": true,
+					"regenerator": false,
 					"useESModules": true
 				}]
 			]
-		}<% } %><% if ( integrationTests ) { %>,
+		}
+	}<% } %><% if ( integrationTests ) { %>,
+	"overrides": [
 		{
 			"test": "./test/integration",
 			"presets": [
@@ -43,6 +51,6 @@
 					}
 				}]
 			]
-		}<% } %>
+		}
 	]<% } %>
 }
