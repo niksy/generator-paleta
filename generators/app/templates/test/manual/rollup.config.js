@@ -28,9 +28,7 @@ if ( args.watch ) {
 
 const config = () => {
 
-	return del([
-		'./test-dist'
-	])
+	return del(['./test-dist'])
 		.then(() => globby(['./test/manual/**/*.js', '!./test/manual/rollup.config.js']))
 		.then(( files ) => {
 			return files

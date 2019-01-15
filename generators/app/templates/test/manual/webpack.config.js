@@ -9,9 +9,7 @@ const atImport = require('postcss-import');
 
 module.exports = () => {
 
-	return del([
-			'./test-dist'
-		])
+	return del(['./test-dist'])
 		.then(() => globby(['./test/manual/**/*.js', '!./test/manual/webpack.config.js']))
 		.then(( files ) => {
 			return files
