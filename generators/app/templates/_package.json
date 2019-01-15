@@ -33,7 +33,7 @@
     "test:generate-static-site": "<% if ( bundlingTool === 'webpack' ) { %>webpack --config ./test/manual/webpack.config.js<% } %><% if ( bundlingTool === 'rollup' ) { %>rollup --config ./test/manual/rollup.config.js<% } %>",
     "test:generate-static-site:watch": "<% if ( bundlingTool === 'webpack' ) { %>webpack-dev-server --config ./test/manual/webpack.config.js<% } %><% if ( bundlingTool === 'rollup' ) { %>rollup --config ./test/manual/rollup.config.js --watch<% } %>",
     "test:integration": "npm run test:generate-static-site && <% if ( esModules ) { %>npx -n=--require -n=esm <% } %>wdio",
-    "test:integration:watch": "npm run test:generate-static-site:watch & <% if ( esModules ) { %>npx -n=--require -n=esm <% } %>wdio --local"<% } %><% if ( manualTests ) { %>,
+    "test:integration:watch": "npm run test:generate-static-site:watch & <% if ( esModules ) { %>npx -n=--require -n=esm <% } %>wdio"<% } %><% if ( manualTests ) { %>,
     "test:manual": "npm run test:generate-static-site:watch"<% } %><% if ( (automatedTests && browserModule && !sassModule) || manualTests || integrationTests ) { %>,
     "test": "npm run lint<% if ( automatedTests && browserModule && !sassModule ) { %> && npm run test:automated<% } %><% if ( integrationTests ) { %> && npm run test:integration<% } %>"<% } else if ( sassModule ) { %>
     "test": "<% if ( automatedTests ) { %>eslint 'test/**/*.js' && stylelint '{_index,test/**/*}.scss' && mocha 'test/**/*.js'<% } else { %>stylelint '_index.scss'<% } %>"<% } else { %>
