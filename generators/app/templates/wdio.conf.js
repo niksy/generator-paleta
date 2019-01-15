@@ -3,17 +3,10 @@
 const http = require('http');
 const ws = require('local-web-server');
 const shutdown = require('http-shutdown');
-const minimist = require('minimist');
 
 let server, config;
 
-const args = minimist(process.argv.slice(2), {
-	'default': {
-		local: false
-	}
-});
-
-const local = <% if ( cloudBrowsers ) { %>args.local<% } else { %>true<% } %>;
+const local = <% if ( cloudBrowsers ) { %>typeof process.env.CI === 'undefined' || process.env.CI === 'false'<% } else { %>true<% } %>;
 const port = 9002;
 
 if ( local ) {

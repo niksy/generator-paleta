@@ -1,7 +1,6 @@
 'use strict';
 
-const path = require('path');
-const minimist = require('minimist');<% if ( bundlingTool === 'rollup' ) { %>
+const path = require('path');<% if ( bundlingTool === 'rollup' ) { %>
 const resolve = require('rollup-plugin-node-resolve');
 const commonjs = require('rollup-plugin-commonjs');
 const nodeBuiltins = require('rollup-plugin-node-builtins');
@@ -15,13 +14,7 @@ process.env.CHROME_BIN = puppeteer.executablePath();<% } %>
 
 let config;
 
-const args = minimist(process.argv.slice(2), {
-	'default': {
-		local: false
-	}
-});
-
-const local = args.local;
+const local = typeof process.env.CI === 'undefined' || process.env.CI === 'false';
 const port = 9001;
 
 if ( local ) {
@@ -70,7 +63,7 @@ if ( local ) {
 				flags: ['--no-sandbox']
 			}<% } %>
 		},
-		browsers: <% if ( cloudBrowsers ) { %>['BS-Chrome', 'BS-Firefox', 'BS-IE9']<% } else { %><% if ( browserTestType !== 'headless' ) { %>[(process.env.TRAVIS ? 'Chrome-CI' : 'Chrome')]<% } else { %>['ChromeHeadless']<% } %><% } %>
+		browsers: <% if ( cloudBrowsers ) { %>['BS-Chrome', 'BS-Firefox', 'BS-IE9']<% } else { %><% if ( browserTestType !== 'headless' ) { %>[(!local ? 'Chrome-CI' : 'Chrome')]<% } else { %>['ChromeHeadless']<% } %><% } %>
 	};
 }
 

@@ -154,13 +154,12 @@ describe('Manual tests', function () {
 				test: 'test'
 			},
 			scripts: {
-				'test:manual:local': 'npm run test:generate-static-site:watch'
+				'test:manual': 'npm run test:generate-static-site:watch'
 			},
 			devDependencies: {
 				'webpack': '^4.12.0',
 				'del': '^2.2.0',
 				'globby': '^4.1.0',
-				'minimist': '^1.2.0',
 				'css-loader': '^2.1.0',
 				'html-webpack-plugin': '^3.2.0',
 				'mini-css-extract-plugin': '^0.5.0',
@@ -231,7 +230,6 @@ describe('Automated tests, browser module', function () {
 		assert.jsonFileContent('package.json', {
 			scripts: {
 				'test:automated': 'BABEL_ENV=test karma start',
-				'test:automated:local': 'BABEL_ENV=test karma start --local',
 				'test': 'npm run lint && npm run test:automated'
 			},
 			devDependencies: {
@@ -244,8 +242,7 @@ describe('Automated tests, browser module', function () {
 				'karma-fixture': '^0.2.6',
 				'karma-mocha': '^1.3.0',
 				'karma-mocha-reporter': '^2.2.5',
-				'webpack': '^4.12.0',
-				'minimist': '^1.2.0'
+				'webpack': '^4.12.0'
 			}
 		});
 	});
@@ -813,7 +810,7 @@ describe('Cloud browsers', function () {
 	});
 
 	it('should adjust Karma configuration', function () {
-		assert.fileContent('karma.conf.js', 'browsers: [(process.env.TRAVIS ? \'Chrome-CI\' : \'Chrome\')]');
+		assert.fileContent('karma.conf.js', 'browsers: [(!local ? \'Chrome-CI\' : \'Chrome\')]');
 	});
 
 });

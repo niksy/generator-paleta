@@ -117,11 +117,11 @@ Tested in IE9+ and all modern browsers.
 
 <% } %><% if ( (automatedTests || manualTests || integrationTests) && browserModule && !sassModule ) { %>## Test<% if ( automatedTests ) { %>
 
-For local automated tests, run `npm run test:automated:local` (append `:watch` for watcher support).<% } %><% if ( integrationTests ) { %>
+For automated tests, run `npm run test:automated` (append `:watch` for watcher support).<% } %><% if ( integrationTests ) { %>
 
-For local integration tests, run `npm run test:integration:local` (append `:watch` for watcher support).<% } %><% if ( manualTests ) { %>
+For integration tests, run `npm run test:integration` (append `:watch` for watcher support).<% } %><% if ( manualTests ) { %>
 
-For manual tests, run `npm run test:manual:local` and open <http://localhost:9000/> in your browser.<% } %>
+For manual tests, run `npm run test:manual` and open <http://localhost:9000/> in your browser.<% } %>
 
 <% } %>## License
 
