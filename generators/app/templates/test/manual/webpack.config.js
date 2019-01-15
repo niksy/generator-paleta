@@ -37,7 +37,7 @@ module.exports = () => {
 				mode: 'none',
 				devtool: 'cheap-module-inline-source-map',
 				devServer: {
-					contentBase: path.join(__dirname, '../..est-dist'),
+					contentBase: path.join(__dirname, '../../test-dist'),
 					port: 9000,
 					open: true
 				},
