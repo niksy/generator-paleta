@@ -6,11 +6,11 @@ module.exports = {
 	input: '<% if ( complexTranspile ) { %>src/<% } %>index.js',
 	output: [
 		{
-			file: '<% if ( transpile && !complexTranspile ) { %>dist/<% } %>index.cjs.js',
+			file: '<% if ( useDistDirectory ) { %>dist/<% } %>index.cjs.js',
 			format: 'cjs'
 		},
 		{
-			file: '<% if ( transpile && !complexTranspile ) { %>dist/<% } %>index.esm.js',
+			file: '<% if ( useDistDirectory ) { %>dist/<% } %>index.esm.js',
 			format: 'esm'
 		}
 	]<% if ( transpile ) { %>,

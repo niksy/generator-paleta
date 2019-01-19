@@ -2,13 +2,13 @@
   "name": "<%= moduleName %>",
   "version": "<% if ( version ) { %><%= version %><% } else { %>0.0.0<% } %>",
   "description": "<%= moduleDescription %>",<% if ( !cli ) { %>
-  "main": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( transpile && !complexTranspile ) { %>dist/<% } %>index<% if ( esModules ) { %>.cjs<% } %>.js<% } %>",<% if ( esModules ) { %>
-  "module": "<% if ( transpile && !complexTranspile ) { %>dist/<% } %>index.esm.js",
+  "main": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( useDistDirectory ) { %>dist/<% } %>index<% if ( esModules ) { %>.cjs<% } %>.js<% } %>",<% if ( esModules ) { %>
+  "module": "<% if ( useDistDirectory ) { %>dist/<% } %>index.esm.js",
   "sideEffects": false,<% } %><% } %>
   "author": "<%= humanName %> <<%= email %>> (<%= website %>)",
   "files": [
-    "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( transpile && !complexTranspile ) { %>dist/<% } %>index<% if ( esModules ) { %>.cjs<% } %>.js<% } %>",<% if ( esModules ) { %>
-    "<% if ( transpile && !complexTranspile ) { %>dist/<% } %>index.esm.js",<% } %><% if ( transpile && !complexTranspile ) { %>
+    "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( useDistDirectory ) { %>dist/<% } %>index<% if ( esModules ) { %>.cjs<% } %>.js<% } %>",<% if ( esModules ) { %>
+    "<% if ( useDistDirectory ) { %>dist/<% } %>index.esm.js",<% } %><% if ( useDistDirectory ) { %>
     "dist/",<% } else if ( !transpile && !esModules ) { %>
     "lib/",<% } %><% if ( changelog ) { %>
     "CHANGELOG.md",<% } %>

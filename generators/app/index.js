@@ -326,10 +326,13 @@ module.exports = class extends Generator {
 			githubRelease: answers.githubRelease,
 			bundlingTool: answers.bundlingTool
 		};
-		this.tpl = tpl;
+
+		this.tpl = Object.assign({}, tpl, {
+			useDistDirectory: tpl.transpile && !tpl.complexTranspile && !tpl.esModules
+		});
 
 		this.copyResource = ( from, to ) => {
-			this.fs.copyTpl(this.templatePath(from), this.destinationPath(to), tpl);
+			this.fs.copyTpl(this.templatePath(from), this.destinationPath(to), this.tpl);
 		};
 		this.removeResource = ( to ) => {
 			this.fs.delete(this.destinationPath(to));

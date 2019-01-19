@@ -1066,9 +1066,8 @@ describe('ES Modules, transpile', function () {
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			files: [
-				'dist/index.cjs.js',
-				'dist/index.esm.js',
-				'dist/'
+				'index.cjs.js',
+				'index.esm.js'
 			],
 			devDependencies: {
 				'rollup-plugin-babel': '^4.2.0'

@@ -2,15 +2,15 @@
 node_modules/
 package-lock.json
 yarn.lock
-npm-debug.log<% if ( (automatedTests && browserModule && !sassModule) || manualTests || integrationTests ) { %>
+npm-debug.log<% if ( browserModule && !sassModule && (manualTests || integrationTests) ) { %>
 test-dist/<% } %><% if ( automatedTests && codeCoverage ) { %><% if ( !browserModule ) { %>
 .nyc_output/<% } %>
-coverage/<% } %><% if ( (automatedTests && browserModule && !sassModule) && integrationTests ) { %>
+coverage/<% } %><% if ( browserModule && !sassModule && integrationTests ) { %>
 errorShots/
 wdioDockerLogs/<% } %><% if ( esModules ) { %>
 index.cjs.js
 index.esm.js<% } %><% if ( transpile ) { %><% if ( complexTranspile ) { %><% if ( !esModules ) { %>
 index.js<% } %>
 lib/*
-!src/*<% } else { %>
-dist/<% } %><% } %>
+!src/*<% } else { %><% if ( useDistDirectory ) { %>
+dist/<% } %><% } %><% } %>
