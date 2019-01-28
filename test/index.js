@@ -1243,7 +1243,7 @@ describe('Changelog, GitHub Release', function () {
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			scripts: {
-				postpublish: 'GITHUB_TOKEN=GITHUB_RELEASE_TOKEN github-release-from-changelog'
+				postpublish: 'GITHUB_TOKEN=$GITHUB_RELEASE_TOKEN github-release-from-changelog'
 			},
 			devDependencies: {
 				'github-release-from-changelog': '^1.3.2'
