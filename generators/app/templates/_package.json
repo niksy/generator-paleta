@@ -38,8 +38,10 @@
     "test:integration:watch": "npm run test:generate-static-site:watch & <% if ( esModules ) { %>npx -n=--require -n=esm <% } %>wdio"<% } %><% } %><% if ( manualTests ) { %>,
     "test:manual": "npm run test:generate-static-site:watch"<% } %><% if ( (automatedTests && browserModule && !sassModule) || manualTests || integrationTests ) { %>,
     "test": "npm run lint<% if ( automatedTests && browserModule && !sassModule ) { %> && npm run test:automated<% } %><% if ( integrationTests ) { %> && npm run test:integration<% } %>"<% } else if ( sassModule ) { %>,
-    "test": "npm run lint<% if ( automatedTests ) { %> && mocha 'test/**/*.js'<% } %>"<% } else { %>,
-    "test": "npm run lint<% if ( automatedTests ) { %> && <% if ( codeCoverage ) { %><% if ( transpile ) { %>BABEL_ENV=test <% } %>nyc mocha<% } else { %>mocha<% } %><% if ( transpile ) { %> --require @babel/register<% } %><% if ( esModules ) { %> --require esm<% } %> 'test/**/*.js'<% if ( codeCoverage ) { %> && nyc check-coverage<% } %><% } else { %><% } %>"<% if ( codeCoverageService ) { %>,
+    "test": "npm run lint<% if ( automatedTests ) { %> && mocha 'test/**/*.js'<% } %>"<% if ( automatedTests ) { %>,
+    "test:watch": "npm test -- --watch"<% } %><% } else { %>,
+    "test": "npm run lint<% if ( automatedTests ) { %> && <% if ( codeCoverage ) { %><% if ( transpile ) { %>BABEL_ENV=test <% } %>nyc mocha<% } else { %>mocha<% } %><% if ( transpile ) { %> --require @babel/register<% } %><% if ( esModules ) { %> --require esm<% } %> 'test/**/*.js'<% if ( codeCoverage ) { %> $([[ $WATCH_TEST ]] && echo --watch) && nyc check-coverage<% } %><% } else { %><% } %>"<% if ( automatedTests ) { %>,
+    "test:watch": "<% if ( codeCoverage ) { %>WATCH_TEST=1 npm test<% } else { %>npm test -- --watch<% } %>"<% } %><% if ( codeCoverageService ) { %>,
     "posttest:ci": "cat ./coverage/lcov.info | coveralls"<% } %><% } %><% if ( transpile || esModules ) { %>,
     "build": "<% if ( esModules ) { %>rollup --config rollup.config.js<% } else { %>babel <% if ( complexTranspile ) { %>src<% } else { %>'{index,lib/**/*}.js'<% } %> --out-dir <% if ( complexTranspile ) { %>./<% } else { %>dist/<% } %><% } %>",
     "prepublishOnly": "npm run build"<% } %>

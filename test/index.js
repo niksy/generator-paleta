@@ -196,7 +196,8 @@ describe('Automated tests', function () {
 		assert.jsonFileContent('package.json', {
 			scripts: {
 				lint: 'eslint \'{index,lib/**/*,test/**/*}.js\'',
-				test: 'npm run lint && mocha \'test/**/*.js\''
+				test: 'npm run lint && mocha \'test/**/*.js\'',
+				'test:watch': 'npm test -- --watch'
 			},
 			devDependencies: {
 				'mocha': '^4.1.0',
@@ -528,7 +529,8 @@ describe('CLI', function () {
 			},
 			scripts: {
 				lint: 'eslint \'{index,lib/**/*,cli,test/**/*}.js\'',
-				test: 'npm run lint && nyc mocha \'test/**/*.js\' && nyc check-coverage'
+				test: 'npm run lint && nyc mocha \'test/**/*.js\' $([[ $WATCH_TEST ]] && echo --watch) && nyc check-coverage',
+				'test:watch': 'WATCH_TEST=1 npm test'
 			},
 			keywords: [
 				'cli',
@@ -558,7 +560,8 @@ describe('Code coverage', function () {
 		assert.jsonFileContent('package.json', {
 			scripts: {
 				lint: 'eslint \'{index,lib/**/*,test/**/*}.js\'',
-				test: 'npm run lint && nyc mocha \'test/**/*.js\' && nyc check-coverage'
+				test: 'npm run lint && nyc mocha \'test/**/*.js\' $([[ $WATCH_TEST ]] && echo --watch) && nyc check-coverage',
+				'test:watch': 'WATCH_TEST=1 npm test'
 			},
 			devDependencies: {
 				nyc: '^12.0.2'
@@ -755,7 +758,8 @@ describe('Sass module', function () {
 			style: '_index.scss',
 			scripts: {
 				lint: 'eslint \'test/**/*.js\' && stylelint \'{_index,test/**/*}.scss\'',
-				test: 'npm run lint && mocha \'test/**/*.js\''
+				test: 'npm run lint && mocha \'test/**/*.js\'',
+				'test:watch': 'npm test -- --watch'
 			},
 			devDependencies: {
 				'sass-true': '^2.1.3'
@@ -940,7 +944,8 @@ describe('Transpile, with automated tests and code coverage', function () {
 		assert.jsonFileContent('package.json', {
 			scripts: {
 				lint: 'eslint \'{index,lib/**/*,test/**/*}.js\'',
-				test: 'npm run lint && BABEL_ENV=test nyc mocha --require @babel/register \'test/**/*.js\' && nyc check-coverage'
+				test: 'npm run lint && BABEL_ENV=test nyc mocha --require @babel/register \'test/**/*.js\' $([[ $WATCH_TEST ]] && echo --watch) && nyc check-coverage',
+				'test:watch': 'WATCH_TEST=1 npm test'
 			},
 			devDependencies: {
 				'@babel/register': '^7.0.0',
@@ -1128,7 +1133,8 @@ describe('ES Modules, automated tests', function () {
 		assert.jsonFileContent('package.json', {
 			scripts: {
 				lint: 'eslint \'{index,lib/**/*,test/**/*}.js\'',
-				test: 'npm run lint && mocha --require esm \'test/**/*.js\''
+				test: 'npm run lint && mocha --require esm \'test/**/*.js\'',
+				'test:watch': 'npm test -- --watch'
 			},
 			devDependencies: {
 				esm: '^3.0.51'
@@ -1156,7 +1162,8 @@ describe('ES Modules, automated tests, code coverage, transpile', function () {
 		assert.jsonFileContent('package.json', {
 			scripts: {
 				lint: 'eslint \'{index,lib/**/*,test/**/*}.js\'',
-				test: 'npm run lint && BABEL_ENV=test nyc mocha --require @babel/register --require esm \'test/**/*.js\' && nyc check-coverage'
+				test: 'npm run lint && BABEL_ENV=test nyc mocha --require @babel/register --require esm \'test/**/*.js\' $([[ $WATCH_TEST ]] && echo --watch) && nyc check-coverage',
+				'test:watch': 'WATCH_TEST=1 npm test'
 			},
 			devDependencies: {
 				esm: '^3.0.51'
