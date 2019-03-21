@@ -23,6 +23,7 @@ if ( local ) {
 	};
 } else {
 	config = {<% if ( cloudBrowsers ) { %>
+		hostname: 'bs-local.com',
 		browserStack: {
 			startTunnel: true,
 			project: '<%= moduleName %>',
