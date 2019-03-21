@@ -235,11 +235,11 @@ describe('Automated tests, browser module', function () {
 				'test': 'npm run lint && npm run test:automated'
 			},
 			devDependencies: {
-				'karma': '^1.1.0',
+				'karma': '^4.0.1',
 				'karma-sourcemap-loader': '^0.3.7',
 				'karma-webpack': '^3.0.0',
 				'karma-browserstack-launcher': '^1.0.0',
-				'karma-chrome-launcher': '^1.0.1',
+				'karma-chrome-launcher': '^2.2.0',
 				'karma-html2js-preprocessor': '^1.0.0',
 				'karma-fixture': '^0.2.6',
 				'karma-mocha': '^1.3.0',
@@ -1291,7 +1291,7 @@ describe('Bundling tool, Rollup, automated tests', function () {
 				'rollup-plugin-node-builtins': '^2.1.2',
 				'rollup-plugin-node-globals': '^1.4.0',
 				'rollup-plugin-istanbul': '^2.0.1',
-				'karma-rollup-preprocessor': '^7.0.0-rc.1'
+				'karma-rollup-preprocessor': '^7.0.0'
 			}
 		});
 	});
