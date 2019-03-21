@@ -25,7 +25,8 @@
 			"presets": [
 				["babel-preset-niksy", {
 					"@babel/preset-env": {
-						"useBuiltIns": "usage"
+						"useBuiltIns": "usage",
+						"corejs": 2
 					}
 				}]
 			],

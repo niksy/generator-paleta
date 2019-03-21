@@ -109,6 +109,7 @@
     "http-shutdown": "^1.0.3"<% } %><% if ( transpile ) { %>,
     "@babel/core": "^7.2.2",
     "@babel/cli": "^7.2.3",
+    "core-js": "^2.6.5",
     "babel-preset-niksy": "^4.1.0"<% if ( browserModule ) { %>,
     "@babel/plugin-transform-object-assign": "^7.2.0"<% } %><% if ( browserModule && !sassModule ) { %><% if ( bundlingTool === 'webpack' ) { %>,
     "babel-loader": "^8.0.4"<% } %><% } %><% if ( automatedTests && browserModule && !sassModule ) { %>,
