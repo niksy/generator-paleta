@@ -195,7 +195,8 @@ describe('Automated tests', function () {
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			scripts: {
-				test: 'eslint \'{index,lib/**/*,test/**/*}.js\' && mocha \'test/**/*.js\''
+				lint: 'eslint \'{index,lib/**/*,test/**/*}.js\'',
+				test: 'npm run lint && mocha \'test/**/*.js\''
 			},
 			devDependencies: {
 				'mocha': '^4.1.0',
@@ -489,7 +490,8 @@ describe('Styles', function () {
 		assert.jsonFileContent('package.json', {
 			style: 'index.css',
 			scripts: {
-				test: 'eslint \'{index,lib/**/*}.js\' && stylelint \'index.css\''
+				lint: 'eslint \'{index,lib/**/*}.js\' && stylelint \'index.css\'',
+				test: 'npm run lint'
 			},
 			devDependencies: {
 				'stylelint': '^9.2.1',
@@ -525,7 +527,8 @@ describe('CLI', function () {
 				ellie: 'cli.js'
 			},
 			scripts: {
-				test: 'eslint \'{index,lib/**/*,cli,test/**/*}.js\' && nyc mocha \'test/**/*.js\' && nyc check-coverage'
+				lint: 'eslint \'{index,lib/**/*,cli,test/**/*}.js\'',
+				test: 'npm run lint && nyc mocha \'test/**/*.js\' && nyc check-coverage'
 			},
 			keywords: [
 				'cli',
@@ -554,7 +557,8 @@ describe('Code coverage', function () {
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			scripts: {
-				test: 'eslint \'{index,lib/**/*,test/**/*}.js\' && nyc mocha \'test/**/*.js\' && nyc check-coverage'
+				lint: 'eslint \'{index,lib/**/*,test/**/*}.js\'',
+				test: 'npm run lint && nyc mocha \'test/**/*.js\' && nyc check-coverage'
 			},
 			devDependencies: {
 				nyc: '^12.0.2'
@@ -750,7 +754,8 @@ describe('Sass module', function () {
 			main: '_index.scss',
 			style: '_index.scss',
 			scripts: {
-				test: 'eslint \'test/**/*.js\' && stylelint \'{_index,test/**/*}.scss\' && mocha \'test/**/*.js\''
+				lint: 'eslint \'test/**/*.js\' && stylelint \'{_index,test/**/*}.scss\'',
+				test: 'npm run lint && mocha \'test/**/*.js\''
 			},
 			devDependencies: {
 				'sass-true': '^2.1.3'
@@ -934,7 +939,8 @@ describe('Transpile, with automated tests and code coverage', function () {
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			scripts: {
-				test: 'eslint \'{index,lib/**/*,test/**/*}.js\' && BABEL_ENV=test nyc mocha --require @babel/register \'test/**/*.js\' && nyc check-coverage'
+				lint: 'eslint \'{index,lib/**/*,test/**/*}.js\'',
+				test: 'npm run lint && BABEL_ENV=test nyc mocha --require @babel/register \'test/**/*.js\' && nyc check-coverage'
 			},
 			devDependencies: {
 				'@babel/register': '^7.0.0',
@@ -1121,7 +1127,8 @@ describe('ES Modules, automated tests', function () {
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			scripts: {
-				test: 'eslint \'{index,lib/**/*,test/**/*}.js\' && mocha --require esm \'test/**/*.js\''
+				lint: 'eslint \'{index,lib/**/*,test/**/*}.js\'',
+				test: 'npm run lint && mocha --require esm \'test/**/*.js\''
 			},
 			devDependencies: {
 				esm: '^3.0.51'
@@ -1148,7 +1155,8 @@ describe('ES Modules, automated tests, code coverage, transpile', function () {
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			scripts: {
-				test: 'eslint \'{index,lib/**/*,test/**/*}.js\' && BABEL_ENV=test nyc mocha --require @babel/register --require esm \'test/**/*.js\' && nyc check-coverage'
+				lint: 'eslint \'{index,lib/**/*,test/**/*}.js\'',
+				test: 'npm run lint && BABEL_ENV=test nyc mocha --require @babel/register --require esm \'test/**/*.js\' && nyc check-coverage'
 			},
 			devDependencies: {
 				esm: '^3.0.51'
