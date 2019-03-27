@@ -23,6 +23,8 @@ if ( local ) {
 	};
 } else {
 	config = {<% if ( cloudBrowsers ) { %>
+		username: process.env.BROWSER_STACK_USERNAME,
+		accessKey: process.env.BROWSER_STACK_ACCESS_KEY,
 		hostname: 'bs-local.com',
 		browserStack: {
 			startTunnel: true,
