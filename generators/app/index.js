@@ -207,6 +207,13 @@ module.exports = class extends Generator {
 				}
 			},
 			{
+				'type': 'confirm',
+				'name': 'sourceMaps',
+				'message': 'Do you want to generate source maps?',
+				'default': false,
+				'when': ( answers ) => answers.transpile || answers.esModules
+			},
+			{
 				'type': 'list',
 				'name': 'bundlingTool',
 				'message': 'What bundling tool do you want to use?',
@@ -324,7 +331,8 @@ module.exports = class extends Generator {
 			browserTestType: answers.browserTestType,
 			changelog: answers.changelog,
 			githubRelease: answers.githubRelease,
-			bundlingTool: answers.bundlingTool
+			bundlingTool: answers.bundlingTool,
+			sourceMaps: answers.sourceMaps
 		};
 
 		this.tpl = Object.assign({}, tpl, {

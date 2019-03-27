@@ -7,11 +7,13 @@ module.exports = {
 	output: [
 		{
 			file: '<% if ( useDistDirectory ) { %>dist/<% } %>index.cjs.js',
-			format: 'cjs'
+			format: 'cjs'<% if ( sourceMaps ) { %>,
+			sourcemap: true<% } %>
 		},
 		{
 			file: '<% if ( useDistDirectory ) { %>dist/<% } %>index.esm.js',
-			format: 'esm'
+			format: 'esm'<% if ( sourceMaps ) { %>,
+			sourcemap: true<% } %>
 		}
 	]<% if ( transpile ) { %>,
 	plugins: [

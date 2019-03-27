@@ -7,8 +7,8 @@
   "sideEffects": false,<% } %><% } %>
   "author": "<%= humanName %> <<%= email %>> (<%= website %>)",
   "files": [
-    "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( useDistDirectory ) { %>dist/<% } %>index<% if ( esModules ) { %>.cjs<% } %>.js<% } %>",<% if ( esModules ) { %>
-    "<% if ( useDistDirectory ) { %>dist/<% } %>index.esm.js",<% } %><% if ( useDistDirectory ) { %>
+    "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( useDistDirectory ) { %>dist/<% } %>index<% if ( esModules ) { %>.cjs<% } %>.<% if ( sourceMaps ) { %>{js,js.map}<% } else { %>js<% } %><% } %>",<% if ( esModules ) { %>
+    "<% if ( useDistDirectory ) { %>dist/<% } %>index.esm.<% if ( sourceMaps ) { %>{js,js.map}<% } else { %>js<% } %>",<% } %><% if ( useDistDirectory ) { %>
     "dist/",<% } else if ( !transpile && !esModules ) { %>
     "lib/",<% } %><% if ( changelog ) { %>
     "CHANGELOG.md",<% } %>
@@ -43,7 +43,7 @@
     "test": "npm run lint<% if ( automatedTests ) { %> && <% if ( codeCoverage ) { %><% if ( transpile ) { %>BABEL_ENV=test <% } %>nyc mocha<% } else { %>mocha<% } %><% if ( transpile ) { %> --require @babel/register<% } %><% if ( esModules ) { %> --require esm<% } %> 'test/**/*.js'<% if ( codeCoverage ) { %> $([[ $WATCH_TEST ]] && echo --watch) && nyc check-coverage<% } %><% } else { %><% } %>"<% if ( automatedTests ) { %>,
     "test:watch": "<% if ( codeCoverage ) { %>WATCH_TEST=1 npm test<% } else { %>npm test -- --watch<% } %>"<% } %><% if ( codeCoverageService ) { %>,
     "posttest:ci": "cat ./coverage/lcov.info | coveralls"<% } %><% } %><% if ( transpile || esModules ) { %>,
-    "build": "<% if ( esModules ) { %>rollup --config rollup.config.js<% } else { %>babel <% if ( complexTranspile ) { %>src<% } else { %>'{index,lib/**/*}.js'<% } %> --out-dir <% if ( complexTranspile ) { %>./<% } else { %>dist/<% } %><% } %>",
+    "build": "<% if ( esModules ) { %>rollup --config rollup.config.js<% } else { %>babel <% if ( complexTranspile ) { %>src<% } else { %>'{index,lib/**/*}.js'<% } %> --out-dir <% if ( complexTranspile ) { %>./<% } else { %>dist/<% } %><% if ( sourceMaps ) { %> --source-maps true<% } %><% } %>",
     "prepublishOnly": "npm run build"<% } %>
   }<% if ( jqueryModule ) { %>,
   "dependencies": {

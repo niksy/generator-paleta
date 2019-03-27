@@ -1333,3 +1333,32 @@ describe('Bundling tool, Rollup, manual tests', function () {
 	});
 
 });
+
+describe('Sourcemaps', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				esModules: true,
+				sourceMaps: true
+			})
+			.toPromise();
+	});
+
+	it('should fill .gitignore with correct information', function () {
+		assert.fileContent('.gitignore', 'index.cjs.js');
+		assert.fileContent('.gitignore', 'index.cjs.js.map');
+		assert.fileContent('.gitignore', 'index.esm.js');
+		assert.fileContent('.gitignore', 'index.esm.js.map');
+	});
+
+	it('should fill package.json with correct information', function () {
+		assert.jsonFileContent('package.json', {
+			files: [
+				'index.cjs.{js,js.map}',
+				'index.esm.{js,js.map}'
+			]
+		});
+	});
+
+});
