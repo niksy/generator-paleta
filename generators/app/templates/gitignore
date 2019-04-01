@@ -2,7 +2,8 @@
 node_modules/
 package-lock.json
 yarn.lock
-npm-debug.log<% if ( browserModule && !sassModule && (manualTests || integrationTests) ) { %>
+npm-debug.log<% if ( cloudBrowsers ) { %>
+local.log<% } %><% if ( browserModule && !sassModule && (manualTests || integrationTests) ) { %>
 test-dist/<% } %><% if ( automatedTests && codeCoverage ) { %><% if ( !browserModule ) { %>
 .nyc_output/<% } %>
 coverage/<% } %><% if ( browserModule && !sassModule && integrationTests ) { %>
