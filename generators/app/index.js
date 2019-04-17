@@ -259,31 +259,28 @@ module.exports = class extends Generator {
 		];
 	}
 
-	prompting () {
+	async prompting () {
 
-		return this.prompt(this.questions)
-			.then(( answers ) => {
+		const answers = await this.prompt(this.questions);
 
-				const browserModuleType = answers.browserModuleType || [];
+		const browserModuleType = answers.browserModuleType || [];
 
-				this.answers = Object.assign({}, answers, {
-					jqueryModule: browserModuleType.indexOf('jqueryModule') !== -1,
-					sassModule: browserModuleType.indexOf('sassModule') !== -1,
-					cssModule: browserModuleType.indexOf('cssModule') !== -1,
-					styles: browserModuleType.indexOf('styles') !== -1
-				});
+		this.answers = Object.assign({}, answers, {
+			jqueryModule: browserModuleType.indexOf('jqueryModule') !== -1,
+			sassModule: browserModuleType.indexOf('sassModule') !== -1,
+			cssModule: browserModuleType.indexOf('cssModule') !== -1,
+			styles: browserModuleType.indexOf('styles') !== -1
+		});
 
-				if ( this.answers.cssModule || this.answers.sassModule ) {
-					this.answers.styles = true;
-				}
+		if ( this.answers.cssModule || this.answers.sassModule ) {
+			this.answers.styles = true;
+		}
 
-				if ( !this.answers.bundlingTool ) {
-					this.answers.bundlingTool = 'webpack';
-				}
+		if ( !this.answers.bundlingTool ) {
+			this.answers.bundlingTool = 'webpack';
+		}
 
-				return this.answers;
-
-			});
+		return this.answers;
 
 	}
 
