@@ -10,6 +10,7 @@ const sortPkg = require('sort-pkg');
 const dashCase = require('lodash.kebabcase');
 const camelCase = require('lodash.camelcase');
 const isScopedPackage = require('is-scoped');
+const execa = require('execa');
 
 /**
  * @param  {String} pkgName
@@ -261,6 +262,13 @@ module.exports = class extends Generator {
 				'name': 'prettier',
 				'message': 'Do you want to use Prettier?',
 				'default': false
+			},
+			{
+				'type': 'confirm',
+				'name': 'runPrettierOnCodebase',
+				'message': 'Do you want to run Prettier on entire codebase?',
+				'default': false,
+				'when': ( answers ) => answers.prettier
 			}
 		];
 	}
@@ -336,7 +344,8 @@ module.exports = class extends Generator {
 			githubRelease: answers.githubRelease,
 			bundlingTool: answers.bundlingTool,
 			sourceMaps: answers.sourceMaps,
-			prettier: answers.prettier
+			prettier: answers.prettier,
+			runPrettierOnCodebase: answers.runPrettierOnCodebase
 		};
 
 		this.tpl = Object.assign({}, tpl, {
@@ -499,6 +508,32 @@ module.exports = class extends Generator {
 
 	install () {
 		this.npmInstall();
+	}
+
+	async end () {
+
+		const { answers } = this;
+
+		if ( !answers.runPrettierOnCodebase ) {
+			return;
+		}
+
+		this.log('Running Prettier on codebase…');
+
+		const cwd = this.destinationRoot();
+
+		const runStylelint = answers.browserModule && answers.styles;
+		const execaOptions = {
+			cwd: cwd,
+			localDir: cwd,
+			reject: false
+		};
+
+		await Promise.all([
+			execa('eslint', ['**/*.js', '--ignore-path', '.gitignore', '--fix'], execaOptions),
+			(runStylelint ? execa('stylelint', ['**/*.css', '--ignore-path', '.gitignore', '--fix'], execaOptions) : Promise.resolve())
+		]);
+
 	}
 
 };
