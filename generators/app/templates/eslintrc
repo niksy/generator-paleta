@@ -6,8 +6,17 @@ files.push("wdio.conf.js"); } %>{
 	"extends": [
 		"niksy"<% if ( esModules ) { %>,
 		"niksy/next"<% } %><% if ( browserModule ) { %>,
-		"niksy/browser"<% } %>
-	]<% if ( browserModule ) { %>,
+		"niksy/browser"<% } %><% if ( prettier ) { %>,
+		"prettier"<% if ( false ) { %>,
+		"prettier/react",
+		"prettier/vue<% } %><% } %>
+	]<% if ( prettier ) { %>,
+	"plugins": [
+		"prettier"
+	],
+	"rules": {
+		"prettier/prettier": 1
+	}<% } %><% if ( browserModule ) { %>,
 	"overrides": [
 		{
 			<% if ( files.length !== 0 ) { %>"files": [<% for ( var i = 0, filesLength = files.length; i < filesLength; i++ ) { %>

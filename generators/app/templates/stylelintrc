@@ -1,6 +1,13 @@
 {
 	"extends": [
 		"stylelint-config-niksy"<% if ( sassModule ) { %>,
-		"stylelint-config-niksy/scss"<% } %>
-	]
+		"stylelint-config-niksy/scss"<% } %><% if ( prettier ) { %>,
+		"stylelint-config-prettier"<% } %>
+	]<% if ( prettier ) { %>,
+	"plugins": [
+		"stylelint-prettier"
+	],
+	"rules": {
+		"prettier/prettier": [true, { "severity": "warning" }]
+	}<% } %>
 }

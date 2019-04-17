@@ -255,6 +255,12 @@ module.exports = class extends Generator {
 				'message': 'Do you want to create GitHub Release?',
 				'default': false,
 				'when': ( answers ) => answers.changelog
+			},
+			{
+				'type': 'confirm',
+				'name': 'prettier',
+				'message': 'Do you want to use Prettier?',
+				'default': false
 			}
 		];
 	}
@@ -329,7 +335,8 @@ module.exports = class extends Generator {
 			changelog: answers.changelog,
 			githubRelease: answers.githubRelease,
 			bundlingTool: answers.bundlingTool,
-			sourceMaps: answers.sourceMaps
+			sourceMaps: answers.sourceMaps,
+			prettier: answers.prettier
 		};
 
 		this.tpl = Object.assign({}, tpl, {
@@ -454,6 +461,12 @@ module.exports = class extends Generator {
 			cp('CHANGELOG.md', 'CHANGELOG.md');
 		} else {
 			rm('CHANGELOG.md');
+		}
+
+		if ( answers.prettier ) {
+			cp('prettierrc', '.prettierrc');
+		} else {
+			rm('.prettierrc');
 		}
 
 		if ( answers.jqueryModule ) {

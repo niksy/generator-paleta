@@ -1362,3 +1362,21 @@ describe('Sourcemaps', function () {
 	});
 
 });
+
+describe('Prettier', function () {
+
+	before(function () {
+		return helpers.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				prettier: true
+			})
+			.toPromise();
+	});
+
+	it('should create necessary files', function () {
+		assert.file([
+			'.prettierrc'
+		]);
+	});
+
+});
