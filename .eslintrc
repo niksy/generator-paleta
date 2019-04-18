@@ -1,6 +1,24 @@
 {
 	"root": true,
 	"extends": [
-		"niksy"
-	]
+		"niksy",
+		"prettier"
+	],
+	"plugins": [
+		"prettier"
+	],
+	"rules": {
+		"prettier/prettier": 1
+	},
+	"overrides": [{
+		"files": "test/index.js",
+		"rules": {
+			"unicorn/prevent-abbreviations": [1, {
+				"whitelist": {
+					"devDependencies": true,
+					"env": true
+				}
+			}]
+		}
+	}]
 }
