@@ -575,6 +575,18 @@ module.exports = class extends Generator {
 
 		await Promise.all([
 			execa(
+				'prettier',
+				[
+					'**/.!(npm)*rc',
+					'--ignore-path',
+					'.gitignore',
+					'--parser',
+					'json',
+					'--write'
+				],
+				execaOptions
+			),
+			execa(
 				'eslint',
 				['**/*.js', '--ignore-path', '.gitignore', '--fix'],
 				execaOptions
