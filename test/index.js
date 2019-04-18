@@ -69,33 +69,34 @@ describe('Existing project', function() {
 		helperContext = helpers.run(path.join(__dirname, '../generators/app'));
 
 		return helperContext
-			.inTmpDir(function(directory) {
+			.inTmpDir(async function(directory) {
 				const done = this.async();
 				const temporaryPackagePath = path.join(
 					directory,
 					'package.json'
 				);
-				writeJson(temporaryPackagePath, {
-					name: 'minnie',
-					description: 'minnie description',
-					main: 'index.js',
-					version: '1.0.0',
-					dependencies: {
-						e: 3, // eslint-disable-line unicorn/prevent-abbreviations
-						a: 1,
-						g: 4,
-						c: 2
-					},
-					keywords: ['a', 'c', 'b'],
-					repository: {
-						type: 'git',
-						url: 'git+https://github.com/niksy/minnie.git'
-					}
-				})
-					.then(done)
-					.catch((error) => {
-						done(error);
+				try {
+					await writeJson(temporaryPackagePath, {
+						name: 'minnie',
+						description: 'minnie description',
+						main: 'index.js',
+						version: '1.0.0',
+						dependencies: {
+							e: 3, // eslint-disable-line unicorn/prevent-abbreviations
+							a: 1,
+							g: 4,
+							c: 2
+						},
+						keywords: ['a', 'c', 'b'],
+						repository: {
+							type: 'git',
+							url: 'git+https://github.com/niksy/minnie.git'
+						}
 					});
+					done();
+				} catch (error) {
+					done(error);
+				}
 			})
 			.withOptions({ force: true })
 			.toPromise();
@@ -640,22 +641,23 @@ describe('Non-GitHub repository, existing project', function() {
 		helperContext = helpers.run(path.join(__dirname, '../generators/app'));
 
 		return helperContext
-			.inTmpDir(function(directory) {
+			.inTmpDir(async function(directory) {
 				const done = this.async();
 				const temporaryPackagePath = path.join(
 					directory,
 					'package.json'
 				);
-				writeJson(temporaryPackagePath, {
-					repository: {
-						type: 'git',
-						url: 'git+https://gitlab.com/niksy/chester.git'
-					}
-				})
-					.then(done)
-					.catch((error) => {
-						done(error);
+				try {
+					await writeJson(temporaryPackagePath, {
+						repository: {
+							type: 'git',
+							url: 'git+https://gitlab.com/niksy/chester.git'
+						}
 					});
+					done();
+				} catch (error) {
+					done(error);
+				}
 			})
 			.withOptions({ force: true })
 			.toPromise();
@@ -1307,6 +1309,8 @@ describe('Prettier', function() {
 });
 
 describe('Prettier, run on codebase', function() {
+	this.timeout(4000);
+
 	before(function() {
 		return helpers
 			.run(path.join(__dirname, '../generators/app'))
