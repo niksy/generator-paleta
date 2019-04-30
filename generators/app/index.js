@@ -588,6 +588,11 @@ module.exports = class extends Generator {
 			),
 			execa(
 				'prettier',
+				['**/*.md', '--ignore-path', '.gitignore', '--write'],
+				execaOptions
+			),
+			execa(
+				'prettier',
 				['**/*.js', '--ignore-path', '.gitignore', '--write'],
 				execaOptions
 			),

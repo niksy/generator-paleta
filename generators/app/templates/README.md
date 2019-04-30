@@ -125,11 +125,15 @@ For manual tests, run `npm run test:manual` and open <http://localhost:9000/> in
 
 <% } %>## License
 
-MIT © [<%= humanName %>](<%= website %>)<% if ( automatedTests ) { %>
+MIT © [<%= humanName %>](<%= website %>)<% if ( automatedTests ) { %><% if ( prettier ) { %>
+
+<!-- prettier-ignore-start --><% } %>
 
 [ci]: https://travis-ci.com/<%= username %>/<%= cleanModuleName %>
 [ci-img]: https://travis-ci.com/<%= username %>/<%= cleanModuleName %>.svg?branch=master<% } %><% if ( cloudBrowsers && ( (automatedTests && browserModule && !sassModule) || integrationTests ) ) { %>
 [browserstack]: https://www.browserstack.com/
 [browserstack-img]: https://www.browserstack.com/automate/badge.svg?badge_key=<badge_key><% } %><% if ( codeCoverageService ) { %>
 [coverage]: https://coveralls.io/github/<%= username %>/<%= cleanModuleName %>?branch=master
-[coverage-img]: https://coveralls.io/repos/github/<%= username %>/<%= cleanModuleName %>/badge.svg?branch=master<% } %>
+[coverage-img]: https://coveralls.io/repos/github/<%= username %>/<%= cleanModuleName %>/badge.svg?branch=master<% } %><% if ( prettier ) { %>
+
+<!-- prettier-ignore-end --><% } %>
