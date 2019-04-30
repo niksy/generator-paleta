@@ -587,14 +587,14 @@ module.exports = class extends Generator {
 				execaOptions
 			),
 			execa(
-				'eslint',
-				['**/*.js', '--ignore-path', '.gitignore', '--fix'],
+				'prettier',
+				['**/*.js', '--ignore-path', '.gitignore', '--write'],
 				execaOptions
 			),
 			runStylelint
 				? execa(
-						'stylelint',
-						['**/*.css', '--ignore-path', '.gitignore', '--fix'],
+						'prettier',
+						['**/*.css', '--ignore-path', '.gitignore', '--write'],
 						execaOptions
 				  )
 				: Promise.resolve()
