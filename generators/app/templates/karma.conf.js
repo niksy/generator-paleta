@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');<% if ( bundlingTool === 'rollup' ) { %>
+const fs = require('fs');
 const resolve = require('rollup-plugin-node-resolve');
 const commonjs = require('rollup-plugin-commonjs');
 const nodeBuiltins = require('rollup-plugin-node-builtins');
@@ -10,7 +11,9 @@ const istanbul = require('rollup-plugin-istanbul');<% } %>
 const rollupConfig = require('./rollup.config');<% } %><% if ( browserTestType === 'headless' ) { %>
 const puppeteer = require('puppeteer');
 
-process.env.CHROME_BIN = puppeteer.executablePath();<% } %>
+process.env.CHROME_BIN = puppeteer.executablePath();<% } %><% if ( bundlingTool === 'rollup' && transpile ) { %>
+
+const babelrc = JSON.parse(fs.readFileSync(path.resolve(__dirname, '.babelrc'), 'utf8'));<% } %>
 
 let config;
 
@@ -136,6 +139,11 @@ module.exports = function ( baseConfig ) {
 					preferBuiltins: true
 				}),
 				commonjs(),
+				babel(Object.assign({
+					include: 'node_modules/{has-flag,supports-color}/**',
+					runtimeHelpers: true,
+					babelrc: false
+				}, babelrc)),
 				globals(),
 				...rollupConfig.plugins<% if ( transpile ) { %>.filter(({ name }) => !['babel'].includes(name))<% } %><% if ( codeCoverage ) { %>,
 				istanbul({
