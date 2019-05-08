@@ -36,10 +36,10 @@ describe('New project', function() {
 			author: 'Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com)',
 			files: ['index.js', 'lib/', 'LICENSE.md', 'README.md'],
 			scripts: {
-				release: 'np --no-release-draft'
+				release: 'np'
 			},
 			devDependencies: {
-				np: '^5.0.0'
+				np: '^3.0.4'
 			}
 		});
 		assert.noJsonFileContent('package.json', {
