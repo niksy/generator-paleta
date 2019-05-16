@@ -153,7 +153,7 @@ module.exports = function ( baseConfig ) {
 			output: {
 				format: 'iife',
 				name: '<%= camelCasedModuleName %>',
-				sourcemap: 'inline',
+				sourcemap: baseConfig.autoWatch ? false : 'inline', // Source map support has weird behavior in watch mode
 				intro: 'window.TYPED_ARRAY_SUPPORT = false;' // IE9
 			}
 		}<% } %>,<% if ( codeCoverage ) { %>
