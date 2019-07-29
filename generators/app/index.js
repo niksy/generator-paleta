@@ -109,6 +109,10 @@ module.exports = class extends Generator {
 				default: [],
 				choices: [
 					{
+						name: 'Vanilla JS widget (UI component)',
+						value: 'vanillaJsWidget'
+					},
+					{
 						name: 'jQuery module',
 						value: 'jqueryModule'
 					},
@@ -195,7 +199,13 @@ module.exports = class extends Generator {
 				type: 'confirm',
 				name: 'transpile',
 				message: 'Do you need code transpiling via Babel?',
-				default: (answers) => answers.browserModule
+				default: (answers) => {
+					const browserModuleType = answers.browserModuleType || [];
+					if (browserModuleType.includes('vanillaJsWidget')) {
+						return true;
+					}
+					return answers.browserModule;
+				}
 			},
 			{
 				type: 'confirm',
@@ -212,7 +222,7 @@ module.exports = class extends Generator {
 				default: false,
 				when: (answers) => {
 					const browserModuleType = answers.browserModuleType || [];
-					return browserModuleType.indexOf('sassModule') === -1;
+					return !browserModuleType.includes('sassModule');
 				}
 			},
 			{
@@ -226,7 +236,12 @@ module.exports = class extends Generator {
 				type: 'list',
 				name: 'bundlingTool',
 				message: 'What bundling tool do you want to use?',
-				default: 'webpack',
+				default: (answers) => {
+					if (answers.browserModuleType.includes('vanillaJsWidget')) {
+						return 'rollup';
+					}
+					return 'webpack';
+				},
 				choices: [
 					{
 						name: 'Webpack',
@@ -253,7 +268,12 @@ module.exports = class extends Generator {
 				type: 'input',
 				name: 'browserVersion',
 				message: 'Which browser versions this project supports?',
-				default: 'last 2 versions, ie >= 9',
+				default: (answers) => {
+					if (answers.browserModuleType.includes('vanillaJsWidget')) {
+						return 'last 2 versions, ie >= 11';
+					}
+					return 'last 2 versions, ie >= 9';
+				},
 				when: (answers) => answers.browserModule
 			},
 			{
@@ -291,10 +311,11 @@ module.exports = class extends Generator {
 		const browserModuleType = answers.browserModuleType || [];
 
 		this.answers = Object.assign({}, answers, {
-			jqueryModule: browserModuleType.indexOf('jqueryModule') !== -1,
-			sassModule: browserModuleType.indexOf('sassModule') !== -1,
-			cssModule: browserModuleType.indexOf('cssModule') !== -1,
-			styles: browserModuleType.indexOf('styles') !== -1
+			vanillaJsWidget: browserModuleType.includes('vanillaJsWidget'),
+			jqueryModule: browserModuleType.includes('jqueryModule'),
+			sassModule: browserModuleType.includes('sassModule'),
+			cssModule: browserModuleType.includes('cssModule'),
+			styles: browserModuleType.includes('styles')
 		});
 
 		if (this.answers.cssModule || this.answers.sassModule) {
@@ -336,6 +357,7 @@ module.exports = class extends Generator {
 			moduleDescription: answers.description,
 			browserModule: answers.browserModule,
 			styles: answers.styles,
+			vanillaJsWidget: answers.vanillaJsWidget,
 			jqueryModule: answers.jqueryModule,
 			sassModule: answers.sassModule,
 			cssModule: answers.cssModule,

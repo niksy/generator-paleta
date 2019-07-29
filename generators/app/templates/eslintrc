@@ -10,12 +10,17 @@ files.push("wdio.conf.js"); } %>{
 		"prettier"<% if ( false ) { %>,
 		"prettier/react",
 		"prettier/vue<% } %><% } %>
-	]<% if ( prettier ) { %>,
-	"plugins": [
-		"prettier"
-	],
+	]<% if ( prettier || vanillaJsWidget ) { %>,
+	"plugins": [<% if ( prettier ) { %>
+		"prettier"<% } %><% if ( vanillaJsWidget ) { %>,
+		"html"<% } %>
+	]<% } %><% if ( prettier ) { %>,
 	"rules": {
 		"prettier/prettier": 1
+	}<% } %><% if ( vanillaJsWidget ) { %>,
+	"settings": {
+		"html/html-extensions": [".svelte"],
+		"html/indent": "0"
 	}<% } %><% if ( browserModule ) { %>,
 	"overrides": [
 		{

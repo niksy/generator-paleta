@@ -51,22 +51,22 @@ if ( local ) {
 				build: 'Automated (Karma)',
 				name: 'Firefox'
 			},
-			'BS-IE9': {
+			'BS-<% if ( vanillaJsWidget ) { %>11<% } else { %>9<% } %>': {
 				base: 'BrowserStack',
 				browser: 'IE',
-				'browser_version': '9',
+				'browser_version': '<% if ( vanillaJsWidget ) { %>11<% } else { %>9<% } %>',
 				os: 'Windows',
 				'os_version': '7',
 				project: '<%= moduleName %>',
 				build: 'Automated (Karma)',
-				name: 'IE9'
+				name: 'IE<% if ( vanillaJsWidget ) { %>11<% } else { %>9<% } %>'
 			},<% } else { %>
 			'Chrome-CI': {
 				base: 'Chrome',
 				flags: ['--no-sandbox']
 			}<% } %>
 		},
-		browsers: <% if ( cloudBrowsers ) { %>['BS-Chrome', 'BS-Firefox', 'BS-IE9']<% } else { %><% if ( browserTestType !== 'headless' ) { %>[(!local ? 'Chrome-CI' : 'Chrome')]<% } else { %>['ChromeHeadless']<% } %><% } %>
+		browsers: <% if ( cloudBrowsers ) { %>['BS-Chrome', 'BS-Firefox', 'BS-IE<% if ( vanillaJsWidget ) { %>11<% } else { %>9<% } %>']<% } else { %><% if ( browserTestType !== 'headless' ) { %>[(!local ? 'Chrome-CI' : 'Chrome')]<% } else { %>['ChromeHeadless']<% } %><% } %>
 	};
 }
 
@@ -143,7 +143,18 @@ module.exports = function ( baseConfig ) {
 					configFile: path.resolve(__dirname, '.babelrc')
 				}),
 				globals(),
-				...rollupConfig.plugins<% if ( transpile ) { %>.filter(({ name }) => !['babel'].includes(name))<% } %><% if ( codeCoverage ) { %>,
+				...rollupConfig.plugins<% if ( transpile ) { %>.filter(({ name }) => !['babel'].includes(name))<% } %><% if ( vanillaJsWidget ) { %>,
+				babel({
+					exclude: 'node_modules/**',
+					extensions: ['.js', '.svelte'],
+					runtimeHelpers: true
+				}),
+				babel({
+					include: 'node_modules/svelte/shared.js',
+					runtimeHelpers: true,
+					babelrc: false,
+					configFile: path.resolve(__dirname, '.babelrc')
+				})<% } %><% if ( codeCoverage ) { %>,
 				istanbul({
 					exclude: ['test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.js', 'node_modules/**/*']
 				})<% } %>
