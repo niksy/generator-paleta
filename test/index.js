@@ -1325,3 +1325,26 @@ describe('Prettier, run on codebase', function() {
 		assert.file(['.prettierrc']);
 	});
 });
+
+describe('Vanilla JS widget', function() {
+	this.timeout(4000);
+
+	before(function() {
+		return helpers
+			.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				browserModule: true,
+				browserModuleType: ['vanillaJsWidget']
+			})
+			.toPromise();
+	});
+
+	it('should fill package.json with correct information', function() {
+		assert.jsonFileContent('package.json', {
+			devDependencies: {
+				'rollup-plugin-svelte': '^5.1.0',
+				'svelte': '^2.16.1'
+			}
+		});
+	});
+});
