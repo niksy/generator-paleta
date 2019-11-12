@@ -51,7 +51,7 @@ if ( local ) {
 				build: 'Automated (Karma)',
 				name: 'Firefox'
 			},
-			'BS-<% if ( vanillaJsWidget ) { %>11<% } else { %>9<% } %>': {
+			'BS-IE<% if ( vanillaJsWidget ) { %>11<% } else { %>9<% } %>': {
 				base: 'BrowserStack',
 				browser: 'IE',
 				'browser_version': '<% if ( vanillaJsWidget ) { %>11<% } else { %>9<% } %>',
@@ -78,13 +78,13 @@ module.exports = function ( baseConfig ) {
 		files: [
 			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.html',<% if ( bundlingTool === 'webpack' ) { %>
 			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/.webpack.js'<% } %><% if ( bundlingTool === 'rollup' ) { %>
-			{ pattern: 'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.js', watched: false }<% } %>
+			{ pattern: 'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %><% if ( vanillaJsWidget ) { %>index<% } else { %>**/*<% } %>.js', watched: false }<% } %>
 		],
 		exclude: [],
 		preprocessors: {
 			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.html': ['html2js'],<% if ( bundlingTool === 'webpack' ) { %>
 			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/.webpack.js': ['webpack', 'sourcemap']<% } %><% if ( bundlingTool === 'rollup' ) { %>
-			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.js': ['rollup', 'sourcemap']<% } %>
+			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %><% if ( vanillaJsWidget ) { %>index<% } else { %>**/*<% } %>.js': ['rollup', 'sourcemap']<% } %>
 		},
 		reporters: ['mocha'<% if ( codeCoverage ) { %>, 'coverage-istanbul'<% } %>],
 		port: port,
