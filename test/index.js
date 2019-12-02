@@ -1310,24 +1310,6 @@ describe('Prettier', function() {
 	});
 });
 
-describe('Prettier, run on codebase', function() {
-	this.timeout(4000);
-
-	before(function() {
-		return helpers
-			.run(path.join(__dirname, '../generators/app'))
-			.withPrompts({
-				prettier: true,
-				runPrettierOnCodebase: true
-			})
-			.toPromise();
-	});
-
-	it('should create necessary files', function() {
-		assert.file(['.prettierrc']);
-	});
-});
-
 describe('Vanilla JS widget', function() {
 	this.timeout(4000);
 
