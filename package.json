@@ -15,7 +15,7 @@
   },
   "scripts": {
     "lint": "eslint '{generators/app/index,test/index}.js'",
-    "release": "np --no-release-draft",
+    "release": "np",
     "test": "npm run lint && nyc mocha 'test/**/*.js' $([[ $WATCH_TEST ]] && echo --watch) && nyc check-coverage",
     "test:watch": "WATCH_TEST=1 npm test"
   },
