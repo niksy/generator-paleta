@@ -24,6 +24,8 @@ describe('New project', function() {
 			'.eslintrc',
 			'.gitignore',
 			'.npmrc',
+			'.huskyrc',
+			'.lintstagedrc',
 			'index.js',
 			'LICENSE.md',
 			'README.md'

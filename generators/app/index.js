@@ -427,6 +427,8 @@ module.exports = class extends Generator {
 		cp('eslintrc', '.eslintrc');
 		cp('gitignore', '.gitignore');
 		cp('npmrc', '.npmrc');
+		cp('huskyrc', '.huskyrc');
+		cp('lintstagedrc', '.lintstagedrc');
 
 		if (answers.sassModule) {
 			cp('_index.scss', '_index.scss');

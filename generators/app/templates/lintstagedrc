@@ -1,0 +1,9 @@
+{
+	"*<% if ( vanillaJsWidget ) { %>.{js,svelte}<% } else { %>.js<% } %>": ["eslint --fix", "git add"],<% if (browserModule && styles) { %>
+	"*<% if (sassModule) { %>.{css,scss}<% } else { %>.css<% } %>": ["stylelint --fix", "git add"],<% } %>
+	"*.md": ["prettier --ignore-path .gitignore --write", "git add"],
+	".!(npm)*rc": [
+		"prettier --ignore-path .gitignore --parser json --write",
+		"git add"
+	]
+}
