@@ -1,6 +1,9 @@
 # <%= cleanModuleName %><% if ( automatedTests ) { %>
 
-[![Build Status][ci-img]][ci]<% } %><% if ( cloudBrowsers && ( (automatedTests && browserModule && !sassModule) || integrationTests ) ) { %> [![BrowserStack Status][browserstack-img]][browserstack]<% } %><% if ( codeCoverageService ) { %> [![Coverage report][coverage-img]][coverage]<% } %>
+[![Build Status][ci-img]][ci]<% } %><% if ( cloudBrowsers && ( (automatedTests
+&& browserModule && !sassModule) || integrationTests ) ) { %>
+[![BrowserStack Status][browserstack-img]][browserstack]<% } %><% if (
+codeCoverageService ) { %> [![Coverage report][coverage-img]][coverage]<% } %>
 
 <%= moduleDescription %>
 
@@ -12,9 +15,9 @@
 
 ## Usage
 
-<% if ( cli ) { %>```sh
-<%= cliCommandName %>
-```
+<% if ( cli ) { %>```sh <%= cliCommandName %>
+
+````
 
 ``` sh
 <%= cliCommandName %>
@@ -32,9 +35,9 @@
 /* Module style usage */
 ```<% } else { %>```js
 // Module usage<% if ( esModules ) { %> (ES Module)<% } %>
-```
+````
 
-```css
+````css
 /* Module style usage */
 ```<% } %><% } else { %>```js
 // Module usage
@@ -64,31 +67,31 @@ optionalArg description.
 
 ##### prop1
 
-Type: `String`  
+Type: `String`
 Default: `'3'`
 
 `prop1` description.
 
 ##### prop2
 
-Type: `Number`  
+Type: `Number`
 Default: `3`
 
 ##### prop3
 
-Type: `Number[]`  
+Type: `Number[]`
 Default: `[1, 2, 3]`
 
 ##### prop4
 
-Type: `Number[]` `String[]`  
+Type: `Number[]` `String[]`
 Default: `['1', '2', '3']`
 
 `prop4` description.
 
 ##### prop5
 
-Type: `Function`  
+Type: `Function`
 Default: `noop`
 
 `prop5` description.
@@ -121,7 +124,7 @@ For automated tests, run `npm run test:automated` (append `:watch` for watcher s
 
 For integration tests, run `npm run test:integration` (append `:watch` for watcher support).<% } %><% if ( manualTests ) { %>
 
-For manual tests, run `npm run test:manual` and open <http://localhost:9000/> in your browser.<% } %>
+For manual tests, run `npm run test:manual`.<% } %>
 
 <% } %>## License
 
@@ -137,3 +140,4 @@ MIT © [<%= humanName %>](<%= website %>)<% if ( automatedTests ) { %><% if ( pr
 [coverage-img]: https://coveralls.io/repos/github/<%= username %>/<%= cleanModuleName %>/badge.svg?branch=master<% } %><% if ( prettier ) { %>
 
 <!-- prettier-ignore-end --><% } %>
+````
