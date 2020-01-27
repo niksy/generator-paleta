@@ -92,7 +92,7 @@
     "nyc": "^12.0.2"<% } %><% if ( automatedTests && codeCoverage && browserModule && !sassModule ) { %><% if ( bundlingTool === 'webpack' ) { %>,
     "istanbul-instrumenter-loader": "^3.0.1"<% } %><% if ( bundlingTool === 'rollup' ) { %>,
     "rollup-plugin-istanbul": "^2.0.1"<% } %>,
-    "karma-coverage-istanbul-reporter": "^2.0.1"<% } %><% if ( codeCoverageService ) { %>,
+    "karma-coverage": "^2.0.1"<% } %><% if ( codeCoverageService ) { %>,
     "coveralls": "^2.11.11"<% } %><% if ( manualTests || integrationTests ) { %>,
     "del": "^2.2.0",
     "globby": "^4.1.0",<% if ( bundlingTool === 'webpack' ) { %>
