@@ -68,7 +68,7 @@ module.exports = function ( baseConfig ) {
 			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/.webpack.js': ['webpack', 'sourcemap']<% } %><% if ( bundlingTool === 'rollup' ) { %>
 			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %><% if ( vanillaJsWidget ) { %>index<% } else { %>**/*<% } %>.js': ['rollup', 'sourcemap']<% } %>
 		},
-		reporters: ['mocha'<% if ( codeCoverage ) { %>, 'coverage-istanbul'<% } %>],
+		reporters: ['mocha'<% if ( codeCoverage ) { %>, 'coverage'<% } %>],
 		port: port,
 		colors: true,
 		logLevel: baseConfig.LOG_INFO,
@@ -153,11 +153,10 @@ module.exports = function ( baseConfig ) {
 				intro: 'window.TYPED_ARRAY_SUPPORT = false;' // IE9
 			}
 		}<% } %>,<% if ( codeCoverage ) { %>
-		coverageIstanbulReporter: {
-			dir: path.join(__dirname, 'coverage/%browser%'),
-			fixWebpackSourcePaths: true,
-			reports: ['html', 'text'],
-			thresholds: {
+		coverageReporter: {
+			dir: path.join(__dirname, 'coverage'),
+			reporters: [{type: 'html'}, {type: 'text'}],
+			check: {
 				global: JSON.parse(fs.readFileSync(path.join(__dirname, '.nycrc'), 'utf8'))
 			}
 		},<% } %>

@@ -99,7 +99,7 @@
     "nyc": "^15.1.0"<% } %><% if ( automatedTests && codeCoverage && browserModule && !sassModule ) { %><% if ( bundlingTool === 'webpack' ) { %>,
     "@jsdevtools/coverage-istanbul-loader": "^3.0.5"<% } %><% if ( bundlingTool === 'rollup' ) { %>,
     "rollup-plugin-istanbul": "^3.0.0"<% } %>,
-    "karma-coverage-istanbul-reporter": "^3.0.3"<% } %><% if ( codeCoverageService ) { %>,
+    "karma-coverage": "^2.0.3"<% } %><% if ( codeCoverageService ) { %>,
     "coveralls": "^2.11.11"<% } %><% if ( manualTests || integrationTests ) { %>,
     "del": "^6.0.0",
     "globby": "^11.0.1",<% if ( bundlingTool === 'webpack' ) { %>

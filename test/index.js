@@ -624,7 +624,7 @@ describe('Code coverage, browser module', function () {
 		assert.jsonFileContent('package.json', {
 			devDependencies: {
 				'@jsdevtools/coverage-istanbul-loader': '^3.0.5',
-				'karma-coverage-istanbul-reporter': '^3.0.3'
+				'karma-coverage': '^2.0.3'
 			}
 		});
 	});
