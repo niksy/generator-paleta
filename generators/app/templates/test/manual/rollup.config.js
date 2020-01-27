@@ -9,6 +9,7 @@ const postcss = require('rollup-plugin-postcss');
 const serve = require('rollup-plugin-serve');<% if ( transpile ) { %>
 const babel = require('rollup-plugin-babel');<% } %>
 const atImport = require('postcss-import');
+const postcssPresetEnv = require('postcss-preset-env');
 
 const args = minimist(process.argv.slice(2), {
 	'default': {
@@ -61,7 +62,8 @@ const config = () => {
 						extract: true,
 						sourceMap: 'inline',
 						plugins: [
-							atImport()
+							atImport(),
+							postcssPresetEnv()
 						],
 						bundle: `${key}.css`
 					}),

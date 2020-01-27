@@ -6,6 +6,7 @@ const globby = require('globby');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const atImport = require('postcss-import');
+const postcssPresetEnv = require('postcss-preset-env');
 
 module.exports = () => {
 
@@ -59,7 +60,8 @@ module.exports = () => {
 									options: {
 										sourceMap: true,
 										plugins: [
-											atImport()
+											atImport(),
+											postcssPresetEnv()
 										]
 									}
 								}

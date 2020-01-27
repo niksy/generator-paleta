@@ -158,6 +158,7 @@ describe('Manual tests', function() {
 				'html-webpack-plugin': '^3.2.0',
 				'mini-css-extract-plugin': '^0.5.0',
 				'postcss-import': '^11.1.0',
+				'postcss-preset-env': '^6.7.0',
 				'postcss-loader': '^3.0.0',
 				'webpack-cli': '^3.2.1',
 				'webpack-dev-server': '^3.1.14'
