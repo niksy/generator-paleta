@@ -190,7 +190,7 @@ describe('Automated tests', function() {
 			},
 			devDependencies: {
 				mocha: '^4.1.0',
-				'eslint-plugin-mocha': '^5.3.0'
+				'eslint-plugin-mocha': '^6.2.2'
 			}
 		});
 	});
@@ -481,8 +481,8 @@ describe('Styles', function() {
 				test: 'npm run lint'
 			},
 			devDependencies: {
-				stylelint: '^10.0.1',
-				'stylelint-config-niksy': '^6.0.0'
+				stylelint: '^12.0.0',
+				'stylelint-config-niksy': '^7.0.0'
 			}
 		});
 	});
