@@ -121,7 +121,7 @@ For automated tests, run `npm run test:automated` (append `:watch` for watcher s
 
 For integration tests, run `npm run test:integration` (append `:watch` for watcher support).<% } %><% if ( manualTests ) { %>
 
-For manual tests, run `npm run test:manual` and open <http://localhost:9000/> in your browser.<% } %>
+For manual tests, run `npm run test:manual`.<% } %>
 
 <% } %>## License
 

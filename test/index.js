@@ -220,7 +220,8 @@ describe('Automated tests, browser module', function() {
 	it('should fill package.json with correct information', function() {
 		assert.jsonFileContent('package.json', {
 			scripts: {
-				'test:automated': 'BABEL_ENV=test karma start',
+				'test:automated':
+					'BABEL_ENV=test SERVICE_PORT=$(get-port) karma start',
 				test: 'npm run lint && npm run test:automated'
 			},
 			devDependencies: {
@@ -305,7 +306,8 @@ describe('Integration tests', function() {
 	it('should fill package.json with correct information', function() {
 		assert.jsonFileContent('package.json', {
 			scripts: {
-				'test:integration': 'npm run test:generate-static-site && wdio',
+				'test:integration':
+					'npm run test:generate-static-site && SERVICE_PORT=$(get-port) wdio',
 				test:
 					'npm run lint && npm run test:automated && npm run test:integration'
 			},
@@ -365,7 +367,7 @@ describe('Integration tests, ES Modules', function() {
 		assert.jsonFileContent('package.json', {
 			scripts: {
 				'test:integration':
-					'npm run test:generate-static-site && npx -n=--require -n=esm wdio'
+					'npm run test:generate-static-site && SERVICE_PORT=$(get-port) npx -n=--require -n=esm wdio'
 			}
 		});
 	});

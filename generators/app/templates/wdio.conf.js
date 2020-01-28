@@ -7,7 +7,7 @@ const shutdown = require('http-shutdown');
 let server, config;
 
 const local = <% if ( cloudBrowsers ) { %>typeof process.env.CI === 'undefined' || process.env.CI === 'false'<% } else { %>true<% } %>;
-const port = 9002;
+const port = process.env.SERVICE_PORT;
 
 if ( local ) {
 	config = {
