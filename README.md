@@ -20,6 +20,10 @@ yo @niksy/paleta
 
 MIT © [Ivan Nikolić](http://ivannikolic.com)
 
-[ci]: https://travis-ci.org/niksy/generator-paleta
-[ci-img]: https://travis-ci.org/niksy/generator-paleta.svg?branch=master
+<!-- prettier-ignore-start -->
+
+[ci]: https://travis-ci.com/niksy/generator-paleta
+[ci-img]: https://travis-ci.com/niksy/generator-paleta.svg?branch=master
 [yeoman]: http://yeoman.io/
+
+<!-- prettier-ignore-end -->

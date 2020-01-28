@@ -13,7 +13,7 @@ const isScopedPackage = require('is-scoped');
 
 /**
  * @param  {string} packageName
- * @param  {Object} options
+ * @param  {object} options
  *
  * @returns {string}
  */
