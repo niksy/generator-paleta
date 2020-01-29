@@ -337,7 +337,7 @@ describe('Integration tests', function() {
 							{
 								'@babel/preset-env': {
 									targets: {
-										node: '4'
+										node: '8'
 									}
 								}
 							}
@@ -840,7 +840,7 @@ describe('Transpile', function() {
 					{
 						'@babel/preset-env': {
 							targets: {
-								node: '4'
+								node: '8'
 							}
 						}
 					}

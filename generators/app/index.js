@@ -261,7 +261,7 @@ module.exports = class extends Generator {
 				type: 'input',
 				name: 'nodeEngineVersion',
 				message: 'Which Node engine version this project supports?',
-				default: 4
+				default: 8
 			},
 			{
 				type: 'input',
