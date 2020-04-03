@@ -292,7 +292,7 @@ module.exports = class extends Generator {
 				type: 'confirm',
 				name: 'prettier',
 				message: 'Do you want to use Prettier?',
-				default: false
+				default: true
 			}
 		];
 	}
