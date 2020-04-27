@@ -1205,7 +1205,7 @@ describe('Changelog, GitHub Release', function() {
 					'GITHUB_TOKEN=$GITHUB_RELEASE_TOKEN github-release-from-changelog'
 			},
 			devDependencies: {
-				'github-release-from-changelog': '^1.3.2'
+				'github-release-from-changelog': '^2.1.1'
 			}
 		});
 	});

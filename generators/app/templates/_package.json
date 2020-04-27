@@ -67,7 +67,7 @@
     "eslint-plugin-prettier": "^3.0.1"<% } %><% if ( changelog ) { %>,
     "version-changelog": "^3.1.1",
     "changelog-verify": "^1.1.2"<% if ( githubRelease ) { %>,
-    "github-release-from-changelog": "^1.3.2"<% } %><% } %><% if ( false ) { %>,
+    "github-release-from-changelog": "^2.1.1"<% } %><% } %><% if ( false ) { %>,
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-vue": "^6.0.1"<% } %><% if ( browserModule && styles ) { %>,
     "stylelint": "^12.0.0",
