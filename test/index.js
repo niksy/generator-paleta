@@ -400,6 +400,10 @@ describe('All tests, browser module', function() {
 	it('should update karma.conf.js with correct information', function() {
 		assert.fileContent('karma.conf.js', 'test/automated/**/.webpack.js');
 	});
+
+	it('should update .eslintrc with correct information', function() {
+		assert.fileContent('test/automated/.eslintrc', '"ignorePatterns"');
+	});
 });
 
 describe('Browser module', function() {

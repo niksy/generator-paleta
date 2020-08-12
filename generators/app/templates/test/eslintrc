@@ -1,5 +1,6 @@
 {
 	"extends": [
 		"niksy/tests"
-	]
+	]<% if ( automatedTests && browserModule && !sassModule ) { %>,
+	"ignorePatterns": ["/**/fixtures"]<% } %>
 }
