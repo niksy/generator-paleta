@@ -1148,7 +1148,7 @@ describe('Node engine version', function() {
 		return helpers
 			.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
-				nodeEngineVersion: 8
+				nodeEngineVersion: 12
 			})
 			.toPromise();
 	});
@@ -1156,13 +1156,13 @@ describe('Node engine version', function() {
 	it('should fill package.json with correct information', function() {
 		assert.jsonFileContent('package.json', {
 			engines: {
-				node: '>=8'
+				node: '>=12'
 			}
 		});
 	});
 
 	it('should properly fill .travis.yml engine infromation', function() {
-		assert.fileContent('.travis.yml', "- '8'");
+		assert.fileContent('.travis.yml', "- '12'");
 	});
 });
 
