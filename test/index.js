@@ -337,7 +337,7 @@ describe('Integration tests', function() {
 							{
 								'@babel/preset-env': {
 									targets: {
-										node: '8'
+										node: '10'
 									}
 								}
 							}
@@ -844,7 +844,7 @@ describe('Transpile', function() {
 					{
 						'@babel/preset-env': {
 							targets: {
-								node: '8'
+								node: '10'
 							}
 						}
 					}
@@ -1105,7 +1105,7 @@ describe('ES Modules, automated tests, code coverage, transpile', function() {
 				automatedTests: true,
 				codeCoverage: true,
 				transpile: true,
-				nodeEngineVersion: 8
+				nodeEngineVersion: 10
 			})
 			.toPromise();
 	});
@@ -1133,7 +1133,7 @@ describe('ES Modules, automated tests, code coverage, transpile', function() {
 					{
 						'@babel/preset-env': {
 							targets: {
-								node: '8'
+								node: '10'
 							}
 						}
 					}
