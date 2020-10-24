@@ -15,7 +15,7 @@ process.env.CHROME_BIN = puppeteer.executablePath();<% } %>
 let config;
 
 const local = typeof process.env.CI === 'undefined' || process.env.CI === 'false';
-const port = process.env.SERVICE_PORT;
+const port = 0;
 
 if ( local ) {
 	config = {

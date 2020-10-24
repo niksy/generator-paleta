@@ -7,11 +7,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const atImport = require('postcss-import');
 const postcssPresetEnv = require('postcss-preset-env');
-const getPort = require('get-port');
 
 module.exports = async () => {
 
-	const port = await getPort();
+	const port = 0;
 
 	await del(['./test-dist']);
 

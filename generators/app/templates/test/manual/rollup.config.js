@@ -10,7 +10,6 @@ const serve = require('rollup-plugin-serve');<% if ( transpile ) { %>
 const { default: babel } = require('@rollup/plugin-babel');<% } %>
 const atImport = require('postcss-import');
 const postcssPresetEnv = require('postcss-preset-env');
-const getPort = require('get-port');
 
 const args = minimist(process.argv.slice(2), {
 	'default': {
@@ -23,7 +22,7 @@ const config = async () => {
 	let server;
 
 	if ( args.watch ) {
-		const port = await getPort();
+		const port = 0;
 		server = serve({
 			contentBase: 'test-dist',
 			port: port,
