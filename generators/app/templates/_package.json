@@ -102,9 +102,9 @@
     "postcss-loader": "^3.0.0",
     "webpack-cli": "^3.2.1",
     "webpack-dev-server": "^3.1.14",<% } %><% if ( bundlingTool === 'rollup' ) { %>
-    "rollup-plugin-postcss": "^1.6.3",
-    "rollup-plugin-serve": "^0.6.1",
-    "rollup-plugin-static-site": "0.0.3",<% } %>
+    "rollup-plugin-postcss": "^3.1.8",
+    "rollup-plugin-serve": "^1.0.3",
+    "rollup-plugin-static-site": "0.1.0",<% } %>
     "postcss-import": "^11.1.0",
     "postcss-preset-env": "^6.7.0",
     "suitcss-components-test": "^1.0.0"<% } %><% if ( (manualTests || integrationTests) && browserModule && !sassModule && bundlingTool === 'rollup' ) { %>,
@@ -129,14 +129,14 @@
     "@babel/runtime": "^7.2.0"<% } %><% if ( automatedTests ) { %><% if ( !browserModule || (browserModule && integrationTests) ) { %>,
     "@babel/register": "^7.0.0"<% } %><% if ( codeCoverage ) { %><% if ( !browserModule && !sassModule ) { %>,
     "babel-plugin-istanbul": "^5.1.0"<% } %><% } %><% } %><% } %><% if ( esModules ) { %>,
-    "rollup": "^1.0.0"<% if ( transpile ) { %>,
-    "rollup-plugin-babel": "^4.2.0"<% } %><% } %><% if ( bundlingTool === 'rollup' ) { %>,
-    "rollup-plugin-node-resolve": "^4.0.0",
-    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup": "^2.32.1"<% if ( transpile ) { %>,
+    "@rollup/plugin-babel": "^5.2.1"<% } %><% } %><% if ( bundlingTool === 'rollup' ) { %>,
+    "@rollup/plugin-node-resolve": "^9.0.0",
+    "@rollup/plugin-commonjs": "^15.1.0",
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-globals": "^1.4.0"<% } %><% if ( vanillaJsWidget ) { %>,
     "eslint-plugin-html": "^6.0.0",
-    "rollup-plugin-svelte": "^5.1.0",
+    "rollup-plugin-svelte": "^6.1.0",
     "svelte": "^2.16.1"<% } %>
   },<% if ( isScopedPackage ) { %>
   "publishConfig": {

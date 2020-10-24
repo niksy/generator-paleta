@@ -1,6 +1,6 @@
 'use strict';<% if ( transpile ) { %>
 
-const babel = require('rollup-plugin-babel');<% } %><% if ( vanillaJsWidget ) { %>
+const { default: babel } = require('@rollup/plugin-babel');<% } %><% if ( vanillaJsWidget ) { %>
 const path = require('path');
 const svelte = require('rollup-plugin-svelte');
 const babelCore = require('@babel/core');<% } %>
@@ -44,7 +44,7 @@ module.exports = {
 		})<% if ( vanillaJsWidget ) { %>,
 		babel({
 			include: 'node_modules/svelte/shared.js',
-			runtimeHelpers: true,
+			babelHelpers: 'runtime',
 			babelrc: false,
 			configFile: path.resolve(__dirname, '.babelrc')
 		})<% } %>

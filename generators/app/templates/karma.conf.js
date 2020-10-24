@@ -1,11 +1,11 @@
 'use strict';
 
 const path = require('path');<% if ( bundlingTool === 'rollup' ) { %>
-const resolve = require('rollup-plugin-node-resolve');
-const commonjs = require('rollup-plugin-commonjs');
+const { default: resolve } = require('@rollup/plugin-node-resolve');
+const commonjs = require('@rollup/plugin-commonjs');
 const nodeBuiltins = require('rollup-plugin-node-builtins');
 const globals = require('rollup-plugin-node-globals');<% if ( transpile ) { %>
-const babel = require('rollup-plugin-babel');<% } %><% if ( codeCoverage ) { %>
+const { default: babel } = require('@rollup/plugin-babel');<% } %><% if ( codeCoverage ) { %>
 const istanbul = require('rollup-plugin-istanbul');<% } %>
 const rollupConfig = require('./rollup.config');<% } %><% if ( browserTestType === 'headless' ) { %>
 const puppeteer = require('puppeteer');
@@ -130,7 +130,7 @@ module.exports = function ( baseConfig ) {
 				nodeBuiltins()<% if ( transpile ) { %>,
 				babel({
 					exclude: 'node_modules/**',
-					runtimeHelpers: true
+					babelHelpers: 'runtime'
 				})<% } %>,
 				resolve({
 					preferBuiltins: true
@@ -138,7 +138,7 @@ module.exports = function ( baseConfig ) {
 				commonjs(),
 				babel({
 					include: 'node_modules/{has-flag,supports-color}/**',
-					runtimeHelpers: true,
+					babelHelpers: 'runtime',
 					babelrc: false,
 					configFile: path.resolve(__dirname, '.babelrc')
 				}),
@@ -147,11 +147,11 @@ module.exports = function ( baseConfig ) {
 				babel({
 					exclude: 'node_modules/**',
 					extensions: ['.js', '.svelte'],
-					runtimeHelpers: true
+					babelHelpers: 'runtime'
 				}),
 				babel({
 					include: 'node_modules/svelte/shared.js',
-					runtimeHelpers: true,
+					babelHelpers: 'runtime',
 					babelrc: false,
 					configFile: path.resolve(__dirname, '.babelrc')
 				})<% } %><% if ( codeCoverage ) { %>,

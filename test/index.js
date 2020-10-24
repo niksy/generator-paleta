@@ -1032,7 +1032,7 @@ describe('ES Modules', function () {
 				build: 'rollup --config rollup.config.js'
 			},
 			devDependencies: {
-				rollup: '^1.0.0'
+				rollup: '^2.32.1'
 			}
 		});
 	});
@@ -1063,7 +1063,7 @@ describe('ES Modules, transpile', function () {
 		assert.jsonFileContent('package.json', {
 			files: ['index.cjs.js', 'index.esm.js'],
 			devDependencies: {
-				'rollup-plugin-babel': '^4.2.0'
+				'@rollup/plugin-babel': '^5.2.1'
 			}
 		});
 	});
@@ -1255,10 +1255,10 @@ describe('Bundling tool, Rollup, automated tests', function () {
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			devDependencies: {
-				rollup: '^1.0.0',
-				'rollup-plugin-babel': '^4.2.0',
-				'rollup-plugin-node-resolve': '^4.0.0',
-				'rollup-plugin-commonjs': '^9.2.0',
+				rollup: '^2.32.1',
+				'@rollup/plugin-babel': '^5.2.1',
+				'@rollup/plugin-node-resolve': '^9.0.0',
+				'@rollup/plugin-commonjs': '^15.1.0',
 				'rollup-plugin-node-builtins': '^2.1.2',
 				'rollup-plugin-node-globals': '^1.4.0',
 				'rollup-plugin-istanbul': '^2.0.1',
@@ -1292,10 +1292,10 @@ describe('Bundling tool, Rollup, manual tests', function () {
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			devDependencies: {
-				rollup: '^1.0.0',
-				'rollup-plugin-postcss': '^1.6.3',
-				'rollup-plugin-serve': '^0.6.1',
-				'rollup-plugin-static-site': '0.0.3'
+				rollup: '^2.32.1',
+				'rollup-plugin-postcss': '^3.1.8',
+				'rollup-plugin-serve': '^1.0.3',
+				'rollup-plugin-static-site': '0.1.0'
 			}
 		});
 	});
@@ -1357,7 +1357,7 @@ describe('Vanilla JS widget', function () {
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			devDependencies: {
-				'rollup-plugin-svelte': '^5.1.0',
+				'rollup-plugin-svelte': '^6.1.0',
 				'svelte': '^2.16.1'
 			}
 		});
