@@ -24,7 +24,7 @@
     "test": "test"
   },<% } %>
   "scripts": {
-    "release": "np",<% if ( changelog ) { %>
+    "release": "np --no-release-draft",<% if ( changelog ) { %>
     "version": "version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md"<% if ( githubRelease ) { %>,
     "postpublish": "GITHUB_TOKEN=$GITHUB_RELEASE_TOKEN github-release-from-changelog"<% } %>,<% } %><% if ( (automatedTests && browserModule && !sassModule) || manualTests || integrationTests ) { %>
     "lint": "<% if ( automatedTests || integrationTests ) { %>eslint '{<% if ( complexTranspile ) { %>src/index,src/lib/**/*<% if ( cli ) { %>,src/cli<% } %><% } else { %>index,lib/**/*<% if ( cli ) { %>,cli<% } %><% } %>,test/**/*}<% if ( vanillaJsWidget ) { %>.{js,svelte}<% } else { %>.js<% } %>'<% } else { %>eslint '{<% if ( complexTranspile ) { %>src/index,src/lib/**/*<% if ( cli ) { %>,src/cli<% } %><% } else { %>index,lib/**/*<% if ( cli ) { %>,cli<% } %><% } %>}<% if ( vanillaJsWidget ) { %>.{js,svelte}<% } else { %>.js<% } %>'<% } %><% if ( browserModule && styles ) { %> && stylelint 'index.css'<% } %>"<% } else if ( sassModule ) { %>
@@ -52,7 +52,7 @@
   "devDependencies": {
     "husky": "^4.3.0",
     "lint-staged": "^10.4.2",
-    "np": "^3.0.4",<% if ( prettier ) { %>
+    "np": "^6.5.0",<% if ( prettier ) { %>
     "prettier": "^2.1.2",<% } %>
     "eslint": "^7.11.0",
     "eslint-config-niksy": "^9.0.0",
