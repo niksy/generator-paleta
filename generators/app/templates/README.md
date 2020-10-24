@@ -113,7 +113,7 @@ Function arguments:
 
 <% if ( browserModule ) { %>## Browser support
 
-Tested in IE<% if ( vanillaJsWidget ) { %>11<% } else { %>9<% } %>+ and all modern browsers.
+Tested in IE<%= lowestIEVersion %>+ and all modern browsers.
 
 <% } %><% if ( (automatedTests || manualTests || integrationTests) && browserModule && !sassModule ) { %>## Test<% if ( automatedTests ) { %>
 

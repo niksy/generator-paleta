@@ -443,6 +443,29 @@ describe('Browser module', function () {
 	});
 });
 
+describe('Browser module, browser version', function () {
+	before(function () {
+		return helpers
+			.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				browserModule: true,
+				browserVersion: 'ie >= 11'
+			})
+			.toPromise();
+	});
+
+	it('should add information regarding browser support to README.md', function () {
+		assert.fileContent(
+			'README.md',
+			'Tested in IE11+ and all modern browsers.'
+		);
+	});
+
+	it('should fill .browserslistrc with correct information', function () {
+		assert.fileContent('.browserslistrc', 'ie >= 11');
+	});
+});
+
 describe('Module with jQuery', function () {
 	before(function () {
 		return helpers

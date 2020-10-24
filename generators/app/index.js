@@ -10,6 +10,7 @@ const sortPkg = require('sort-pkg');
 const dashCase = require('lodash.kebabcase');
 const camelCase = require('lodash.camelcase');
 const isScopedPackage = require('is-scoped');
+const browserslist = require('browserslist');
 
 /**
  * @param  {string} packageName
@@ -340,6 +341,11 @@ module.exports = class extends Generator {
 				)
 			);
 
+		const [lowestIEVersion] = browserslist(browserVersion)
+			.filter((string) => string.includes('ie'))
+			.map((string) => Number(string.replace(/ie (.+)/, '$1')))
+			.sort((a, b) => a - b);
+
 		const tpl = {
 			moduleName: preparePackageName(answers.name),
 			cleanModuleName: preparePackageName(answers.name, { clean: true }),
@@ -379,7 +385,8 @@ module.exports = class extends Generator {
 			githubRelease: answers.githubRelease,
 			bundlingTool: answers.bundlingTool,
 			sourceMaps: answers.sourceMaps,
-			prettier: answers.prettier
+			prettier: answers.prettier,
+			lowestIEVersion: lowestIEVersion
 		};
 
 		this.tpl = Object.assign({}, tpl, {
