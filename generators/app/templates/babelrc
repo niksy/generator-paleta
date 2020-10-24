@@ -19,7 +19,7 @@
 				"babel-plugin-istanbul"
 			]
 		}
-	}<% } %><% if ( automatedTests && browserModule && !sassModule ) { %>,
+	}<% } %><% if ( (automatedTests || manualTests) && browserModule && !sassModule ) { %>,
 	"env": {
 		"test": {
 			"presets": [

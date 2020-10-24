@@ -124,7 +124,7 @@
     "core-js": "^2.6.5",
     "babel-preset-niksy": "^4.1.0"<% if ( browserModule ) { %>,
     "@babel/plugin-transform-object-assign": "^7.2.0"<% } %><% if ( browserModule && !sassModule ) { %><% if ( bundlingTool === 'webpack' ) { %>,
-    "babel-loader": "^8.0.4"<% } %><% } %><% if ( automatedTests && browserModule && !sassModule ) { %>,
+    "babel-loader": "^8.0.4"<% } %><% } %><% if ( (automatedTests || manualTests) && browserModule && !sassModule ) { %>,
     "@babel/plugin-transform-runtime": "^7.2.0",
     "@babel/runtime": "^7.2.0"<% } %><% if ( automatedTests ) { %><% if ( !browserModule || (browserModule && integrationTests) ) { %>,
     "@babel/register": "^7.0.0"<% } %><% if ( codeCoverage ) { %><% if ( !browserModule && !sassModule ) { %>,

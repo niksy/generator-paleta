@@ -253,7 +253,7 @@ module.exports = class extends Generator {
 					}
 				],
 				when: (answers) =>
-					answers.automatedTests &&
+					(answers.automatedTests || answers.manualTests) &&
 					answers.browserModule &&
 					!answers.sassModule &&
 					answers.esModules
