@@ -488,8 +488,8 @@ describe('Styles', function () {
 				test: 'npm run lint'
 			},
 			devDependencies: {
-				stylelint: '^12.0.0',
-				'stylelint-config-niksy': '^7.0.0'
+				stylelint: '^13.7.2',
+				'stylelint-config-niksy': '^8.0.0'
 			}
 		});
 	});
