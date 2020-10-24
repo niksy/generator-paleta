@@ -7,7 +7,7 @@
   "sideEffects": false,<% } %><% } %>
   "author": "<%= humanName %> <<%= email %>> (<%= website %>)",
   "files": [
-    "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( useDistDirectory ) { %>dist/<% } %>index<% if ( esModules ) { %>.cjs<% } %>.<% if ( sourceMaps ) { %>{js,js.map}<% } else { %>js<% } %><% } %>",<% if ( esModules ) { %>
+    "<% if ( browserModule && styles || sassModule || cssModule ) { %><% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( useDistDirectory ) { %>dist/<% } %>index.css<% } %><% } else { %><% if ( useDistDirectory ) { %>dist/<% } %>index<% if ( esModules ) { %>.cjs<% } %>.<% if ( sourceMaps ) { %>{js,js.map}<% } else { %>js<% } %><% } %>",<% if ( esModules ) { %>
     "<% if ( useDistDirectory ) { %>dist/<% } %>index.esm.<% if ( sourceMaps ) { %>{js,js.map}<% } else { %>js<% } %>",<% } %><% if ( useDistDirectory ) { %>
     "dist/",<% } else if ( !transpile && !esModules ) { %>
     "lib/",<% } %><% if ( changelog ) { %>
@@ -16,7 +16,7 @@
     "README.md"
   ],
   "license": "MIT",<% if ( browserModule && styles || sassModule || cssModule ) { %>
-  "style": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %>index.css<% } %>",<% } %><% if ( cli ) { %>
+  "style": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( useDistDirectory ) { %>dist/<% } %>index.css<% } %>",<% } %><% if ( cli ) { %>
   "bin": {
     "<%= cliCommandName %>": "cli.js"
   },<% } %><% if ( manualTests || automatedTests || integrationTests ) { %>

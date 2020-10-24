@@ -505,7 +505,8 @@ describe('Styles', function () {
 
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
-			style: 'index.css',
+			files: ['dist/index.css'],
+			style: 'dist/index.css',
 			scripts: {
 				lint: "eslint '{index,lib/**/*}.js' && stylelint 'index.css'",
 				test: 'npm run lint'
