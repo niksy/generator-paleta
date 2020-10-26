@@ -60,10 +60,13 @@ module.exports = async () => {
 							loader: 'postcss-loader',
 							options: {
 								sourceMap: true,
-								plugins: [
-									atImport(),
-									postcssPresetEnv()
-								]
+								postcssOptions: {
+									config: false,
+									plugins: [
+										atImport(),
+										postcssPresetEnv()
+									]
+								}
 							}
 						}
 					],

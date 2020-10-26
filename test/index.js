@@ -151,17 +151,17 @@ describe('Manual tests', function () {
 				'test:manual': 'npm run test:generate-static-site:watch'
 			},
 			devDependencies: {
-				webpack: '^4.12.0',
+				webpack: '^5.2.0',
 				del: '^6.0.0',
 				globby: '^11.0.1',
-				'css-loader': '^2.1.0',
-				'html-webpack-plugin': '^3.2.0',
-				'mini-css-extract-plugin': '^0.5.0',
+				'css-loader': '^5.0.0',
+				'html-webpack-plugin': '^4.5.0',
+				'mini-css-extract-plugin': '^1.2.0',
 				'postcss-import': '^11.1.0',
 				'postcss-preset-env': '^6.7.0',
-				'postcss-loader': '^3.0.0',
-				'webpack-cli': '^3.2.1',
-				'webpack-dev-server': '^3.1.14'
+				'postcss-loader': '^4.0.4',
+				'webpack-cli': '^4.1.0',
+				'webpack-dev-server': '^3.11.0'
 			}
 		});
 	});
@@ -233,7 +233,7 @@ describe('Automated tests, browser module', function () {
 				'karma-fixture': '^0.2.6',
 				'karma-mocha': '^2.0.1',
 				'karma-mocha-reporter': '^2.2.5',
-				webpack: '^4.12.0'
+				webpack: '^5.2.0'
 			}
 		});
 	});
@@ -891,8 +891,8 @@ describe('Transpile, browser module', function () {
 		assert.jsonFileContent('package.json', {
 			devDependencies: {
 				'@babel/core': '^7.2.2',
-				'babel-loader': '^8.0.4',
-				webpack: '^4.12.0'
+				'babel-loader': '^8.1.0',
+				webpack: '^5.2.0'
 			}
 		});
 	});
