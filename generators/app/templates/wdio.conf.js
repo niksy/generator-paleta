@@ -7,6 +7,7 @@ const shutdown = require('http-shutdown');
 
 let server, config;
 
+// Pull requests not handled as in case of Karma
 const local = <% if ( cloudBrowsers ) { %>typeof process.env.CI === 'undefined' || process.env.CI === 'false'<% } else { %>true<% } %>;
 const port = 0;
 
