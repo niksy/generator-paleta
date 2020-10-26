@@ -152,8 +152,8 @@ describe('Manual tests', function () {
 			},
 			devDependencies: {
 				webpack: '^4.12.0',
-				del: '^2.2.0',
-				globby: '^4.1.0',
+				del: '^6.0.0',
+				globby: '^11.0.1',
 				'css-loader': '^2.1.0',
 				'html-webpack-plugin': '^3.2.0',
 				'mini-css-extract-plugin': '^0.5.0',
@@ -224,12 +224,12 @@ describe('Automated tests, browser module', function () {
 				test: 'npm run lint && npm run test:automated'
 			},
 			devDependencies: {
-				karma: '^4.0.1',
+				karma: '^5.2.3',
 				'karma-sourcemap-loader': '^0.3.7',
-				'karma-webpack': '^3.0.0',
-				'karma-browserstack-launcher': '^1.0.0',
-				'karma-chrome-launcher': '^2.2.0',
-				'karma-html2js-preprocessor': '^1.0.0',
+				'karma-webpack': '^4.0.2',
+				'karma-browserstack-launcher': '^1.6.0',
+				'karma-chrome-launcher': '^3.1.0',
+				'karma-html2js-preprocessor': '^1.1.0',
 				'karma-fixture': '^0.2.6',
 				'karma-mocha': '^2.0.1',
 				'karma-mocha-reporter': '^2.2.5',
@@ -265,7 +265,7 @@ describe('Automated tests, browser module, headless browser', function () {
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			devDependencies: {
-				puppeteer: '^1.6.1'
+				puppeteer: '^5.4.0'
 			}
 		});
 	});
@@ -310,7 +310,7 @@ describe('Integration tests', function () {
 					'npm run lint && npm run test:automated && npm run test:integration'
 			},
 			devDependencies: {
-				'local-web-server': '^1.2.4',
+				'local-web-server': '^4.2.1',
 				'@wdio/browserstack-service': '^6.6.7',
 				'@wdio/mocha-framework': '^6.6.8',
 				'@wdio/spec-reporter': '^6.6.8',
