@@ -2,13 +2,23 @@
   "name": "<%= moduleName %>",
   "version": "<% if ( version ) { %><%= version %><% } else { %>0.0.0<% } %>",
   "description": "<%= moduleDescription %>",<% if ( !cli ) { %>
-  "main": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( useDistDirectory ) { %>dist/<% } %>index<% if ( esModules ) { %>.cjs<% } %>.js<% } %>",<% if ( esModules ) { %>
-  "module": "<% if ( useDistDirectory ) { %>dist/<% } %>index.esm.js",
+  "main": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( useDistDirectory ) { %>dist/<% } %><% if ( esModules ) { %>cjs/<% } %>index.js<% } %>",<% if ( esModules ) { %>
+  "type": "module",
+  "module": "<% if ( useDistDirectory ) { %>dist/<% } %><% if ( esModules ) { %>esm/<% } %>index.js",
+  "exports": {
+    ".": {
+      "import": "./esm/index.js",
+      "require": "./cjs/index.js"<% if ( browserModule && styles || sassModule || cssModule ) { %>,<% if ( sassModule ) { %>
+      "sass": "_index.scss",<% } %>
+      "style": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( useDistDirectory ) { %>dist/<% } %>index.css<% } %>"<% } %>
+    }
+  },
   "sideEffects": false,<% } %><% } %>
   "author": "<%= humanName %> <<%= email %>> (<%= website %>)",
   "files": [
-    "<% if ( browserModule && styles || sassModule || cssModule ) { %><% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( useDistDirectory ) { %>dist/<% } %>index.css<% } %><% } else { %><% if ( useDistDirectory ) { %>dist/<% } %>index<% if ( esModules ) { %>.cjs<% } %>.<% if ( sourceMaps ) { %>{js,js.map}<% } else { %>js<% } %><% } %>",<% if ( esModules ) { %>
-    "<% if ( useDistDirectory ) { %>dist/<% } %>index.esm.<% if ( sourceMaps ) { %>{js,js.map}<% } else { %>js<% } %>",<% } %><% if ( useDistDirectory ) { %>
+    "<% if ( browserModule && styles || sassModule || cssModule ) { %><% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( useDistDirectory ) { %>dist/<% } %>index.css<% } %><% } else { %><% if ( useDistDirectory ) { %>dist/<% } %><% if ( esModules ) { %>cjs/<% } %>index.<% if ( sourceMaps ) { %>{js,js.map}<% } else { %>js<% } %><% } %>",<% if ( esModules ) { %>
+    "cjs/package.json",
+    "<% if ( useDistDirectory ) { %>dist/<% } %><% if ( esModules ) { %>esm/<% } %>index.<% if ( sourceMaps ) { %>{js,js.map}<% } else { %>js<% } %>",<% } %><% if ( useDistDirectory ) { %>
     "dist/",<% } else if ( !transpile && !esModules ) { %>
     "lib/",<% } %><% if ( changelog ) { %>
     "CHANGELOG.md",<% } %>
@@ -43,8 +53,9 @@
     "test": "npm run lint<% if ( automatedTests ) { %> && <% if ( codeCoverage ) { %><% if ( transpile ) { %>BABEL_ENV=test <% } %>nyc mocha<% } else { %>mocha<% } %><% if ( transpile ) { %> --require @babel/register<% } %><% if ( esModules ) { %> --require esm<% } %> 'test/**/*.js'<% if ( codeCoverage ) { %> $([[ $WATCH_TEST ]] && echo --watch) && nyc check-coverage<% } %><% } else { %><% } %>"<% if ( automatedTests ) { %>,
     "test:watch": "<% if ( codeCoverage ) { %>WATCH_TEST=1 npm test<% } else { %>npm test -- --watch<% } %>"<% } %><% if ( codeCoverageService ) { %>,
     "posttest:ci": "cat ./coverage/lcov.info | coveralls"<% } %><% } %><% if ( transpile || esModules ) { %>,
-    "build": "<% if ( esModules ) { %>rollup --config rollup.config.js<% } else { %>babel <% if ( complexTranspile ) { %>src<% } else { %>'{index,lib/**/*}.js'<% } %> --out-dir <% if ( complexTranspile ) { %>./<% } else { %>dist/<% } %><% if ( sourceMaps ) { %> --source-maps true<% } %><% } %>",
-    "prepublishOnly": "npm run build"<% } %>
+    "build": "<% if ( esModules ) { %>rollup --config rollup.config.js<% } else { %>babel <% if ( complexTranspile ) { %>src<% } else { %>'{index,lib/**/*}.js'<% } %> --out-dir <% if ( complexTranspile ) { %>./<% } else { %>dist/<% } %><% if ( sourceMaps ) { %> --source-maps true<% } %><% } %>",<% if ( esModules ) { %>
+    "module-check": "node -e 'require(\"<%= moduleName %>\");' && node --input-type=module -e 'import \"<%= moduleName %>\";'",<% } %>
+    "prepublishOnly": "npm run build<% if ( esModules ) { %> && npm run module-check<% } %>"<% } %>
   }<% if ( jqueryModule ) { %>,
   "dependencies": {
     "jquery": "^1.12.4"

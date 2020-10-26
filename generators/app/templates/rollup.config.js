@@ -4,22 +4,36 @@ const { default: babel } = require('@rollup/plugin-babel');<% } %><% if ( vanill
 const path = require('path');
 const svelte = require('rollup-plugin-svelte');
 const babelCore = require('@babel/core');<% } %>
+const path = require('path');
+const { promises: fs } = require('fs');
 
 module.exports = {
 	input: '<% if ( complexTranspile ) { %>src/<% } %>index.js',
 	output: [
 		{
-			file: '<% if ( useDistDirectory ) { %>dist/<% } %>index.cjs.js',
+			file: 'cjs/index.js',
 			format: 'cjs'<% if ( sourceMaps ) { %>,
 			sourcemap: true<% } %>
 		},
 		{
-			file: '<% if ( useDistDirectory ) { %>dist/<% } %>index.esm.js',
+			file: 'esm/index.js',
 			format: 'esm'<% if ( sourceMaps ) { %>,
 			sourcemap: true<% } %>
 		}
-	]<% if ( transpile ) { %>,
-	plugins: [<% if ( vanillaJsWidget ) { %>
+	],
+	plugins: [(() => {
+		return {
+			name: 'cjs-package',
+			async writeBundle (output) {
+				if ( output.file.includes('cjs/') ) {
+					try {
+						await fs.unlink('cjs/package.json');
+					} catch (error) {}
+					await fs.writeFile('cjs/package.json', JSON.stringify({ type: 'commonjs' }), 'utf8');
+				}
+			}
+		}
+	})(),<% if ( transpile ) { %><% if ( vanillaJsWidget ) { %>
 		svelte({
 			legacy: true
 		}),
@@ -48,7 +62,7 @@ module.exports = {
 			babelrc: false,
 			configFile: path.resolve(__dirname, '.babelrc')
 		})<% } %>
-	]<% } %>
+	<% } %>]
 };<% if ( vanillaJsWidget ) { %>
 
 function useMountedNodePlugin() {

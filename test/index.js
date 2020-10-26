@@ -1021,12 +1021,20 @@ describe('ES Modules', function () {
 
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
-			main: 'index.cjs.js',
-			module: 'index.esm.js',
+			main: 'cjs/index.js',
+			module: 'esm/index.js',
+			type: 'module',
+			exports: {
+				'.': {
+					'import': './esm/index.js',
+					'require': './cjs/index.js'
+				}
+			},
 			sideEffects: false,
-			files: ['index.cjs.js', 'index.esm.js'],
+			files: ['cjs/index.js', 'cjs/package.json', 'esm/index.js'],
 			scripts: {
-				build: 'rollup --config rollup.config.js'
+				build: 'rollup --config rollup.config.js',
+				prepublishOnly: 'npm run build && npm run module-check'
 			},
 			devDependencies: {
 				rollup: '^2.32.1'
@@ -1035,8 +1043,8 @@ describe('ES Modules', function () {
 	});
 
 	it('should add proper data to .gitignore', function () {
-		assert.fileContent('.gitignore', 'index.cjs.js');
-		assert.fileContent('.gitignore', 'index.esm.js');
+		assert.fileContent('.gitignore', 'cjs/index.js');
+		assert.fileContent('.gitignore', 'esm/index.js');
 	});
 });
 
@@ -1058,7 +1066,7 @@ describe('ES Modules, transpile', function () {
 
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
-			files: ['index.cjs.js', 'index.esm.js'],
+			files: ['cjs/index.js', 'cjs/package.json', 'esm/index.js'],
 			devDependencies: {
 				'@rollup/plugin-babel': '^5.2.1'
 			}
@@ -1079,13 +1087,13 @@ describe('ES Modules, transpile, complex', function () {
 	});
 
 	it('should add proper data to .gitignore', function () {
-		assert.fileContent('.gitignore', 'index.cjs.js');
-		assert.fileContent('.gitignore', 'index.esm.js');
+		assert.fileContent('.gitignore', 'cjs/index.js');
+		assert.fileContent('.gitignore', 'esm/index.js');
 	});
 
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
-			files: ['index.cjs.js', 'index.esm.js']
+			files: ['cjs/index.js', 'cjs/package.json', 'esm/index.js']
 		});
 	});
 });
@@ -1310,15 +1318,19 @@ describe('Sourcemaps', function () {
 	});
 
 	it('should fill .gitignore with correct information', function () {
-		assert.fileContent('.gitignore', 'index.cjs.js');
-		assert.fileContent('.gitignore', 'index.cjs.js.map');
-		assert.fileContent('.gitignore', 'index.esm.js');
-		assert.fileContent('.gitignore', 'index.esm.js.map');
+		assert.fileContent('.gitignore', 'cjs/index.js');
+		assert.fileContent('.gitignore', 'cjs/index.js.map');
+		assert.fileContent('.gitignore', 'esm/index.js');
+		assert.fileContent('.gitignore', 'esm/index.js.map');
 	});
 
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
-			files: ['index.cjs.{js,js.map}', 'index.esm.{js,js.map}']
+			files: [
+				'cjs/index.{js,js.map}',
+				'cjs/package.json',
+				'esm/index.{js,js.map}'
+			]
 		});
 	});
 });
