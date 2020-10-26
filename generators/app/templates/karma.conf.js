@@ -101,7 +101,7 @@ module.exports = function ( baseConfig ) {
 		},<% if ( bundlingTool === 'webpack' ) { %>
 		webpack: {
 			mode: 'none',
-			devtool: 'cheap-module-inline-source-map'<% if ( transpile || codeCoverage ) { %>,
+			devtool: 'inline-source-map'<% if ( transpile || codeCoverage ) { %>,
 			module: {
 				rules: [<% if ( transpile ) { %>
 					{
