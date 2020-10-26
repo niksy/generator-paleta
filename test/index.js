@@ -190,7 +190,7 @@ describe('Automated tests', function () {
 				'test:watch': 'npm test -- --watch'
 			},
 			devDependencies: {
-				mocha: '^4.1.0',
+				mocha: '^8.2.0',
 				'eslint-plugin-mocha': '^8.0.0'
 			}
 		});
@@ -231,7 +231,7 @@ describe('Automated tests, browser module', function () {
 				'karma-chrome-launcher': '^2.2.0',
 				'karma-html2js-preprocessor': '^1.0.0',
 				'karma-fixture': '^0.2.6',
-				'karma-mocha': '^1.3.0',
+				'karma-mocha': '^2.0.1',
 				'karma-mocha-reporter': '^2.2.5',
 				webpack: '^4.12.0'
 			}
@@ -312,7 +312,7 @@ describe('Integration tests', function () {
 			devDependencies: {
 				'local-web-server': '^1.2.4',
 				'@wdio/browserstack-service': '^5.8.0',
-				'@wdio/mocha-framework': '^5.8.0',
+				'@wdio/mocha-framework': '^6.6.8',
 				'@wdio/spec-reporter': '^5.8.0',
 				webdriverio: '^5.8.0',
 				'http-shutdown': '^1.0.3'
