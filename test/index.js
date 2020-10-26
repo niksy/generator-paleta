@@ -364,8 +364,7 @@ describe('Integration tests, ES Modules', function () {
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			scripts: {
-				'test:integration':
-					'npm run test:generate-static-site && npx -n=--require -n=esm wdio'
+				'test:integration': 'npm run test:generate-static-site && wdio'
 			}
 		});
 	});
