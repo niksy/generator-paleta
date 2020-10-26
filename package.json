@@ -50,7 +50,7 @@
     "lint-staged": "^10.4.2",
     "mocha": "^8.2.0",
     "np": "^6.5.0",
-    "nyc": "^12.0.2",
+    "nyc": "^15.1.0",
     "prettier": "^2.1.2",
     "write-json-file": "^2.0.0",
     "yeoman-assert": "^3.1.1",

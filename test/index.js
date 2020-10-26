@@ -576,7 +576,7 @@ describe('Code coverage', function () {
 				'test:watch': 'WATCH_TEST=1 npm test'
 			},
 			devDependencies: {
-				nyc: '^12.0.2'
+				nyc: '^15.1.0'
 			}
 		});
 	});
@@ -598,7 +598,7 @@ describe('Code coverage, browser module', function () {
 		assert.jsonFileContent('package.json', {
 			devDependencies: {
 				'istanbul-instrumenter-loader': '^3.0.1',
-				'karma-coverage-istanbul-reporter': '^2.0.1'
+				'karma-coverage-istanbul-reporter': '^3.0.3'
 			}
 		});
 	});
@@ -944,7 +944,7 @@ describe('Transpile, with automated tests and code coverage', function () {
 			},
 			devDependencies: {
 				'@babel/register': '^7.0.0',
-				'babel-plugin-istanbul': '^5.1.0'
+				'babel-plugin-istanbul': '^6.0.0'
 			}
 		});
 	});
