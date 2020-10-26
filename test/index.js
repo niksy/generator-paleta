@@ -311,10 +311,10 @@ describe('Integration tests', function () {
 			},
 			devDependencies: {
 				'local-web-server': '^1.2.4',
-				'@wdio/browserstack-service': '^5.8.0',
+				'@wdio/browserstack-service': '^6.6.7',
 				'@wdio/mocha-framework': '^6.6.8',
-				'@wdio/spec-reporter': '^5.8.0',
-				webdriverio: '^5.8.0',
+				'@wdio/spec-reporter': '^6.6.8',
+				webdriverio: '^6.6.8',
 				'http-shutdown': '^1.0.3'
 			}
 		});

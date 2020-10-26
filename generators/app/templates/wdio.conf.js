@@ -1,5 +1,6 @@
 'use strict';
 
+const path = require('path');
 const http = require('http');
 const ws = require('local-web-server');
 const shutdown = require('http-shutdown');
@@ -12,27 +13,33 @@ const port = 0;
 if ( local ) {
 	config = {
 		baseUrl: `http://host.docker.internal:${port}`,
-		services: ['docker'],
+		services: [[
+			'docker', {
+				dockerLogs: './wdioDockerLogs',
+				dockerOptions: {
+					image: 'selenium/standalone-chrome',
+					healthCheck: 'http://localhost:4444',
+					options: {
+						p: ['4444:4444'],
+						shmSize: '2g'
+					}
+				}
+			}
+		]],
 		capabilities: [{
 			browserName: 'chrome'
-		}],
-		dockerLogs: './wdioDockerLogs',
-		dockerOptions: {
-			image: 'selenium/standalone-chrome',
-			healthCheck: 'http://localhost:4444',
-			options: {
-				p: ['4444:4444'],
-				shmSize: '2g'
-			}
-		}
+		}]
 	};
 }<% if ( cloudBrowsers ) { %> else {
 	config = {
 		baseUrl: `http://localhost:${port}`,
 		user: process.env.BROWSER_STACK_USERNAME,
 		key: process.env.BROWSER_STACK_ACCESS_KEY,
-		browserstackLocal: true,
-		services: ['browserstack'],
+		services: [[
+			'browserstack'; {
+				browserstackLocal: true
+			}
+		]],
 		capabilities: [{
 			browser: 'Chrome',
 			os: 'Windows',
@@ -74,11 +81,7 @@ module.exports.config = Object.assign({
 	],
 	exclude: [],
 	maxInstances: 10,
-	sync: false,
 	logLevel: 'info',
-	coloredLogs: true,
-	screenshotPath: './errorShots/',
-	screenshotOnReject: true,
 	waitforTimeout: 10000,
 	connectionRetryTimeout: 90000,
 	connectionRetryCount: 3,
@@ -87,6 +90,14 @@ module.exports.config = Object.assign({
 	mochaOpts: {
 		require: [<% if ( transpile ) { %>'@babel/register'<% } %><% if ( transpile && esModules ) { %>, <% } %><% if ( esModules ) { %>'esm'<% } %>]
 	},<% } %>
+	afterTest: function ( test ) {
+		/* globals browsers */
+		if (test.passed) {
+			return;
+		}
+		const filepath = path.join('.', 'errorShots', `${Date.now()}.png`);
+		browser.saveScreenshot(filepath);
+	},
 	onPrepare: function ( currentConfig ) {
 
 		return new Promise(( resolve, reject ) => {
