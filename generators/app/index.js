@@ -6,7 +6,7 @@ const isGithubUrl = require('is-github-url');
 const deepAssign = require('deep-assign');
 const compact = require('lodash.compact');
 const uniq = require('lodash.uniq');
-const sortPkg = require('sort-pkg');
+const sortPkg = require('sort-package-json');
 const dashCase = require('lodash.kebabcase');
 const camelCase = require('lodash.camelcase');
 const isScopedPackage = require('is-scoped');
@@ -417,7 +417,6 @@ module.exports = class extends Generator {
 			(answers.manualTests || answers.integrationTests)
 				? 'automated/'
 				: '';
-		let newPackage, mergedPackage;
 
 		cp('README.md', 'README.md');
 		cp('LICENSE.md', 'LICENSE.md');
@@ -555,10 +554,12 @@ module.exports = class extends Generator {
 
 		// Write package.json, handling property order
 		cp('_package.json', '_package.json');
-		newPackage = this.fs.readJSON(this.destinationPath('_package.json'));
+		const newPackage = this.fs.readJSON(
+			this.destinationPath('_package.json')
+		);
 		rm('_package.json');
 
-		mergedPackage = deepAssign({}, pkg, newPackage);
+		let mergedPackage = deepAssign({}, pkg, newPackage);
 
 		/*
 		 * Deep-assign overwrites arrays so we have to prepare
@@ -568,7 +569,23 @@ module.exports = class extends Generator {
 			mergedPackage.keywords = keywords;
 		}
 
-		mergedPackage = sortPkg(mergedPackage);
+		mergedPackage = sortPkg(mergedPackage, {
+			sortOrder: [
+				...sortPkg.sortOrder.filter(
+					(field) =>
+						![
+							'homepage',
+							'bugs',
+							'repository',
+							'keywords'
+						].includes(field)
+				),
+				'keywords',
+				'repository',
+				'bugs',
+				'homepage'
+			]
+		});
 
 		this.fs.writeJSON(this.destinationPath('package.json'), mergedPackage);
 	}

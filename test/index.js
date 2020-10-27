@@ -479,7 +479,7 @@ describe('Module with jQuery', function () {
 			dependencies: {
 				jquery: '^1.12.4'
 			},
-			keywords: ['ecosystem:jquery', 'jquery-plugin']
+			keywords: ['jquery-plugin', 'ecosystem:jquery']
 		});
 	});
 });
