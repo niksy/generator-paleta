@@ -113,10 +113,6 @@ module.exports = class extends Generator {
 						value: 'vanillaJsWidget'
 					},
 					{
-						name: 'jQuery module',
-						value: 'jqueryModule'
-					},
-					{
 						name: 'Sass module',
 						value: 'sassModule'
 					},
@@ -305,7 +301,6 @@ module.exports = class extends Generator {
 
 		this.answers = Object.assign({}, answers, {
 			vanillaJsWidget: browserModuleType.includes('vanillaJsWidget'),
-			jqueryModule: browserModuleType.includes('jqueryModule'),
 			sassModule: browserModuleType.includes('sassModule'),
 			cssModule: browserModuleType.includes('cssModule'),
 			styles: browserModuleType.includes('styles')
@@ -356,7 +351,6 @@ module.exports = class extends Generator {
 			browserModule: answers.browserModule,
 			styles: answers.styles,
 			vanillaJsWidget: answers.vanillaJsWidget,
-			jqueryModule: answers.jqueryModule,
 			sassModule: answers.sassModule,
 			cssModule: answers.cssModule,
 			cli: answers.cli,
@@ -545,9 +539,6 @@ module.exports = class extends Generator {
 			rm('.prettierrc');
 		}
 
-		if (answers.jqueryModule) {
-			keywords.push('jquery-plugin', 'ecosystem:jquery');
-		}
 		if (answers.cli) {
 			keywords.push('cli', 'cli-app');
 		}

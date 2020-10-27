@@ -463,27 +463,6 @@ describe('Browser module, browser version', function () {
 	});
 });
 
-describe('Module with jQuery', function () {
-	before(function () {
-		return helpers
-			.run(path.join(__dirname, '../generators/app'))
-			.withPrompts({
-				browserModule: true,
-				browserModuleType: ['jqueryModule']
-			})
-			.toPromise();
-	});
-
-	it('should fill package.json with correct information', function () {
-		assert.jsonFileContent('package.json', {
-			dependencies: {
-				jquery: '^1.12.4'
-			},
-			keywords: ['jquery-plugin', 'ecosystem:jquery']
-		});
-	});
-});
-
 describe('Styles', function () {
 	before(function () {
 		return helpers
