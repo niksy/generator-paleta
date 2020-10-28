@@ -56,6 +56,7 @@ const config = async () => {
 		},
 		plugins: [<% if ( transpile ) { %>
 			babel({
+				babelHelpers: 'bundled',
 				exclude: 'node_modules/**'
 			}),<% } %>
 			postcss({

@@ -9,10 +9,8 @@ test-dist/<% } %><% if ( automatedTests && codeCoverage ) { %><% if ( !browserMo
 coverage/<% } %><% if ( browserModule && !sassModule && integrationTests ) { %>
 errorShots/
 wdioDockerLogs/<% } %><% if ( esModules ) { %>
-cjs/index.js
-esm/index.js<% if ( sourceMaps ) { %>
-cjs/index.js.map
-esm/index.js.map<% } %><% } %><% if ( transpile ) { %><% if ( complexTranspile ) { %><% if ( !esModules ) { %>
+cjs/
+esm/<% } %><% if ( transpile ) { %><% if ( complexTranspile ) { %><% if ( !esModules ) { %>
 index.js<% if ( sourceMaps ) { %>
 index.js.map<% } %><% } %>
 lib/*

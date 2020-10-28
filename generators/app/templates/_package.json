@@ -3,7 +3,6 @@
   "version": "<% if ( version ) { %><%= version %><% } else { %>0.0.0<% } %>",
   "description": "<%= moduleDescription %>",<% if ( !cli ) { %>
   "main": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( useDistDirectory ) { %>dist/<% } %><% if ( esModules ) { %>cjs/<% } %>index.js<% } %>",<% if ( esModules ) { %>
-  "type": "module",
   "module": "<% if ( useDistDirectory ) { %>dist/<% } %><% if ( esModules ) { %>esm/<% } %>index.js",
   "exports": {
     ".": {
@@ -15,10 +14,10 @@
   },
   "sideEffects": false,<% } %><% } %>
   "author": "<%= humanName %> <<%= email %>> (<%= website %>)",
-  "files": [
-    "<% if ( browserModule && styles || sassModule || cssModule ) { %><% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( useDistDirectory ) { %>dist/<% } %>index.css<% } %><% } else { %><% if ( useDistDirectory ) { %>dist/<% } %><% if ( esModules ) { %>cjs/<% } %>index.<% if ( sourceMaps ) { %>{js,js.map}<% } else { %>js<% } %><% } %>",<% if ( esModules ) { %>
-    "cjs/package.json",
-    "<% if ( useDistDirectory ) { %>dist/<% } %><% if ( esModules ) { %>esm/<% } %>index.<% if ( sourceMaps ) { %>{js,js.map}<% } else { %>js<% } %>",<% } %><% if ( useDistDirectory ) { %>
+  "files": [<% if ( !esModules && !useDistDirectory ) { %>
+    "<% if ( browserModule && styles || sassModule || cssModule ) { %><% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %>index.css<% } %><% } else { %>index.<% if ( sourceMaps ) { %>{js,js.map}<% } else { %>js<% } %><% } %>",<% } %><% if ( esModules ) { %>
+    "cjs/",
+    "esm/",<% } %><% if ( useDistDirectory ) { %>
     "dist/",<% } else if ( !transpile && !esModules ) { %>
     "lib/",<% } %><% if ( changelog ) { %>
     "CHANGELOG.md",<% } %>
@@ -115,7 +114,7 @@
     "postcss-preset-env": "^6.7.0",
     "suitcss-components-test": "^1.0.0"<% } %><% if ( (manualTests || integrationTests) && browserModule && !sassModule && bundlingTool === 'rollup' ) { %>,
     "minimist": "^1.2.0"<% } %><% if ( (manualTests || integrationTests) || ((browserModule && !sassModule) && (transpile || automatedTests)) ) { %><% if ( bundlingTool === 'webpack' ) { %>,
-    "webpack": "^5.2.0"<% } %><% } %><% if ( sassModule ) { %>,
+    "webpack": "^4.44.2"<% } %><% } %><% if ( sassModule ) { %>,
     "sass-true": "^2.1.3"<% } %><% if ( integrationTests ) { %><% if ( cloudBrowsers ) { %>,
     "@wdio/browserstack-service": "^6.6.7"<% } %>,
     "wdio-docker-service": "^3.0.0",

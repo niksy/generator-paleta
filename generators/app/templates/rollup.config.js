@@ -23,13 +23,23 @@ module.exports = {
 	],
 	plugins: [(() => {
 		return {
-			name: 'cjs-package',
+			name: 'package-type',
 			async writeBundle (output) {
+				let prefix;
+				let type;
 				if ( output.file.includes('cjs/') ) {
+					prefix = 'cjs';
+					type = 'commonjs';
+				} else if ( output.file.includes('esm/') ) {
+					prefix = 'esm';
+					type = 'module';
+				}
+				if ( typeof prefix !== 'undefined' ) {
+					const pkg = path.join(prefix, 'package.json');
 					try {
-						await fs.unlink('cjs/package.json');
+						await fs.unlink(pkg);
 					} catch (error) {}
-					await fs.writeFile('cjs/package.json', JSON.stringify({ type: 'commonjs' }), 'utf8');
+					await fs.writeFile(pkg, JSON.stringify({ type }), 'utf8');
 				}
 			}
 		}
@@ -53,6 +63,7 @@ module.exports = {
 			}
 		},<% } %>
 		babel({
+			babelHelpers: 'bundled',
 			exclude: 'node_modules/**'<% if ( vanillaJsWidget ) { %>,
 			extensions: ['.js', '.svelte']<% } %>
 		})<% if ( vanillaJsWidget ) { %>,
