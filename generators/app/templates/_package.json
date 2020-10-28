@@ -92,7 +92,7 @@
     "karma-fixture": "^0.2.6",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5"<% } %><% if ( automatedTests || integrationTests ) { %>,
-    "mocha": "^8.2.0"<% if ( esModules ) { %>,
+    "mocha": "<% if (lowestIEVersion < 11) { %>^4.1.0<% } else  { %>^8.2.0<% } %>"<% if ( esModules ) { %>,
     "esm": "^3.0.51"<% } %><% } %><% if ( automatedTests && codeCoverage && !browserModule ) { %>,
     "nyc": "^15.1.0"<% } %><% if ( automatedTests && codeCoverage && browserModule && !sassModule ) { %><% if ( bundlingTool === 'webpack' ) { %>,
     "istanbul-instrumenter-loader": "^3.0.1"<% } %><% if ( bundlingTool === 'rollup' ) { %>,

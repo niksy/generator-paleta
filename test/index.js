@@ -436,7 +436,7 @@ describe('Browser module', function () {
 	});
 
 	it('should fill .browserslistrc with correct information', function () {
-		assert.fileContent('.browserslistrc', 'last 2 versions\nie >= 9');
+		assert.fileContent('.browserslistrc', 'last 2 versions\nie >= 11');
 	});
 });
 

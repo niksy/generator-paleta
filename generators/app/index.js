@@ -265,10 +265,7 @@ module.exports = class extends Generator {
 				name: 'browserVersion',
 				message: 'Which browser versions this project supports?',
 				default: (answers) => {
-					if (answers.browserModuleType.includes('vanillaJsWidget')) {
-						return 'last 2 versions, ie >= 11';
-					}
-					return 'last 2 versions, ie >= 9';
+					return 'last 2 versions, ie >= 11';
 				},
 				when: (answers) => answers.browserModule
 			},
