@@ -14,7 +14,10 @@ process.env.CHROME_BIN = puppeteer.executablePath();<% } %>
 
 let config;
 
-const local = typeof process.env.CI === 'undefined' || process.env.CI === 'false' || process.env.TRAVIS_PULL_REQUEST !== 'false';
+const isCI = typeof process.env.CI !== 'undefined' && process.env.CI !== 'false';
+const isPR = typeof process.env.TRAVIS_PULL_REQUEST !== 'undefined' && process.env.TRAVIS_PULL_REQUEST !== 'false';
+const local = !isCI || (isCI && isPR);
+
 const port = 0;
 
 if ( local ) {
