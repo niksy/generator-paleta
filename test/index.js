@@ -572,6 +572,17 @@ describe('Code coverage, browser module', function () {
 			.toPromise();
 	});
 
+	it('should create necessary file', function () {
+		assert.file(['.nycrc']);
+	});
+
+	it('should fill .nycrc with correct information', function () {
+		assert.jsonFileContent('.nycrc', {
+			statements: 80,
+			lines: 0
+		});
+	});
+
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			devDependencies: {

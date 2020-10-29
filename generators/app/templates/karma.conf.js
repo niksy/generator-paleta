@@ -1,6 +1,7 @@
 'use strict';
 
-const path = require('path');<% if ( bundlingTool === 'rollup' ) { %>
+const path = require('path');<% if ( codeCoverage ) { %>
+const fs = require('fs');<% } %><% if ( bundlingTool === 'rollup' ) { %>
 const { default: resolve } = require('@rollup/plugin-node-resolve');
 const commonjs = require('@rollup/plugin-commonjs');
 const nodeBuiltins = require('rollup-plugin-node-builtins');
@@ -174,9 +175,7 @@ module.exports = function ( baseConfig ) {
 			fixWebpackSourcePaths: true,
 			reports: ['html', 'text'],
 			thresholds: {
-				global: {
-					statements: 80
-				}
+				global: JSON.parse(fs.readFileSync(path.join(__dirname, '.nycrc'), 'utf8'))
 			}
 		},<% } %>
 		singleRun: true,

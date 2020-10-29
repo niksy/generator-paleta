@@ -469,7 +469,7 @@ module.exports = class extends Generator {
 			} else {
 				cp('test/index.js', 'test/index.js');
 			}
-			if (answers.codeCoverage && !answers.browserModule) {
+			if (answers.codeCoverage && !answers.sassModule) {
 				cp('nycrc', '.nycrc');
 			}
 		} else {
