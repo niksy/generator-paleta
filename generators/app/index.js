@@ -11,6 +11,7 @@ const dashCase = require('lodash.kebabcase');
 const camelCase = require('lodash.camelcase');
 const isScopedPackage = require('is-scoped');
 const browserslist = require('browserslist');
+const execa = require('execa');
 
 /**
  * @param  {string} packageName
@@ -580,5 +581,19 @@ module.exports = class extends Generator {
 
 	install() {
 		this.npmInstall();
+	}
+
+	async end() {
+		try {
+			await execa('git', ['add', '.']);
+			try {
+				await execa('npx', ['lint-staged', '--no-stash']);
+			} catch (error) {
+				// Handled
+			}
+			await execa('git', ['reset', 'HEAD']);
+		} catch (error) {
+			// Handled
+		}
 	}
 };

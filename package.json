@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "deep-assign": "^2.0.0",
+    "execa": "^4.1.0",
     "is-github-url": "^1.2.2",
     "is-scoped": "^1.0.0",
     "lodash.camelcase": "^4.3.0",
