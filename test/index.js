@@ -1047,7 +1047,8 @@ describe('ES Modules', function () {
 				'.': {
 					'import': './esm/index.js',
 					'require': './cjs/index.js'
-				}
+				},
+				'./package.json': './package.json'
 			},
 			sideEffects: false,
 			files: ['cjs/', 'esm/'],

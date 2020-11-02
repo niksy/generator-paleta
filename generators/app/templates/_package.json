@@ -10,7 +10,8 @@
       "require": "./cjs/index.js"<% if ( browserModule && styles || sassModule || cssModule ) { %>,<% if ( sassModule ) { %>
       "sass": "_index.scss",<% } %>
       "style": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( useDistDirectory ) { %>dist/<% } %>index.css<% } %>"<% } %>
-    }
+    },
+    "./package.json": "./package.json"
   },
   "sideEffects": false,<% } %><% } %>
   "author": "<%= humanName %> <<%= email %>> (<%= website %>)",
