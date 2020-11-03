@@ -12,8 +12,9 @@ module.exports = {
 	output: [
 		{
 			file: 'cjs/index.js',
-			format: 'cjs'<% if ( sourceMaps ) { %>,
-			sourcemap: true<% } %>
+			format: 'cjs',
+			exports: 'auto'<% if ( sourceMaps ) { %>,
+			sourcemap: true<% } %>,
 		},
 		{
 			file: 'esm/index.js',
