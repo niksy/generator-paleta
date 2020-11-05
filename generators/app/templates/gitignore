@@ -15,4 +15,6 @@ index.js<% if ( sourceMaps ) { %>
 index.js.map<% } %><% } %>
 lib/*
 !src/*<% } else { %><% if ( useDistDirectory ) { %>
-dist/<% } %><% } %><% } %>
+dist/<% } %><% } %><% } %><% if (automatedTests || manualTests || integrationTests) { %>
+!test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>fixtures/node_modules/
+<% } %>

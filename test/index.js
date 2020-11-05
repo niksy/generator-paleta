@@ -182,6 +182,10 @@ describe('Automated tests', function () {
 		assert.file(['test/.eslintrc', '.travis.yml', 'test/index.js']);
 	});
 
+	it('should fill .gitignore with correct information', function () {
+		assert.fileContent('.gitignore', '!test/fixtures/node_modules/');
+	});
+
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			scripts: {
@@ -359,6 +363,13 @@ describe('Integration tests, ES Modules', function () {
 				esModules: true
 			})
 			.toPromise();
+	});
+
+	it('should fill .gitignore with correct information', function () {
+		assert.fileContent(
+			'.gitignore',
+			'!test/automated/fixtures/node_modules/'
+		);
 	});
 
 	it('should fill package.json with correct information', function () {
