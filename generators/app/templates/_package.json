@@ -50,8 +50,8 @@
     "test": "npm run lint<% if ( automatedTests && browserModule && !sassModule ) { %> && npm run test:automated<% } %><% if ( integrationTests ) { %> && npm run test:integration<% } %>"<% } else if ( sassModule ) { %>,
     "test": "npm run lint<% if ( automatedTests ) { %> && mocha 'test/**/*.js'<% } %>"<% if ( automatedTests ) { %>,
     "test:watch": "npm test -- --watch"<% } %><% } else { %>,
-    "test": "npm run lint<% if ( automatedTests ) { %> && <% if ( codeCoverage ) { %><% if ( transpile ) { %>BABEL_ENV=test <% } %>nyc mocha<% } else { %>mocha<% } %><% if ( transpile ) { %> --require @babel/register<% } %><% if ( esModules ) { %> --require esm<% } %> 'test/**/*.js'<% if ( codeCoverage ) { %> $([[ $WATCH_TEST ]] && echo --watch) && nyc check-coverage<% } %><% } else { %><% } %>"<% if ( automatedTests ) { %>,
-    "test:watch": "<% if ( codeCoverage ) { %>WATCH_TEST=1 npm test<% } else { %>npm test -- --watch<% } %>"<% } %><% if ( codeCoverageService ) { %>,
+    "test": "<% if ( codeCoverage ) { %>([[ -z $WATCH_TEST ]] && npm run lint || echo)<% } else { %>npm run lint<% } %><% if ( automatedTests ) { %> && <% if ( codeCoverage ) { %><% if ( transpile ) { %>BABEL_ENV=test <% } %>nyc mocha<% } else { %>mocha<% } %><% if ( transpile ) { %> --require @babel/register<% } %><% if ( esModules ) { %> --require esm<% } %> 'test/**/*.js'<% if ( codeCoverage ) { %> && nyc check-coverage<% } %><% } else { %><% } %>"<% if ( automatedTests ) { %>,
+    "test:watch": "<% if ( codeCoverage ) { %>WATCH_TEST=1 nodemon --exec npm test<% } else { %>npm test -- --watch<% } %>"<% } %><% if ( codeCoverageService ) { %>,
     "posttest:ci": "cat ./coverage/lcov.info | coveralls"<% } %><% } %><% if ( transpile || esModules ) { %>,
     "build": "<% if ( esModules ) { %>rollup --config rollup.config.js<% } else { %>babel <% if ( complexTranspile ) { %>src<% } else { %>'{index,lib/**/*}.js'<% } %> --out-dir <% if ( complexTranspile ) { %>./<% } else { %>dist/<% } %><% if ( sourceMaps ) { %> --source-maps true<% } %><% } %>",<% if ( esModules ) { %>
     "module-check": "node -e 'require(\"<%= moduleName %>\");' && node --input-type=module -e 'import \"<%= moduleName %>\";'",<% } %>
@@ -95,6 +95,7 @@
     "karma-mocha-reporter": "^2.2.5"<% } %><% if ( automatedTests || integrationTests ) { %>,
     "mocha": "<% if (lowestIEVersion < 11) { %>^4.1.0<% } else  { %>^8.2.0<% } %>"<% if ( esModules ) { %>,
     "esm": "^3.0.51"<% } %><% } %><% if ( automatedTests && codeCoverage && !browserModule ) { %>,
+    "nodemon": "^2.0.6",
     "nyc": "^15.1.0"<% } %><% if ( automatedTests && codeCoverage && browserModule && !sassModule ) { %><% if ( bundlingTool === 'webpack' ) { %>,
     "istanbul-instrumenter-loader": "^3.0.1"<% } %><% if ( bundlingTool === 'rollup' ) { %>,
     "rollup-plugin-istanbul": "^2.0.1"<% } %>,

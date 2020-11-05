@@ -522,8 +522,8 @@ describe('CLI', function () {
 			scripts: {
 				lint: "eslint '{index,lib/**/*,cli,test/**/*}.js'",
 				test:
-					"npm run lint && nyc mocha 'test/**/*.js' $([[ $WATCH_TEST ]] && echo --watch) && nyc check-coverage",
-				'test:watch': 'WATCH_TEST=1 npm test'
+					"([[ -z $WATCH_TEST ]] && npm run lint || echo) && nyc mocha 'test/**/*.js' && nyc check-coverage",
+				'test:watch': 'WATCH_TEST=1 nodemon --exec npm test'
 			},
 			keywords: ['cli', 'cli-app']
 		});
@@ -550,11 +550,12 @@ describe('Code coverage', function () {
 			scripts: {
 				lint: "eslint '{index,lib/**/*,test/**/*}.js'",
 				test:
-					"npm run lint && nyc mocha 'test/**/*.js' $([[ $WATCH_TEST ]] && echo --watch) && nyc check-coverage",
-				'test:watch': 'WATCH_TEST=1 npm test'
+					"([[ -z $WATCH_TEST ]] && npm run lint || echo) && nyc mocha 'test/**/*.js' && nyc check-coverage",
+				'test:watch': 'WATCH_TEST=1 nodemon --exec npm test'
 			},
 			devDependencies: {
-				nyc: '^15.1.0'
+				nyc: '^15.1.0',
+				nodemon: '^2.0.6'
 			}
 		});
 	});
@@ -928,12 +929,13 @@ describe('Transpile, with automated tests and code coverage', function () {
 			scripts: {
 				lint: "eslint '{index,lib/**/*,test/**/*}.js'",
 				test:
-					"npm run lint && BABEL_ENV=test nyc mocha --require @babel/register 'test/**/*.js' $([[ $WATCH_TEST ]] && echo --watch) && nyc check-coverage",
-				'test:watch': 'WATCH_TEST=1 npm test'
+					"([[ -z $WATCH_TEST ]] && npm run lint || echo) && BABEL_ENV=test nyc mocha --require @babel/register 'test/**/*.js' && nyc check-coverage",
+				'test:watch': 'WATCH_TEST=1 nodemon --exec npm test'
 			},
 			devDependencies: {
 				'@babel/register': '^7.0.0',
-				'babel-plugin-istanbul': '^6.0.0'
+				'babel-plugin-istanbul': '^6.0.0',
+				'nodemon': '^2.0.6'
 			}
 		});
 	});
@@ -1164,11 +1166,12 @@ describe('ES Modules, automated tests, code coverage, transpile', function () {
 			scripts: {
 				lint: "eslint '{index,lib/**/*,test/**/*}.js'",
 				test:
-					"npm run lint && BABEL_ENV=test nyc mocha --require @babel/register --require esm 'test/**/*.js' $([[ $WATCH_TEST ]] && echo --watch) && nyc check-coverage",
-				'test:watch': 'WATCH_TEST=1 npm test'
+					"([[ -z $WATCH_TEST ]] && npm run lint || echo) && BABEL_ENV=test nyc mocha --require @babel/register --require esm 'test/**/*.js' && nyc check-coverage",
+				'test:watch': 'WATCH_TEST=1 nodemon --exec npm test'
 			},
 			devDependencies: {
-				esm: '^3.0.51'
+				esm: '^3.0.51',
+				nodemon: '^2.0.6'
 			}
 		});
 	});
