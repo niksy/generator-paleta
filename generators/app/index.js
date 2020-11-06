@@ -142,6 +142,23 @@ module.exports = class extends Generator {
 			},
 			{
 				type: 'list',
+				name: 'ciService',
+				message: 'What CI service do you want to test on?',
+				default: 'travis',
+				choices: [
+					{
+						name: 'Travis',
+						value: 'travis'
+					},
+					{
+						name: 'GitHub',
+						value: 'github'
+					}
+				],
+				when: (answers) => answers.automatedTests
+			},
+			{
+				type: 'list',
 				name: 'browserTestType',
 				message: 'What kind of browser testing do you want?',
 				default: 'real',
@@ -378,7 +395,8 @@ module.exports = class extends Generator {
 			bundlingTool: answers.bundlingTool,
 			sourceMaps: answers.sourceMaps,
 			prettier: answers.prettier,
-			lowestIEVersion: lowestIEVersion
+			lowestIEVersion: lowestIEVersion,
+			ciService: answers.ciService
 		};
 
 		this.tpl = Object.assign({}, tpl, {
@@ -445,7 +463,11 @@ module.exports = class extends Generator {
 		}
 
 		if (answers.automatedTests) {
-			cp('travis.yml', '.travis.yml');
+			if (answers.ciService === 'travis') {
+				cp('travis.yml', '.travis.yml');
+			} else {
+				cp('github', '.github');
+			}
 			if (answers.browserModule) {
 				if (!answers.sassModule) {
 					cp(
@@ -475,6 +497,7 @@ module.exports = class extends Generator {
 			}
 		} else {
 			rm('.travis.yml');
+			rm('.github');
 			rm('test/index.js');
 			rm('test/automated');
 			rm('karma.conf.js');

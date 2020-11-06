@@ -201,6 +201,22 @@ describe('Automated tests', function () {
 	});
 });
 
+describe('Automated tests, different CI service', function () {
+	before(function () {
+		return helpers
+			.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				automatedTests: true,
+				ciService: 'github'
+			})
+			.toPromise();
+	});
+
+	it('should create necessary files', function () {
+		assert.file(['.github/workflows/ci.yml']);
+	});
+});
+
 describe('Automated tests, browser module', function () {
 	before(function () {
 		return helpers

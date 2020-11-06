@@ -16,7 +16,7 @@ process.env.CHROME_BIN = puppeteer.executablePath();<% } %>
 let config;
 
 const isCI = typeof process.env.CI !== 'undefined' && process.env.CI !== 'false';
-const isPR = typeof process.env.TRAVIS_PULL_REQUEST !== 'undefined' && process.env.TRAVIS_PULL_REQUEST !== 'false';
+const isPR = <% if ( ciService === 'travis' ) { %>typeof process.env.TRAVIS_PULL_REQUEST !== 'undefined' && process.env.TRAVIS_PULL_REQUEST !== 'false'<% } else { %>typeof process.env.GITHUB_HEAD_REF !== 'undefined' && process.env.GITHUB_HEAD_REF !== ''<% } %>;
 const local = !isCI || (isCI && isPR);
 
 const port = 0;
