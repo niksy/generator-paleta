@@ -16,5 +16,4 @@ index.js.map<% } %><% } %>
 lib/*
 !src/*<% } else { %><% if ( useDistDirectory ) { %>
 dist/<% } %><% } %><% } %><% if (automatedTests || manualTests || integrationTests) { %>
-!test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>fixtures/node_modules/
-<% } %>
+!test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>fixtures/node_modules/<% } %>

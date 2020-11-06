@@ -130,7 +130,7 @@ MIT © [<%= humanName %>](<%= website %>)<% if ( automatedTests ) { %><% if ( pr
 <!-- prettier-ignore-start --><% } %>
 
 [ci]: <% if ( ciService === 'travis' ) { %>https://travis-ci.com/<%= username %>/<%= cleanModuleName %><% } else { %>https://github.com/<%= username %>/<%= cleanModuleName %>/actions?query=workflow%3ACI<% } %>
-[ci-img]: <% if ( ciService === 'travis' ) { %>https://travis-ci.com/<%= username %>/<%= cleanModuleName %>.svg?branch=master% } else { %>https://github.com/<%= username %>/<%= cleanModuleName %>/workflows/CI/badge.svg?branch=master<% } %><% } %><% if ( cloudBrowsers && ( (automatedTests && browserModule && !sassModule) || integrationTests ) ) { %>
+[ci-img]: <% if ( ciService === 'travis' ) { %>https://travis-ci.com/<%= username %>/<%= cleanModuleName %>.svg?branch=master<% } else { %>https://github.com/<%= username %>/<%= cleanModuleName %>/workflows/CI/badge.svg?branch=master<% } %><% } %><% if ( cloudBrowsers && ( (automatedTests && browserModule && !sassModule) || integrationTests ) ) { %>
 [browserstack]: https://www.browserstack.com/
 [browserstack-img]: https://www.browserstack.com/automate/badge.svg?badge_key=<badge_key><% } %><% if ( codeCoverageService ) { %>
 [coverage]: https://coveralls.io/github/<%= username %>/<%= cleanModuleName %>?branch=master
