@@ -351,12 +351,11 @@ describe('Integration tests', function () {
 					test: './test/integration',
 					presets: [
 						[
-							'babel-preset-niksy',
+							'@babel/preset-env',
 							{
-								'@babel/preset-env': {
-									targets: {
-										node: '10'
-									}
+								modules: false,
+								targets: {
+									node: '10'
 								}
 							}
 						]
@@ -870,7 +869,7 @@ describe('Transpile', function () {
 			},
 			devDependencies: {
 				'@babel/cli': '^7.2.3',
-				'babel-preset-niksy': '^4.1.0'
+				'@babel/preset-env': '^7.12.1'
 			}
 		});
 	});
@@ -879,12 +878,11 @@ describe('Transpile', function () {
 		assert.jsonFileContent('.babelrc', {
 			presets: [
 				[
-					'babel-preset-niksy',
+					'@babel/preset-env',
 					{
-						'@babel/preset-env': {
-							targets: {
-								node: '10'
-							}
+						modules: false,
+						targets: {
+							node: '10'
 						}
 					}
 				]
@@ -917,7 +915,7 @@ describe('Transpile, browser module', function () {
 
 	it('should fill .babelrc with correct information', function () {
 		assert.jsonFileContent('.babelrc', {
-			presets: ['babel-preset-niksy']
+			presets: [['@babel/preset-env', { modules: false }]]
 		});
 	});
 });
@@ -983,7 +981,11 @@ describe('Transpile, browser module, with automated tests and code coverage', fu
 
 	it('should fill .babelrc with correct information', function () {
 		assert.jsonFileContent('.babelrc', {
-			plugins: ['@babel/plugin-transform-object-assign']
+			plugins: [
+				'@babel/plugin-transform-member-expression-literals',
+				'@babel/plugin-transform-property-literals',
+				'@babel/plugin-transform-object-assign'
+			]
 		});
 	});
 
@@ -1206,14 +1208,12 @@ describe('ES Modules, automated tests, code coverage, transpile', function () {
 	it('should fill .babelrc with correct information', function () {
 		assert.jsonFileContent('.babelrc', {
 			presets: [
-				'babel-preset-niksy/next',
 				[
-					'babel-preset-niksy',
+					'@babel/preset-env',
 					{
-						'@babel/preset-env': {
-							targets: {
-								node: '10'
-							}
+						modules: false,
+						targets: {
+							node: '10'
 						}
 					}
 				]

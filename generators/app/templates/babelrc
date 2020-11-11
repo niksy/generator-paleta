@@ -1,16 +1,16 @@
 {
-	"presets": [<% if ( esModules ) { %>
-		"babel-preset-niksy/next",<% } %><% if ( browserModule ) { %>
-		"babel-preset-niksy"<% } else { %>
-		["babel-preset-niksy", {
-			"@babel/preset-env": {
-				"targets": {
-					"node": "<%= nodeEngineVersion %>"
-				}
+	"presets": [<% if ( browserModule ) { %>
+		["@babel/preset-env", { "modules": false }]<% } else { %>
+		["@babel/preset-env", {
+			"modules": false,
+			"targets": {
+				"node": "<%= nodeEngineVersion %>"
 			}
 		}]<% } %>
 	]<% if ( browserModule ) { %>,
 	"plugins": [
+		"@babel/plugin-transform-member-expression-literals",
+		"@babel/plugin-transform-property-literals",
 		"@babel/plugin-transform-object-assign"
 	]<% } %><% if ( automatedTests && codeCoverage && !browserModule ) { %>,
 	"env": {
@@ -23,11 +23,10 @@
 	"env": {
 		"test": {
 			"presets": [
-				["babel-preset-niksy", {
-					"@babel/preset-env": {
-						"useBuiltIns": "usage",
-						"corejs": 2
-					}
+				["@babel/preset-env", {
+					"modules": false,
+					"useBuiltIns": "usage",
+					"corejs": 2
 				}]
 			],
 			"plugins": [
@@ -44,11 +43,10 @@
 		{
 			"test": "./test/integration",
 			"presets": [
-				["babel-preset-niksy", {
-					"@babel/preset-env": {
-						"targets": {
-							"node": "<%= nodeEngineVersion %>"
-						}
+				["@babel/preset-env", {
+					"modules": false,
+					"targets": {
+						"node": "<%= nodeEngineVersion %>"
 					}
 				}]
 			]
