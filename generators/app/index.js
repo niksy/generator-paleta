@@ -599,6 +599,12 @@ module.exports = class extends Generator {
 			]
 		});
 
+		// Remove old references
+		delete mergedPackage.devDependencies['babel-preset-niksy'];
+		delete mergedPackage.devDependencies['rollup-plugin-babel'];
+		delete mergedPackage.devDependencies['rollup-plugin-node-resolve'];
+		delete mergedPackage.devDependencies['rollup-plugin-commonjs'];
+
 		this.fs.writeJSON(this.destinationPath('package.json'), mergedPackage);
 	}
 
