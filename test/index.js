@@ -462,7 +462,10 @@ describe('Browser module', function () {
 	});
 
 	it('should fill .browserslistrc with correct information', function () {
-		assert.fileContent('.browserslistrc', 'last 2 versions\nie >= 11');
+		assert.fileContent(
+			'.browserslistrc',
+			'last 2 versions\nnot ie 10\nie >= 11'
+		);
 	});
 });
 

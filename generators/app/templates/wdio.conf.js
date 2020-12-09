@@ -63,13 +63,13 @@ if ( local ) {
 			'browserstack.debug': 'true'
 		}, {
 			browser: 'IE',
-			'browser_version': '9',
+			'browser_version': '<%= lowestIEVersion %>',
 			os: 'Windows',
 			'os_version': '7',
 			project: '<%= moduleName %>',
 			build: 'Integration (WebdriverIO)',
-			name: 'IE9',
-			browserName: 'IE9',
+			name: 'IE<%= lowestIEVersion %>',
+			browserName: 'IE<%= lowestIEVersion %>',
 			'browserstack.local': 'true',
 			'browserstack.debug': 'true'
 		}]

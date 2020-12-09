@@ -55,22 +55,22 @@ if ( local ) {
 				build: 'Automated (Karma)',
 				name: 'Firefox'
 			},
-			'BS-IE<% if ( vanillaJsWidget ) { %>11<% } else { %>9<% } %>': {
+			'BS-IE<%= lowestIEVersion %>': {
 				base: 'BrowserStack',
 				browser: 'IE',
-				'browser_version': '<% if ( vanillaJsWidget ) { %>11<% } else { %>9<% } %>',
+				'browser_version': '<%= lowestIEVersion %>',
 				os: 'Windows',
 				'os_version': '7',
 				project: '<%= moduleName %>',
 				build: 'Automated (Karma)',
-				name: 'IE<% if ( vanillaJsWidget ) { %>11<% } else { %>9<% } %>'
+				name: 'IE<%= lowestIEVersion %>'
 			},<% } else { %>
 			'Chrome-CI': {
 				base: 'Chrome',
 				flags: ['--no-sandbox']
 			}<% } %>
 		},
-		browsers: <% if ( cloudBrowsers ) { %>['BS-Chrome', 'BS-Firefox', 'BS-IE<% if ( vanillaJsWidget ) { %>11<% } else { %>9<% } %>']<% } else { %><% if ( browserTestType !== 'headless' ) { %>[(!local ? 'Chrome-CI' : 'Chrome')]<% } else { %>['ChromeHeadless']<% } %><% } %>
+		browsers: <% if ( cloudBrowsers ) { %>['BS-Chrome', 'BS-Firefox', 'BS-IE<%= lowestIEVersion %>']<% } else { %><% if ( browserTestType !== 'headless' ) { %>[(!local ? 'Chrome-CI' : 'Chrome')]<% } else { %>['ChromeHeadless']<% } %><% } %>
 	};
 }
 
