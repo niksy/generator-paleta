@@ -1319,7 +1319,7 @@ describe('Bundling tool, Rollup, automated tests', function () {
 				'@rollup/plugin-commonjs': '^15.1.0',
 				'rollup-plugin-node-builtins': '^2.1.2',
 				'rollup-plugin-node-globals': '^1.4.0',
-				'rollup-plugin-istanbul': '^2.0.1',
+				'rollup-plugin-istanbul': '^3.0.0',
 				'karma-rollup-preprocessor': '^7.0.0'
 			}
 		});

@@ -98,7 +98,7 @@
     "nodemon": "^2.0.6",
     "nyc": "^15.1.0"<% } %><% if ( automatedTests && codeCoverage && browserModule && !sassModule ) { %><% if ( bundlingTool === 'webpack' ) { %>,
     "istanbul-instrumenter-loader": "^3.0.1"<% } %><% if ( bundlingTool === 'rollup' ) { %>,
-    "rollup-plugin-istanbul": "^2.0.1"<% } %>,
+    "rollup-plugin-istanbul": "^3.0.0"<% } %>,
     "karma-coverage-istanbul-reporter": "^3.0.3"<% } %><% if ( codeCoverageService ) { %>,
     "coveralls": "^2.11.11"<% } %><% if ( manualTests || integrationTests ) { %>,
     "del": "^6.0.0",
