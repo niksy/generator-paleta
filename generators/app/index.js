@@ -437,6 +437,11 @@ module.exports = class extends Generator {
 		cp('huskyrc', '.huskyrc');
 		cp('lintstagedrc', '.lintstagedrc');
 
+		// Remove old references
+		rm('.istanbul.yml');
+		rm('.jshintrc');
+		rm('.bowerrc');
+
 		if (answers.sassModule) {
 			cp('_index.scss', '_index.scss');
 		} else if (answers.cli) {
@@ -604,6 +609,7 @@ module.exports = class extends Generator {
 		delete mergedPackage.devDependencies['rollup-plugin-babel'];
 		delete mergedPackage.devDependencies['rollup-plugin-node-resolve'];
 		delete mergedPackage.devDependencies['rollup-plugin-commonjs'];
+		delete mergedPackage.devDependencies.istanbul;
 
 		this.fs.writeJSON(this.destinationPath('package.json'), mergedPackage);
 	}
