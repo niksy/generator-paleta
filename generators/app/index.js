@@ -441,6 +441,8 @@ module.exports = class extends Generator {
 		rm('.istanbul.yml');
 		rm('.jshintrc');
 		rm('.bowerrc');
+		rm('package-lock.json');
+		rm('npm-shrinkwrap.json');
 
 		if (answers.sassModule) {
 			cp('_index.scss', '_index.scss');
