@@ -151,7 +151,7 @@ describe('Manual tests', function () {
 				'test:manual': 'npm run test:generate-static-site:watch'
 			},
 			devDependencies: {
-				webpack: '^4.44.2',
+				webpack: '^5.2.0',
 				del: '^6.0.0',
 				globby: '^11.0.1',
 				'css-loader': '^5.0.0',
@@ -246,14 +246,14 @@ describe('Automated tests, browser module', function () {
 			devDependencies: {
 				karma: '^5.2.3',
 				'karma-sourcemap-loader': '^0.3.7',
-				'karma-webpack': '^4.0.2',
+				'karma-webpack': '^5.0.0',
 				'karma-browserstack-launcher': '^1.6.0',
 				'karma-chrome-launcher': '^3.1.0',
 				'karma-html2js-preprocessor': '^1.1.0',
 				'karma-fixture': '^0.2.6',
 				'karma-mocha': '^2.0.1',
 				'karma-mocha-reporter': '^2.2.5',
-				webpack: '^4.44.2'
+				webpack: '^5.2.0'
 			}
 		});
 	});
@@ -911,7 +911,7 @@ describe('Transpile, browser module', function () {
 			devDependencies: {
 				'@babel/core': '^7.2.2',
 				'babel-loader': '^8.1.0',
-				webpack: '^4.44.2'
+				webpack: '^5.2.0'
 			}
 		});
 	});

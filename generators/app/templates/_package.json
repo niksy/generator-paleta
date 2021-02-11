@@ -84,7 +84,7 @@
     "stylelint-prettier": "^1.1.2"<% } %><% } %><% if ( automatedTests && browserModule && !sassModule ) { %>,
     "karma": "^5.2.3",
     "karma-sourcemap-loader": "^0.3.7"<% if ( bundlingTool === 'webpack' ) { %>,
-    "karma-webpack": "^4.0.2"<% } %><% if ( bundlingTool === 'rollup' ) { %>,
+    "karma-webpack": "^5.0.0"<% } %><% if ( bundlingTool === 'rollup' ) { %>,
     "karma-rollup-preprocessor": "^7.0.0"<% } %><% if ( cloudBrowsers ) { %>,
     "karma-browserstack-launcher": "^1.6.0"<% } %>,
     "karma-chrome-launcher": "^3.1.0",<% if ( browserTestType === 'headless' ) { %>
@@ -116,7 +116,7 @@
     "postcss-preset-env": "^6.7.0",
     "suitcss-components-test": "^1.0.0"<% } %><% if ( (manualTests || integrationTests) && browserModule && !sassModule && bundlingTool === 'rollup' ) { %>,
     "minimist": "^1.2.0"<% } %><% if ( (manualTests || integrationTests) || ((browserModule && !sassModule) && (transpile || automatedTests)) ) { %><% if ( bundlingTool === 'webpack' ) { %>,
-    "webpack": "^4.44.2"<% } %><% } %><% if ( sassModule ) { %>,
+    "webpack": "^5.2.0"<% } %><% } %><% if ( sassModule ) { %>,
     "sass-true": "^2.1.3"<% } %><% if ( integrationTests ) { %><% if ( cloudBrowsers ) { %>,
     "@wdio/browserstack-service": "^6.6.7"<% } %>,
     "wdio-docker-service": "^3.0.0",
