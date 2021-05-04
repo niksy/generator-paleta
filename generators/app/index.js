@@ -10,7 +10,8 @@ const {
 	camelCase,
 	uniq,
 	compact,
-	min
+	min,
+	fromPairs
 } = require('lodash');
 const isScopedPackage = require('is-scoped');
 const browserslist = require('browserslist');
@@ -368,7 +369,7 @@ module.exports = class extends Generator {
 				return [browser, min(versions)];
 			}
 		);
-		browserSupport = Object.fromEntries(browserSupport);
+		browserSupport = fromPairs(browserSupport);
 		if ('ie' in browserSupport) {
 			delete browserSupport.edge;
 		}
