@@ -4,6 +4,9 @@
 
 [Yeoman][yeoman] generator for my projects.
 
+> _paleta_ is Croatian word for _palette_, a thin board on which a painter lays
+> and mixes colors.
+
 ## Install
 
 ```sh
