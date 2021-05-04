@@ -40,6 +40,7 @@ if ( local ) {
 			'BS-Chrome': {
 				base: 'BrowserStack',
 				browser: 'Chrome',
+				'browser_version': '<%= browserSupport.chrome %>',
 				os: 'Windows',
 				'os_version': '7',
 				project: '<%= moduleName %>',
@@ -49,28 +50,39 @@ if ( local ) {
 			'BS-Firefox': {
 				base: 'BrowserStack',
 				browser: 'Firefox',
+				'browser_version': '<%= browserSupport.firefox %>',
 				os: 'Windows',
 				'os_version': '7',
 				project: '<%= moduleName %>',
 				build: 'Automated (Karma)',
 				name: 'Firefox'
-			},
-			'BS-IE<%= lowestIEVersion %>': {
+			}<% if ( browserSupport.ie ) { %>,
+			'BS-IE<%= browserSupport.ie %>': {
 				base: 'BrowserStack',
 				browser: 'IE',
-				'browser_version': '<%= lowestIEVersion %>',
+				'browser_version': '<%= browserSupport.ie %>',
 				os: 'Windows',
 				'os_version': '7',
 				project: '<%= moduleName %>',
 				build: 'Automated (Karma)',
-				name: 'IE<%= lowestIEVersion %>'
-			},<% } else { %>
+				name: 'IE<%= browserSupport.ie %>'
+			}<% } %><% if ( browserSupport.edge ) { %>,
+			'BS-Edge<%= browserSupport.edge %>': {
+				base: 'BrowserStack',
+				browser: 'Edge',
+				'browser_version': '<%= browserSupport.edge %>',
+				os: 'Windows',
+				'os_version': '10',
+				project: '<%= moduleName %>',
+				build: 'Automated (Karma)',
+				name: 'Edge<%= browserSupport.edge %>'
+			}<% } %>,<% } else { %>
 			'Chrome-CI': {
 				base: 'Chrome',
 				flags: ['--no-sandbox']
 			}<% } %>
 		},
-		browsers: <% if ( cloudBrowsers ) { %>['BS-Chrome', 'BS-Firefox', 'BS-IE<%= lowestIEVersion %>']<% } else { %><% if ( browserTestType !== 'headless' ) { %>[(!local ? 'Chrome-CI' : 'Chrome')]<% } else { %>['ChromeHeadless']<% } %><% } %>
+		browsers: <% if ( cloudBrowsers ) { %>['BS-Chrome', 'BS-Firefox'<% if ( browserSupport.ie ) { %>, 'BS-IE<%= browserSupport.ie %>'<% } %><% if ( browserSupport.edge ) { %>, 'BS-Edge<%= browserSupport.edge %>'<% } %>]<% } else { %><% if ( browserTestType !== 'headless' ) { %>[(!local ? 'Chrome-CI' : 'Chrome')]<% } else { %>['ChromeHeadless']<% } %><% } %>
 	};
 }
 

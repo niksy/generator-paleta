@@ -4,11 +4,14 @@ const Generator = require('yeoman-generator');
 const gh = require('parse-github-url');
 const isGithubUrl = require('is-github-url');
 const deepAssign = require('deep-assign');
-const compact = require('lodash.compact');
-const uniq = require('lodash.uniq');
 const sortPkg = require('sort-package-json');
-const dashCase = require('lodash.kebabcase');
-const camelCase = require('lodash.camelcase');
+const {
+	kebabCase: dashCase,
+	camelCase,
+	uniq,
+	compact,
+	min
+} = require('lodash');
 const isScopedPackage = require('is-scoped');
 const browserslist = require('browserslist');
 const execa = require('execa');
@@ -283,7 +286,7 @@ module.exports = class extends Generator {
 				name: 'browserVersion',
 				message: 'Which browser versions this project supports?',
 				default: (answers) => {
-					return 'last 2 versions, not ie 10, ie >= 11';
+					return 'last 3 major versions, edge >= 15, not ie > 0';
 				},
 				when: (answers) => answers.browserModule
 			},
@@ -351,10 +354,24 @@ module.exports = class extends Generator {
 				)
 			);
 
-		const [lowestIEVersion] = browserslist(browserVersion)
-			.filter((string) => string.includes('ie'))
-			.map((string) => Number(string.replace(/ie (.+)/, '$1')))
-			.sort((a, b) => a - b);
+		let browserSupport = browserslist(browserVersion)
+			.map((string) => string.split(' '))
+			.reduce((map, [browser, version]) => {
+				if (!Array.isArray(map[browser])) {
+					map[browser] = [];
+				}
+				map[browser].push(Number(version));
+				return map;
+			}, {});
+		browserSupport = Object.entries(browserSupport).map(
+			([browser, versions]) => {
+				return [browser, min(versions)];
+			}
+		);
+		browserSupport = Object.fromEntries(browserSupport);
+		if ('ie' in browserSupport) {
+			delete browserSupport.edge;
+		}
 
 		const tpl = {
 			moduleName: preparePackageName(answers.name),
@@ -395,7 +412,7 @@ module.exports = class extends Generator {
 			bundlingTool: answers.bundlingTool,
 			sourceMaps: answers.sourceMaps,
 			prettier: answers.prettier,
-			lowestIEVersion: lowestIEVersion,
+			browserSupport: browserSupport,
 			ciService: answers.ciService
 		};
 

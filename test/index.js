@@ -464,7 +464,7 @@ describe('Browser module', function () {
 	it('should fill .browserslistrc with correct information', function () {
 		assert.fileContent(
 			'.browserslistrc',
-			'last 2 versions\nnot ie 10\nie >= 11'
+			'last 3 major versions\nedge >= 15\nnot ie > 0'
 		);
 	});
 });
@@ -483,7 +483,7 @@ describe('Browser module, browser version', function () {
 	it('should add information regarding browser support to README.md', function () {
 		assert.fileContent(
 			'README.md',
-			'Tested in IE11+ and all modern browsers.'
+			'Tested in IE 11, and should work in all modern browsers.'
 		);
 	});
 
