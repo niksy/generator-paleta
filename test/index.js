@@ -54,7 +54,7 @@ describe('New project', function () {
 
 	it('should fill .eslintrc with correct information', function () {
 		assert.jsonFileContent('.eslintrc', {
-			extends: ['niksy']
+			extends: ['eslint-config-niksy']
 		});
 	});
 
@@ -449,7 +449,7 @@ describe('Browser module', function () {
 
 	it('should fill .eslintrc with correct information', function () {
 		assert.jsonFileContent('.eslintrc', {
-			extends: ['niksy', 'niksy/browser'],
+			extends: ['eslint-config-niksy', 'eslint-config-niksy/browser'],
 			overrides: [
 				{
 					files: ['karma.conf.js'],

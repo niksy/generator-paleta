@@ -1,6 +1,6 @@
 {
 	"extends": [
-		"niksy/tests"
+		"eslint-config-niksy/tests"
 	]<% if ( (automatedTests || manualTests) && browserModule && !sassModule ) { %>,
 	"ignorePatterns": ["/**/fixtures"]<% } %>
 }

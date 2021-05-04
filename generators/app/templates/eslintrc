@@ -5,16 +5,16 @@ files.push("wdio.conf.js"); } if ( esModules ) {
 files.push("rollup.config.js"); } %>{
 	"root": true,
 	"extends": [
-		"niksy"<% if ( esModules ) { %>,
-		"niksy/next"<% } %><% if ( browserModule ) { %>,
-		"niksy/browser"<% } %><% if ( prettier ) { %>,
-		"prettier"<% if ( false ) { %>,
-		"prettier/react",
-		"prettier/vue<% } %><% } %>
+		"eslint-config-niksy"<% if ( esModules ) { %>,
+		"eslint-config-niksy/next"<% } %><% if ( browserModule ) { %>,
+		"eslint-config-niksy/browser"<% } %><% if ( prettier ) { %>,
+		"eslint-config-prettier"<% if ( false ) { %>,
+		"eslint-config-prettier/react",
+		"eslint-config-prettier/vue<% } %><% } %>
 	]<% if ( prettier || vanillaJsWidget ) { %>,
 	"plugins": [<% if ( prettier ) { %>
-		"prettier"<% } %><% if ( vanillaJsWidget ) { %>,
-		"html"<% } %>
+		"eslint-plugin-prettier"<% } %><% if ( vanillaJsWidget ) { %>,
+		"eslint-plugin-html"<% } %>
 	]<% } %><% if ( prettier ) { %>,
 	"rules": {
 		"prettier/prettier": 1

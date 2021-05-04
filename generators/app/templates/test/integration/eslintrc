@@ -1,6 +1,6 @@
 {
 	"extends": [
-		"niksy/tests"
+		"eslint-config-niksy/tests"
 	],
 	"globals": {
 		"browser": false
