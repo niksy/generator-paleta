@@ -7,7 +7,7 @@
 				"node": "<%= nodeEngineVersion %>"
 			}
 		}]<% } %>
-	]<% if ( browserModule ) { %>,
+	]<% if ( browserModule && browserSupport.ie <= 11 ) { %>,
 	"plugins": [
 		"@babel/plugin-transform-member-expression-literals",
 		"@babel/plugin-transform-property-literals",

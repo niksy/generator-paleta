@@ -986,7 +986,8 @@ describe('Transpile, browser module, with automated tests and code coverage', fu
 				automatedTests: true,
 				codeCoverage: true,
 				browserModule: true,
-				transpile: true
+				transpile: true,
+				browserVersion: 'ie >= 11'
 			})
 			.toPromise();
 	});
