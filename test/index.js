@@ -12,7 +12,8 @@ describe('New project', function () {
 		return helpers
 			.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
-				name: 'bella'
+				name: 'bella',
+				esModules: false
 			})
 			.toPromise();
 	});
@@ -173,7 +174,8 @@ describe('Automated tests', function () {
 			.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
 				automatedTests: true,
-				codeCoverage: false
+				codeCoverage: false,
+				esModules: false
 			})
 			.toPromise();
 	});
@@ -434,7 +436,8 @@ describe('Browser module', function () {
 		return helpers
 			.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
-				browserModule: true
+				browserModule: true,
+				esModules: false
 			})
 			.toPromise();
 	});
@@ -499,7 +502,8 @@ describe('Styles', function () {
 			.withPrompts({
 				automatedTests: false,
 				browserModule: true,
-				browserModuleType: ['styles']
+				browserModuleType: ['styles'],
+				esModules: false
 			})
 			.toPromise();
 	});
@@ -530,7 +534,8 @@ describe('CLI', function () {
 			.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
 				name: '@sammy/ellie',
-				cli: true
+				cli: true,
+				esModules: false
 			})
 			.toPromise();
 	});
@@ -565,7 +570,8 @@ describe('Code coverage', function () {
 			.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
 				automatedTests: true,
-				codeCoverage: true
+				codeCoverage: true,
+				esModules: false
 			})
 			.toPromise();
 	});
@@ -849,7 +855,9 @@ describe('Transpile', function () {
 			.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
 				automatedTests: false,
-				transpile: true
+				transpile: true,
+				sourceMaps: false,
+				esModules: false
 			})
 			.toPromise();
 	});
@@ -930,7 +938,8 @@ describe('Transpile, with automated tests and code coverage', function () {
 			.withPrompts({
 				automatedTests: true,
 				codeCoverage: true,
-				transpile: true
+				transpile: true,
+				esModules: false
 			})
 			.toPromise();
 	});
@@ -1004,7 +1013,9 @@ describe('Transpile, complex', function () {
 			.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
 				transpile: true,
-				complexTranspile: true
+				complexTranspile: true,
+				sourceMaps: false,
+				esModules: false
 			})
 			.toPromise();
 	});
@@ -1037,7 +1048,8 @@ describe('Transpile, complex, source maps', function () {
 			.withPrompts({
 				transpile: true,
 				complexTranspile: true,
-				sourceMaps: true
+				sourceMaps: true,
+				esModules: false
 			})
 			.toPromise();
 	});
@@ -1253,7 +1265,8 @@ describe('Changelog', function () {
 		return helpers
 			.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
-				changelog: true
+				changelog: true,
+				esModules: false
 			})
 			.toPromise();
 	});

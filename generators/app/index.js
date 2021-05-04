@@ -236,7 +236,7 @@ module.exports = class extends Generator {
 				type: 'confirm',
 				name: 'esModules',
 				message: 'Do you want to use ES Modules?',
-				default: false,
+				default: true,
 				when: (answers) => {
 					const browserModuleType = answers.browserModuleType || [];
 					return !browserModuleType.includes('sassModule');
@@ -246,7 +246,7 @@ module.exports = class extends Generator {
 				type: 'confirm',
 				name: 'sourceMaps',
 				message: 'Do you want to generate source maps?',
-				default: false,
+				default: (answers) => answers.transpile || answers.esModules,
 				when: (answers) => answers.transpile || answers.esModules
 			},
 			{
