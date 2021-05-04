@@ -630,6 +630,17 @@ module.exports = class extends Generator {
 		delete mergedPackage.devDependencies['rollup-plugin-node-resolve'];
 		delete mergedPackage.devDependencies['rollup-plugin-commonjs'];
 		delete mergedPackage.devDependencies.istanbul;
+		if (!('ie' in browserSupport)) {
+			delete mergedPackage.devDependencies[
+				'@babel/plugin-transform-member-expression-literals'
+			];
+			delete mergedPackage.devDependencies[
+				'@babel/plugin-transform-property-literals'
+			];
+			delete mergedPackage.devDependencies[
+				'@babel/plugin-transform-object-assign'
+			];
+		}
 
 		this.fs.writeJSON(this.destinationPath('package.json'), mergedPackage);
 	}

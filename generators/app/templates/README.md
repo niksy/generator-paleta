@@ -113,7 +113,7 @@ Function arguments:
 
 <% if ( browserModule ) { %>## Browser support
 
-Tested in <% if ( browserSupport.ie ) { %>IE <%= browserSupport.ie %><% } %><% if ( browserSupport.edge ) { %>, Edge <%= browserSupport.edge %><% } %><% if ( browserSupport.chrome ) { %>, Chrome <%= browserSupport.chrome %><% } %><% if ( browserSupport.firefox ) { %> and Firefox <%= browserSupport.firefox %><% } %>, and should work in all modern browsers.
+Tested in <% if ( browserSupport.ie ) { %>IE <%= browserSupport.ie %><% } else if ( browserSupport.edge ) { %>Edge <%= browserSupport.edge %><% } %><% if ( browserSupport.chrome ) { %>, Chrome <%= browserSupport.chrome %><% } %><% if ( browserSupport.firefox ) { %> and Firefox <%= browserSupport.firefox %><% } %>, and should work in all modern browsers.
 
 <% } %><% if ( (automatedTests || manualTests || integrationTests) && browserModule && !sassModule ) { %>## Test<% if ( automatedTests ) { %>
 
