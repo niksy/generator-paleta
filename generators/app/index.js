@@ -407,6 +407,9 @@ module.exports = class extends Generator {
 			esModules: answers.esModules,
 			nodeEngineVersion: parseInt(answers.nodeEngineVersion, 10),
 			browserVersion: browserVersion,
+			browserslistDevQuery: encodeURIComponent(
+				Buffer.from(browserVersion.join(', ')).toString('base64')
+			),
 			browserTestType: answers.browserTestType,
 			changelog: answers.changelog,
 			githubRelease: answers.githubRelease,
