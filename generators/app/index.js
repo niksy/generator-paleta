@@ -40,6 +40,16 @@ function preparePackageName(packageName, options = {}) {
 	return preparedPackageName;
 }
 
+function isSassModule(answers) {
+	const browserModuleType = answers.browserModuleType || [];
+	return browserModuleType.includes('sassModule');
+}
+
+function isVanillaJsWidgetModule(answers) {
+	const browserModuleType = answers.browserModuleType || [];
+	return browserModuleType.includes('vanillaJsWidget');
+}
+
 module.exports = class extends Generator {
 	initializing() {
 		this.pkg = this.fs.readJSON(this.destinationPath('package.json'), {});
@@ -218,8 +228,7 @@ module.exports = class extends Generator {
 				name: 'transpile',
 				message: 'Do you need code transpiling via Babel?',
 				default: (answers) => {
-					const browserModuleType = answers.browserModuleType || [];
-					if (browserModuleType.includes('vanillaJsWidget')) {
+					if (isVanillaJsWidgetModule(answers)) {
 						return true;
 					}
 					return answers.browserModule;
@@ -239,8 +248,7 @@ module.exports = class extends Generator {
 				message: 'Do you want to use ES Modules?',
 				default: true,
 				when: (answers) => {
-					const browserModuleType = answers.browserModuleType || [];
-					return !browserModuleType.includes('sassModule');
+					return !isSassModule(answers);
 				}
 			},
 			{
@@ -249,6 +257,20 @@ module.exports = class extends Generator {
 				message: 'Do you want to generate source maps?',
 				default: (answers) => answers.transpile || answers.esModules,
 				when: (answers) => answers.transpile || answers.esModules
+			},
+			{
+				type: 'confirm',
+				name: 'bundleCjs',
+				message:
+					'Do you want to create CommonJS bundle (browser-only packages are safe to be built as ESM only)?',
+				default: true,
+				when: (answers) => {
+					return (
+						!isSassModule(answers) &&
+						answers.browserModule &&
+						answers.esModules
+					);
+				}
 			},
 			{
 				type: 'list',
@@ -331,6 +353,10 @@ module.exports = class extends Generator {
 
 		if (!this.answers.bundlingTool) {
 			this.answers.bundlingTool = 'webpack';
+		}
+
+		if (typeof this.answers.bundleCjs === 'undefined') {
+			this.answers.bundleCjs = true;
 		}
 
 		return this.answers;
@@ -417,7 +443,8 @@ module.exports = class extends Generator {
 			sourceMaps: answers.sourceMaps,
 			prettier: answers.prettier,
 			browserSupport: browserSupport,
-			ciService: answers.ciService
+			ciService: answers.ciService,
+			bundleCjs: answers.bundleCjs
 		};
 
 		this.tpl = Object.assign({}, tpl, {

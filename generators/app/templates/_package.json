@@ -2,12 +2,12 @@
   "name": "<%= moduleName %>",
   "version": "<% if ( version ) { %><%= version %><% } else { %>0.0.0<% } %>",
   "description": "<%= moduleDescription %>",<% if ( !cli ) { %>
-  "main": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( useDistDirectory ) { %>dist/<% } %><% if ( esModules ) { %>cjs/<% } %>index.js<% } %>",<% if ( esModules ) { %>
+  "main": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( useDistDirectory ) { %>dist/<% } %><% if ( esModules ) { %><% if ( bundleCjs ) { %>cjs/<% } else { %>esm/<% } %><% } %>index.js<% } %>",<% if ( esModules ) { %>
   "module": "<% if ( useDistDirectory ) { %>dist/<% } %><% if ( esModules ) { %>esm/<% } %>index.js",
   "exports": {
     ".": {
-      "import": "./esm/index.js",
-      "require": "./cjs/index.js"<% if ( browserModule && styles || sassModule || cssModule ) { %>,<% if ( sassModule ) { %>
+      "import": "./esm/index.js"<% if ( bundleCjs ) { %>,
+      "require": "./cjs/index.js"<% } %><% if ( browserModule && styles || sassModule || cssModule ) { %>,<% if ( sassModule ) { %>
       "sass": "_index.scss",<% } %>
       "style": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( useDistDirectory ) { %>dist/<% } %>index.css<% } %>"<% } %>
     },
@@ -16,8 +16,8 @@
   "sideEffects": false,<% } %><% } %>
   "author": "<%= humanName %> <<%= email %>> (<%= website %>)",
   "files": [<% if ( !esModules && !useDistDirectory ) { %>
-    "<% if ( browserModule && styles || sassModule || cssModule ) { %><% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %>index.css<% } %><% } else { %>index.<% if ( sourceMaps ) { %>{js,js.map}<% } else { %>js<% } %><% } %>",<% } %><% if ( esModules ) { %>
-    "cjs/",
+    "<% if ( browserModule && styles || sassModule || cssModule ) { %><% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %>index.css<% } %><% } else { %>index.<% if ( sourceMaps ) { %>{js,js.map}<% } else { %>js<% } %><% } %>",<% } %><% if ( esModules ) { %><% if ( bundleCjs ) { %>
+    "cjs/",<% } %>
     "esm/",<% } %><% if ( useDistDirectory ) { %>
     "dist/",<% } else if ( !transpile && !esModules ) { %>
     "lib/",<% } %><% if ( changelog ) { %>
@@ -54,7 +54,7 @@
     "test:watch": "<% if ( codeCoverage ) { %>WATCH_TEST=1 nodemon --exec npm test<% } else { %>npm test -- --watch<% } %>"<% } %><% if ( codeCoverageService ) { %>,
     "posttest:ci": "cat ./coverage/lcov.info | coveralls"<% } %><% } %><% if ( transpile || esModules ) { %>,
     "build": "<% if ( esModules ) { %>rollup --config rollup.config.js<% } else { %>babel <% if ( complexTranspile ) { %>src<% } else { %>'{index,lib/**/*}.js'<% } %> --out-dir <% if ( complexTranspile ) { %>./<% } else { %>dist/<% } %><% if ( sourceMaps ) { %> --source-maps true<% } %><% } %>",<% if ( esModules ) { %>
-    "module-check": "node -e 'require(\"<%= moduleName %>\");' && node --input-type=module -e 'import \"<%= moduleName %>\";'",<% } %>
+    "module-check": "<% if ( bundleCjs ) { %>node -e 'require(\"<%= moduleName %>\");' && <% } %>node --input-type=module -e 'import \"<%= moduleName %>\";'",<% } %>
     "prepublishOnly": "npm run build<% if ( esModules ) { %> && npm run module-check<% } %>"<% } %>
   },
   "devDependencies": {

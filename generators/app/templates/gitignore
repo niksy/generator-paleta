@@ -8,8 +8,8 @@ test-dist/<% } %><% if ( automatedTests && codeCoverage ) { %><% if ( !browserMo
 .nyc_output/<% } %>
 coverage/<% } %><% if ( browserModule && !sassModule && integrationTests ) { %>
 errorShots/
-wdioDockerLogs/<% } %><% if ( esModules ) { %>
-cjs/
+wdioDockerLogs/<% } %><% if ( esModules ) { %><% if ( bundleCjs ) { %>
+cjs/<% } %>
 esm/<% } %><% if ( transpile ) { %><% if ( complexTranspile ) { %><% if ( !esModules ) { %>
 index.js<% if ( sourceMaps ) { %>
 index.js.map<% } %><% } %>

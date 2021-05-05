@@ -9,13 +9,13 @@ const { promises: fs } = require('fs');
 
 module.exports = {
 	input: '<% if ( complexTranspile ) { %>src/<% } %>index.js',
-	output: [
+	output: [<% if ( bundleCjs ) { %>
 		{
 			file: 'cjs/index.js',
 			format: 'cjs',
 			exports: 'auto'<% if ( sourceMaps ) { %>,
 			sourcemap: true<% } %>,
-		},
+		},<% } %>
 		{
 			file: 'esm/index.js',
 			format: 'esm'<% if ( sourceMaps ) { %>,
@@ -27,11 +27,11 @@ module.exports = {
 			name: 'package-type',
 			async writeBundle (output) {
 				let prefix;
-				let type;
+				let type;<% if ( bundleCjs ) { %>
 				if ( output.file.includes('cjs/') ) {
 					prefix = 'cjs';
 					type = 'commonjs';
-				} else if ( output.file.includes('esm/') ) {
+				} else <% } %>if ( output.file.includes('esm/') ) {
 					prefix = 'esm';
 					type = 'module';
 				}
