@@ -287,7 +287,7 @@ module.exports = class extends Generator {
 				name: 'browserVersion',
 				message: 'Which browser versions this project supports?',
 				default: (answers) => {
-					return 'last 3 major versions, edge >= 15, not ie > 0';
+					return `last 3 major versions, since 2019, edge >= 15, not ie > 0`;
 				},
 				when: (answers) => answers.browserModule
 			},

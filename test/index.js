@@ -467,7 +467,7 @@ describe('Browser module', function () {
 	it('should fill .browserslistrc with correct information', function () {
 		assert.fileContent(
 			'.browserslistrc',
-			'last 3 major versions\nedge >= 15\nnot ie > 0'
+			'last 3 major versions\nsince 2019\nedge >= 15\nnot ie > 0'
 		);
 	});
 });
