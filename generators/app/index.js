@@ -11,7 +11,7 @@ const {
 	uniq,
 	compact,
 	min,
-	fromPairs
+	fromPairs: fromEntries
 } = require('lodash');
 const isScopedPackage = require('is-scoped');
 const browserslist = require('browserslist');
@@ -395,7 +395,7 @@ module.exports = class extends Generator {
 				return [browser, min(versions)];
 			}
 		);
-		browserSupport = fromPairs(browserSupport);
+		browserSupport = fromEntries(browserSupport);
 		if ('ie' in browserSupport) {
 			delete browserSupport.edge;
 		}
@@ -670,6 +670,13 @@ module.exports = class extends Generator {
 			delete mergedPackage.devDependencies[
 				'@babel/plugin-transform-object-assign'
 			];
+		}
+
+		// Remove CommonJS exports if not bundling CommonJS module
+		if (!answers.bundleCjs) {
+			Object.keys(mergedPackage.exports).forEach((key) => {
+				delete mergedPackage.exports[key].require;
+			});
 		}
 
 		this.fs.writeJSON(this.destinationPath('package.json'), mergedPackage);
