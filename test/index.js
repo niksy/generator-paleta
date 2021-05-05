@@ -13,7 +13,8 @@ describe('New project', function () {
 			.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
 				name: 'bella',
-				esModules: false
+				esModules: false,
+				changelog: false
 			})
 			.toPromise();
 	});
@@ -857,7 +858,8 @@ describe('Transpile', function () {
 				automatedTests: false,
 				transpile: true,
 				sourceMaps: false,
-				esModules: false
+				esModules: false,
+				changelog: false
 			})
 			.toPromise();
 	});

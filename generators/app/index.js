@@ -295,13 +295,13 @@ module.exports = class extends Generator {
 				type: 'confirm',
 				name: 'changelog',
 				message: 'Do you want to keep a changelog?',
-				default: false
+				default: true
 			},
 			{
 				type: 'confirm',
 				name: 'githubRelease',
 				message: 'Do you want to create GitHub Release?',
-				default: false,
+				default: true,
 				when: (answers) => answers.changelog
 			},
 			{
