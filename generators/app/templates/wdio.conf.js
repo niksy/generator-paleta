@@ -41,51 +41,12 @@ if ( local ) {
 				browserstackLocal: true
 			}
 		]],
-		capabilities: [{
-			browser: 'Chrome',
-			'browser_version': '<%= browserSupport.chrome %>',
-			os: 'Windows',
-			'os_version': '7',
-			project: '<%= moduleName %>',
+		capabilities: [<% for (browser of cloudBrowsersToTest) { %><%- JSON.stringify(Object.assign({
+			project: moduleName,
 			build: 'Integration (WebdriverIO)',
-			name: 'Chrome',
-			browserName: 'Chrome',
 			'browserstack.local': 'true',
 			'browserstack.debug': 'true'
-		}, {
-			browser: 'Firefox',
-			'browser_version': '<%= browserSupport.firefox %>',
-			os: 'Windows',
-			'os_version': '7',
-			project: '<%= moduleName %>',
-			build: 'Integration (WebdriverIO)',
-			name: 'Firefox',
-			browserName: 'Firefox',
-			'browserstack.local': 'true',
-			'browserstack.debug': 'true'
-		}<% if ( browserSupport.ie ) { %>, {
-			browser: 'IE',
-			'browser_version': '<%= browserSupport.ie %>',
-			os: 'Windows',
-			'os_version': '7',
-			project: '<%= moduleName %>',
-			build: 'Integration (WebdriverIO)',
-			name: 'IE<%= browserSupport.ie %>',
-			browserName: 'IE<%= browserSupport.ie %>',
-			'browserstack.local': 'true',
-			'browserstack.debug': 'true'
-		}<% } %><% if ( browserSupport.edge ) { %>, {
-			browser: 'Edge',
-			'browser_version': '<%= browserSupport.edge %>',
-			os: 'Windows',
-			'os_version': '10',
-			project: '<%= moduleName %>',
-			build: 'Integration (WebdriverIO)',
-			name: 'Edge<%= browserSupport.edge %>',
-			browserName: 'Edge<%= browserSupport.edge %>',
-			'browserstack.local': 'true',
-			'browserstack.debug': 'true'
-		}<% } %>]
+		}, browser.wdio)) + ',' %><% } %>]
 	};
 }<% } %>
 

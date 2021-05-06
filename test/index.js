@@ -487,7 +487,7 @@ describe('Browser module, browser version', function () {
 	it('should add information regarding browser support to README.md', function () {
 		assert.fileContent(
 			'README.md',
-			'Tested in IE 11, and should work in all modern browsers ([support based on Browserslist configuration](https://browserslist.dev/?q=aWUgPj0gMTE%3D)).'
+			'Tested in Internet Explorer 11 and should work in all modern browsers ([support based on Browserslist configuration](https://browserslist.dev/?q=aWUgPj0gMTE%3D)).'
 		);
 	});
 

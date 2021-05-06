@@ -37,53 +37,18 @@ if ( local ) {
 			name: 'Automated (Karma)',
 			build: 'Automated (Karma)'
 		},<% } %>
-		customLaunchers: {<% if ( cloudBrowsers ) { %>
-			'BS-Chrome': {
+		customLaunchers: {<% if ( cloudBrowsers ) { %><% for (browser of cloudBrowsersToTest) { %>
+			'BS-<%= browser.shortName %>': <%- JSON.stringify(Object.assign({
 				base: 'BrowserStack',
-				browser: 'Chrome',
-				'browser_version': '<%= browserSupport.chrome %>',
-				os: 'Windows',
-				'os_version': '7',
-				project: '<%= moduleName %>',
+				project: moduleName,
 				build: 'Automated (Karma)',
-				name: 'Chrome'
-			},
-			'BS-Firefox': {
-				base: 'BrowserStack',
-				browser: 'Firefox',
-				'browser_version': '<%= browserSupport.firefox %>',
-				os: 'Windows',
-				'os_version': '7',
-				project: '<%= moduleName %>',
-				build: 'Automated (Karma)',
-				name: 'Firefox'
-			}<% if ( browserSupport.ie ) { %>,
-			'BS-IE<%= browserSupport.ie %>': {
-				base: 'BrowserStack',
-				browser: 'IE',
-				'browser_version': '<%= browserSupport.ie %>',
-				os: 'Windows',
-				'os_version': '7',
-				project: '<%= moduleName %>',
-				build: 'Automated (Karma)',
-				name: 'IE<%= browserSupport.ie %>'
-			}<% } %><% if ( browserSupport.edge ) { %>,
-			'BS-Edge<%= browserSupport.edge %>': {
-				base: 'BrowserStack',
-				browser: 'Edge',
-				'browser_version': '<%= browserSupport.edge %>',
-				os: 'Windows',
-				'os_version': '10',
-				project: '<%= moduleName %>',
-				build: 'Automated (Karma)',
-				name: 'Edge<%= browserSupport.edge %>'
-			}<% } %>,<% } else { %>
+			}, browser.karma)) + ',' %><% } %><% } else { %>
 			'Chrome-CI': {
 				base: 'Chrome',
 				flags: ['--no-sandbox']
 			}<% } %>
 		},
-		browsers: <% if ( cloudBrowsers ) { %>['BS-Chrome', 'BS-Firefox'<% if ( browserSupport.ie ) { %>, 'BS-IE<%= browserSupport.ie %>'<% } %><% if ( browserSupport.edge ) { %>, 'BS-Edge<%= browserSupport.edge %>'<% } %>]<% } else { %><% if ( browserTestType !== 'headless' ) { %>[(!local ? 'Chrome-CI' : 'Chrome')]<% } else { %>['ChromeHeadless']<% } %><% } %>
+		browsers: <% if ( cloudBrowsers ) { %>[<%- cloudBrowsersToTest.map((browser) => `'BS-${browser.shortName}'`).join(', ') %>]<% } else { %><% if ( browserTestType !== 'headless' ) { %>[(!local ? 'Chrome-CI' : 'Chrome')]<% } else { %>['ChromeHeadless']<% } %><% } %>
 	};
 }
 

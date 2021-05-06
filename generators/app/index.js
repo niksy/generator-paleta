@@ -17,6 +17,55 @@ const isScopedPackage = require('is-scoped');
 const browserslist = require('browserslist');
 const execa = require('execa');
 
+// https://www.browserstack.com/automate/capabilities
+const browserIdMapping = {
+	chrome: {
+		shortName: 'Chrome',
+		longName: 'Chrome',
+		versionKey: 'browser_version',
+		serviceProps: {
+			os: 'Windows',
+			'os_version': '7'
+		}
+	},
+	firefox: {
+		shortName: 'Firefox',
+		longName: 'Firefox',
+		versionKey: 'browser_version',
+		serviceProps: {
+			os: 'Windows',
+			'os_version': '7'
+		}
+	},
+	ie: {
+		shortName: 'IE',
+		longName: 'Internet Explorer',
+		versionKey: 'browser_version',
+		serviceProps: {
+			os: 'Windows',
+			'os_version': '7'
+		}
+	},
+	edge: {
+		shortName: 'Edge',
+		longName: 'Edge',
+		versionKey: 'browser_version',
+		serviceProps: {
+			os: 'Windows',
+			'os_version': '10'
+		}
+	},
+	'ios_saf': {
+		shortName: 'iPhone',
+		longName: 'iOS Safari',
+		versionKey: 'os_version',
+		serviceProps: {
+			device: 'iPhone 8',
+			'real_mobile': true
+		}
+	}
+};
+
 /**
  * @param  {string} packageName
  * @param  {object} options
@@ -62,6 +111,42 @@ function commaSeparatedValuesToArray(string) {
 				.filter((item) => item !== '')
 		)
 	);
+}
+
+function cloudBrowsersToTestConfiguration(browserIds, browserVersion) {
+	if (!Array.isArray(browserIds)) {
+		return [];
+	}
+	const config = browserIds.map((browserId) => {
+		const mappedBrowser = browserIdMapping[browserId];
+		return {
+			shortName: mappedBrowser.shortName,
+			longName: mappedBrowser.longName,
+			version: browserVersion[browserId],
+			karma: Object.assign(
+				{
+					browser: mappedBrowser.shortName,
+					[mappedBrowser.versionKey]: String(
+						browserVersion[browserId]
+					),
+					name: mappedBrowser.shortName
+				},
+				mappedBrowser.serviceProps
+			),
+			wdio: Object.assign(
+				{
+					browser: mappedBrowser.shortName,
+					[mappedBrowser.versionKey]: String(
+						browserVersion[browserId]
+					),
+					name: mappedBrowser.shortName,
+					browserName: mappedBrowser.shortName
+				},
+				mappedBrowser.serviceProps
+			)
+		};
+	});
+	return config;
 }
 
 function getMinimumSupportedBrowserVersions(browserVersion) {
@@ -350,6 +435,44 @@ module.exports = class extends Generator {
 				when: (answers) => answers.browserModule
 			},
 			{
+				type: 'checkbox',
+				name: 'cloudBrowsersToTest',
+				message: 'In what browsers do you want to test?',
+				default: (answers) => {
+					const browserSupport = getMinimumSupportedBrowserVersions(
+						answers.browserVersion
+					);
+					const defaultValues = Object.keys(
+						browserSupport
+					).filter((browserId) =>
+						['chrome', 'firefox', 'ie', 'edge'].includes(browserId)
+					);
+					return defaultValues;
+				},
+				choices: (answers) => {
+					const browserSupport = getMinimumSupportedBrowserVersions(
+						answers.browserVersion
+					);
+					const choices = Object.keys(browserSupport)
+						.filter((browserId) =>
+							[
+								'chrome',
+								'firefox',
+								'ie',
+								'edge',
+								'ios_saf'
+							].includes(browserId)
+						)
+						.map((browserId) => [
+							browserIdMapping[browserId].longName,
+							browserId
+						])
+						.map(([name, value]) => ({ name, value }));
+					return choices;
+				},
+				when: (answers) => answers.cloudBrowsers
+			},
+			{
 				type: 'confirm',
 				name: 'changelog',
 				message: 'Do you want to keep a changelog?',
@@ -400,6 +523,10 @@ module.exports = class extends Generator {
 		);
 		this.answers.browserVersion = commaSeparatedValuesToArray(
 			this.answers.browserVersion
+		);
+		this.answers.cloudBrowsersToTest = cloudBrowsersToTestConfiguration(
+			this.answers.cloudBrowsersToTest,
+			getMinimumSupportedBrowserVersions(this.answers.browserVersion)
 		);
 
 		return this.answers;
@@ -456,7 +583,8 @@ module.exports = class extends Generator {
 			prettier: answers.prettier,
 			browserSupport: browserSupport,
 			ciService: answers.ciService,
-			bundleCjs: answers.bundleCjs
+			bundleCjs: answers.bundleCjs,
+			cloudBrowsersToTest: answers.cloudBrowsersToTest
 		};
 
 		this.tpl = Object.assign({}, tpl, {
