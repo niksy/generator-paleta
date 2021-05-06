@@ -50,6 +50,42 @@ function isVanillaJsWidgetModule(answers) {
 	return browserModuleType.includes('vanillaJsWidget');
 }
 
+function commaSeparatedValuesToArray(string) {
+	if (typeof string === 'undefined') {
+		return [];
+	}
+	return uniq(
+		compact(
+			string
+				.split(',')
+				.map((item) => item.trim())
+				.filter((item) => item !== '')
+		)
+	);
+}
+
+function getMinimumSupportedBrowserVersions(browserVersion) {
+	let browserSupport = browserslist(browserVersion)
+		.map((string) => string.split(' '))
+		.reduce((map, [browser, version]) => {
+			if (!Array.isArray(map[browser])) {
+				map[browser] = [];
+			}
+			map[browser].push(Number(version));
+			return map;
+		}, {});
+	browserSupport = Object.entries(browserSupport).map(
+		([browser, versions]) => {
+			return [browser, min(versions)];
+		}
+	);
+	browserSupport = fromEntries(browserSupport);
+	if ('ie' in browserSupport) {
+		delete browserSupport.edge;
+	}
+	return browserSupport;
+}
+
 module.exports = class extends Generator {
 	initializing() {
 		this.pkg = this.fs.readJSON(this.destinationPath('package.json'), {});
@@ -359,46 +395,22 @@ module.exports = class extends Generator {
 			this.answers.bundleCjs = true;
 		}
 
+		this.answers.keywords = commaSeparatedValuesToArray(
+			this.answers.keywords
+		);
+		this.answers.browserVersion = commaSeparatedValuesToArray(
+			this.answers.browserVersion
+		);
+
 		return this.answers;
 	}
 
 	writing() {
 		const { answers, pkg, author } = this;
-
-		const [keywords, browserVersion] = [
-			answers.keywords,
-			answers.browserVersion
-		]
-			.map((string) => (typeof string === 'string' ? string : ''))
-			.map((string) =>
-				uniq(
-					compact(
-						string
-							.split(',')
-							.map((item) => item.trim())
-							.filter((item) => item !== '')
-					)
-				)
-			);
-
-		let browserSupport = browserslist(browserVersion)
-			.map((string) => string.split(' '))
-			.reduce((map, [browser, version]) => {
-				if (!Array.isArray(map[browser])) {
-					map[browser] = [];
-				}
-				map[browser].push(Number(version));
-				return map;
-			}, {});
-		browserSupport = Object.entries(browserSupport).map(
-			([browser, versions]) => {
-				return [browser, min(versions)];
-			}
+		const { keywords, browserVersion } = answers;
+		const browserSupport = getMinimumSupportedBrowserVersions(
+			browserVersion
 		);
-		browserSupport = fromEntries(browserSupport);
-		if ('ie' in browserSupport) {
-			delete browserSupport.edge;
-		}
 
 		const tpl = {
 			moduleName: preparePackageName(answers.name),
