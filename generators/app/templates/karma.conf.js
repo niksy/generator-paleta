@@ -2,7 +2,7 @@
 
 const path = require('path');<% if ( codeCoverage ) { %>
 const fs = require('fs');<% } %><% if ( bundlingTool === 'webpack' ) { %>
-const { assert: assertModulePath } = require('node-libs-browser');<% } %><% if ( bundlingTool === 'rollup' ) { %>
+const nodeLibsBrowser = require('node-libs-browser');<% } %><% if ( bundlingTool === 'rollup' ) { %>
 const { default: resolve } = require('@rollup/plugin-node-resolve');
 const commonjs = require('@rollup/plugin-commonjs');
 const nodeBuiltins = require('rollup-plugin-node-builtins');
@@ -86,7 +86,7 @@ module.exports = function ( baseConfig ) {
 			devtool: 'inline-source-map',
 			resolve: {
 				fallback: {
-					assert: assertModulePath
+					assert: nodeLibsBrowser.assert
 				}
 			}<% if ( transpile || codeCoverage ) { %>,
 			module: {
