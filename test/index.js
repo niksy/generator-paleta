@@ -623,7 +623,7 @@ describe('Code coverage, browser module', function () {
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			devDependencies: {
-				'istanbul-instrumenter-loader': '^3.0.1',
+				'@jsdevtools/coverage-istanbul-loader': '^3.0.5',
 				'karma-coverage-istanbul-reporter': '^3.0.3'
 			}
 		});
@@ -1006,7 +1006,10 @@ describe('Transpile, browser module, with automated tests and code coverage', fu
 
 	it('should add proper data to karma.conf.js', function () {
 		assert.fileContent('karma.conf.js', 'babel-loader');
-		assert.fileContent('karma.conf.js', 'istanbul-instrumenter-loader');
+		assert.fileContent(
+			'karma.conf.js',
+			'@jsdevtools/coverage-istanbul-loader'
+		);
 	});
 });
 

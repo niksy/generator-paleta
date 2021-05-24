@@ -103,7 +103,7 @@ module.exports = function ( baseConfig ) {
 						exclude: /(node_modules|test)/,
 						enforce: 'post',
 						use: [{
-							loader: 'istanbul-instrumenter-loader'<% if ( esModules ) { %>,
+							loader: '@jsdevtools/coverage-istanbul-loader'<% if ( esModules ) { %>,
 							options: {
 								esModules: true
 							}<% } %>

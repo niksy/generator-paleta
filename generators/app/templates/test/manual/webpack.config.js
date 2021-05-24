@@ -35,7 +35,7 @@ module.exports = async () => {
 			path: path.resolve(__dirname, '../../test-dist'),
 		},
 		mode: 'none',
-		devtool: 'cheap-module-inline-source-map',
+		devtool: 'inline-source-map',
 		devServer: {
 			contentBase: path.join(__dirname, '../../test-dist'),
 			port: port,
