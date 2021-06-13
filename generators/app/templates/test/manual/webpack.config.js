@@ -39,6 +39,8 @@ module.exports = async () => {
 		devServer: {
 			contentBase: path.join(__dirname, '../../test-dist'),
 			port: port,
+			host: '0.0.0.0',
+			disableHostCheck: true,
 			open: true
 		},
 		module: {
