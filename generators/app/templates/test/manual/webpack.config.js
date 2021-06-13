@@ -95,7 +95,10 @@ module.exports = async () => {
 					template: `./test/manual/${key}.html`
 				});
 			})
-		]
+		],
+		optimization: {
+			sideEffects: false
+		}
 	};
 
 };
