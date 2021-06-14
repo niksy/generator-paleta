@@ -35,7 +35,7 @@
   },<% } %>
   "scripts": {
     "release": "np --no-release-draft",<% if ( changelog ) { %>
-    "version": "if [[ $(git rev-parse --abbrev-ref HEAD) == 'master' ]]; then version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md; else echo; fi"<% if ( githubRelease ) { %>,
+    "version": "if [ $(git rev-parse --abbrev-ref HEAD) == 'master' ]; then version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md; else echo; fi"<% if ( githubRelease ) { %>,
     "postpublish": "GITHUB_TOKEN=$GITHUB_RELEASE_TOKEN github-release-from-changelog"<% } %>,<% } %><% if ( (automatedTests && browserModule && !sassModule) || manualTests || integrationTests ) { %>
     "lint": "<% if ( automatedTests || integrationTests ) { %>eslint '{<% if ( complexTranspile ) { %>src/index,src/lib/**/*<% if ( cli ) { %>,src/cli<% } %><% } else { %>index,lib/**/*<% if ( cli ) { %>,cli<% } %><% } %>,test/**/*}<% if ( vanillaJsWidget ) { %>.{js,svelte}<% } else { %>.js<% } %>'<% } else { %>eslint '{<% if ( complexTranspile ) { %>src/index,src/lib/**/*<% if ( cli ) { %>,src/cli<% } %><% } else { %>index,lib/**/*<% if ( cli ) { %>,cli<% } %><% } %>}<% if ( vanillaJsWidget ) { %>.{js,svelte}<% } else { %>.js<% } %>'<% } %><% if ( browserModule && styles ) { %> && stylelint 'index.css'<% } %>"<% } else if ( sassModule ) { %>
     "lint": "<% if ( automatedTests ) { %>eslint 'test/**/*.js' && stylelint '{_index,test/**/*}.scss'<% } else { %>stylelint '_index.scss'<% } %>"<% } else { %>
@@ -50,7 +50,7 @@
     "test": "npm run lint<% if ( automatedTests && browserModule && !sassModule ) { %> && npm run test:automated<% } %><% if ( integrationTests ) { %> && npm run test:integration<% } %>"<% } else if ( sassModule ) { %>,
     "test": "npm run lint<% if ( automatedTests ) { %> && mocha 'test/**/*.js'<% } %>"<% if ( automatedTests ) { %>,
     "test:watch": "npm test -- --watch"<% } %><% } else { %>,
-    "test": "<% if ( codeCoverage ) { %>([[ -z $WATCH_TEST ]] && npm run lint || echo)<% } else { %>npm run lint<% } %><% if ( automatedTests ) { %> && <% if ( codeCoverage ) { %><% if ( transpile ) { %>BABEL_ENV=test <% } %>nyc mocha<% } else { %>mocha<% } %><% if ( transpile ) { %> --require @babel/register<% } %><% if ( esModules ) { %> --require esm<% } %> 'test/**/*.js'<% if ( codeCoverage ) { %> && nyc check-coverage<% } %><% } else { %><% } %>"<% if ( automatedTests ) { %>,
+    "test": "<% if ( codeCoverage ) { %>([ -z $WATCH_TEST ] && npm run lint || echo)<% } else { %>npm run lint<% } %><% if ( automatedTests ) { %> && <% if ( codeCoverage ) { %><% if ( transpile ) { %>BABEL_ENV=test <% } %>nyc mocha<% } else { %>mocha<% } %><% if ( transpile ) { %> --require @babel/register<% } %><% if ( esModules ) { %> --require esm<% } %> 'test/**/*.js'<% if ( codeCoverage ) { %> && nyc check-coverage<% } %><% } else { %><% } %>"<% if ( automatedTests ) { %>,
     "test:watch": "<% if ( codeCoverage ) { %>WATCH_TEST=1 nodemon --exec npm test<% } else { %>npm test -- --watch<% } %>"<% } %><% if ( codeCoverageService ) { %>,
     "posttest:ci": "cat ./coverage/lcov.info | coveralls"<% } %><% } %><% if ( transpile || esModules ) { %>,
     "build": "<% if ( esModules ) { %>rollup --config rollup.config.js<% } else { %>babel <% if ( complexTranspile ) { %>src<% } else { %>'{index,lib/**/*}.js'<% } %> --out-dir <% if ( complexTranspile ) { %>./<% } else { %>dist/<% } %><% if ( sourceMaps ) { %> --source-maps true<% } %><% } %>",<% if ( esModules ) { %>
