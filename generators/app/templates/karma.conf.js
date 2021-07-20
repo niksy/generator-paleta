@@ -133,7 +133,7 @@ module.exports = function ( baseConfig ) {
 					configFile: path.resolve(__dirname, '.babelrc')
 				}),
 				globals(),
-				...rollupConfig.plugins<% if ( transpile ) { %>.filter(({ name }) => !['babel'].includes(name))<% } %><% if ( vanillaJsWidget ) { %>,
+				...rollupConfig.plugins<% if ( transpile || esModules || typescript ) { %>.filter(({ name }) => ![<% if ( transpile ) { %>'babel'<% } %><% if ( esModules ) { %>, 'package-type'<% } %><% if ( typescript ) { %>, 'types'<% } %>].includes(name))<% } %><% if ( vanillaJsWidget ) { %>,
 				babel({
 					exclude: 'node_modules/**',
 					extensions: ['.js', '.svelte'],
