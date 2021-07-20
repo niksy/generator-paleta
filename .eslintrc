@@ -1,25 +1,25 @@
 {
 	"root": true,
 	"ignorePatterns": ["generators/app/templates/**/*"],
-	"extends": [
-		"niksy",
-		"prettier"
-	],
-	"plugins": [
-		"prettier"
-	],
+	"extends": ["eslint-config-niksy", "eslint-config-prettier"],
+	"plugins": ["eslint-plugin-prettier"],
 	"rules": {
 		"prettier/prettier": 1
 	},
-	"overrides": [{
-		"files": "test/index.js",
-		"rules": {
-			"unicorn/prevent-abbreviations": [1, {
-				"whitelist": {
-					"devDependencies": true,
-					"env": true
-				}
-			}]
+	"overrides": [
+		{
+			"files": "test/index.js",
+			"rules": {
+				"unicorn/prevent-abbreviations": [
+					1,
+					{
+						"allowList": {
+							"devDependencies": true,
+							"env": true
+						}
+					}
+				]
+			}
 		}
-	}]
+	]
 }

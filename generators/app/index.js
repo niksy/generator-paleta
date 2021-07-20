@@ -67,8 +67,8 @@ const browserIdMapping = {
 };
 
 /**
- * @param  {string} packageName
- * @param  {object} options
+ * @param {string} packageName
+ * @param {object} options
  *
  * @returns {string}
  */

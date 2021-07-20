@@ -16,8 +16,8 @@
   "scripts": {
     "lint": "eslint '{generators/app/index,test/index}.js'",
     "release": "np --no-release-draft",
-    "test": "npm run lint && nyc mocha 'test/**/*.js' $([[ $WATCH_TEST ]] && echo --watch) && nyc check-coverage",
-    "test:watch": "WATCH_TEST=1 npm test"
+    "test": "([ -z $WATCH_TEST ] && npm run lint || echo) && nyc mocha 'test/**/*.js' && nyc check-coverage",
+    "test:watch": "WATCH_TEST=1 nodemon --exec npm test"
   },
   "dependencies": {
     "browserslist": "^4.14.6",
@@ -31,22 +31,22 @@
     "yeoman-generator": "^3.1.1"
   },
   "devDependencies": {
-    "eslint": "^7.11.0",
-    "eslint-config-niksy": "^9.0.0",
-    "eslint-config-prettier": "^6.14.0",
-    "eslint-plugin-extend": "^0.1.1",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jsdoc": "^30.7.3",
+    "eslint": "^7.31.0",
+    "eslint-config-niksy": "^10.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jsdoc": "^33.3.0",
     "eslint-plugin-mocha": "^8.0.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.0.1",
-    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-react": "^7.21.5",
-    "eslint-plugin-unicorn": "^23.0.0",
+    "eslint-plugin-unicorn": "^31.0.0",
     "eslint-plugin-vue": "^7.1.0",
     "husky": "^4.3.0",
     "lint-staged": "^10.4.2",
     "mocha": "^8.2.0",
+    "nodemon": "^2.0.6",
     "np": "^6.5.0",
     "nyc": "^15.1.0",
     "prettier": "^2.1.2",
