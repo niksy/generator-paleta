@@ -800,6 +800,8 @@ module.exports = class extends Generator {
 		delete mergedPackage.devDependencies['rollup-plugin-node-resolve'];
 		delete mergedPackage.devDependencies['rollup-plugin-commonjs'];
 		delete mergedPackage.devDependencies.istanbul;
+		delete mergedPackage.devDependencies['eslint-plugin-extend'];
+
 		if (!('ie' in browserSupport)) {
 			delete mergedPackage.devDependencies[
 				'@babel/plugin-transform-member-expression-literals'
