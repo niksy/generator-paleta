@@ -480,7 +480,7 @@ module.exports = class extends Generator {
 				when: (answers) => answers.esModules
 			},
 			{
-				type: 'confirm',
+				type: 'list',
 				name: 'typescriptMode',
 				message: 'What TypeScript mode do you want to use?',
 				default: 'comments',
