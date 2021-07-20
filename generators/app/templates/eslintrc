@@ -32,7 +32,10 @@ files.push("rollup.config.js"); } %>{
 			"env": {
 				"node": true<% if ( esModules ) { %>,
 				"es6": true<% } %>
-			}<% if ( nodeEngineVersion <= 10 ) { %>,
+			}<% if ( esModules ) { %>,
+			"parserOptions": {
+				"sourceType": "script"
+			}<% } %><% if ( nodeEngineVersion <= 10 ) { %>,
 			"plugins": ["eslint-plugin-unicorn"]<% } %>,
 			"rules": {
 				"no-console": 0<% if ( nodeEngineVersion <= 10 ) { %>,
