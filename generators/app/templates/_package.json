@@ -39,7 +39,8 @@
     "postpublish": "GITHUB_TOKEN=$GITHUB_RELEASE_TOKEN github-release-from-changelog"<% } %>,<% } %><% if ( (automatedTests && browserModule && !sassModule) || manualTests || integrationTests ) { %>
     "lint": "<% if ( automatedTests || integrationTests ) { %>eslint '{<% if ( complexTranspile ) { %>src/index,src/lib/**/*<% if ( cli ) { %>,src/cli<% } %><% } else { %>index,lib/**/*<% if ( cli ) { %>,cli<% } %><% } %>,test/**/*}<% if ( vanillaJsWidget ) { %>.{js,svelte}<% } else { %>.js<% } %>'<% } else { %>eslint '{<% if ( complexTranspile ) { %>src/index,src/lib/**/*<% if ( cli ) { %>,src/cli<% } %><% } else { %>index,lib/**/*<% if ( cli ) { %>,cli<% } %><% } %>}<% if ( vanillaJsWidget ) { %>.{js,svelte}<% } else { %>.js<% } %>'<% } %><% if ( browserModule && styles ) { %> && stylelint 'index.css'<% } %>"<% } else if ( sassModule ) { %>
     "lint": "<% if ( automatedTests ) { %>eslint 'test/**/*.js' && stylelint '{_index,test/**/*}.scss'<% } else { %>stylelint '_index.scss'<% } %>"<% } else { %>
-    "lint": "<% if ( automatedTests ) { %>eslint '{<% if ( complexTranspile ) { %>src/index,src/lib/**/*<% if ( cli ) { %>,src/cli<% } %><% } else { %>index,lib/**/*<% if ( cli ) { %>,cli<% } %><% } %>,test/**/*}.js'<% } else { %>eslint '{<% if ( complexTranspile ) { %>src/index,src/lib/**/*<% if ( cli ) { %>,src/cli<% } %><% } else { %>index,lib/**/*<% if ( cli ) { %>,cli<% } %><% } %>}.js'<% } %><% if ( browserModule && styles ) { %> && stylelint 'index.css'<% } %>"<% } %><% if ( automatedTests && browserModule && !sassModule ) { %>,
+    "lint": "<% if ( automatedTests ) { %>eslint '{<% if ( complexTranspile ) { %>src/index,src/lib/**/*<% if ( cli ) { %>,src/cli<% } %><% } else { %>index,lib/**/*<% if ( cli ) { %>,cli<% } %><% } %>,test/**/*}.js'<% } else { %>eslint '{<% if ( complexTranspile ) { %>src/index,src/lib/**/*<% if ( cli ) { %>,src/cli<% } %><% } else { %>index,lib/**/*<% if ( cli ) { %>,cli<% } %><% } %>}.js'<% } %><% if ( browserModule && styles ) { %> && stylelint 'index.css'<% } %>"<% } %><% if ( typescript ) { %>,
+    "lint:types": "tsc"<% } %><% if ( automatedTests && browserModule && !sassModule ) { %>,
     "test:automated": "<% if ( transpile ) { %>BABEL_ENV=test <% } %>karma start",
     "test:automated:watch": "npm run test:automated -- --auto-watch --no-single-run"<% } %><% if ( manualTests || integrationTests ) { %>,
     "test:generate-static-site": "<% if ( transpile ) { %>BABEL_ENV=test <% } %><% if ( bundlingTool === 'webpack' ) { %>webpack --config ./test/manual/webpack.config.js<% } %><% if ( bundlingTool === 'rollup' ) { %>rollup --config ./test/manual/rollup.config.js<% } %>",
@@ -55,7 +56,7 @@
     "posttest:ci": "cat ./coverage/lcov.info | coveralls"<% } %><% } %><% if ( transpile || esModules ) { %>,
     "build": "<% if ( esModules ) { %>rollup --config rollup.config.js<% } else { %>babel <% if ( complexTranspile ) { %>src<% } else { %>'{index,lib/**/*}.js'<% } %> --out-dir <% if ( complexTranspile ) { %>./<% } else { %>dist/<% } %><% if ( sourceMaps ) { %> --source-maps true<% } %><% } %>",<% if ( esModules ) { %>
     "module-check": "<% if ( bundleCjs ) { %>node -e 'require(\"<%= moduleName %>\");' && <% } %>node --input-type=module -e 'import \"<%= moduleName %>\";'",<% } %>
-    "prepublishOnly": "npm run build<% if ( esModules ) { %> && npm run module-check<% } %>"<% } %>
+    "prepublishOnly": "npm run build<% if ( typescript ) { %> && npm run lint:types<% } %><% if ( esModules ) { %> && npm run module-check<% } %>"<% } %>
   },
   "devDependencies": {
     "husky": "^4.3.0",
@@ -146,7 +147,12 @@
     "rollup-plugin-node-globals": "^1.4.0"<% } %><% if ( vanillaJsWidget ) { %>,
     "eslint-plugin-html": "^6.0.0",
     "rollup-plugin-svelte": "^6.1.0",
-    "svelte": "^2.16.1"<% } %>
+    "svelte": "^2.16.1"<% } %><% if ( typescript ) { %>,
+    "typescript": "^4.3.5",
+    "execa": "^5.1.1",<% if ( browserModule ) { %>
+    "@types/karma-fixture": "^0.2.5",<% } %>
+    "@types/node": "^16.3.0"<% if ( automatedTests || integrationTests ) { %>,
+    "@types/mocha": "^8.2.3"<% } %><% } %>
   },<% if ( isScopedPackage ) { %>
   "publishConfig": {
     "access": "public"
@@ -164,5 +170,6 @@
   "bugs": {
     "url": "https://<%= gitRepo.host %>/<%= gitRepo.repository %>/issues"
   },
-  "homepage": "https://<%= gitRepo.host %>/<%= gitRepo.repository %>#readme"
+  "homepage": "https://<%= gitRepo.host %>/<%= gitRepo.repository %>#readme"<% if ( typescript ) { %>,
+  "types": "esm/index.d.ts"<% } %>
 }

@@ -3,7 +3,8 @@
 const { default: babel } = require('@rollup/plugin-babel');<% } %><% if ( vanillaJsWidget ) { %>
 const path = require('path');
 const svelte = require('rollup-plugin-svelte');
-const babelCore = require('@babel/core');<% } %>
+const babelCore = require('@babel/core');<% } %><% if ( typescript ) { %>
+const execa = require('execa');<% } %>
 const path = require('path');
 const { promises: fs } = require('fs');
 
@@ -22,7 +23,51 @@ module.exports = {
 			sourcemap: true<% } %>
 		}
 	],
-	plugins: [(() => {
+	plugins: [<% if ( typescript ) { %>(() => {
+			return {
+				name: 'types',
+				async writeBundle(output) {
+					let prefix;
+					if (output.file.includes('cjs/')) {
+						prefix = 'cjs';
+					} else if (output.file.includes('esm/')) {
+						prefix = 'esm';
+					}
+					if (typeof prefix !== 'undefined') {
+						const tsconfig = {
+							extends: './tsconfig',
+							exclude: ['test/**/*.js'],
+							compilerOptions: {
+								declaration: true,
+								declarationMap: true,
+								declarationDir: prefix,
+								emitDeclarationOnly: true,
+								noEmit: false,
+								listEmittedFiles: true
+							}
+						};
+						const file = `.${prefix}.tsconfig.json`;
+						try {
+							await fs.writeFile(
+								file,
+								JSON.stringify(tsconfig),
+								'utf-8'
+							);
+							const { stdout } = await execa(
+								'tsc',
+								['-p', file],
+								{
+									preferLocal: true
+								}
+							);
+							console.log(stdout);
+						} finally {
+							await fs.unlink(file);
+						}
+					}
+				}
+			};
+		})(),<% } %>(() => {
 		return {
 			name: 'package-type',
 			async writeBundle (output) {

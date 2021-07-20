@@ -1438,3 +1438,35 @@ describe('Vanilla JS widget', function () {
 		});
 	});
 });
+
+describe('TypeScript, with comments', function () {
+	before(function () {
+		return helpers
+			.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				esModules: true,
+				typescript: true,
+				typescriptMode: 'comments',
+				automatedTests: true
+			})
+			.toPromise();
+	});
+
+	it('should create necessary files', function () {
+		assert.file(['tsconfig.json']);
+	});
+
+	it('should fill package.json with correct information', function () {
+		assert.jsonFileContent('package.json', {
+			types: 'esm/index.d.ts',
+			scripts: {
+				'lint:types': 'tsc'
+			},
+			devDependencies: {
+				'typescript': '^4.3.5',
+				'@types/node': '^16.3.0',
+				'@types/mocha': '^8.2.3'
+			}
+		});
+	});
+});

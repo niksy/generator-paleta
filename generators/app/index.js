@@ -474,6 +474,31 @@ module.exports = class extends Generator {
 			},
 			{
 				type: 'confirm',
+				name: 'typescript',
+				message: 'Do you want to use TypeScript?',
+				default: false,
+				when: (answers) => answers.esModules
+			},
+			{
+				type: 'confirm',
+				name: 'typescriptMode',
+				message: 'What TypeScript mode do you want to use?',
+				default: 'comments',
+				choices: [
+					{
+						name: 'With comments',
+						value: 'comments'
+					},
+					{
+						name: 'Full support',
+						value: 'full',
+						disabled: true
+					}
+				],
+				when: (answers) => answers.typescript
+			},
+			{
+				type: 'confirm',
 				name: 'changelog',
 				message: 'Do you want to keep a changelog?',
 				default: true
@@ -584,7 +609,9 @@ module.exports = class extends Generator {
 			browserSupport: browserSupport,
 			ciService: answers.ciService,
 			bundleCjs: answers.bundleCjs,
-			cloudBrowsersToTest: answers.cloudBrowsersToTest
+			cloudBrowsersToTest: answers.cloudBrowsersToTest,
+			typescript: answers.typescript,
+			typescriptMode: answers.typescriptMode
 		};
 
 		this.tpl = Object.assign({}, tpl, {
@@ -753,6 +780,12 @@ module.exports = class extends Generator {
 			cp('prettierrc', '.prettierrc');
 		} else {
 			rm('.prettierrc');
+		}
+
+		if (answers.typescript) {
+			cp('tsconfig.json', 'tsconfig.json');
+		} else {
+			rm('tsconfig.json');
 		}
 
 		if (answers.cli) {

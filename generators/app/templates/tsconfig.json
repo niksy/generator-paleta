@@ -1,0 +1,20 @@
+{
+	"compilerOptions": {
+		"moduleResolution": "node",
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"resolveJsonModule": true,
+		"noEmit": true,
+		"newLine": "lf",
+		"strict": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"noEmitOnError": true,
+		"forceConsistentCasingInFileNames": true,
+		"allowJs": true,
+		"checkJs": true,
+		"typeRoots": ["node_modules/@types"],
+		"types": ["node"<% if ( automatedTests || integrationTests ) { %>, "mocha"<% } %><% if ( browserModule ) { %>, "karma-fixture"<% } %>],
+		"isolatedModules": true
+	},
+	"include": ["<% if ( complexTranspile ) { %>src/<% } %>index.js", "<% if ( complexTranspile ) { %>src/<% } %>lib/**/*.js", "test/**/*.js"]
+}
