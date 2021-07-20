@@ -113,7 +113,10 @@ module.exports = function ( baseConfig ) {
 			}<% } %>
 		}<% } %><% if ( bundlingTool === 'rollup' ) { %>
 		rollupPreprocessor: {
-			plugins: [
+			plugins: [<% if ( codeCoverage ) { %>
+				istanbul({
+					exclude: ['test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.js', 'node_modules/**/*']
+				}),<% } %>
 				nodeBuiltins()<% if ( transpile ) { %>,
 				babel({
 					exclude: 'node_modules/**',
@@ -141,9 +144,6 @@ module.exports = function ( baseConfig ) {
 					babelHelpers: 'runtime',
 					babelrc: false,
 					configFile: path.resolve(__dirname, '.babelrc')
-				})<% } %><% if ( codeCoverage ) { %>,
-				istanbul({
-					exclude: ['test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.js', 'node_modules/**/*']
 				})<% } %>
 			],
 			output: {
