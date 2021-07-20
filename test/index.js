@@ -268,7 +268,7 @@ describe('Automated tests, browser module', function () {
 	it('should add information regarding BrowserStack to README.md', function () {
 		assert.fileContent(
 			'README.md',
-			'[browserstack-img]: https://www.browserstack.com/automate/badge.svg?badge_key=<badge_key>'
+			'[browserstack-img]: https://img.shields.io/badge/browser'
 		);
 	});
 });
