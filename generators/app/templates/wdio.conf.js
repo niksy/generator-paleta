@@ -52,7 +52,7 @@ if ( local ) {
 
 module.exports.config = Object.assign({
 	specs: [
-		'./test/integration/**/*.js'
+		'./test/integration/**/*.<%= extension || 'js' %>'
 	],
 	exclude: [],
 	maxInstances: 10,
@@ -61,9 +61,10 @@ module.exports.config = Object.assign({
 	connectionRetryTimeout: 90000,
 	connectionRetryCount: 3,
 	framework: 'mocha',
-	reporters: ['spec'],<% if ( transpile || esModules ) { %>
+	reporters: ['spec'],<% if ( transpile || esModules || typescript ) { %>
 	mochaOpts: {
-		require: [<% if ( transpile ) { %>'@babel/register'<% } %><% if ( transpile && esModules ) { %>, <% } %><% if ( esModules ) { %>'esm'<% } %>]
+		require: [<% if ( transpile ) { %>'@babel/register', <% } %><% if ( esModules ) { %>'esm', <% } %><% if ( !transpile && typescript && typescriptMode === 'full' ) { %>'ts-node/register', <% } %>]<% if ( typescript && typescriptMode === 'full' ) { %>,
+		extension: 'ts'<% } %>
 	},<% } %>
 	afterTest: function ( test ) {
 		/* globals browsers */

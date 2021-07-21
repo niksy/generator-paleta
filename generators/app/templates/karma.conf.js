@@ -60,13 +60,13 @@ module.exports = function ( baseConfig ) {
 		files: [
 			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.html',<% if ( bundlingTool === 'webpack' ) { %>
 			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/.webpack.js'<% } %><% if ( bundlingTool === 'rollup' ) { %>
-			{ pattern: 'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %><% if ( vanillaJsWidget ) { %>index<% } else { %>**/*<% } %>.js', watched: false }<% } %>
+			{ pattern: 'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %><% if ( vanillaJsWidget ) { %>index<% } else { %>**/*<% } %>.<%= extension || 'js' %>', watched: false }<% } %>
 		],
 		exclude: [],
 		preprocessors: {
 			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.html': ['html2js'],<% if ( bundlingTool === 'webpack' ) { %>
 			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/.webpack.js': ['webpack', 'sourcemap']<% } %><% if ( bundlingTool === 'rollup' ) { %>
-			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %><% if ( vanillaJsWidget ) { %>index<% } else { %>**/*<% } %>.js': ['rollup', 'sourcemap']<% } %>
+			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %><% if ( vanillaJsWidget ) { %>index<% } else { %>**/*<% } %>.<%= extension || 'js' %>': ['rollup', 'sourcemap']<% } %>
 		},
 		reporters: ['mocha'<% if ( codeCoverage ) { %>, 'coverage'<% } %>],
 		port: port,
@@ -84,7 +84,8 @@ module.exports = function ( baseConfig ) {
 		webpack: {
 			mode: 'none',
 			devtool: 'inline-source-map',
-			resolve: {
+			resolve: {<% if ( transpile && typescript && typescriptMode === 'full' ) { %>
+				extensions: ['...', '.ts'],<% } %>
 				fallback: {
 					assert: nodeLibsBrowser.assert
 				}
@@ -92,14 +93,14 @@ module.exports = function ( baseConfig ) {
 			module: {
 				rules: [<% if ( transpile ) { %>
 					{
-						test: /\.js$/,
+						test: /\.<%= extension || 'js' %>$/,
 						exclude: /node_modules/,
 						use: [{
 							loader: 'babel-loader'
 						}]
 					}<% } %><% if ( transpile && codeCoverage ) { %>,<% } %><% if ( codeCoverage ) { %>
 					{
-						test: /\.js$/,
+						test: /\.<%= extension || 'js' %>$/,
 						exclude: /(node_modules|test)/,
 						enforce: 'post',
 						use: [{
@@ -115,12 +116,13 @@ module.exports = function ( baseConfig ) {
 		rollupPreprocessor: {
 			plugins: [<% if ( codeCoverage ) { %>
 				istanbul({
-					exclude: ['test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.js', 'node_modules/**/*']
+					exclude: ['test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.<%= extension || 'js' %>', 'node_modules/**/*']
 				}),<% } %>
 				nodeBuiltins()<% if ( transpile ) { %>,
 				babel({
 					exclude: 'node_modules/**',
-					babelHelpers: 'runtime'
+					babelHelpers: 'runtime'<% if ( typescript && typescriptMode === 'full' ) { %>,
+					extensions: ['.js', '.ts']<% } %>
 				})<% } %>,
 				resolve({
 					preferBuiltins: true
@@ -133,18 +135,18 @@ module.exports = function ( baseConfig ) {
 					configFile: path.resolve(__dirname, '.babelrc')
 				}),
 				globals(),
-				...rollupConfig.plugins<% if ( transpile || esModules || typescript ) { %>.filter(({ name }) => ![<% if ( transpile ) { %>'babel'<% } %><% if ( esModules ) { %>, 'package-type'<% } %><% if ( typescript ) { %>, 'types'<% } %>].includes(name))<% } %><% if ( vanillaJsWidget ) { %>,
+				...rollupConfig.plugins<% if ( transpile || esModules || typescript ) { %>.filter(({ name }) => ![<% if ( transpile ) { %>'babel'<% } %><% if ( esModules ) { %>, 'package-type'<% } %><% if ( typescript ) { %>, 'types'<% } %>].includes(name))<% } %><% if ( vanillaJsWidget || (transpile && typescript && typescriptMode === 'full') ) { %>,
 				babel({
 					exclude: 'node_modules/**',
-					extensions: ['.js', '.svelte'],
-					babelHelpers: 'runtime'
-				}),
+					babelHelpers: 'runtime',
+					extensions: ['.js'<% if (typescript && typescriptMode === 'full') { %>, '.ts'<% } %><% if (vanillaJsWidget) { %>, '.svelte'<% } %>]
+				})<% if ( vanillaJsWidget ) { %>,
 				babel({
 					include: 'node_modules/svelte/shared.js',
 					babelHelpers: 'runtime',
 					babelrc: false,
 					configFile: path.resolve(__dirname, '.babelrc')
-				})<% } %>
+				})<% } %><% } %>
 			],
 			output: {
 				format: 'iife',

@@ -23,7 +23,7 @@ files.push("rollup.config.js"); } %>{
 	"settings": {
 		"html/html-extensions": [".svelte"],
 		"html/indent": "0"
-	}<% } %><% if ( browserModule ) { %>,
+	}<% } %><% if ( browserModule || (!browserModule && esModules) ) { %>,
 	"overrides": [
 		{
 			<% if ( files.length !== 0 ) { %>"files": [<% for ( var i = 0, filesLength = files.length; i < filesLength; i++ ) { %>

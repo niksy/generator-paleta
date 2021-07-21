@@ -4,12 +4,14 @@ const { default: babel } = require('@rollup/plugin-babel');<% } %><% if ( vanill
 const path = require('path');
 const svelte = require('rollup-plugin-svelte');
 const babelCore = require('@babel/core');<% } %><% if ( typescript ) { %>
-const execa = require('execa');<% } %>
+const execa = require('execa');<% if ( !transpile && typescriptMode === 'full' ) { %>
+const typescript = require('@rollup/plugin-typescript');<% } %><% if ( transpile && typescriptMode === 'full' ) { %>
+const { default: resolve } = require('@rollup/plugin-node-resolve');<% } %><% } %>
 const path = require('path');
 const { promises: fs } = require('fs');
 
 module.exports = {
-	input: '<% if ( complexTranspile ) { %>src/<% } %>index.js',
+	input: '<% if ( complexTranspile ) { %>src/<% } %>index.<%= extension || 'js' %>',
 	output: [<% if ( bundleCjs ) { %>
 		{
 			file: 'cjs/index.js',
@@ -27,16 +29,16 @@ module.exports = {
 			return {
 				name: 'types',
 				async writeBundle(output) {
-					let prefix;
+					let prefix;<% if ( bundleCjs ) { %>
 					if (output.file.includes('cjs/')) {
 						prefix = 'cjs';
-					} else if (output.file.includes('esm/')) {
+					} else <% } %>if (output.file.includes('esm/')) {
 						prefix = 'esm';
 					}
 					if (typeof prefix !== 'undefined') {
 						const tsconfig = {
 							extends: './tsconfig',
-							exclude: ['test/**/*.js'],
+							exclude: ['test/**/*.<%= extension || 'js' %>'],
 							compilerOptions: {
 								declaration: true,
 								declarationMap: true,
@@ -89,7 +91,7 @@ module.exports = {
 				}
 			}
 		}
-	})(),<% if ( transpile ) { %><% if ( vanillaJsWidget ) { %>
+	})(),<% if ( !transpile && typescript && typescriptMode === 'full' ) { %>typescript(),<% } %><% if ( transpile ) { %><% if ( vanillaJsWidget ) { %>
 		svelte({
 			legacy: true
 		}),
@@ -107,11 +109,14 @@ module.exports = {
 					map: result.map
 				};
 			}
-		},<% } %>
+		},<% } %><% if ( typescript && typescriptMode === 'full' ) { %>
+		resolve({
+			extensions: ['.js', '.ts']
+		}),<% } %>
 		babel({
 			babelHelpers: 'bundled',
-			exclude: 'node_modules/**'<% if ( vanillaJsWidget ) { %>,
-			extensions: ['.js', '.svelte']<% } %>
+			exclude: 'node_modules/**'<% if ( vanillaJsWidget || (typescript && typescriptMode === 'full') ) { %>,
+			extensions: ['.js'<% if (typescript && typescriptMode === 'full') { %>, '.ts'<% } %><% if (vanillaJsWidget) { %>, '.svelte'<% } %>]<% } %>
 		})<% if ( vanillaJsWidget ) { %>,
 		babel({
 			include: 'node_modules/svelte/shared.js',

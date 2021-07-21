@@ -1470,3 +1470,39 @@ describe('TypeScript, with comments', function () {
 		});
 	});
 });
+
+describe('TypeScript, full', function () {
+	before(function () {
+		return helpers
+			.run(path.join(__dirname, '../generators/app'))
+			.withPrompts({
+				esModules: true,
+				typescript: true,
+				typescriptMode: 'full',
+				automatedTests: true
+			})
+			.toPromise();
+	});
+
+	it('should create necessary files', function () {
+		assert.file(['tsconfig.json']);
+	});
+
+	it('should fill rollup.config.js with correct information', function () {
+		assert.fileContent('rollup.config.js', "input: 'index.ts'");
+	});
+
+	it('should fill package.json with correct information', function () {
+		assert.jsonFileContent('package.json', {
+			types: 'esm/index.d.ts',
+			scripts: {
+				'lint:types': 'tsc'
+			},
+			devDependencies: {
+				'typescript': '^4.3.5',
+				'@types/node': '^16.3.0',
+				'@types/mocha': '^8.2.3'
+			}
+		});
+	});
+});

@@ -6,7 +6,8 @@
 			"targets": {
 				"node": "<%= nodeEngineVersion %>"
 			}
-		}]<% } %>
+		}]<% } %><% if ( typescript && typescriptMode === 'full' ) { %>,
+		"@babel/preset-typescript"<% } %>
 	]<% if ( browserModule && browserSupport.ie <= 11 ) { %>,
 	"plugins": [
 		"@babel/plugin-transform-member-expression-literals",

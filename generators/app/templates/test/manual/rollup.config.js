@@ -7,7 +7,8 @@ const minimist = require('minimist');
 const staticSite = require('rollup-plugin-static-site');
 const postcss = require('rollup-plugin-postcss');
 const serve = require('rollup-plugin-serve');<% if ( transpile ) { %>
-const { default: babel } = require('@rollup/plugin-babel');<% } %>
+const { default: babel } = require('@rollup/plugin-babel');<% } %><% if ( !transpile && typescript && typescriptMode === 'full' ) { %>
+const typescript = require('@rollup/plugin-typescript');<% } %>
 const atImport = require('postcss-import');
 const postcssPresetEnv = require('postcss-preset-env');
 
@@ -32,7 +33,7 @@ const config = async () => {
 
 	await del(['./test-dist']);
 
-	const files = await globby(['./test/manual/**/*.js', '!./test/manual/rollup.config.js']);
+	const files = await globby(['./test/manual/**/*.<%= extension || 'js' %>', '!./test/manual/rollup.config.js']);
 
 	const entries = files
 		.map(( file ) => {
@@ -58,6 +59,9 @@ const config = async () => {
 			babel({
 				babelHelpers: 'bundled',
 				exclude: 'node_modules/**'
+			}),<% } %><% if ( !transpile && typescript && typescriptMode === 'full' ) { %>
+			typescript({
+				target: 'esnext'
 			}),<% } %>
 			postcss({
 				extract: true,

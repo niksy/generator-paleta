@@ -1,5 +1,8 @@
 {
 	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"lib": ["ESNext"<% if ( browserModule ) { %>, "DOM"<% } %>],
 		"moduleResolution": "node",
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
@@ -11,10 +14,8 @@
 		"noEmitOnError": true,
 		"forceConsistentCasingInFileNames": true,
 		"allowJs": true,
-		"checkJs": true,
-		"typeRoots": ["node_modules/@types"],
-		"types": ["node"<% if ( automatedTests || integrationTests ) { %>, "mocha"<% } %><% if ( browserModule ) { %>, "karma-fixture"<% } %>],
-		"isolatedModules": true
+		"checkJs": true<% if ( transpile && typescriptMode === 'full' ) { %>,
+		"isolatedModules": true<% } %>
 	},
-	"include": ["<% if ( complexTranspile ) { %>src/<% } %>index.js", "<% if ( complexTranspile ) { %>src/<% } %>lib/**/*.js", "test/**/*.js"]
+	"include": ["<% if ( complexTranspile ) { %>src/<% } %>index.<%= extension || 'js' %>", "<% if ( complexTranspile ) { %>src/<% } %>lib/**/*.<%= extension || 'js' %>", "test/**/*.<%= extension || 'js' %>"]
 }

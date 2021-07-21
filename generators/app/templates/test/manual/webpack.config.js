@@ -14,7 +14,7 @@ module.exports = async () => {
 
 	await del(['./test-dist']);
 
-	const files = await globby(['./test/manual/**/*.js', '!./test/manual/webpack.config.js']);
+	const files = await globby(['./test/manual/**/*.<%= extension || 'js' %>', '!./test/manual/webpack.config.js']);
 
 	const entries = files
 		.map(( file ) => {
@@ -42,7 +42,10 @@ module.exports = async () => {
 			host: '0.0.0.0',
 			disableHostCheck: true,
 			open: true
-		},
+		},<% if ( transpile && typescript && typescriptMode === 'full' ) { %>
+		resolve: {
+			extensions: ['...', '.ts']
+		},<% } %>
 		module: {
 			rules: [
 				{
@@ -74,10 +77,17 @@ module.exports = async () => {
 					],
 				}<% if ( transpile ) { %>,
 				{
-					test: /\.js$/,
+					test: /\.<%= extension || 'js' %>$/,
 					exclude: /node_modules/,
 					use: [{
 						loader: 'babel-loader'
+					}]
+				}<% } %><% if ( !transpile && typescript && typescriptMode === 'full' ) { %>,
+				{
+					test: /\.ts$/,
+					exclude: /node_modules/,
+					use: [{
+						loader: 'ts-loader'
 					}]
 				}<% } %>
 			],

@@ -491,8 +491,7 @@ module.exports = class extends Generator {
 					},
 					{
 						name: 'Full support',
-						value: 'full',
-						disabled: true
+						value: 'full'
 					}
 				],
 				when: (answers) => answers.typescript
@@ -563,6 +562,10 @@ module.exports = class extends Generator {
 		const browserSupport = getMinimumSupportedBrowserVersions(
 			browserVersion
 		);
+		const extension =
+			answers.typescript && answers.typescriptMode === 'full'
+				? 'ts'
+				: null;
 
 		const tpl = {
 			moduleName: preparePackageName(answers.name),
@@ -611,7 +614,8 @@ module.exports = class extends Generator {
 			bundleCjs: answers.bundleCjs,
 			cloudBrowsersToTest: answers.cloudBrowsersToTest,
 			typescript: answers.typescript,
-			typescriptMode: answers.typescriptMode
+			typescriptMode: answers.typescriptMode,
+			extension: extension
 		};
 
 		this.tpl = Object.assign({}, tpl, {
@@ -662,11 +666,11 @@ module.exports = class extends Generator {
 		if (answers.sassModule) {
 			cp('_index.scss', '_index.scss');
 		} else if (answers.cli) {
-			cp('cli.js', 'cli.js');
+			cp('cli.js', `cli.${extension || 'js'}`);
 		} else if (answers.complexTranspile) {
-			cp('index.js', 'src/index.js');
+			cp('index.js', `src/index.${extension || 'js'}`);
 		} else {
-			cp('index.js', 'index.js');
+			cp('index.js', `index.${extension || 'js'}`);
 		}
 
 		if (answers.browserModule) {
@@ -697,8 +701,10 @@ module.exports = class extends Generator {
 						`test/${automatedTestsDirectory}fixtures`
 					);
 					cp(
-						'test/automated/index.js',
-						`test/${automatedTestsDirectory}index.js`
+						`test/automated/index.${extension || 'js'}`,
+						`test/${automatedTestsDirectory}index.${
+							extension || 'js'
+						}`
 					);
 					if (answers.bundlingTool === 'webpack') {
 						cp(
@@ -708,11 +714,11 @@ module.exports = class extends Generator {
 					}
 					cp('karma.conf.js', 'karma.conf.js');
 				} else {
-					cp('test/index.js', 'test/index.js');
+					cp('test/index.js', `test/index.${extension || 'js'}`);
 					cp('test/index.scss', 'test/index.scss');
 				}
 			} else {
-				cp('test/index.js', 'test/index.js');
+				cp('test/index.js', `test/index.${extension || 'js'}`);
 			}
 			if (answers.codeCoverage && !answers.sassModule) {
 				cp('nycrc', '.nycrc');
@@ -721,6 +727,7 @@ module.exports = class extends Generator {
 			rm('.travis.yml');
 			rm('.github');
 			rm('test/index.js');
+			rm('test/index.ts');
 			rm('test/automated');
 			rm('karma.conf.js');
 			rm('.nycrc');
@@ -730,7 +737,10 @@ module.exports = class extends Generator {
 		if (answers.manualTests || answers.integrationTests) {
 			cp('test/manual/index.html', 'test/manual/index.html');
 			cp('test/manual/index.css', 'test/manual/index.css');
-			cp('test/manual/index.js', 'test/manual/index.js');
+			cp(
+				'test/manual/index.js',
+				`test/manual/index.${extension || 'js'}`
+			);
 			if (answers.bundlingTool === 'webpack') {
 				cp(
 					'test/manual/webpack.config.js',
@@ -750,7 +760,10 @@ module.exports = class extends Generator {
 		}
 
 		if (answers.integrationTests) {
-			cp('test/integration/index.js', 'test/integration/index.js');
+			cp(
+				'test/integration/index.js',
+				`test/integration/index.${extension || 'js'}`
+			);
 			cp('test/integration/eslintrc', 'test/integration/.eslintrc');
 			cp('wdio.conf.js', 'wdio.conf.js');
 		} else {
