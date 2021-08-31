@@ -4,7 +4,8 @@ const { default: babel } = require('@rollup/plugin-babel');<% } %><% if ( vanill
 const path = require('path');
 const svelte = require('rollup-plugin-svelte');
 const babelCore = require('@babel/core');<% } %><% if ( typescript ) { %>
-const execa = require('execa');<% if ( !transpile && typescriptMode === 'full' ) { %>
+const execa = require('execa');
+const cpy = require('cpy');<% if ( !transpile && typescriptMode === 'full' ) { %>
 const typescript = require('@rollup/plugin-typescript');<% } %><% if ( transpile && typescriptMode === 'full' ) { %>
 const { default: resolve } = require('@rollup/plugin-node-resolve');<% } %><% } %>
 const path = require('path');
@@ -62,6 +63,9 @@ module.exports = {
 									preferLocal: true
 								}
 							);
+							try {
+								await cpy('types', `${prefix}/types`);
+							} catch (error) {}
 							console.log(stdout);
 						} finally {
 							await fs.unlink(file);
