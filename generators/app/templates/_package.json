@@ -55,7 +55,8 @@
     "test:watch": "<% if ( codeCoverage ) { %>WATCH_TEST=1 nodemon<% if ( typescript && typescriptMode === 'full' ) { %> --ext js,json,ts<% } %> --exec npm test<% } else { %>npm test -- --watch<% } %>"<% } %><% if ( codeCoverageService ) { %>,
     "posttest:ci": "cat ./coverage/lcov.info | coveralls"<% } %><% } %><% if ( transpile || esModules ) { %>,
     "build": "<% if ( esModules ) { %>rollup --config rollup.config.js<% } else { %>babel <% if ( complexTranspile ) { %>src<% } else { %>'{index,lib/**/*}.<%= extension || 'js' %>'<% } %> --out-dir <% if ( complexTranspile ) { %>./<% } else { %>dist/<% } %><% if ( sourceMaps ) { %> --source-maps true<% } %><% } %>",<% if ( esModules ) { %>
-    "module-check": "<% if ( bundleCjs ) { %>node -e 'require(\"<%= moduleName %>\");' && <% } %>node --input-type=module -e 'import \"<%= moduleName %>\";'",<% } %>
+    "premodule-check": "[[ $(uname -m) == arm64 && $(which brew) && -f \"$(brew --prefix nvm)/nvm.sh\" ]] && source \"$(brew --prefix nvm)/nvm.sh\" || true && nvm use 16 || true && echo $(dirname $(which node)) > .node",
+    "module-check": "export PATH=$(head .node):$PATH; rm -rf .node && <% if ( bundleCjs ) { %>node -e 'require(\"<%= moduleName %>\");' && <% } %>node --input-type=module -e 'import \"<%= moduleName %>\";'",<% } %>
     "prepublishOnly": "npm run build<% if ( typescript ) { %> && npm run lint:types<% } %><% if ( esModules ) { %> && npm run module-check<% } %>"<% } %>
   },
   "devDependencies": {
