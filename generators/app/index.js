@@ -16,6 +16,7 @@ const {
 const isScopedPackage = require('is-scoped');
 const browserslist = require('browserslist');
 const execa = require('execa');
+const pathExists = require('path-exists');
 
 // https://www.browserstack.com/automate/capabilities
 const browserIdMapping = {
@@ -172,8 +173,12 @@ function getMinimumSupportedBrowserVersions(browserVersion) {
 }
 
 module.exports = class extends Generator {
-	initializing() {
+	async initializing() {
 		this.pkg = this.fs.readJSON(this.destinationPath('package.json'), {});
+		const hasGitRespository = await pathExists(
+			this.destinationPath('.git')
+		);
+
 		this.author = {
 			humanName: 'Ivan Nikolić',
 			username: 'niksy',
@@ -442,10 +447,11 @@ module.exports = class extends Generator {
 					const browserSupport = getMinimumSupportedBrowserVersions(
 						answers.browserVersion
 					);
-					const defaultValues = Object.keys(
-						browserSupport
-					).filter((browserId) =>
-						['chrome', 'firefox', 'ie', 'edge'].includes(browserId)
+					const defaultValues = Object.keys(browserSupport).filter(
+						(browserId) =>
+							['chrome', 'firefox', 'ie', 'edge'].includes(
+								browserId
+							)
 					);
 					return defaultValues;
 				},
@@ -514,6 +520,13 @@ module.exports = class extends Generator {
 				name: 'prettier',
 				message: 'Do you want to use Prettier?',
 				default: true
+			},
+			{
+				type: 'confirm',
+				name: 'initializeGitRepository',
+				message: 'Do you want to initialize Git repository?',
+				default: false,
+				when: () => !hasGitRespository
 			}
 		];
 	}
@@ -559,9 +572,8 @@ module.exports = class extends Generator {
 	writing() {
 		const { answers, pkg, author } = this;
 		const { keywords, browserVersion } = answers;
-		const browserSupport = getMinimumSupportedBrowserVersions(
-			browserVersion
-		);
+		const browserSupport =
+			getMinimumSupportedBrowserVersions(browserVersion);
 		const extension =
 			answers.typescript && answers.typescriptMode === 'full'
 				? 'ts'
@@ -879,6 +891,9 @@ module.exports = class extends Generator {
 
 	async end() {
 		try {
+			if (this.answers.initializeGitRepository) {
+				await execa('git', ['init']);
+			}
 			await execa('git', ['add', '.']);
 			try {
 				await execa('npx', ['lint-staged', '--no-stash']);
