@@ -2,22 +2,22 @@
   "name": "@niksy/generator-paleta",
   "version": "6.13.0",
   "description": "Yeoman generator for my projects.",
-  "main": "generators/app/index.js",
-  "author": "Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com)",
   "license": "MIT",
+  "author": "Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com)",
+  "main": "generators/app/index.js",
+  "directories": {
+    "test": "test"
+  },
   "files": [
     "generators/",
     "LICENSE.md",
     "README.md"
   ],
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
     "lint": "eslint '{generators/app/index,test/index}.js'",
     "release": "np --no-release-draft",
-    "test": "([ -z $WATCH_TEST ] && npm run lint || echo) && nyc mocha 'test/**/*.js' && nyc check-coverage",
-    "test:watch": "WATCH_TEST=1 nodemon --exec npm test"
+    "test": "nyc mocha 'test/**/*.js' && nyc check-coverage",
+    "test:watch": "nodemon --exec npm test"
   },
   "dependencies": {
     "browserslist": "^4.14.6",
@@ -56,7 +56,7 @@
     "yeoman-test": "^2.0.0"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=12"
   },
   "publishConfig": {
     "access": "public"
