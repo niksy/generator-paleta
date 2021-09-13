@@ -1,6 +1,9 @@
 language: node_js
 node_js:
-  - '<%= nodeEngineVersion %>'<% if ( codeCoverageService ) { %>
+  - '<%= nodeEngineVersion %>'
+script:
+  - npm run lint<% if ( typescript ) { %> && npm run lint:types<% } %>
+  - npm test<% if ( codeCoverageService ) { %>
 after_success:
   - npm run posttest:ci<% } %><% if ( automatedTests && browserModule && !cloudBrowsers ) { %>
 before_install:
