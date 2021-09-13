@@ -54,9 +54,9 @@
     "test": "<% if ( automatedTests ) { %><% if ( codeCoverage ) { %><% if ( transpile ) { %>BABEL_ENV=test <% } %>nyc mocha<% } else { %>mocha<% } %><% if ( transpile ) { %> --require @babel/register<% } %><% if ( esModules ) { %> --require esm<% } %><% if ( !transpile && typescript && typescriptMode === 'full' ) { %> --require ts-node/register --extension ts<% } %> 'test/**/*.<%= extension || 'js' %>'<% if ( codeCoverage ) { %> && nyc check-coverage<% } %><% } else { %><% } %>"<% if ( automatedTests ) { %>,
     "test:watch": "<% if ( codeCoverage ) { %>nodemon<% if ( typescript && typescriptMode === 'full' ) { %> --ext js,json,ts<% } %> --exec npm test<% } else { %>npm test -- --watch<% } %>"<% } %><% if ( codeCoverageService ) { %>,
     "posttest:ci": "cat ./coverage/lcov.info | coveralls"<% } %><% } %><% if ( transpile || esModules ) { %>,
-    "build": "<% if ( esModules ) { %>rollup --config rollup.config.js<% } else { %>babel <% if ( complexTranspile ) { %>src<% } else { %>'{index,lib/**/*}.<%= extension || 'js' %>'<% } %> --out-dir <% if ( complexTranspile ) { %>./<% } else { %>dist/<% } %><% if ( sourceMaps ) { %> --source-maps true<% } %><% } %>",<% if ( esModules ) { %>
-    "module-check": "<% if ( bundleCjs ) { %>node -e 'require(\"<%= moduleName %>\");' && <% } %>node --input-type=module -e 'import \"<%= moduleName %>\";'",<% } %>
-    "prepublishOnly": "npm run lint<% if ( typescript ) { %> && npm run lint:types<% } %> && npm run build<% if ( esModules ) { %> && npm run module-check<% } %>"<% } %>
+    "build": "<% if ( esModules ) { %>rollup --config rollup.config.js<% } else { %>babel <% if ( complexTranspile ) { %>src<% } else { %>'{index,lib/**/*}.<%= extension || 'js' %>'<% } %> --out-dir <% if ( complexTranspile ) { %>./<% } else { %>dist/<% } %><% if ( sourceMaps ) { %> --source-maps true<% } %><% } %>"<% if ( esModules ) { %>,
+    "module-check": "<% if ( bundleCjs ) { %>node -e 'require(\"<%= moduleName %>\");' && <% } %>node --input-type=module -e 'import \"<%= moduleName %>\";'"<% } %><% } %>,
+    "prepublishOnly": "npm run lint<% if ( transpile || esModules ) { %><% if ( typescript ) { %> && npm run lint:types<% } %> && npm run build<% if ( esModules ) { %> && npm run module-check<% } %><% } %>"
   },
   "devDependencies": {
     "husky": "^4.3.0",

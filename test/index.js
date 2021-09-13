@@ -40,7 +40,8 @@ describe('New project', function () {
 			author: 'Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com)',
 			files: ['index.js', 'lib/', 'LICENSE.md', 'README.md'],
 			scripts: {
-				release: 'np --no-release-draft'
+				release: 'np --no-release-draft',
+				prepublishOnly: 'npm run lint'
 			},
 			devDependencies: {
 				np: '^6.5.0'
