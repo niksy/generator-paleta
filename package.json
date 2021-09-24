@@ -16,9 +16,9 @@
   "scripts": {
     "lint": "eslint '{generators/app/index,test/index}.js'",
     "release": "np --no-release-draft",
+    "prerelease": "npm run lint",
     "test": "nyc mocha 'test/**/*.js' && nyc check-coverage",
-    "test:watch": "nodemon --exec npm test",
-    "prepublishOnly": "npm run lint"
+    "test:watch": "nodemon --exec npm test"
   },
   "dependencies": {
     "browserslist": "^4.14.6",

@@ -41,7 +41,7 @@ describe('New project', function () {
 			files: ['index.js', 'lib/', 'LICENSE.md', 'README.md'],
 			scripts: {
 				release: 'np --no-release-draft',
-				prepublishOnly: 'npm run lint'
+				prerelease: 'npm run lint'
 			},
 			devDependencies: {
 				np: '^6.5.0'
@@ -874,7 +874,8 @@ describe('Transpile', function () {
 			files: ['dist/', 'LICENSE.md', 'README.md'],
 			scripts: {
 				build: "babel '{index,lib/**/*}.js' --out-dir dist/",
-				prepublishOnly: 'npm run lint && npm run build'
+				prerelease: 'npm run lint && npm run build',
+				prepublishOnly: 'npm run build'
 			},
 			devDependencies: {
 				'@babel/cli': '^7.2.3',
@@ -1101,8 +1102,9 @@ describe('ES Modules', function () {
 			files: ['cjs/', 'esm/'],
 			scripts: {
 				build: 'rollup --config rollup.config.js',
-				prepublishOnly:
-					'npm run lint && npm run build && npm run module-check'
+				prerelease:
+					'npm run lint && npm run build && npm run module-check',
+				prepublishOnly: 'npm run build'
 			},
 			devDependencies: {
 				rollup: '^2.32.1'

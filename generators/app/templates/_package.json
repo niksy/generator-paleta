@@ -56,7 +56,8 @@
     "posttest:ci": "cat ./coverage/lcov.info | coveralls"<% } %><% } %><% if ( transpile || esModules ) { %>,
     "build": "<% if ( esModules ) { %>rollup --config rollup.config.js<% } else { %>babel <% if ( complexTranspile ) { %>src<% } else { %>'{index,lib/**/*}.<%= extension || 'js' %>'<% } %> --out-dir <% if ( complexTranspile ) { %>./<% } else { %>dist/<% } %><% if ( sourceMaps ) { %> --source-maps true<% } %><% } %>"<% if ( esModules ) { %>,
     "module-check": "<% if ( bundleCjs ) { %>node -e 'require(\"<%= moduleName %>\");' && <% } %>node --input-type=module -e 'import \"<%= moduleName %>\";'"<% } %><% } %>,
-    "prepublishOnly": "npm run lint<% if ( transpile || esModules ) { %><% if ( typescript ) { %> && npm run lint:types<% } %> && npm run build<% if ( esModules ) { %> && npm run module-check<% } %><% } %>"
+    "prerelease": "npm run lint<% if ( transpile || esModules ) { %><% if ( typescript ) { %> && npm run lint:types<% } %> && npm run build<% if ( esModules ) { %> && npm run module-check<% } %><% } %>"<% if ( transpile || esModules ) { %>,
+    "prepublishOnly": "npm run build"<% } %>
   },
   "devDependencies": {
     "husky": "^4.3.0",
