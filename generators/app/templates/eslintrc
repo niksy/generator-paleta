@@ -28,11 +28,11 @@ files.push("rollup.config.js"); } %>{
 		{
 			<% if ( files.length !== 0 ) { %>"files": [<% for ( var i = 0, filesLength = files.length; i < filesLength; i++ ) { %>
 				"<%= files[i] %>"<% if ( i !== filesLength-1 ) { %>,<% } %><% } %>
-			],<% } %>
+			]<% } %><% if ( browserModule ) { %>,
 			"env": {
 				"node": true<% if ( esModules ) { %>,
 				"es6": true<% } %>
-			}<% if ( esModules ) { %>,
+			}<% } %><% if ( esModules ) { %>,
 			"parserOptions": {
 				"sourceType": "script"
 			}<% } %><% if ( nodeEngineVersion <= 10 ) { %>,
