@@ -1,5 +1,5 @@
 {
 	"*.js": ["eslint --fix"],
-	"*.(md|json)": ["prettier --ignore-path .prettierignore --write"],
+	"*.(md|json|yml)": ["prettier --ignore-path .prettierignore --write"],
 	".!(npm)*rc": ["prettier --ignore-path .gitignore --parser json --write"]
 }

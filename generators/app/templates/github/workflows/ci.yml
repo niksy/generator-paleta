@@ -1,22 +1,39 @@
 name: CI
-on: [push]
+on:
+  - push
 jobs:
-	Test:
-		runs-on: ubuntu-latest
-		strategy:
-			matrix:
-				node-version: [<%= nodeEngineVersion %>.x]
-		steps:
-		- uses: actions/checkout@v2
-		- name: Use Node.js ${{ matrix.node-version }}
-			uses: actions/setup-node@v1
-			with:
-				node-version: ${{ matrix.node-version }}<% if ( automatedTests && browserModule && !cloudBrowsers ) { %>
-		- run: export DISPLAY=:99.0; sh -e /etc/init.d/xvfb start; sleep 3;<% } %>
-		- run: npm install
-		- run: npm run lint<% if ( typescript ) { %> && npm run lint:types<% } %>
-		- run: npm test<% if ( codeCoverageService ) { %>
-	Posttest:
-		needs: Test
-		steps:
-  		- run: npm run posttest:ci<% } %>
+  Test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version:
+          - <%= nodeEngineVersion %>
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v2
+
+      - name: Use Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Lint
+        run: npm run lint<% if ( typescript ) { %>
+
+      - name: Check types
+        run: npm run lint:types<% } %><% if ( automatedTests ) { %><% if ( browserModule && !cloudBrowsers ) { %>
+
+      - name: Set display environment
+        run: export DISPLAY=:99.0; sh -e /etc/init.d/xvfb start; sleep 3;<% } %>
+
+      - name: Test
+        run: npm test<% } %><% if ( codeCoverageService ) { %>
+
+  Posttest:
+    needs: Test
+    steps:
+      - name: Post-test procedure
+        run: npm run posttest:ci<% } %>

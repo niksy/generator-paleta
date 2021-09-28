@@ -702,8 +702,10 @@ module.exports = class extends Generator {
 
 		if (answers.automatedTests) {
 			if (answers.ciService === 'travis') {
+				rm('.github');
 				cp('travis.yml', '.travis.yml');
 			} else {
+				rm('.travis.yml');
 				cp('github', '.github');
 			}
 			if (answers.browserModule) {
