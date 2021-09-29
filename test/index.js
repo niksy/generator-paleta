@@ -176,6 +176,7 @@ describe('Automated tests', function () {
 			.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
 				automatedTests: true,
+				ciService: 'travis',
 				codeCoverage: false,
 				esModules: false
 			})
@@ -633,6 +634,7 @@ describe('Code coverage service', function () {
 			.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
 				automatedTests: true,
+				ciService: 'travis',
 				codeCoverage: true,
 				codeCoverageService: true
 			})
@@ -1245,6 +1247,7 @@ describe('Node engine version', function () {
 		return helpers
 			.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
+				ciService: 'travis',
 				nodeEngineVersion: 12
 			})
 			.toPromise();

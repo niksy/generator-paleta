@@ -284,15 +284,15 @@ module.exports = class extends Generator {
 				type: 'list',
 				name: 'ciService',
 				message: 'What CI service do you want to test on?',
-				default: 'travis',
+				default: 'github',
 				choices: [
-					{
-						name: 'Travis',
-						value: 'travis'
-					},
 					{
 						name: 'GitHub',
 						value: 'github'
+					},
+					{
+						name: 'Travis',
+						value: 'travis'
 					}
 				],
 				when: (answers) => answers.automatedTests
