@@ -672,6 +672,7 @@ module.exports = class extends Generator {
 		rm('.istanbul.yml');
 		rm('.jshintrc');
 		rm('.bowerrc');
+		rm('.rollup.js');
 		rm('package-lock.json');
 		rm('npm-shrinkwrap.json');
 
