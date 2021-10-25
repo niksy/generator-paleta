@@ -610,7 +610,7 @@ module.exports = class extends Generator {
 			transpile: answers.transpile,
 			complexTranspile: answers.complexTranspile,
 			esModules: answers.esModules,
-			nodeEngineVersion: parseInt(answers.nodeEngineVersion, 10),
+			nodeEngineVersion: parseFloat(answers.nodeEngineVersion),
 			browserVersion: browserVersion,
 			browserslistDevQuery: encodeURIComponent(
 				Buffer.from(browserVersion.join(', ')).toString('base64')
