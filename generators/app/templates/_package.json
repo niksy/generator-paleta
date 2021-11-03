@@ -5,11 +5,11 @@
   "main": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( useDistDirectory ) { %>dist/<% } %><% if ( esModules ) { %><% if ( bundleCjs ) { %>cjs/<% } else { %>esm/<% } %><% } %>index.js<% } %>",<% if ( esModules ) { %>
   "module": "<% if ( useDistDirectory ) { %>dist/<% } %><% if ( esModules ) { %>esm/<% } %>index.js",
   "exports": {
-    ".": {
+    ".": {<% if ( browserModule && styles || sassModule || cssModule ) { %><% if ( sassModule ) { %>
+      "sass": "./_index.scss",<% } %>
+      "style": "./<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( useDistDirectory ) { %>dist/<% } %>index.css<% } %>",<% } %>
       "import": "./esm/index.js"<% if ( bundleCjs ) { %>,
-      "require": "./cjs/index.js"<% } %><% if ( browserModule && styles || sassModule || cssModule ) { %>,<% if ( sassModule ) { %>
-      "sass": "_index.scss",<% } %>
-      "style": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( useDistDirectory ) { %>dist/<% } %>index.css<% } %>"<% } %>
+      "require": "./cjs/index.js"<% } %>
     },
     "./package.json": "./package.json"
   },

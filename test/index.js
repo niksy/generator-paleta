@@ -822,6 +822,11 @@ describe('CSS module', function () {
 
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
+			exports: {
+				'.': {
+					'style': './index.css'
+				}
+			},
 			main: 'index.css',
 			style: 'index.css'
 		});

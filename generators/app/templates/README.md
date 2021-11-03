@@ -125,9 +125,9 @@ For manual tests, run `npm run test:manual`.<% } %>
 
 <% } %>## License
 
-MIT © [<%= humanName %>](<%= website %>)<% if ( automatedTests ) { %><% if ( prettier ) { %>
+MIT © [<%= humanName %>](<%= website %>)<% if ( prettier ) { %>
 
-<!-- prettier-ignore-start --><% } %>
+<!-- prettier-ignore-start --><% } %><% if ( automatedTests ) { %>
 
 [ci]: <% if ( ciService === 'travis' ) { %>https://travis-ci.com/<%= username %>/<%= cleanModuleName %><% } else { %>https://github.com/<%= username %>/<%= cleanModuleName %>/actions?query=workflow%3ACI<% } %>
 [ci-img]: <% if ( ciService === 'travis' ) { %>https://travis-ci.com/<%= username %>/<%= cleanModuleName %>.svg?branch=master<% } else { %>https://github.com/<%= username %>/<%= cleanModuleName %>/workflows/CI/badge.svg?branch=master<% } %><% } %><% if ( cloudBrowsers && ( (automatedTests && browserModule && !sassModule) || integrationTests ) ) { %>
