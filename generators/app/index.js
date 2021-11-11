@@ -3,7 +3,6 @@
 const Generator = require('yeoman-generator');
 const gh = require('parse-github-url');
 const isGithubUrl = require('is-github-url');
-const deepAssign = require('deep-assign');
 const sortPkg = require('sort-package-json');
 const {
 	kebabCase: dashCase,
@@ -15,7 +14,6 @@ const {
 } = require('lodash');
 const isScopedPackage = require('is-scoped');
 const browserslist = require('browserslist');
-const execa = require('execa');
 const pathExists = require('path-exists');
 
 // https://www.browserstack.com/automate/capabilities
@@ -860,7 +858,9 @@ module.exports = class extends Generator {
 		);
 		rm('_package.json');
 
-		let mergedPackage = deepAssign({}, pkg, newPackage);
+		this.packageJson.merge(newPackage);
+
+		let mergedPackage = this.packageJson.getAll();
 
 		/*
 		 * Deep-assign overwrites arrays so we have to prepare
@@ -928,25 +928,26 @@ module.exports = class extends Generator {
 			});
 		}
 
-		this.fs.writeJSON(this.destinationPath('package.json'), mergedPackage);
-	}
-
-	install() {
-		this.npmInstall();
+		this.packageJson.merge(mergedPackage);
 	}
 
 	async end() {
+		const options = { stdio: 'pipe' };
 		try {
 			if (this.answers.initializeGitRepository) {
-				await execa('git', ['init']);
+				await this.spawnCommand('git', ['init'], options);
 			}
-			await execa('git', ['add', '.']);
+			await this.spawnCommand('git', ['add', '.'], options);
 			try {
-				await execa('npx', ['lint-staged', '--no-stash']);
+				await this.spawnCommand(
+					'npx',
+					['lint-staged', '--no-stash'],
+					options
+				);
 			} catch (error) {
 				// Handled
 			}
-			await execa('git', ['reset', 'HEAD']);
+			await this.spawnCommand('git', ['reset', 'HEAD'], options);
 		} catch (error) {
 			// Handled
 		}
