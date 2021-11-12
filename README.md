@@ -25,8 +25,8 @@ MIT © [Ivan Nikolić](http://ivannikolic.com)
 
 <!-- prettier-ignore-start -->
 
-[ci]: https://travis-ci.com/niksy/generator-paleta
-[ci-img]: https://travis-ci.com/niksy/generator-paleta.svg?branch=master
+[ci]: https://github.com/niksy/generator-paleta/actions?query=workflow%3ACI
+[ci-img]: https://github.com/niksy/generator-paleta/workflows/CI/badge.svg?branch=master
 [yeoman]: http://yeoman.io/
 
 <!-- prettier-ignore-end -->
