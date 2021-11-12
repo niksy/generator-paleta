@@ -15,5 +15,5 @@ index.js<% if ( sourceMaps ) { %>
 index.js.map<% } %><% } %>
 lib/*
 !src/*<% } else { %><% if ( useDistDirectory ) { %>
-dist/<% } %><% } %><% } %><% if (automatedTests || manualTests || integrationTests) { %>
+dist/<% } %><% } %><% } %><% if ((automatedTests && !browserModule) || (automatedTests && browserModule && usesHtmlFixtures) || manualTests || integrationTests) { %>
 !test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>fixtures/node_modules/<% } %>

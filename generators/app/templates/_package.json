@@ -90,9 +90,9 @@
     "karma-rollup-preprocessor": "^7.0.0"<% } %><% if ( cloudBrowsers ) { %>,
     "karma-browserstack-launcher": "^1.6.0"<% } %>,
     "karma-chrome-launcher": "^3.1.0",<% if ( browserTestType === 'headless' ) { %>
-    "puppeteer": "^5.4.0",<% } %>
+    "puppeteer": "^5.4.0",<% } %><% if ( usesHtmlFixtures ) { %>
     "karma-html2js-preprocessor": "^1.1.0",
-    "karma-fixture": "^0.2.6",
+    "karma-fixture": "^0.2.6",<% } %>
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5"<% } %><% if ( automatedTests || integrationTests ) { %>,
     "mocha": "<% if (browserSupport.ie < 11) { %>^4.1.0<% } else  { %>^8.2.0<% } %>"<% if ( esModules ) { %>,
@@ -156,7 +156,7 @@
     "typescript": "^4.3.5",
     "cpy": "^8.1.2",
     "execa": "^5.1.1",<% if ( !transpile && typescriptMode === 'full' && (!browserModule || (browserModule && integrationTests)) ) { %>
-    "ts-node": "^10.1.0",<% } %><% if ( browserModule ) { %>
+    "ts-node": "^10.1.0",<% } %><% if ( browserModule && usesHtmlFixtures ) { %>
     "@types/karma-fixture": "^0.2.5",<% } %>
     "@types/node": "^16.3.0"<% if ( automatedTests || integrationTests ) { %>,
     "@types/mocha": "^8.2.3"<% } %><% } %>

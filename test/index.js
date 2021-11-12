@@ -228,7 +228,8 @@ describe('Automated tests, browser module', function () {
 			.run(path.join(__dirname, '../generators/app'))
 			.withPrompts({
 				automatedTests: true,
-				browserModule: true
+				browserModule: true,
+				usesHtmlFixtures: true
 			})
 			.toPromise();
 	});
@@ -379,7 +380,8 @@ describe('Integration tests, ES Modules', function () {
 				manualTests: true,
 				browserModule: true,
 				integrationTests: true,
-				esModules: true
+				esModules: true,
+				usesHtmlFixtures: true
 			})
 			.toPromise();
 	});
@@ -408,7 +410,8 @@ describe('All tests, browser module', function () {
 				automatedTests: true,
 				manualTests: true,
 				integrationTests: true,
-				browserModule: true
+				browserModule: true,
+				usesHtmlFixtures: true
 			})
 			.toPromise();
 	});

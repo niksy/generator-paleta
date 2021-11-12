@@ -281,6 +281,14 @@ module.exports = class extends Generator {
 				default: true
 			},
 			{
+				type: 'confirm',
+				name: 'usesHtmlFixtures',
+				message: 'Do you need HTML fixtures for automated tests?',
+				default: false,
+				when: (answers) =>
+					answers.browserModule && answers.automatedTests
+			},
+			{
 				type: 'list',
 				name: 'ciService',
 				message: 'What CI service do you want to test on?',
@@ -627,7 +635,8 @@ module.exports = class extends Generator {
 			cloudBrowsersToTest: answers.cloudBrowsersToTest,
 			typescript: answers.typescript,
 			typescriptMode: answers.typescriptMode,
-			extension: extension
+			extension: extension,
+			usesHtmlFixtures: answers.usesHtmlFixtures
 		};
 
 		this.tpl = Object.assign({}, tpl, {
@@ -711,10 +720,14 @@ module.exports = class extends Generator {
 			}
 			if (answers.browserModule) {
 				if (!answers.sassModule) {
-					cp(
-						'test/automated/fixtures',
-						`test/${automatedTestsDirectory}fixtures`
-					);
+					if (answers.usesHtmlFixtures) {
+						cp(
+							'test/automated/fixtures',
+							`test/${automatedTestsDirectory}fixtures`
+						);
+					} else {
+						rm(`test/${automatedTestsDirectory}fixtures`);
+					}
 					cp(
 						`test/automated/index.${extension || 'js'}`,
 						`test/${automatedTestsDirectory}index.${
@@ -855,28 +868,37 @@ module.exports = class extends Generator {
 			]
 		});
 
+		const developmentDependenciesToOmit = [];
+
 		// Remove old references
-		delete mergedPackage.devDependencies['babel-preset-niksy'];
-		delete mergedPackage.devDependencies['rollup-plugin-babel'];
-		delete mergedPackage.devDependencies['rollup-plugin-node-resolve'];
-		delete mergedPackage.devDependencies['rollup-plugin-commonjs'];
-		delete mergedPackage.devDependencies.istanbul;
-		delete mergedPackage.devDependencies['eslint-plugin-extend'];
-		delete mergedPackage.devDependencies[
+		developmentDependenciesToOmit.push(
+			'babel-preset-niksy',
+			'rollup-plugin-babel',
+			'rollup-plugin-node-resolve',
+			'rollup-plugin-commonjs',
+			'istanbul',
+			'eslint-plugin-extend',
 			'karma-coverage-istanbul-reporter'
-		];
+		);
 
 		if (!('ie' in browserSupport)) {
-			delete mergedPackage.devDependencies[
-				'@babel/plugin-transform-member-expression-literals'
-			];
-			delete mergedPackage.devDependencies[
-				'@babel/plugin-transform-property-literals'
-			];
-			delete mergedPackage.devDependencies[
+			developmentDependenciesToOmit.push(
+				'@babel/plugin-transform-member-expression-literals',
+				'@babel/plugin-transform-property-literals',
 				'@babel/plugin-transform-object-assign'
-			];
+			);
 		}
+
+		if (!answers.usesHtmlFixtures) {
+			developmentDependenciesToOmit.push(
+				'karma-fixture',
+				'@types/karma-fixture'
+			);
+		}
+
+		developmentDependenciesToOmit.forEach((key) => {
+			delete mergedPackage.devDependencies[key];
+		});
 
 		// Remove CommonJS exports if not bundling CommonJS module
 		if (!answers.bundleCjs) {
