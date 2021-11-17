@@ -104,18 +104,19 @@
     "karma-coverage": "^2.0.3"<% } %><% if ( codeCoverageService ) { %>,
     "coveralls": "^2.11.11"<% } %><% if ( manualTests || integrationTests ) { %>,
     "del": "^6.0.0",
+    "postcss": "^8.3.11",
     "globby": "^11.0.1",<% if ( bundlingTool === 'webpack' ) { %>
     "css-loader": "^5.0.0",
     "html-webpack-plugin": "^4.5.0",
     "mini-css-extract-plugin": "^1.2.0",
-    "postcss-loader": "^4.0.4",
+    "postcss-loader": "^6.2.0",
     "webpack-cli": "^4.1.0",
     "webpack-dev-server": "^3.11.0",<% } %><% if ( bundlingTool === 'rollup' ) { %>
-    "rollup-plugin-postcss": "^3.1.8",
+    "rollup-plugin-postcss": "^4.0.1",
     "rollup-plugin-serve": "^1.0.3",
     "rollup-plugin-static-site": "0.1.0",<% } %>
-    "postcss-import": "^11.1.0",
-    "postcss-preset-env": "^6.7.0",
+    "postcss-import": "^14.0.2",
+    "postcss-preset-env": "^7.0.0",
     "suitcss-components-test": "^1.0.0"<% } %><% if ( (manualTests || integrationTests) && browserModule && !sassModule && bundlingTool === 'rollup' ) { %>,
     "minimist": "^1.2.0"<% } %><% if ( (manualTests || integrationTests) || ((browserModule && !sassModule) && (transpile || automatedTests)) ) { %><% if ( bundlingTool === 'webpack' ) { %>,
     "webpack": "^5.2.0",<% if ( typescript && typescriptMode === 'full' ) { %>

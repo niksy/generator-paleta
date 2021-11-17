@@ -160,9 +160,10 @@ describe('Manual tests', function () {
 				'css-loader': '^5.0.0',
 				'html-webpack-plugin': '^4.5.0',
 				'mini-css-extract-plugin': '^1.2.0',
-				'postcss-import': '^11.1.0',
-				'postcss-preset-env': '^6.7.0',
-				'postcss-loader': '^4.0.4',
+				'postcss': '^8.3.11',
+				'postcss-import': '^14.0.2',
+				'postcss-preset-env': '^7.0.0',
+				'postcss-loader': '^6.2.0',
 				'webpack-cli': '^4.1.0',
 				'webpack-dev-server': '^3.11.0'
 			}
@@ -1378,7 +1379,8 @@ describe('Bundling tool, Rollup, manual tests', function () {
 		assert.jsonFileContent('package.json', {
 			devDependencies: {
 				rollup: '^2.32.1',
-				'rollup-plugin-postcss': '^3.1.8',
+				'postcss': '^8.3.11',
+				'rollup-plugin-postcss': '^4.0.1',
 				'rollup-plugin-serve': '^1.0.3',
 				'rollup-plugin-static-site': '0.1.0'
 			}
