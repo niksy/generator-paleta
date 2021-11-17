@@ -526,8 +526,8 @@ describe('Styles', function () {
 				lint: "eslint '{index,lib/**/*}.js' && stylelint 'index.css'"
 			},
 			devDependencies: {
-				stylelint: '^13.7.2',
-				'stylelint-config-niksy': '^8.0.0'
+				stylelint: '^14.1.0',
+				'stylelint-config-nitpick': '^9.0.0'
 			}
 		});
 	});
@@ -803,7 +803,10 @@ describe('Sass module', function () {
 
 	it('should fill .stylelintrc with correct information', function () {
 		assert.jsonFileContent('.stylelintrc', {
-			extends: ['stylelint-config-niksy', 'stylelint-config-niksy/scss']
+			extends: [
+				'stylelint-config-nitpick',
+				'stylelint-config-nitpick/scss'
+			]
 		});
 	});
 

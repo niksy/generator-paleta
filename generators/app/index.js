@@ -878,7 +878,8 @@ module.exports = class extends Generator {
 			'rollup-plugin-commonjs',
 			'istanbul',
 			'eslint-plugin-extend',
-			'karma-coverage-istanbul-reporter'
+			'karma-coverage-istanbul-reporter',
+			'stylelint-config-niksy'
 		);
 
 		if (!('ie' in browserSupport)) {
