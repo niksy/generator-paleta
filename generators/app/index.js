@@ -436,7 +436,27 @@ module.exports = class extends Generator {
 				type: 'input',
 				name: 'nodeEngineVersion',
 				message: 'Which Node engine version this project supports?',
-				default: 10
+				default: (answers) => {
+					// Stylelint requires Node >= 12.20
+					if (
+						answers.browserModule &&
+						answers.browserModuleType.includes('styles')
+					) {
+						return 12.2;
+					}
+					return 10;
+				},
+				validate: (input, answers) => {
+					// Stylelint requires Node >= 12.20
+					if (
+						answers.browserModule &&
+						answers.browserModuleType.includes('styles') &&
+						Number(input) < 12.2
+					) {
+						return 'Node >= 12.20 is required.';
+					}
+					return true;
+				}
 			},
 			{
 				type: 'input',
