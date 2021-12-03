@@ -44,7 +44,7 @@ describe('New project', function () {
 				prerelease: 'npm run lint'
 			},
 			devDependencies: {
-				np: '^6.5.0'
+				np: '^7.6.0'
 			}
 		});
 		assert.noJsonFileContent('package.json', {
