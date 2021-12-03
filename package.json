@@ -1,6 +1,6 @@
 {
   "name": "@niksy/generator-paleta",
-  "version": "8.0.0",
+  "version": "8.1.0",
   "description": "Yeoman generator for my projects.",
   "license": "MIT",
   "author": "Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com)",
