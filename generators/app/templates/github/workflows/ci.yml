@@ -30,7 +30,10 @@ jobs:
       - name: Set display environment
         run: export DISPLAY=:99.0; sh -e /etc/init.d/xvfb start; sleep 3;<% } %>
 
-      - name: Test
+      - name: Test<% if ( browserModule && cloudBrowsers ) { %>
+        env:
+          BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+          BROWSER_STACK_ACCESS_KEY: ${{ secrets.BROWSER_STACK_ACCESS_KEY }}<% } %>
         run: npm test<% } %><% if ( codeCoverageService ) { %>
 
   Posttest:
