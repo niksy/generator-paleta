@@ -47,17 +47,11 @@ describe('New project', function () {
 				np: '^7.6.0'
 			}
 		});
-		assert.noJsonFileContent('package.json', {
-			devDependencies: {
-				'eslint-plugin-react': '^7.9.1',
-				'eslint-plugin-vue': '^4.5.0'
-			}
-		});
 	});
 
 	it('should fill .eslintrc with correct information', function () {
 		assert.jsonFileContent('.eslintrc', {
-			extends: ['eslint-config-niksy']
+			extends: ['eslint-config-nitpick']
 		});
 	});
 
@@ -200,8 +194,7 @@ describe('Automated tests', function () {
 				'test:watch': 'npm test -- --watch'
 			},
 			devDependencies: {
-				mocha: '^8.2.0',
-				'eslint-plugin-mocha': '^8.0.0'
+				mocha: '^9.1.3'
 			}
 		});
 	});
@@ -361,7 +354,7 @@ describe('Integration tests', function () {
 							{
 								modules: false,
 								targets: {
-									node: '10'
+									node: '12.22'
 								}
 							}
 						]
@@ -458,7 +451,7 @@ describe('Browser module', function () {
 
 	it('should fill .eslintrc with correct information', function () {
 		assert.jsonFileContent('.eslintrc', {
-			extends: ['eslint-config-niksy', 'eslint-config-niksy/browser'],
+			extends: ['eslint-config-nitpick', 'eslint-config-nitpick/browser'],
 			overrides: [
 				{
 					files: ['karma.conf.js'],
@@ -906,7 +899,7 @@ describe('Transpile', function () {
 					{
 						modules: false,
 						targets: {
-							node: '10'
+							node: '12.22'
 						}
 					}
 				]
@@ -1218,7 +1211,7 @@ describe('ES Modules, automated tests, code coverage, transpile', function () {
 				automatedTests: true,
 				codeCoverage: true,
 				transpile: true,
-				nodeEngineVersion: 10
+				nodeEngineVersion: 12.22
 			})
 			.toPromise();
 	});
@@ -1245,7 +1238,7 @@ describe('ES Modules, automated tests, code coverage, transpile', function () {
 					{
 						modules: false,
 						targets: {
-							node: '10'
+							node: '12.22'
 						}
 					}
 				]
@@ -1478,7 +1471,7 @@ describe('TypeScript, with comments', function () {
 			devDependencies: {
 				'typescript': '^4.3.5',
 				'@types/node': '^16.3.0',
-				'@types/mocha': '^8.2.3'
+				'@types/mocha': '^9.0.0'
 			}
 		});
 	});
@@ -1514,7 +1507,7 @@ describe('TypeScript, full', function () {
 			devDependencies: {
 				'typescript': '^4.3.5',
 				'@types/node': '^16.3.0',
-				'@types/mocha': '^8.2.3'
+				'@types/mocha': '^9.0.0'
 			}
 		});
 	});
