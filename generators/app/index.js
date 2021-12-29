@@ -434,27 +434,7 @@ module.exports = class extends Generator {
 				type: 'input',
 				name: 'nodeEngineVersion',
 				message: 'Which Node engine version this project supports?',
-				default: (answers) => {
-					// Stylelint requires Node >= 12.20
-					if (
-						answers.browserModule &&
-						answers.browserModuleType.includes('styles')
-					) {
-						return 12.2;
-					}
-					return 10;
-				},
-				validate: (input, answers) => {
-					// Stylelint requires Node >= 12.20
-					if (
-						answers.browserModule &&
-						answers.browserModuleType.includes('styles') &&
-						Number(input) < 12.2
-					) {
-						return 'Node >= 12.20 is required.';
-					}
-					return true;
-				}
+				default: 12.22
 			},
 			{
 				type: 'input',
@@ -899,7 +879,16 @@ module.exports = class extends Generator {
 			'istanbul',
 			'eslint-plugin-extend',
 			'karma-coverage-istanbul-reporter',
-			'stylelint-config-niksy'
+			'stylelint-config-niksy',
+			'eslint-config-niksy',
+			'eslint-plugin-import',
+			'eslint-plugin-jsdoc',
+			'eslint-plugin-mocha',
+			'eslint-plugin-node',
+			'eslint-plugin-promise',
+			'eslint-plugin-unicorn',
+			'eslint-plugin-react',
+			'eslint-plugin-vue',
 		);
 
 		if (!('ie' in browserSupport)) {
@@ -920,12 +909,14 @@ module.exports = class extends Generator {
 		developmentDependenciesToOmit.forEach((key) => {
 			delete mergedPackage.devDependencies[key];
 		});
+		this.packageJson.set('devDependencies', mergedPackage.devDependencies);
 
 		// Remove CommonJS exports if not bundling CommonJS module
 		if (!answers.bundleCjs) {
 			Object.keys(mergedPackage.exports).forEach((key) => {
 				delete mergedPackage.exports[key].require;
 			});
+			this.packageJson.set('exports', mergedPackage.exports);
 		}
 
 		this.packageJson.merge(mergedPackage);

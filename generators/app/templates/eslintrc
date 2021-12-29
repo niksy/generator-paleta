@@ -5,10 +5,10 @@ files.push("wdio.conf.js"); } if ( esModules ) {
 files.push("rollup.config.js"); } %>{
 	"root": true,
 	"extends": [
-		"eslint-config-niksy"<% if ( typescript ) { %>,
-		"eslint-config-niksy/typescript"<% } %><% if ( esModules ) { %>,
-		"eslint-config-niksy/next"<% } %><% if ( browserModule ) { %>,
-		"eslint-config-niksy/browser"<% } %><% if ( prettier ) { %>,
+		"eslint-config-nitpick"<% if ( typescript ) { %>,
+		"eslint-config-nitpick/typescript"<% } %><% if ( esModules ) { %>,
+		"eslint-config-nitpick/next"<% } %><% if ( browserModule ) { %>,
+		"eslint-config-nitpick/browser"<% } %><% if ( prettier ) { %>,
 		"eslint-config-prettier"<% if ( false ) { %>,
 		"eslint-config-prettier/react",
 		"eslint-config-prettier/vue<% } %><% } %>

@@ -31,21 +31,13 @@
     "yeoman-generator": "^5.4.2"
   },
   "devDependencies": {
-    "eslint": "^7.31.0",
-    "eslint-config-niksy": "^10.0.0",
+    "eslint": "^8.5.0",
+    "eslint-config-nitpick": "^11.1.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-jsdoc": "^33.3.0",
-    "eslint-plugin-mocha": "^8.0.0",
-    "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-promise": "^5.1.0",
-    "eslint-plugin-react": "^7.21.5",
-    "eslint-plugin-unicorn": "^31.0.0",
-    "eslint-plugin-vue": "^7.1.0",
     "husky": "^4.3.0",
     "lint-staged": "^10.4.2",
-    "mocha": "^8.2.0",
+    "mocha": "^9.1.3",
     "nodemon": "^2.0.6",
     "np": "^7.6.0",
     "nyc": "^15.1.0",
@@ -56,7 +48,7 @@
     "yeoman-test": "^6.2.0"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=12.22"
   },
   "publishConfig": {
     "access": "public"
