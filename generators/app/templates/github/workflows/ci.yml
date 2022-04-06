@@ -32,7 +32,7 @@ jobs:
 
       - name: Test<% if ( browserModule && cloudBrowsers ) { %>
         env:
-          BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+          BROWSER_STACK_USERNAME: ${{ secrets.BROWSER_STACK_USERNAME }}
           BROWSER_STACK_ACCESS_KEY: ${{ secrets.BROWSER_STACK_ACCESS_KEY }}<% } %>
         run: npm test<% } %><% if ( codeCoverageService ) { %>
 
