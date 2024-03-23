@@ -1,7 +1,11 @@
 {
 	"root": true,
 	"ignorePatterns": ["generators/app/templates/**/*"],
-	"extends": ["eslint-config-nitpick", "eslint-config-prettier"],
+	"extends": [
+		"eslint-config-nitpick",
+		"eslint-config-nitpick/next",
+		"eslint-config-prettier"
+	],
 	"plugins": ["eslint-plugin-prettier"],
 	"rules": {
 		"prettier/prettier": 1

@@ -1,9 +1,12 @@
-'use strict';
+import Generator from 'yeoman-generator';
+import gh from 'parse-github-url';
+import isGithubUrl from 'is-github-url';
+import { sortPackageJson, sortOrder } from 'sort-package-json';
+import lodash from 'lodash';
+import isScopedPackage from 'is-scoped';
+import browserslist from 'browserslist';
+import { pathExists } from 'path-exists';
 
-const Generator = require('yeoman-generator');
-const gh = require('parse-github-url');
-const isGithubUrl = require('is-github-url');
-const sortPkg = require('sort-package-json');
 const {
 	kebabCase: dashCase,
 	camelCase,
@@ -11,10 +14,7 @@ const {
 	compact,
 	min,
 	fromPairs: fromEntries
-} = require('lodash');
-const isScopedPackage = require('is-scoped');
-const browserslist = require('browserslist');
-const pathExists = require('path-exists');
+} = lodash;
 
 // https://www.browserstack.com/automate/capabilities
 const browserIdMapping = {
@@ -170,7 +170,7 @@ function getMinimumSupportedBrowserVersions(browserVersion) {
 	return browserSupport;
 }
 
-module.exports = class extends Generator {
+export default class extends Generator {
 	async initializing() {
 		this.pkg = this.fs.readJSON(this.destinationPath('package.json'), {});
 		const hasGitRespository = await pathExists(
@@ -850,9 +850,9 @@ module.exports = class extends Generator {
 			mergedPackage.keywords = keywords;
 		}
 
-		mergedPackage = sortPkg(mergedPackage, {
+		mergedPackage = sortPackageJson(mergedPackage, {
 			sortOrder: [
-				...sortPkg.sortOrder.filter(
+				...sortOrder.filter(
 					(field) =>
 						![
 							'homepage',
@@ -888,7 +888,7 @@ module.exports = class extends Generator {
 			'eslint-plugin-promise',
 			'eslint-plugin-unicorn',
 			'eslint-plugin-react',
-			'eslint-plugin-vue',
+			'eslint-plugin-vue'
 		);
 
 		if (!('ie' in browserSupport)) {
@@ -943,4 +943,4 @@ module.exports = class extends Generator {
 			// Handled
 		}
 	}
-};
+}

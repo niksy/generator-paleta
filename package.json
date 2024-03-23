@@ -5,6 +5,7 @@
   "license": "MIT",
   "author": "Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com)",
   "main": "generators/app/index.js",
+  "type": "module",
   "directories": {
     "test": "test"
   },
@@ -17,7 +18,7 @@
     "lint": "eslint '{generators/app/index,test/index}.js'",
     "release": "np --no-release-draft",
     "prerelease": "npm run lint",
-    "test": "nyc mocha 'test/**/*.js' && nyc check-coverage",
+    "test": "NODE_OPTIONS='--experimental-loader=@istanbuljs/esm-loader-hook --no-warnings' nyc mocha 'test/**/*.js' && nyc check-coverage",
     "test:watch": "nodemon --exec npm test"
   },
   "dependencies": {
@@ -31,6 +32,7 @@
     "yeoman-generator": "^7.1.1"
   },
   "devDependencies": {
+    "@istanbuljs/esm-loader-hook": "^0.2.0",
     "eslint": "^8.5.0",
     "eslint-config-nitpick": "^11.1.0",
     "eslint-config-prettier": "^8.3.0",
