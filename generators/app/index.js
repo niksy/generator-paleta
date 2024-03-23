@@ -412,7 +412,7 @@ export default class extends Generator {
 				type: 'input',
 				name: 'nodeEngineVersion',
 				message: 'Which Node engine version this project supports?',
-				default: 12.22
+				default: 18
 			},
 			{
 				type: 'input',

@@ -89,7 +89,7 @@
     "karma-fixture": "^0.2.6",<% } %>
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5"<% } %><% if ( automatedTests || integrationTests ) { %>,
-    "mocha": "<% if (browserSupport.ie < 11) { %>^4.1.0<% } else  { %><% if ( nodeEngineVersion >= 12 ) { %>^9.1.3<% } else  { %>^8.2.0<% } %><% } %>"<% } %><% if ( automatedTests && codeCoverage && !browserModule ) { %>,
+    "mocha": "<% if (browserSupport.ie < 11) { %>^4.1.0<% } else  { %>^10.3.0<% } %>"<% } %><% if ( automatedTests && codeCoverage && !browserModule ) { %>,
     "nodemon": "^2.0.6",
     "nyc": "^15.1.0"<% } %><% if ( automatedTests && codeCoverage && browserModule && !sassModule ) { %><% if ( bundlingTool === 'webpack' ) { %>,
     "@jsdevtools/coverage-istanbul-loader": "^3.0.5"<% } %><% if ( bundlingTool === 'rollup' ) { %>,
@@ -152,7 +152,7 @@
     "ts-node": "^10.1.0",<% } %><% if ( browserModule && usesHtmlFixtures ) { %>
     "@types/karma-fixture": "^0.2.5",<% } %>
     "@types/node": "^16.3.0"<% if ( automatedTests || integrationTests ) { %>,
-    "@types/mocha": "<% if ( nodeEngineVersion >= 12 ) { %>^9.0.0<% } else  { %>^8.2.3<% } %>"<% } %><% } %>
+    "@types/mocha": "^10.0.6"<% } %><% } %>
   },<% if ( isScopedPackage ) { %>
   "publishConfig": {
     "access": "public"

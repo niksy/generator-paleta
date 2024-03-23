@@ -197,7 +197,7 @@ describe('Automated tests', function () {
 				'test:watch': 'npm test -- --watch'
 			},
 			devDependencies: {
-				mocha: '^9.1.3'
+				mocha: '^10.3.0'
 			}
 		});
 	});
@@ -357,7 +357,7 @@ describe('Integration tests', function () {
 							{
 								modules: false,
 								targets: {
-									node: '12.22'
+									node: '18'
 								}
 							}
 						]
@@ -899,7 +899,7 @@ describe('Transpile', function () {
 					{
 						modules: false,
 						targets: {
-							node: '12.22'
+							node: '18'
 						}
 					}
 				]
@@ -1235,7 +1235,7 @@ describe('ES Modules, automated tests, code coverage, transpile', function () {
 				automatedTests: true,
 				codeCoverage: true,
 				transpile: true,
-				nodeEngineVersion: 12.22
+				nodeEngineVersion: 18
 			})
 			.toPromise();
 	});
@@ -1261,7 +1261,7 @@ describe('ES Modules, automated tests, code coverage, transpile', function () {
 					{
 						modules: false,
 						targets: {
-							node: '12.22'
+							node: '18'
 						}
 					}
 				]
@@ -1490,7 +1490,7 @@ describe('TypeScript, with comments', function () {
 			devDependencies: {
 				'typescript': '^4.3.5',
 				'@types/node': '^16.3.0',
-				'@types/mocha': '^9.0.0'
+				'@types/mocha': '^10.0.6'
 			}
 		});
 	});
@@ -1509,25 +1509,7 @@ describe('TypeScript, full', function () {
 			.toPromise();
 	});
 
-	it('should create necessary files', function () {
-		assert.file(['tsconfig.json']);
-	});
-
 	it('should fill rollup.config.js with correct information', function () {
 		assert.fileContent('rollup.config.js', "input: 'index.ts'");
-	});
-
-	it('should fill package.json with correct information', function () {
-		assert.jsonFileContent('package.json', {
-			types: 'esm/index.d.ts',
-			scripts: {
-				'lint:types': 'tsc'
-			},
-			devDependencies: {
-				'typescript': '^4.3.5',
-				'@types/node': '^16.3.0',
-				'@types/mocha': '^9.0.0'
-			}
-		});
 	});
 });

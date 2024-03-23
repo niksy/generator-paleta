@@ -23,7 +23,7 @@ files.push("rollup.config.js"); } %>{
 	"settings": {
 		"html/html-extensions": [".svelte"],
 		"html/indent": "0"
-	}<% } %><% if ( browserModule || files.length !== 0 || nodeEngineVersion <= 10 ) { %>,
+	}<% } %><% if ( browserModule || files.length !== 0 ) { %>,
 	"overrides": [
 		{
 			<% if ( files.length !== 0 ) { %>"files": [<% for ( var i = 0, filesLength = files.length; i < filesLength; i++ ) { %>
@@ -35,11 +35,9 @@ files.push("rollup.config.js"); } %>{
 			}<% } %>,
 			"parserOptions": {
 				"sourceType": "script"
-			}<% if ( nodeEngineVersion <= 10 ) { %>,
-			"plugins": ["eslint-plugin-unicorn"]<% } %>,
+			},
 			"rules": {
-				"no-console": 0<% if ( nodeEngineVersion <= 10 ) { %>,
-				"unicorn/numeric-separators-style": 0<% } %>
+				"no-console": 0
 			}
 		}
 	]<% } %>
