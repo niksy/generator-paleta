@@ -66,7 +66,7 @@ export default function ( baseConfig ) {
 			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/.webpack.js': ['webpack', 'sourcemap']<% } %><% if ( bundlingTool === 'rollup' ) { %>
 			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %><% if ( vanillaJsWidget ) { %>index<% } else { %>**/*<% } %>.<%= extension || 'js' %>': ['rollup', 'sourcemap']<% } %>
 		},
-		reporters: ['mocha'<% if ( codeCoverage ) { %>, 'coverage'<% } %>],
+		reporters: [<% if ( codeCoverage ) { %>'coverage', <% } %>'mocha'],
 		port: port,
 		colors: true,
 		logLevel: baseConfig.LOG_INFO,
