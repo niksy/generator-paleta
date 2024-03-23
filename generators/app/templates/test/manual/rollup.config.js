@@ -1,16 +1,14 @@
-'use strict';
-
-const path = require('path');
-const del = require('del');
-const globby = require('globby');
-const minimist = require('minimist');
-const staticSite = require('rollup-plugin-static-site');
-const postcss = require('rollup-plugin-postcss');
-const serve = require('rollup-plugin-serve');<% if ( transpile ) { %>
-const { default: babel } = require('@rollup/plugin-babel');<% } %><% if ( !transpile && typescript && typescriptMode === 'full' ) { %>
-const typescript = require('@rollup/plugin-typescript');<% } %>
-const atImport = require('postcss-import');
-const postcssPresetEnv = require('postcss-preset-env');
+import path from 'node:path';
+import del from 'del';
+import globby from 'globby';
+import minimist from 'minimist';
+import staticSite from 'rollup-plugin-static-site';
+import postcss from 'rollup-plugin-postcss';
+import serve from 'rollup-plugin-serve';<% if ( transpile ) { %>
+import babel from '@rollup/plugin-babel';<% } %><% if ( !transpile && typescript && typescriptMode === 'full' ) { %>
+import typescript from '@rollup/plugin-typescript';<% } %>
+import atImport from 'postcss-import';
+import postcssPresetEnv from 'postcss-preset-env';
 
 const args = minimist(process.argv.slice(2), {
 	'default': {
@@ -87,4 +85,4 @@ const config = async () => {
 
 };
 
-module.exports = config();
+export default config();

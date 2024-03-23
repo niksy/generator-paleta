@@ -1,16 +1,14 @@
-'use strict';
-
-const path = require('path');<% if ( codeCoverage ) { %>
-const fs = require('fs');<% } %><% if ( bundlingTool === 'webpack' ) { %>
-const stdLibBrowser = require('node-stdlib-browser');<% } %><% if ( bundlingTool === 'rollup' ) { %>
-const { default: resolve } = require('@rollup/plugin-node-resolve');
-const commonjs = require('@rollup/plugin-commonjs');
-const nodeBuiltins = require('rollup-plugin-node-builtins');
-const globals = require('rollup-plugin-node-globals');<% if ( transpile ) { %>
-const { default: babel } = require('@rollup/plugin-babel');<% } %><% if ( codeCoverage ) { %>
-const istanbul = require('rollup-plugin-istanbul');<% } %>
-const rollupConfig = require('./rollup.config');<% } %><% if ( browserTestType === 'headless' ) { %>
-const puppeteer = require('puppeteer');
+import path from 'node:path';<% if ( codeCoverage ) { %>
+import fs from 'node:fs';<% } %><% if ( bundlingTool === 'webpack' ) { %>
+import stdLibBrowser from 'node-stdlib-browser';<% } %><% if ( bundlingTool === 'rollup' ) { %>
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import nodeBuiltins from 'rollup-plugin-node-builtins';
+import globals from 'rollup-plugin-node-globals';<% if ( transpile ) { %>
+import babel from '@rollup/plugin-babel';<% } %><% if ( codeCoverage ) { %>
+import istanbul from 'rollup-plugin-istanbul';<% } %>
+import rollupConfig from './rollup.config.js';<% } %><% if ( browserTestType === 'headless' ) { %>
+import puppeteer from 'puppeteer';
 
 process.env.CHROME_BIN = puppeteer.executablePath();<% } %>
 
@@ -52,7 +50,7 @@ if ( local ) {
 	};
 }
 
-module.exports = function ( baseConfig ) {
+export default function ( baseConfig ) {
 
 	baseConfig.set(Object.assign({
 		basePath: '',

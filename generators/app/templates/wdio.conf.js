@@ -1,18 +1,16 @@
-'use strict';
+import path from 'node:path';
+import http from 'node:http';
+import ws from 'local-web-server';
+import shutdown from 'http-shutdown';
 
-const path = require('path');
-const http = require('http');
-const ws = require('local-web-server');
-const shutdown = require('http-shutdown');
-
-let server, config;
+let server, _config;
 
 // Pull requests not handled as in case of Karma
 const local = <% if ( cloudBrowsers ) { %>typeof process.env.CI === 'undefined' || process.env.CI === 'false'<% } else { %>true<% } %>;
 const port = 0;
 
 if ( local ) {
-	config = {
+	_config = {
 		baseUrl: `http://host.docker.internal:${port}`,
 		services: [[
 			'docker', {
@@ -32,7 +30,7 @@ if ( local ) {
 		}]
 	};
 }<% if ( cloudBrowsers ) { %> else {
-	config = {
+	_config = {
 		baseUrl: `http://localhost:${port}`,
 		user: process.env.BROWSER_STACK_USERNAME,
 		key: process.env.BROWSER_STACK_ACCESS_KEY,
@@ -50,7 +48,7 @@ if ( local ) {
 	};
 }<% } %>
 
-module.exports.config = Object.assign({
+export const config = Object.assign({
 	specs: [
 		'./test/integration/**/*.<%= extension || 'js' %>'
 	],
@@ -113,4 +111,4 @@ module.exports.config = Object.assign({
 		});
 
 	}
-}, config);
+}, _config);

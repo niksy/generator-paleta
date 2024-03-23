@@ -1,17 +1,15 @@
-'use strict';<% if ( transpile ) { %>
+<% if ( transpile ) { %>import babel from '@rollup/plugin-babel';<% } %><% if ( vanillaJsWidget ) { %>
+import path from 'node:path';
+import svelte from 'rollup-plugin-svelte';
+import babelCore from '@babel/core';<% } %><% if ( typescript ) { %>
+import execa from 'execa';
+import cpy from 'cpy';<% if ( !transpile && typescriptMode === 'full' ) { %>
+import typescript from '@rollup/plugin-typescript';<% } %><% if ( transpile && typescriptMode === 'full' ) { %>
+import resolve from '@rollup/plugin-node-resolve';<% } %><% } %>
+import path from 'node:path';
+import { promises as fs } from 'node:fs';
 
-const { default: babel } = require('@rollup/plugin-babel');<% } %><% if ( vanillaJsWidget ) { %>
-const path = require('path');
-const svelte = require('rollup-plugin-svelte');
-const babelCore = require('@babel/core');<% } %><% if ( typescript ) { %>
-const execa = require('execa');
-const cpy = require('cpy');<% if ( !transpile && typescriptMode === 'full' ) { %>
-const typescript = require('@rollup/plugin-typescript');<% } %><% if ( transpile && typescriptMode === 'full' ) { %>
-const { default: resolve } = require('@rollup/plugin-node-resolve');<% } %><% } %>
-const path = require('path');
-const { promises: fs } = require('fs');
-
-module.exports = {
+export default {
 	input: '<% if ( complexTranspile ) { %>src/<% } %>index.<%= extension || 'js' %>',
 	output: [<% if ( bundleCjs ) { %>
 		{

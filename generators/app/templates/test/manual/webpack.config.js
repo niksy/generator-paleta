@@ -1,14 +1,13 @@
-'use strict';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import del from 'del';
+import globby from 'globby';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import atImport from 'postcss-import';
+import postcssPresetEnv from 'postcss-preset-env';
 
-const path = require('path');
-const del = require('del');
-const globby = require('globby');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const atImport = require('postcss-import');
-const postcssPresetEnv = require('postcss-preset-env');
-
-module.exports = async () => {
+export default async () => {
 
 	const port = 0;
 
@@ -32,12 +31,12 @@ module.exports = async () => {
 		entry: entries,
 		output: {
 			filename: '[name].js',
-			path: path.resolve(__dirname, '../../test-dist'),
+			path: fileURLToPath(new URL('../../test-dist', import.meta.url)),
 		},
 		mode: 'none',
 		devtool: 'inline-source-map',
 		devServer: {
-			contentBase: path.join(__dirname, '../../test-dist'),
+			contentBase: fileURLToPath(new URL('../../test-dist', import.meta.url)),
 			port: port,
 			host: '0.0.0.0',
 			disableHostCheck: true,
