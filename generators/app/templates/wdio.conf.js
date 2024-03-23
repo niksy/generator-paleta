@@ -61,9 +61,9 @@ module.exports.config = Object.assign({
 	connectionRetryTimeout: 90000,
 	connectionRetryCount: 3,
 	framework: 'mocha',
-	reporters: ['spec'],<% if ( transpile || esModules || typescript ) { %>
+	reporters: ['spec'],<% if ( transpile || typescript ) { %>
 	mochaOpts: {
-		require: [<% if ( transpile ) { %>'@babel/register', <% } %><% if ( esModules ) { %>'esm', <% } %><% if ( !transpile && typescript && typescriptMode === 'full' ) { %>'ts-node/register', <% } %>]<% if ( typescript && typescriptMode === 'full' ) { %>,
+		require: [<% if ( transpile ) { %>'@babel/register', <% } %><% if ( !transpile && typescript && typescriptMode === 'full' ) { %>'ts-node/register', <% } %>]<% if ( typescript && typescriptMode === 'full' ) { %>,
 		extension: 'ts'<% } %>
 	},<% } %>
 	afterTest: function ( test ) {

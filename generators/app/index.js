@@ -122,27 +122,19 @@ function cloudBrowsersToTestConfiguration(browserIds, browserVersion) {
 			shortName: mappedBrowser.shortName,
 			longName: mappedBrowser.longName,
 			version: browserVersion[browserId],
-			karma: Object.assign(
-				{
-					browser: mappedBrowser.shortName,
-					[mappedBrowser.versionKey]: String(
-						browserVersion[browserId]
-					),
-					name: mappedBrowser.shortName
-				},
-				mappedBrowser.serviceProps
-			),
-			wdio: Object.assign(
-				{
-					browser: mappedBrowser.shortName,
-					[mappedBrowser.versionKey]: String(
-						browserVersion[browserId]
-					),
-					name: mappedBrowser.shortName,
-					browserName: mappedBrowser.shortName
-				},
-				mappedBrowser.serviceProps
-			)
+			karma: {
+				browser: mappedBrowser.shortName,
+				[mappedBrowser.versionKey]: String(browserVersion[browserId]),
+				name: mappedBrowser.shortName,
+				...mappedBrowser.serviceProps
+			},
+			wdio: {
+				browser: mappedBrowser.shortName,
+				[mappedBrowser.versionKey]: String(browserVersion[browserId]),
+				name: mappedBrowser.shortName,
+				browserName: mappedBrowser.shortName,
+				...mappedBrowser.serviceProps
+			}
 		};
 	});
 	return config;
@@ -376,32 +368,19 @@ export default class extends Generator {
 			},
 			{
 				type: 'confirm',
-				name: 'esModules',
-				message: 'Do you want to use ES Modules?',
-				default: true,
-				when: (answers) => {
-					return !isSassModule(answers);
-				}
-			},
-			{
-				type: 'confirm',
 				name: 'sourceMaps',
 				message: 'Do you want to generate source maps?',
-				default: (answers) => answers.transpile || answers.esModules,
-				when: (answers) => answers.transpile || answers.esModules
+				default: (answers) => answers.transpile,
+				when: (answers) => answers.transpile
 			},
 			{
 				type: 'confirm',
 				name: 'bundleCjs',
 				message:
 					'Do you want to create CommonJS bundle (browser-only packages are safe to be built as ESM only)?',
-				default: true,
+				default: false,
 				when: (answers) => {
-					return (
-						!isSassModule(answers) &&
-						answers.browserModule &&
-						answers.esModules
-					);
+					return !isSassModule(answers);
 				}
 			},
 			{
@@ -427,8 +406,7 @@ export default class extends Generator {
 				when: (answers) =>
 					(answers.automatedTests || answers.manualTests) &&
 					answers.browserModule &&
-					!answers.sassModule &&
-					answers.esModules
+					!answers.sassModule
 			},
 			{
 				type: 'input',
@@ -489,7 +467,7 @@ export default class extends Generator {
 				name: 'typescript',
 				message: 'Do you want to use TypeScript?',
 				default: false,
-				when: (answers) => answers.esModules
+				when: (answers) => answers.transpile
 			},
 			{
 				type: 'list',
@@ -542,12 +520,13 @@ export default class extends Generator {
 
 		const browserModuleType = answers.browserModuleType || [];
 
-		this.answers = Object.assign({}, answers, {
+		this.answers = {
+			...answers,
 			vanillaJsWidget: browserModuleType.includes('vanillaJsWidget'),
 			sassModule: browserModuleType.includes('sassModule'),
 			cssModule: browserModuleType.includes('cssModule'),
 			styles: browserModuleType.includes('styles')
-		});
+		};
 
 		if (this.answers.cssModule || this.answers.sassModule) {
 			this.answers.styles = true;
@@ -555,10 +534,6 @@ export default class extends Generator {
 
 		if (!this.answers.bundlingTool) {
 			this.answers.bundlingTool = 'webpack';
-		}
-
-		if (typeof this.answers.bundleCjs === 'undefined') {
-			this.answers.bundleCjs = true;
 		}
 
 		this.answers.keywords = commaSeparatedValuesToArray(
@@ -615,7 +590,6 @@ export default class extends Generator {
 			cloudBrowsers: answers.cloudBrowsers,
 			transpile: answers.transpile,
 			complexTranspile: answers.complexTranspile,
-			esModules: answers.esModules,
 			nodeEngineVersion: parseFloat(answers.nodeEngineVersion),
 			browserVersion: browserVersion,
 			browserslistDevQuery: encodeURIComponent(
@@ -637,10 +611,7 @@ export default class extends Generator {
 			usesHtmlFixtures: answers.usesHtmlFixtures
 		};
 
-		this.tpl = Object.assign({}, tpl, {
-			useDistDirectory:
-				tpl.transpile && !tpl.complexTranspile && !tpl.esModules
-		});
+		this.tpl = tpl;
 
 		this.copyResource = (from, to) => {
 			this.fs.copyTpl(
@@ -803,7 +774,7 @@ export default class extends Generator {
 			rm('.babelrc');
 		}
 
-		if (answers.esModules) {
+		if (answers.transpile || answers.typescript) {
 			cp('rollup.config.js', 'rollup.config.js');
 		} else {
 			rm('rollup.config.js');
@@ -912,7 +883,7 @@ export default class extends Generator {
 		this.packageJson.set('devDependencies', mergedPackage.devDependencies);
 
 		// Remove CommonJS exports if not bundling CommonJS module
-		if (!answers.bundleCjs) {
+		if (!answers.bundleCjs && mergedPackage.exports) {
 			Object.keys(mergedPackage.exports).forEach((key) => {
 				delete mergedPackage.exports[key].require;
 			});

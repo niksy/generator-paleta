@@ -16,7 +16,6 @@ describe('New project', function () {
 			.run(generatorPath)
 			.withAnswers({
 				name: 'bella',
-				esModules: false,
 				changelog: false
 			})
 			.toPromise();
@@ -39,12 +38,13 @@ describe('New project', function () {
 
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
+			type: 'module',
 			name: 'bella',
 			author: 'Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com)',
 			files: ['index.js', 'lib/', 'LICENSE.md', 'README.md'],
 			scripts: {
 				release: 'np --no-release-draft',
-				prerelease: 'npm run lint'
+				prerelease: 'npm run lint && npm run module-check'
 			},
 			devDependencies: {
 				np: '^7.6.0'
@@ -176,8 +176,7 @@ describe('Automated tests', function () {
 			.withAnswers({
 				automatedTests: true,
 				ciService: 'travis',
-				codeCoverage: false,
-				esModules: false
+				codeCoverage: false
 			})
 			.toPromise();
 	});
@@ -378,7 +377,6 @@ describe('Integration tests, ES Modules', function () {
 				manualTests: true,
 				browserModule: true,
 				integrationTests: true,
-				esModules: true,
 				usesHtmlFixtures: true
 			})
 			.toPromise();
@@ -439,8 +437,7 @@ describe('Browser module', function () {
 		return helpers
 			.run(generatorPath)
 			.withAnswers({
-				browserModule: true,
-				esModules: false
+				browserModule: true
 			})
 			.toPromise();
 	});
@@ -455,7 +452,11 @@ describe('Browser module', function () {
 
 	it('should fill .eslintrc with correct information', function () {
 		assert.jsonFileContent('.eslintrc', {
-			extends: ['eslint-config-nitpick', 'eslint-config-nitpick/browser'],
+			extends: [
+				'eslint-config-nitpick',
+				'eslint-config-nitpick/next',
+				'eslint-config-nitpick/browser'
+			],
 			overrides: [
 				{
 					files: ['karma.conf.js'],
@@ -505,8 +506,7 @@ describe('Styles', function () {
 			.withAnswers({
 				automatedTests: false,
 				browserModule: true,
-				browserModuleType: ['styles'],
-				esModules: false
+				browserModuleType: ['styles']
 			})
 			.toPromise();
 	});
@@ -536,8 +536,7 @@ describe('CLI', function () {
 			.run(generatorPath)
 			.withAnswers({
 				name: '@sammy/ellie',
-				cli: true,
-				esModules: false
+				cli: true
 			})
 			.toPromise();
 	});
@@ -557,7 +556,7 @@ describe('CLI', function () {
 			},
 			scripts: {
 				lint: "eslint '{index,lib/**/*,cli,test/**/*}.js'",
-				test: "nyc mocha 'test/**/*.js' && nyc check-coverage",
+				test: "NODE_OPTIONS='--experimental-loader=@istanbuljs/esm-loader-hook --no-warnings' nyc mocha 'test/**/*.js' && nyc check-coverage",
 				'test:watch': 'nodemon --exec npm test'
 			},
 			keywords: ['cli', 'cli-app']
@@ -571,8 +570,7 @@ describe('Code coverage', function () {
 			.run(generatorPath)
 			.withAnswers({
 				automatedTests: true,
-				codeCoverage: true,
-				esModules: false
+				codeCoverage: true
 			})
 			.toPromise();
 	});
@@ -585,7 +583,7 @@ describe('Code coverage', function () {
 		assert.jsonFileContent('package.json', {
 			scripts: {
 				lint: "eslint '{index,lib/**/*,test/**/*}.js'",
-				test: "nyc mocha 'test/**/*.js' && nyc check-coverage",
+				test: "NODE_OPTIONS='--experimental-loader=@istanbuljs/esm-loader-hook --no-warnings' nyc mocha 'test/**/*.js' && nyc check-coverage",
 				'test:watch': 'nodemon --exec npm test'
 			},
 			devDependencies: {
@@ -863,7 +861,6 @@ describe('Transpile', function () {
 				automatedTests: false,
 				transpile: true,
 				sourceMaps: false,
-				esModules: false,
 				changelog: false
 			})
 			.toPromise();
@@ -874,20 +871,21 @@ describe('Transpile', function () {
 	});
 
 	it('should add dist folder to .gitignore', function () {
-		assert.fileContent('.gitignore', 'dist/');
+		assert.fileContent('.gitignore', 'esm/');
 	});
 
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
-			main: 'dist/index.js',
-			files: ['dist/', 'LICENSE.md', 'README.md'],
+			main: 'esm/index.js',
+			files: ['esm/', 'LICENSE.md', 'README.md'],
 			scripts: {
-				build: "babel '{index,lib/**/*}.js' --out-dir dist/",
-				prerelease: 'npm run lint && npm run build',
+				build: 'rollup --config rollup.config.js',
+				prerelease:
+					'npm run lint && npm run build && npm run module-check',
 				prepublishOnly: 'npm run build'
 			},
 			devDependencies: {
-				'@babel/cli': '^7.2.3',
+				'rollup': '^2.32.1',
 				'@babel/preset-env': '^7.12.1'
 			}
 		});
@@ -946,8 +944,7 @@ describe('Transpile, with automated tests and code coverage', function () {
 			.withAnswers({
 				automatedTests: true,
 				codeCoverage: true,
-				transpile: true,
-				esModules: false
+				transpile: true
 			})
 			.toPromise();
 	});
@@ -973,7 +970,7 @@ describe('Transpile, with automated tests and code coverage', function () {
 		assert.jsonFileContent('package.json', {
 			scripts: {
 				lint: "eslint '{index,lib/**/*,test/**/*}.js'",
-				test: "BABEL_ENV=test nyc mocha --require @babel/register 'test/**/*.js' && nyc check-coverage",
+				test: "NODE_OPTIONS='--experimental-loader=@istanbuljs/esm-loader-hook --no-warnings' BABEL_ENV=test nyc mocha --require @babel/register 'test/**/*.js' && nyc check-coverage",
 				'test:watch': 'nodemon --exec npm test'
 			},
 			devDependencies: {
@@ -1025,8 +1022,7 @@ describe('Transpile, complex', function () {
 			.withAnswers({
 				transpile: true,
 				complexTranspile: true,
-				sourceMaps: false,
-				esModules: false
+				sourceMaps: false
 			})
 			.toPromise();
 	});
@@ -1036,17 +1032,15 @@ describe('Transpile, complex', function () {
 	});
 
 	it('should add proper data to .gitignore', function () {
-		assert.fileContent('.gitignore', 'index.js');
-		assert.fileContent('.gitignore', 'lib/*');
-		assert.fileContent('.gitignore', '!src/*');
+		assert.fileContent('.gitignore', 'esm/');
 	});
 
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
-			main: 'index.js',
-			files: ['index.js'],
+			main: 'esm/index.js',
+			files: ['esm/'],
 			scripts: {
-				build: 'babel src --out-dir ./'
+				build: 'rollup --config rollup.config.js'
 			}
 		});
 	});
@@ -1059,8 +1053,7 @@ describe('Transpile, complex, source maps', function () {
 			.withAnswers({
 				transpile: true,
 				complexTranspile: true,
-				sourceMaps: true,
-				esModules: false
+				sourceMaps: true
 			})
 			.toPromise();
 	});
@@ -1070,30 +1063,102 @@ describe('Transpile, complex, source maps', function () {
 	});
 
 	it('should add proper data to .gitignore', function () {
-		assert.fileContent('.gitignore', 'index.js');
-		assert.fileContent('.gitignore', 'index.js.map');
+		assert.fileContent('.gitignore', 'esm/');
 	});
 
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
-			main: 'index.js',
-			files: ['index.{js,js.map}']
+			main: 'esm/index.js',
+			files: ['esm/']
 		});
 	});
 });
 
 describe('ES Modules', function () {
 	before(function () {
+		return helpers.run(generatorPath).toPromise();
+	});
+
+	it('should create necessary files', function () {
+		assert.file(['index.js']);
+	});
+
+	it('should fill package.json with correct information', function () {
+		assert.jsonFileContent('package.json', {
+			main: 'index.js',
+			module: 'index.js',
+			exports: {
+				'.': {
+					'import': './index.js'
+				},
+				'./package.json': './package.json'
+			},
+			sideEffects: false,
+			files: ['index.js'],
+			scripts: {
+				prerelease: 'npm run lint && npm run module-check'
+			}
+		});
+	});
+
+	it('should add proper data to .gitignore', function () {});
+});
+
+describe('ES Modules, transpile', function () {
+	before(function () {
 		return helpers
 			.run(generatorPath)
 			.withAnswers({
-				esModules: true
+				transpile: true,
+				complexTranspile: false
 			})
 			.toPromise();
 	});
 
 	it('should create necessary files', function () {
-		assert.file(['index.js', 'rollup.config.js']);
+		assert.file(['.babelrc', 'rollup.config.js']);
+	});
+
+	it('should fill package.json with correct information', function () {
+		assert.jsonFileContent('package.json', {
+			main: 'esm/index.js',
+			module: 'esm/index.js',
+			exports: {
+				'.': {
+					'import': './esm/index.js'
+				},
+				'./package.json': './package.json'
+			},
+			sideEffects: false,
+			files: ['esm/'],
+			scripts: {
+				build: 'rollup --config rollup.config.js',
+				prerelease:
+					'npm run lint && npm run build && npm run module-check',
+				prepublishOnly: 'npm run build'
+			},
+			devDependencies: {
+				rollup: '^2.32.1',
+				'@rollup/plugin-babel': '^5.2.1'
+			}
+		});
+	});
+
+	it('should add proper data to .gitignore', function () {
+		assert.fileContent('.gitignore', 'esm/');
+	});
+});
+
+describe('ES Modules, transpile, bundle CommonJS', function () {
+	before(function () {
+		return helpers
+			.run(generatorPath)
+			.withAnswers({
+				transpile: true,
+				complexTranspile: false,
+				bundleCjs: true
+			})
+			.toPromise();
 	});
 
 	it('should fill package.json with correct information', function () {
@@ -1107,49 +1172,13 @@ describe('ES Modules', function () {
 				},
 				'./package.json': './package.json'
 			},
-			sideEffects: false,
-			files: ['cjs/', 'esm/'],
-			scripts: {
-				build: 'rollup --config rollup.config.js',
-				prerelease:
-					'npm run lint && npm run build && npm run module-check',
-				prepublishOnly: 'npm run build'
-			},
-			devDependencies: {
-				rollup: '^2.32.1'
-			}
+			files: ['cjs/', 'esm/']
 		});
 	});
 
 	it('should add proper data to .gitignore', function () {
 		assert.fileContent('.gitignore', 'cjs/');
 		assert.fileContent('.gitignore', 'esm/');
-	});
-});
-
-describe('ES Modules, transpile', function () {
-	before(function () {
-		return helpers
-			.run(generatorPath)
-			.withAnswers({
-				esModules: true,
-				transpile: true,
-				complexTranspile: false
-			})
-			.toPromise();
-	});
-
-	it('should create necessary files', function () {
-		assert.file(['.babelrc']);
-	});
-
-	it('should fill package.json with correct information', function () {
-		assert.jsonFileContent('package.json', {
-			files: ['cjs/', 'esm/'],
-			devDependencies: {
-				'@rollup/plugin-babel': '^5.2.1'
-			}
-		});
 	});
 });
 
@@ -1158,7 +1187,6 @@ describe('ES Modules, transpile, complex', function () {
 		return helpers
 			.run(generatorPath)
 			.withAnswers({
-				esModules: true,
 				transpile: true,
 				complexTranspile: true
 			})
@@ -1166,13 +1194,12 @@ describe('ES Modules, transpile, complex', function () {
 	});
 
 	it('should add proper data to .gitignore', function () {
-		assert.fileContent('.gitignore', 'cjs/');
 		assert.fileContent('.gitignore', 'esm/');
 	});
 
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
-			files: ['cjs/', 'esm/']
+			files: ['esm/']
 		});
 	});
 });
@@ -1182,7 +1209,6 @@ describe('ES Modules, automated tests', function () {
 		return helpers
 			.run(generatorPath)
 			.withAnswers({
-				esModules: true,
 				automatedTests: true,
 				codeCoverage: false,
 				nodeEngineVersion: 8
@@ -1194,11 +1220,8 @@ describe('ES Modules, automated tests', function () {
 		assert.jsonFileContent('package.json', {
 			scripts: {
 				lint: "eslint '{index,lib/**/*,test/**/*}.js'",
-				test: "mocha --require esm 'test/**/*.js'",
+				test: "mocha 'test/**/*.js'",
 				'test:watch': 'npm test -- --watch'
-			},
-			devDependencies: {
-				esm: '^3.0.51'
 			}
 		});
 	});
@@ -1209,7 +1232,6 @@ describe('ES Modules, automated tests, code coverage, transpile', function () {
 		return helpers
 			.run(generatorPath)
 			.withAnswers({
-				esModules: true,
 				automatedTests: true,
 				codeCoverage: true,
 				transpile: true,
@@ -1222,11 +1244,10 @@ describe('ES Modules, automated tests, code coverage, transpile', function () {
 		assert.jsonFileContent('package.json', {
 			scripts: {
 				lint: "eslint '{index,lib/**/*,test/**/*}.js'",
-				test: "BABEL_ENV=test nyc mocha --require @babel/register --require esm 'test/**/*.js' && nyc check-coverage",
+				test: "NODE_OPTIONS='--experimental-loader=@istanbuljs/esm-loader-hook --no-warnings' BABEL_ENV=test nyc mocha --require @babel/register 'test/**/*.js' && nyc check-coverage",
 				'test:watch': 'nodemon --exec npm test'
 			},
 			devDependencies: {
-				esm: '^3.0.51',
 				nodemon: '^2.0.6'
 			}
 		});
@@ -1278,8 +1299,7 @@ describe('Changelog', function () {
 		return helpers
 			.run(generatorPath)
 			.withAnswers({
-				changelog: true,
-				esModules: false
+				changelog: true
 			})
 			.toPromise();
 	});
@@ -1330,7 +1350,6 @@ describe('Bundling tool, Rollup, automated tests', function () {
 			.withAnswers({
 				automatedTests: true,
 				browserModule: true,
-				esModules: true,
 				bundlingTool: 'rollup'
 			})
 			.toPromise();
@@ -1363,7 +1382,6 @@ describe('Bundling tool, Rollup, manual tests', function () {
 			.withAnswers({
 				manualTests: true,
 				browserModule: true,
-				esModules: true,
 				bundlingTool: 'rollup'
 			})
 			.toPromise();
@@ -1391,20 +1409,19 @@ describe('Sourcemaps', function () {
 		return helpers
 			.run(generatorPath)
 			.withAnswers({
-				esModules: true,
+				transpile: true,
 				sourceMaps: true
 			})
 			.toPromise();
 	});
 
 	it('should fill .gitignore with correct information', function () {
-		assert.fileContent('.gitignore', 'cjs/');
 		assert.fileContent('.gitignore', 'esm/');
 	});
 
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
-			files: ['cjs/', 'esm/']
+			files: ['esm/']
 		});
 	});
 });
@@ -1452,7 +1469,7 @@ describe('TypeScript, with comments', function () {
 		return helpers
 			.run(generatorPath)
 			.withAnswers({
-				esModules: true,
+				transpile: true,
 				typescript: true,
 				typescriptMode: 'comments',
 				automatedTests: true
@@ -1484,7 +1501,7 @@ describe('TypeScript, full', function () {
 		return helpers
 			.run(generatorPath)
 			.withAnswers({
-				esModules: true,
+				transpile: true,
 				typescript: true,
 				typescriptMode: 'full',
 				automatedTests: true

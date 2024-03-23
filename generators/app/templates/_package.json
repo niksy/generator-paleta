@@ -1,32 +1,33 @@
 {
   "name": "<%= moduleName %>",
   "version": "<% if ( version ) { %><%= version %><% } else { %>0.0.0<% } %>",
-  "description": "<%= moduleDescription %>",<% if ( !cli ) { %>
-  "main": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( useDistDirectory ) { %>dist/<% } %><% if ( esModules ) { %><% if ( bundleCjs ) { %>cjs/<% } else { %>esm/<% } %><% } %>index.js<% } %>",<% if ( esModules ) { %>
-  "module": "<% if ( useDistDirectory ) { %>dist/<% } %><% if ( esModules ) { %>esm/<% } %>index.js",
+  "description": "<%= moduleDescription %>",
+  "type": "module",<% if ( !cli ) { %>
+  "main": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( transpile ) { %><% if ( bundleCjs ) { %>cjs/<% } else { %>esm/<% } %><% } %>index.js<% } %>",
+  "module": "<% if ( transpile ) { %>esm/<% } %>index.js",
   "exports": {
     ".": {<% if ( browserModule && styles || sassModule || cssModule ) { %><% if ( sassModule ) { %>
       "sass": "./_index.scss",<% } %>
-      "style": "./<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( useDistDirectory ) { %>dist/<% } %>index.css<% } %>",<% } %>
-      "import": "./esm/index.js"<% if ( bundleCjs ) { %>,
+      "style": "./<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( transpile ) { %>dist/<% } %>index.css<% } %>",<% } %>
+      "import": "./<% if ( transpile ) { %>esm/<% } %>index.js"<% if ( bundleCjs ) { %>,
       "require": "./cjs/index.js"<% } %>
     },
     "./package.json": "./package.json"
   },
-  "sideEffects": false,<% } %><% } %>
+  "sideEffects": false,<% } %>
   "author": "<%= humanName %> <<%= email %>> (<%= website %>)",
-  "files": [<% if ( !esModules && !useDistDirectory ) { %>
-    "<% if ( browserModule && styles || sassModule || cssModule ) { %><% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %>index.css<% } %><% } else { %>index.<% if ( sourceMaps ) { %>{js,js.map}<% } else { %>js<% } %><% } %>",<% } %><% if ( esModules ) { %><% if ( bundleCjs ) { %>
-    "cjs/",<% } %>
-    "esm/",<% } %><% if ( useDistDirectory ) { %>
-    "dist/",<% } else if ( !transpile && !esModules ) { %>
+  "files": [<% if ( !transpile ) { %>
+    "<% if ( browserModule && styles || sassModule || cssModule ) { %><% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %>index.css<% } %><% } else { %>index.<% if ( sourceMaps ) { %>{js,js.map}<% } else { %>js<% } %><% } %>",<% } %><% if ( bundleCjs ) { %>
+    "cjs/",<% } %><% if ( transpile ) { %><% if ( !browserModule && !styles ) { %>
+    "esm/",<% } else { %>
+    "dist/",<% } %><% } else if ( !transpile ) { %>
     "lib/",<% } %><% if ( changelog ) { %>
     "CHANGELOG.md",<% } %>
     "LICENSE.md",
     "README.md"
   ],
   "license": "MIT",<% if ( browserModule && styles || sassModule || cssModule ) { %>
-  "style": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( useDistDirectory ) { %>dist/<% } %>index.css<% } %>",<% } %><% if ( cli ) { %>
+  "style": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( transpile ) { %>dist/<% } %>index.css<% } %>",<% } %><% if ( cli ) { %>
   "bin": {
     "<%= cliCommandName %>": "cli.js"
   },<% } %><% if ( manualTests || automatedTests || integrationTests ) { %>
@@ -51,15 +52,16 @@
     "test": "<% if ( automatedTests && browserModule && !sassModule ) { %>npm run test:automated<% } %><% if ( integrationTests ) { %> && npm run test:integration<% } %>"<% } else if ( sassModule ) { %>,
     "test": "<% if ( automatedTests ) { %>mocha 'test/**/*.<%= extension || 'js' %>'<% } %>"<% if ( automatedTests ) { %>,
     "test:watch": "npm test -- --watch"<% } %><% } else { %>,
-    "test": "<% if ( automatedTests ) { %><% if ( codeCoverage ) { %><% if ( transpile ) { %>BABEL_ENV=test <% } %>nyc mocha<% } else { %>mocha<% } %><% if ( transpile ) { %> --require @babel/register<% } %><% if ( esModules ) { %> --require esm<% } %><% if ( !transpile && typescript && typescriptMode === 'full' ) { %> --require ts-node/register --extension ts<% } %> 'test/**/*.<%= extension || 'js' %>'<% if ( codeCoverage ) { %> && nyc check-coverage<% } %><% } else { %><% } %>"<% if ( automatedTests ) { %>,
+    "test": "<% if ( automatedTests ) { %><% if ( codeCoverage ) { %>NODE_OPTIONS='--experimental-loader=@istanbuljs/esm-loader-hook --no-warnings' <% if ( transpile ) { %>BABEL_ENV=test <% } %>nyc mocha<% } else { %>mocha<% } %><% if ( transpile ) { %> --require @babel/register<% } %><% if ( !transpile && typescript && typescriptMode === 'full' ) { %> --require ts-node/register --extension ts<% } %> 'test/**/*.<%= extension || 'js' %>'<% if ( codeCoverage ) { %> && nyc check-coverage<% } %><% } else { %><% } %>"<% if ( automatedTests ) { %>,
     "test:watch": "<% if ( codeCoverage ) { %>nodemon<% if ( typescript && typescriptMode === 'full' ) { %> --ext js,json,ts<% } %> --exec npm test<% } else { %>npm test -- --watch<% } %>"<% } %><% if ( codeCoverageService ) { %>,
-    "posttest:ci": "cat ./coverage/lcov.info | coveralls"<% } %><% } %><% if ( transpile || esModules ) { %>,
-    "build": "<% if ( esModules ) { %>rollup --config rollup.config.js<% } else { %>babel <% if ( complexTranspile ) { %>src<% } else { %>'{index,lib/**/*}.<%= extension || 'js' %>'<% } %> --out-dir <% if ( complexTranspile ) { %>./<% } else { %>dist/<% } %><% if ( sourceMaps ) { %> --source-maps true<% } %><% } %>"<% if ( esModules ) { %>,
-    "module-check": "<% if ( bundleCjs ) { %>node -e 'require(\"<%= moduleName %>\");' && <% } %>node --input-type=module -e 'import \"<%= moduleName %>\";'"<% } %><% } %>,
-    "prerelease": "npm run lint<% if ( transpile || esModules ) { %><% if ( typescript ) { %> && npm run lint:types<% } %> && npm run build<% if ( esModules ) { %> && npm run module-check<% } %><% } %>"<% if ( transpile || esModules ) { %>,
+    "posttest:ci": "cat ./coverage/lcov.info | coveralls"<% } %><% } %><% if ( transpile ) { %>,
+    "build": "rollup --config rollup.config.js",
+    "module-check": "<% if ( bundleCjs ) { %>node -e 'require(\"<%= moduleName %>\");' && <% } %>node --input-type=module -e 'import \"<%= moduleName %>\";'"<% } %>,
+    "prerelease": "npm run lint<% if ( transpile ) { %><% if ( typescript ) { %> && npm run lint:types<% } %> && npm run build<% } %><% if ( !(browserModule && styles || sassModule || cssModule) ) { %> && npm run module-check<% } %>"<% if ( transpile ) { %>,
     "prepublishOnly": "npm run build"<% } %>
   },
   "devDependencies": {
+    "@istanbuljs/esm-loader-hook": "^0.2.0",
     "husky": "^4.3.0",
     "lint-staged": "^10.4.2",
     "np": "^7.6.0",<% if ( prettier ) { %>
@@ -87,8 +89,7 @@
     "karma-fixture": "^0.2.6",<% } %>
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5"<% } %><% if ( automatedTests || integrationTests ) { %>,
-    "mocha": "<% if (browserSupport.ie < 11) { %>^4.1.0<% } else  { %><% if ( nodeEngineVersion >= 12 ) { %>^9.1.3<% } else  { %>^8.2.0<% } %><% } %>"<% if ( esModules ) { %>,
-    "esm": "^3.0.51"<% } %><% } %><% if ( automatedTests && codeCoverage && !browserModule ) { %>,
+    "mocha": "<% if (browserSupport.ie < 11) { %>^4.1.0<% } else  { %><% if ( nodeEngineVersion >= 12 ) { %>^9.1.3<% } else  { %>^8.2.0<% } %><% } %>"<% } %><% if ( automatedTests && codeCoverage && !browserModule ) { %>,
     "nodemon": "^2.0.6",
     "nyc": "^15.1.0"<% } %><% if ( automatedTests && codeCoverage && browserModule && !sassModule ) { %><% if ( bundlingTool === 'webpack' ) { %>,
     "@jsdevtools/coverage-istanbul-loader": "^3.0.5"<% } %><% if ( bundlingTool === 'rollup' ) { %>,
@@ -124,7 +125,6 @@
     "local-web-server": "^4.2.1",
     "http-shutdown": "^1.0.3"<% } %><% if ( transpile ) { %>,
     "@babel/core": "^7.2.2",
-    "@babel/cli": "^7.2.3",
     "core-js": "^2.6.5",
     "@babel/preset-env": "^7.12.1"<% if ( typescript && typescriptMode === 'full' ) { %>,
     "@babel/preset-typescript": "^7.14.5"<% } %><% if ( browserModule && browserSupport.ie <= 11 ) { %>,
@@ -135,10 +135,10 @@
     "@babel/plugin-transform-runtime": "^7.2.0",
     "@babel/runtime": "^7.2.0"<% } %><% if ( automatedTests ) { %><% if ( !browserModule || (browserModule && integrationTests) ) { %>,
     "@babel/register": "^7.0.0"<% } %><% if ( codeCoverage ) { %><% if ( !browserModule && !sassModule ) { %>,
-    "babel-plugin-istanbul": "^6.0.0"<% } %><% } %><% } %><% } %><% if ( esModules ) { %>,
+    "babel-plugin-istanbul": "^6.0.0"<% } %><% } %><% } %><% } %>,
     "rollup": "^2.32.1"<% if ( !transpile && typescript && typescriptMode === 'full' ) { %>,
     "@rollup/plugin-typescript": "^8.2.3"<% } %><% if ( transpile ) { %>,
-    "@rollup/plugin-babel": "^5.2.1"<% } %><% } %><% if ( bundlingTool === 'rollup' || (transpile && typescript && typescriptMode === 'full') ) { %>,
+    "@rollup/plugin-babel": "^5.2.1"<% } %><% if ( bundlingTool === 'rollup' || (transpile && typescript && typescriptMode === 'full') ) { %>,
     "@rollup/plugin-node-resolve": "^9.0.0"<% } %><% if ( bundlingTool === 'rollup' ) { %>,
     "@rollup/plugin-commonjs": "^15.1.0",
     "rollup-plugin-node-builtins": "^2.1.2",
@@ -171,5 +171,5 @@
     "url": "https://<%= gitRepo.host %>/<%= gitRepo.repository %>/issues"
   },
   "homepage": "https://<%= gitRepo.host %>/<%= gitRepo.repository %>#readme"<% if ( typescript ) { %>,
-  "types": "esm/index.d.ts"<% } %>
+  "types": "<% if ( transpile ) { %>esm/<% } %>index.d.ts"<% } %>
 }

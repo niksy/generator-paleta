@@ -31,7 +31,7 @@
 ```<% } else if ( browserModule && styles || sassModule ) { %><% if ( sassModule ) { %>```scss
 /* Module style usage */
 ```<% } else { %>```js
-// Module usage<% if ( esModules ) { %> (ES Module)<% } %>
+// Module usage
 ```
 
 ```css

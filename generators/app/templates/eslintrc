@@ -1,13 +1,13 @@
 <% var files = []; if ( manualTests || integrationTests ) { if ( bundlingTool === 'webpack' ) {
 files.push("test/manual/webpack.config.js"); } if ( bundlingTool === 'rollup' ) { files.push("test/manual/rollup.config.js"); } } if ( automatedTests && browserModule && !sassModule ) {
 files.push("karma.conf.js"); } if ( integrationTests ) {
-files.push("wdio.conf.js"); } if ( esModules ) {
+files.push("wdio.conf.js"); } if ( transpile || typescript ) {
 files.push("rollup.config.js"); } %>{
 	"root": true,
 	"extends": [
 		"eslint-config-nitpick"<% if ( typescript ) { %>,
-		"eslint-config-nitpick/typescript"<% } %><% if ( esModules ) { %>,
-		"eslint-config-nitpick/next"<% } %><% if ( browserModule ) { %>,
+		"eslint-config-nitpick/typescript"<% } %>,
+		"eslint-config-nitpick/next"<% if ( browserModule ) { %>,
 		"eslint-config-nitpick/browser"<% } %><% if ( prettier ) { %>,
 		"eslint-config-prettier"<% if ( false ) { %>,
 		"eslint-config-prettier/react",
@@ -23,19 +23,19 @@ files.push("rollup.config.js"); } %>{
 	"settings": {
 		"html/html-extensions": [".svelte"],
 		"html/indent": "0"
-	}<% } %><% if ( browserModule || (!browserModule && esModules) ) { %>,
+	}<% } %><% if ( browserModule || files.length !== 0 || nodeEngineVersion <= 10 ) { %>,
 	"overrides": [
 		{
 			<% if ( files.length !== 0 ) { %>"files": [<% for ( var i = 0, filesLength = files.length; i < filesLength; i++ ) { %>
 				"<%= files[i] %>"<% if ( i !== filesLength-1 ) { %>,<% } %><% } %>
 			]<% } %><% if ( browserModule ) { %>,
 			"env": {
-				"node": true<% if ( esModules ) { %>,
-				"es6": true<% } %>
-			}<% } %><% if ( esModules ) { %>,
+				"node": true,
+				"es6": true
+			}<% } %>,
 			"parserOptions": {
 				"sourceType": "script"
-			}<% } %><% if ( nodeEngineVersion <= 10 ) { %>,
+			}<% if ( nodeEngineVersion <= 10 ) { %>,
 			"plugins": ["eslint-plugin-unicorn"]<% } %>,
 			"rules": {
 				"no-console": 0<% if ( nodeEngineVersion <= 10 ) { %>,

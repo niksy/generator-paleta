@@ -104,10 +104,10 @@ module.exports = function ( baseConfig ) {
 						exclude: /(node_modules|test)/,
 						enforce: 'post',
 						use: [{
-							loader: '@jsdevtools/coverage-istanbul-loader'<% if ( esModules ) { %>,
+							loader: '@jsdevtools/coverage-istanbul-loader',
 							options: {
 								esModules: true
-							}<% } %>
+							}
 						}]
 					}<% } %>
 				]
@@ -135,7 +135,7 @@ module.exports = function ( baseConfig ) {
 					configFile: path.resolve(__dirname, '.babelrc')
 				}),
 				globals(),
-				...rollupConfig.plugins<% if ( transpile || esModules || typescript ) { %>.filter(({ name }) => ![<% if ( transpile ) { %>'babel'<% } %><% if ( esModules ) { %>, 'package-type'<% } %><% if ( typescript ) { %>, 'types'<% } %>].includes(name))<% } %><% if ( vanillaJsWidget || (transpile && typescript && typescriptMode === 'full') ) { %>,
+				...rollupConfig.plugins<% if ( transpile || typescript ) { %>.filter(({ name }) => ![<% if ( transpile ) { %>'babel'<% } %>, 'package-type'<% if ( typescript ) { %>, 'types'<% } %>].includes(name))<% } %><% if ( vanillaJsWidget || (transpile && typescript && typescriptMode === 'full') ) { %>,
 				babel({
 					exclude: 'node_modules/**',
 					babelHelpers: 'runtime',
