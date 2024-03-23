@@ -885,7 +885,7 @@ describe('Transpile', function () {
 				prepublishOnly: 'npm run build'
 			},
 			devDependencies: {
-				'rollup': '^2.32.1',
+				'rollup': '^4.13.0',
 				'@babel/preset-env': '^7.12.1'
 			}
 		});
@@ -1128,8 +1128,8 @@ describe('ES Modules, transpile', function () {
 				prepublishOnly: 'npm run build'
 			},
 			devDependencies: {
-				rollup: '^2.32.1',
-				'@rollup/plugin-babel': '^5.2.1'
+				rollup: '^4.13.0',
+				'@rollup/plugin-babel': '^6.0.4'
 			}
 		});
 	});
@@ -1348,13 +1348,13 @@ describe('Bundling tool, Rollup, automated tests', function () {
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			devDependencies: {
-				rollup: '^2.32.1',
-				'@rollup/plugin-babel': '^5.2.1',
-				'@rollup/plugin-node-resolve': '^9.0.0',
-				'@rollup/plugin-commonjs': '^15.1.0',
+				rollup: '^4.13.0',
+				'@rollup/plugin-babel': '^6.0.4',
+				'@rollup/plugin-node-resolve': '^15.2.3',
+				'@rollup/plugin-commonjs': '^25.0.7',
 				'rollup-plugin-node-builtins': '^2.1.2',
 				'rollup-plugin-node-globals': '^1.4.0',
-				'rollup-plugin-istanbul': '^3.0.0',
+				'rollup-plugin-istanbul': '^5.0.0',
 				'karma-rollup-preprocessor': '^7.0.0'
 			}
 		});
@@ -1384,7 +1384,7 @@ describe('Bundling tool, Rollup, manual tests', function () {
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			devDependencies: {
-				rollup: '^2.32.1',
+				rollup: '^4.13.0',
 				'postcss': '^8.3.11',
 				'rollup-plugin-postcss': '^4.0.1',
 				'rollup-plugin-serve': '^1.0.3',
@@ -1447,7 +1447,7 @@ describe('Vanilla JS widget', function () {
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			devDependencies: {
-				'rollup-plugin-svelte': '^6.1.0',
+				'rollup-plugin-svelte': '^7.2.0',
 				'svelte': '^2.16.1'
 			}
 		});
