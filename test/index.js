@@ -247,7 +247,7 @@ describe('Automated tests, browser module', function () {
 				test: 'npm run test:automated'
 			},
 			devDependencies: {
-				karma: '^5.2.3',
+				karma: '^6.4.3',
 				'karma-sourcemap-loader': '^0.3.7',
 				'karma-webpack': '^5.0.0',
 				'karma-browserstack-launcher': '^1.6.0',

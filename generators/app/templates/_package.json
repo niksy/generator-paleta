@@ -78,7 +78,7 @@
     "stylelint-config-nitpick": "^9.0.0"<% if ( prettier ) { %>,
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-prettier": "^2.0.0"<% } %><% } %><% if ( automatedTests && browserModule && !sassModule ) { %>,
-    "karma": "^5.2.3",
+    "karma": "^6.4.3",
     "karma-sourcemap-loader": "^0.3.7"<% if ( bundlingTool === 'webpack' ) { %>,
     "karma-webpack": "^5.0.0"<% } %><% if ( bundlingTool === 'rollup' ) { %>,
     "karma-rollup-preprocessor": "^7.0.0"<% } %><% if ( cloudBrowsers ) { %>,
