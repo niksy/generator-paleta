@@ -114,7 +114,7 @@
     "minimist": "^1.2.0"<% } %><% if ( (manualTests || integrationTests) || ((browserModule && !sassModule) && (transpile || automatedTests)) ) { %><% if ( bundlingTool === 'webpack' ) { %>,
     "webpack": "^5.2.0",<% if ( typescript && typescriptMode === 'full' ) { %>
     "ts-loader": "^9.2.3",<% } %>
-    "node-libs-browser": "^2.2.1"<% } %><% } %><% if ( sassModule ) { %>,
+    "node-stdlib-browser": "^1.2.0"<% } %><% } %><% if ( sassModule ) { %>,
     "sass-true": "^2.1.3"<% } %><% if ( integrationTests ) { %><% if ( cloudBrowsers ) { %>,
     "@wdio/browserstack-service": "^6.6.7"<% } %>,
     "wdio-docker-service": "^3.0.0",

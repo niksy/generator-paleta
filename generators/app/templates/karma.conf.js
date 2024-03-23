@@ -2,7 +2,7 @@
 
 const path = require('path');<% if ( codeCoverage ) { %>
 const fs = require('fs');<% } %><% if ( bundlingTool === 'webpack' ) { %>
-const nodeLibsBrowser = require('node-libs-browser');<% } %><% if ( bundlingTool === 'rollup' ) { %>
+const stdLibBrowser = require('node-stdlib-browser');<% } %><% if ( bundlingTool === 'rollup' ) { %>
 const { default: resolve } = require('@rollup/plugin-node-resolve');
 const commonjs = require('@rollup/plugin-commonjs');
 const nodeBuiltins = require('rollup-plugin-node-builtins');
@@ -87,7 +87,7 @@ module.exports = function ( baseConfig ) {
 			resolve: {<% if ( transpile && typescript && typescriptMode === 'full' ) { %>
 				extensions: ['...', '.ts'],<% } %>
 				fallback: {
-					assert: nodeLibsBrowser.assert
+					assert: stdLibBrowser.assert
 				}
 			}<% if ( transpile || codeCoverage ) { %>,
 			module: {
