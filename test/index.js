@@ -482,7 +482,7 @@ describe('Browser module, browser version', function () {
 			.run(generatorPath)
 			.withAnswers({
 				browserModule: true,
-				browserVersion: 'ie >= 11'
+				browserVersion: 'edge >= 100'
 			})
 			.toPromise();
 	});
@@ -490,12 +490,12 @@ describe('Browser module, browser version', function () {
 	it('should add information regarding browser support to README.md', function () {
 		assert.fileContent(
 			'README.md',
-			'Tested in Internet Explorer 11 and should work in all modern browsers ([support based on Browserslist configuration](https://browserslist.dev/?q=aWUgPj0gMTE%3D)).'
+			'Tested in Edge 100 and should work in all modern browsers ([support based on Browserslist configuration](https://browserslist.dev/?q=ZWRnZSA%2BPSAxMDA%3D)).'
 		);
 	});
 
 	it('should fill .browserslistrc with correct information', function () {
-		assert.fileContent('.browserslistrc', 'ie >= 11');
+		assert.fileContent('.browserslistrc', 'edge >= 100');
 	});
 });
 
@@ -991,19 +991,9 @@ describe('Transpile, browser module, with automated tests and code coverage', fu
 				codeCoverage: true,
 				browserModule: true,
 				transpile: true,
-				browserVersion: 'ie >= 11'
+				browserVersion: 'edge >= 100'
 			})
 			.toPromise();
-	});
-
-	it('should fill .babelrc with correct information', function () {
-		assert.jsonFileContent('.babelrc', {
-			plugins: [
-				'@babel/plugin-transform-member-expression-literals',
-				'@babel/plugin-transform-property-literals',
-				'@babel/plugin-transform-object-assign'
-			]
-		});
 	});
 
 	it('should add proper data to karma.conf.js', function () {

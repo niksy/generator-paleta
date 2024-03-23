@@ -36,15 +36,6 @@ const browserIdMapping = {
 			'os_version': '7'
 		}
 	},
-	ie: {
-		shortName: 'IE',
-		longName: 'Internet Explorer',
-		versionKey: 'browser_version',
-		serviceProps: {
-			os: 'Windows',
-			'os_version': '7'
-		}
-	},
 	edge: {
 		shortName: 'Edge',
 		longName: 'Edge',
@@ -156,9 +147,6 @@ function getMinimumSupportedBrowserVersions(browserVersion) {
 		}
 	);
 	browserSupport = fromEntries(browserSupport);
-	if ('ie' in browserSupport) {
-		delete browserSupport.edge;
-	}
 	return browserSupport;
 }
 
@@ -433,9 +421,7 @@ export default class extends Generator {
 					);
 					const defaultValues = Object.keys(browserSupport).filter(
 						(browserId) =>
-							['chrome', 'firefox', 'ie', 'edge'].includes(
-								browserId
-							)
+							['chrome', 'firefox', 'edge'].includes(browserId)
 					);
 					return defaultValues;
 				},
@@ -445,13 +431,9 @@ export default class extends Generator {
 					);
 					const choices = Object.keys(browserSupport)
 						.filter((browserId) =>
-							[
-								'chrome',
-								'firefox',
-								'ie',
-								'edge',
-								'ios_saf'
-							].includes(browserId)
+							['chrome', 'firefox', 'edge', 'ios_saf'].includes(
+								browserId
+							)
 						)
 						.map((browserId) => [
 							browserIdMapping[browserId].longName,

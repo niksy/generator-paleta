@@ -8,12 +8,7 @@
 			}
 		}]<% } %><% if ( typescript && typescriptMode === 'full' ) { %>,
 		"@babel/preset-typescript"<% } %>
-	]<% if ( browserModule && browserSupport.ie <= 11 ) { %>,
-	"plugins": [
-		"@babel/plugin-transform-member-expression-literals",
-		"@babel/plugin-transform-property-literals",
-		"@babel/plugin-transform-object-assign"
-	]<% } %><% if ( automatedTests && codeCoverage && !browserModule ) { %>,
+	]<% if ( automatedTests && codeCoverage && !browserModule ) { %>,
 	"env": {
 		"test": {
 			"plugins": [
