@@ -1,21 +1,29 @@
 {
 	"compilerOptions": {
-		"target": "ESNext",
-		"module": "ESNext",
-		"lib": ["ESNext"<% if ( browserModule ) { %>, "DOM"<% } %>],
-		"moduleResolution": "node",
-		"allowSyntheticDefaultImports": true,
-		"esModuleInterop": true,
-		"resolveJsonModule": true,
-		"noEmit": true,
+		"module": "node16",
+		"moduleResolution": "node16",
+		"moduleDetection": "force",
+		"target": "ES2022",
+		"lib": [<% if ( browserModule ) { %>
+			"DOM",
+			"DOM.Iterable",<% } %>
+			"ES2022"
+		],
+		"resolveJsonModule": false,
 		"newLine": "lf",
 		"strict": true,
+		"noImplicitReturns": true,
+		"noImplicitOverride": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedIndexedAccess": true,
 		"noPropertyAccessFromIndexSignature": true,
+		"noEmit": true,
 		"noEmitOnError": true,
 		"forceConsistentCasingInFileNames": true,
+		"skipLibCheck": true,
 		"allowJs": true,
-		"checkJs": true<% if ( transpile && typescriptMode === 'full' ) { %>,
-		"isolatedModules": true<% } %>
+		"checkJs": true,
+		"isolatedModules": true
 	},
 	"include": ["<% if ( complexTranspile ) { %>src/<% } %>index.<%= extension || 'js' %>", "<% if ( complexTranspile ) { %>src/<% } %>lib/**/*.<%= extension || 'js' %>", "test/**/*.<%= extension || 'js' %>"]
 }
