@@ -1470,12 +1470,16 @@ describe('TypeScript, with comments', function () {
 
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
-			types: 'esm/index.d.ts',
+			exports: {
+				'.': {
+					types: 'esm/index.d.ts'
+				}
+			},
 			scripts: {
 				'lint:types': 'tsc'
 			},
 			devDependencies: {
-				'typescript': '^4.3.5',
+				'typescript': '^5.4.3',
 				'@types/node': '^16.3.0',
 				'@types/mocha': '^10.0.6'
 			}

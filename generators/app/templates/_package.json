@@ -6,7 +6,8 @@
   "main": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( transpile ) { %><% if ( bundleCjs ) { %>cjs/<% } else { %>esm/<% } %><% } %>index.js<% } %>",
   "module": "<% if ( transpile ) { %>esm/<% } %>index.js",
   "exports": {
-    ".": {<% if ( browserModule && styles || sassModule || cssModule ) { %><% if ( sassModule ) { %>
+    ".": {<% if ( typescript ) { %>
+      "types": "<% if ( transpile ) { %>esm/<% } %>index.d.ts",<% } %><% if ( browserModule && styles || sassModule || cssModule ) { %><% if ( sassModule ) { %>
       "sass": "./_index.scss",<% } %>
       "style": "./<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( transpile ) { %>dist/<% } %>index.css<% } %>",<% } %>
       "import": "./<% if ( transpile ) { %>esm/<% } %>index.js"<% if ( bundleCjs ) { %>,
@@ -143,7 +144,7 @@
     "eslint-plugin-html": "^6.0.0",
     "rollup-plugin-svelte": "^7.2.0",
     "svelte": "^2.16.1"<% } %><% if ( typescript ) { %>,
-    "typescript": "^4.3.5",
+    "typescript": "^5.4.3",
     "cpy": "^8.1.2",
     "execa": "^5.1.1",<% if ( !transpile && typescriptMode === 'full' && (!browserModule || (browserModule && integrationTests)) ) { %>
     "ts-node": "^10.1.0",<% } %><% if ( browserModule && usesHtmlFixtures ) { %>
@@ -167,6 +168,5 @@
   "bugs": {
     "url": "https://<%= gitRepo.host %>/<%= gitRepo.repository %>/issues"
   },
-  "homepage": "https://<%= gitRepo.host %>/<%= gitRepo.repository %>#readme"<% if ( typescript ) { %>,
-  "types": "<% if ( transpile ) { %>esm/<% } %>index.d.ts"<% } %>
+  "homepage": "https://<%= gitRepo.host %>/<%= gitRepo.repository %>#readme"
 }
