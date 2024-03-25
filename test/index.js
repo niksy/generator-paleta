@@ -876,7 +876,7 @@ describe('Transpile', function () {
 			main: 'esm/index.js',
 			files: ['esm/', 'LICENSE.md', 'README.md'],
 			scripts: {
-				build: 'rollup --config rollup.config.js',
+				build: "babel '{index,lib/**/*}.js' --out-dir esm/",
 				prerelease:
 					'npm run lint && npm run build && npm run module-check',
 				prepublishOnly: 'npm run build'
@@ -1027,7 +1027,7 @@ describe('Transpile, complex', function () {
 			main: 'esm/index.js',
 			files: ['esm/'],
 			scripts: {
-				build: 'rollup --config rollup.config.js'
+				build: 'babel src --out-dir ./'
 			}
 		});
 	});
@@ -1119,7 +1119,7 @@ describe('ES Modules, transpile', function () {
 			sideEffects: false,
 			files: ['esm/'],
 			scripts: {
-				build: 'rollup --config rollup.config.js',
+				build: "babel '{index,lib/**/*}.js' --out-dir esm/ --source-maps true",
 				prerelease:
 					'npm run lint && npm run build && npm run module-check',
 				prepublishOnly: 'npm run build'
@@ -1465,7 +1465,7 @@ describe('TypeScript, with comments', function () {
 	});
 
 	it('should create necessary files', function () {
-		assert.file(['tsconfig.json']);
+		assert.file(['tsconfig.json', 'tsconfig.build.json']);
 	});
 
 	it('should fill package.json with correct information', function () {

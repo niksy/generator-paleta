@@ -368,7 +368,7 @@ export default class extends Generator {
 					'Do you want to create CommonJS bundle (browser-only packages are safe to be built as ESM only)?',
 				default: false,
 				when: (answers) => {
-					return !isSassModule(answers);
+					return !isSassModule(answers) && answers.transpile;
 				}
 			},
 			{
@@ -776,8 +776,16 @@ export default class extends Generator {
 
 		if (answers.typescript) {
 			cp('tsconfig.json', 'tsconfig.json');
+			if (
+				!answers.browserModule &&
+				!answers.styles &&
+				!answers.bundleCjs
+			) {
+				cp('tsconfig.build.json', 'tsconfig.build.json');
+			}
 		} else {
 			rm('tsconfig.json');
+			rm('tsconfig.build.json');
 		}
 
 		if (answers.cli) {

@@ -36,7 +36,7 @@ export default {
 					}
 					if (typeof prefix !== 'undefined') {
 						const tsconfig = {
-							extends: './tsconfig',
+							extends: './tsconfig.json',
 							exclude: ['test/**/*.<%= extension || 'js' %>'],
 							compilerOptions: {
 								declaration: true,

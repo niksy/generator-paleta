@@ -7,7 +7,7 @@
   "module": "<% if ( transpile ) { %>esm/<% } %>index.js",
   "exports": {
     ".": {<% if ( typescript ) { %>
-      "types": "<% if ( transpile ) { %>esm/<% } %>index.d.ts",<% } %><% if ( browserModule && styles || sassModule || cssModule ) { %><% if ( sassModule ) { %>
+      "types": "<% if ( transpile ) { %>esm/<% } else { %>types/<% } %>index.d.ts",<% } %><% if ( browserModule && styles || sassModule || cssModule ) { %><% if ( sassModule ) { %>
       "sass": "./_index.scss",<% } %>
       "style": "./<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( transpile ) { %>dist/<% } %>index.css<% } %>",<% } %>
       "import": "./<% if ( transpile ) { %>esm/<% } %>index.js"<% if ( bundleCjs ) { %>,
@@ -55,8 +55,8 @@
     "test:watch": "npm test -- --watch"<% } %><% } else { %>,
     "test": "<% if ( automatedTests ) { %><% if ( codeCoverage ) { %>NODE_OPTIONS='--experimental-loader=@istanbuljs/esm-loader-hook --no-warnings' <% if ( transpile ) { %>BABEL_ENV=test <% } %>nyc mocha<% } else { %>mocha<% } %><% if ( transpile ) { %> --require @babel/register<% } %><% if ( !transpile && typescript && typescriptMode === 'full' ) { %> --require ts-node/register --extension ts<% } %> 'test/**/*.<%= extension || 'js' %>'<% if ( codeCoverage ) { %> && nyc check-coverage<% } %><% } else { %><% } %>"<% if ( automatedTests ) { %>,
     "test:watch": "<% if ( codeCoverage ) { %>nodemon<% if ( typescript && typescriptMode === 'full' ) { %> --ext js,json,ts<% } %> --exec npm test<% } else { %>npm test -- --watch<% } %>"<% } %><% if ( codeCoverageService ) { %>,
-    "posttest:ci": "cat ./coverage/lcov.info | coveralls"<% } %><% } %><% if ( transpile ) { %>,
-    "build": "rollup --config rollup.config.js",
+    "posttest:ci": "cat ./coverage/lcov.info | coveralls"<% } %><% } %><% if ( transpile || typescript ) { %>,
+    "build": "<% if ( !browserModule && !styles && (!bundleCjs || (!transpile && typescript)) ) { %><% if ( transpile ) { %>babel <% if ( complexTranspile ) { %>src<% } else { %>'{index,lib/**/*}.<%= extension || 'js' %>'<% } %> --out-dir <% if ( complexTranspile ) { %>./<% } else { %>esm/<% } %><% if ( sourceMaps ) { %> --source-maps true<% } %><% } else { %><% if ( typescript ) { %><% if ( transpile ) { %> && <% } %>tsc -p tsconfig.build.json<% } %><% } %><% } else { %>rollup --config rollup.config.js<% } %>",
     "module-check": "<% if ( bundleCjs ) { %>node -e 'require(\"<%= moduleName %>\");' && <% } %>node --input-type=module -e 'import \"<%= moduleName %>\";'"<% } %>,
     "prerelease": "npm run lint<% if ( transpile ) { %><% if ( typescript ) { %> && npm run lint:types<% } %> && npm run build<% } %><% if ( !(browserModule && styles || sassModule || cssModule) ) { %> && npm run module-check<% } %>"<% if ( transpile ) { %>,
     "prepublishOnly": "npm run build"<% } %>
@@ -125,7 +125,8 @@
     "webdriverio": "^6.6.8",
     "local-web-server": "^4.2.1",
     "http-shutdown": "^1.0.3"<% } %><% if ( transpile ) { %>,
-    "@babel/core": "^7.2.2",
+    "@babel/core": "^7.2.2",<% if ( !browserModule && !styles && !bundleCjs ) { %>
+    "@babel/cli": "^7.2.3",<% } %>
     "core-js": "^2.6.5",
     "@babel/preset-env": "^7.12.1"<% if ( typescript && typescriptMode === 'full' ) { %>,
     "@babel/preset-typescript": "^7.14.5"<% } %><% if ( browserModule && !sassModule ) { %><% if ( bundlingTool === 'webpack' ) { %>,
