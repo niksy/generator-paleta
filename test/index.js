@@ -40,6 +40,15 @@ describe('New project', function () {
 		assert.jsonFileContent('package.json', {
 			type: 'module',
 			name: 'bella',
+			main: 'index.js',
+			module: 'index.js',
+			exports: {
+				'.': {
+					'import': './index.js'
+				},
+				'./package.json': './package.json'
+			},
+			sideEffects: false,
 			author: 'Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com)',
 			files: ['index.js', 'lib/', 'LICENSE.md', 'README.md'],
 			scripts: {
@@ -882,8 +891,7 @@ describe('Transpile', function () {
 				prepublishOnly: 'npm run build'
 			},
 			devDependencies: {
-				'rollup': '^4.13.0',
-				'@babel/preset-env': '^7.12.1'
+				'@babel/cli': '^7.2.3'
 			}
 		});
 	});
@@ -902,6 +910,52 @@ describe('Transpile', function () {
 				]
 			]
 		});
+	});
+});
+
+describe('Transpile, source maps', function () {
+	before(function () {
+		return helpers
+			.run(generatorPath)
+			.withAnswers({
+				automatedTests: false,
+				transpile: true,
+				sourceMaps: true,
+				changelog: false
+			})
+			.toPromise();
+	});
+
+	it('should create necessary files', function () {
+		assert.file(['.babelrc', 'rollup.config.js']);
+	});
+
+	it('should fill package.json with correct information', function () {
+		assert.jsonFileContent('package.json', {
+			main: 'esm/index.js',
+			module: 'esm/index.js',
+			exports: {
+				'.': {
+					'import': './esm/index.js'
+				},
+				'./package.json': './package.json'
+			},
+			sideEffects: false,
+			files: ['esm/'],
+			scripts: {
+				build: "babel '{index,lib/**/*}.js' --out-dir esm/ --source-maps true",
+				prerelease:
+					'npm run lint && npm run build && npm run module-check',
+				prepublishOnly: 'npm run build'
+			},
+			devDependencies: {
+				'@babel/cli': '^7.2.3'
+			}
+		});
+	});
+
+	it('should add proper data to .gitignore', function () {
+		assert.fileContent('.gitignore', 'esm/');
 	});
 });
 
@@ -941,13 +995,25 @@ describe('Transpile, with automated tests and code coverage', function () {
 			.withAnswers({
 				automatedTests: true,
 				codeCoverage: true,
-				transpile: true
+				transpile: true,
+				nodeEngineVersion: 18
 			})
 			.toPromise();
 	});
 
 	it('should fill .babelrc with correct information', function () {
 		assert.jsonFileContent('.babelrc', {
+			presets: [
+				[
+					'@babel/preset-env',
+					{
+						modules: false,
+						targets: {
+							node: '18'
+						}
+					}
+				]
+			],
 			env: {
 				test: {
 					plugins: ['babel-plugin-istanbul']
@@ -1002,81 +1068,7 @@ describe('Transpile, browser module, with automated tests and code coverage', fu
 	});
 });
 
-describe('ES Modules', function () {
-	before(function () {
-		return helpers.run(generatorPath).toPromise();
-	});
-
-	it('should create necessary files', function () {
-		assert.file(['index.js']);
-	});
-
-	it('should fill package.json with correct information', function () {
-		assert.jsonFileContent('package.json', {
-			main: 'index.js',
-			module: 'index.js',
-			exports: {
-				'.': {
-					'import': './index.js'
-				},
-				'./package.json': './package.json'
-			},
-			sideEffects: false,
-			files: ['index.js'],
-			scripts: {
-				prerelease: 'npm run lint && npm run module-check'
-			}
-		});
-	});
-
-	it('should add proper data to .gitignore', function () {});
-});
-
-describe('ES Modules, transpile', function () {
-	before(function () {
-		return helpers
-			.run(generatorPath)
-			.withAnswers({
-				transpile: true
-			})
-			.toPromise();
-	});
-
-	it('should create necessary files', function () {
-		assert.file(['.babelrc', 'rollup.config.js']);
-	});
-
-	it('should fill package.json with correct information', function () {
-		assert.jsonFileContent('package.json', {
-			main: 'esm/index.js',
-			module: 'esm/index.js',
-			exports: {
-				'.': {
-					'import': './esm/index.js'
-				},
-				'./package.json': './package.json'
-			},
-			sideEffects: false,
-			files: ['esm/'],
-			scripts: {
-				build: "babel '{index,lib/**/*}.js' --out-dir esm/ --source-maps true",
-				prerelease:
-					'npm run lint && npm run build && npm run module-check',
-				prepublishOnly: 'npm run build'
-			},
-			devDependencies: {
-				rollup: '^4.13.0',
-				'@rollup/plugin-babel': '^6.0.4'
-			}
-		});
-	});
-
-	it('should add proper data to .gitignore', function () {
-		assert.fileContent('.gitignore', 'esm/');
-	});
-});
-
-describe('ES Modules, transpile, bundle CommonJS', function () {
+describe('Transpile, bundle CommonJS', function () {
 	before(function () {
 		return helpers
 			.run(generatorPath)
@@ -1105,72 +1097,6 @@ describe('ES Modules, transpile, bundle CommonJS', function () {
 	it('should add proper data to .gitignore', function () {
 		assert.fileContent('.gitignore', 'cjs/');
 		assert.fileContent('.gitignore', 'esm/');
-	});
-});
-
-describe('ES Modules, automated tests', function () {
-	before(function () {
-		return helpers
-			.run(generatorPath)
-			.withAnswers({
-				automatedTests: true,
-				codeCoverage: false,
-				nodeEngineVersion: 8
-			})
-			.toPromise();
-	});
-
-	it('should fill package.json with correct information', function () {
-		assert.jsonFileContent('package.json', {
-			scripts: {
-				lint: "eslint '{index,lib/**/*,test/**/*}.js'",
-				test: "mocha 'test/**/*.js'",
-				'test:watch': 'npm test -- --watch'
-			}
-		});
-	});
-});
-
-describe('ES Modules, automated tests, code coverage, transpile', function () {
-	before(function () {
-		return helpers
-			.run(generatorPath)
-			.withAnswers({
-				automatedTests: true,
-				codeCoverage: true,
-				transpile: true,
-				nodeEngineVersion: 18
-			})
-			.toPromise();
-	});
-
-	it('should fill package.json with correct information', function () {
-		assert.jsonFileContent('package.json', {
-			scripts: {
-				lint: "eslint '{index,lib/**/*,test/**/*}.js'",
-				test: "NODE_OPTIONS='--experimental-loader=@istanbuljs/esm-loader-hook --no-warnings' BABEL_ENV=test nyc mocha --require @babel/register 'test/**/*.js' && nyc check-coverage",
-				'test:watch': 'nodemon --exec npm test'
-			},
-			devDependencies: {
-				nodemon: '^2.0.6'
-			}
-		});
-	});
-
-	it('should fill .babelrc with correct information', function () {
-		assert.jsonFileContent('.babelrc', {
-			presets: [
-				[
-					'@babel/preset-env',
-					{
-						modules: false,
-						targets: {
-							node: '18'
-						}
-					}
-				]
-			]
-		});
 	});
 });
 
