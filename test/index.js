@@ -53,7 +53,7 @@ describe('New project', function () {
 			files: ['index.js', 'lib/', 'LICENSE.md', 'README.md'],
 			scripts: {
 				release: 'np --no-release-draft',
-				prerelease: 'npm run lint && npm run module-check'
+				prerelease: 'npm run lint'
 			},
 			devDependencies: {
 				np: '^7.6.0'
@@ -886,8 +886,7 @@ describe('Transpile', function () {
 			files: ['esm/', 'LICENSE.md', 'README.md'],
 			scripts: {
 				build: "babel '{index,lib/**/*}.js' --out-dir esm/",
-				prerelease:
-					'npm run lint && npm run build && npm run module-check',
+				prerelease: 'npm run lint && npm run build',
 				prepublishOnly: 'npm run build'
 			},
 			devDependencies: {
@@ -944,8 +943,7 @@ describe('Transpile, source maps', function () {
 			files: ['esm/'],
 			scripts: {
 				build: "babel '{index,lib/**/*}.js' --out-dir esm/ --source-maps true",
-				prerelease:
-					'npm run lint && npm run build && npm run module-check',
+				prerelease: 'npm run lint && npm run build',
 				prepublishOnly: 'npm run build'
 			},
 			devDependencies: {
@@ -1090,7 +1088,11 @@ describe('Transpile, bundle CommonJS', function () {
 				},
 				'./package.json': './package.json'
 			},
-			files: ['cjs/', 'esm/']
+			files: ['cjs/', 'esm/'],
+			scripts: {
+				prerelease:
+					'npm run lint && npm run build && npm run module-check'
+			}
 		});
 	});
 
