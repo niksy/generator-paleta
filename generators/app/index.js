@@ -869,7 +869,7 @@ export default class extends Generator {
 			this.packageJson.set('exports', mergedPackage.exports);
 		}
 
-		this.packageJson.merge(mergedPackage);
+		this.packageJson.writeContent(mergedPackage);
 	}
 
 	async end() {
