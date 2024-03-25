@@ -1,6 +1,6 @@
 import path from 'node:path';
-import del from 'del';
-import globby from 'globby';
+import { deleteAsync } from 'del';
+import { globby } from 'globby';
 import minimist from 'minimist';
 import staticSite from 'rollup-plugin-static-site';
 import postcss from 'rollup-plugin-postcss';
@@ -29,7 +29,7 @@ const config = async () => {
 		});
 	}
 
-	await del(['./test-dist']);
+	await deleteAsync(['./test-dist']);
 
 	const files = await globby(['./test/manual/**/*.<%= extension || 'js' %>', '!./test/manual/rollup.config.js']);
 

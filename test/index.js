@@ -56,7 +56,7 @@ describe('New project', function () {
 				prerelease: 'npm run lint'
 			},
 			devDependencies: {
-				np: '^7.6.0'
+				np: '^10.0.2'
 			}
 		});
 	});
@@ -158,17 +158,17 @@ describe('Manual tests', function () {
 			},
 			devDependencies: {
 				webpack: '^5.2.0',
-				del: '^6.0.0',
-				globby: '^11.0.1',
-				'css-loader': '^5.0.0',
-				'html-webpack-plugin': '^4.5.0',
-				'mini-css-extract-plugin': '^1.2.0',
+				del: '^7.1.0',
+				globby: '^14.0.1',
+				'css-loader': '^6.10.0',
+				'html-webpack-plugin': '^5.6.0',
+				'mini-css-extract-plugin': '^2.8.1',
 				'postcss': '^8.3.11',
-				'postcss-import': '^14.0.2',
-				'postcss-preset-env': '^7.0.0',
-				'postcss-loader': '^6.2.0',
-				'webpack-cli': '^4.1.0',
-				'webpack-dev-server': '^3.11.0'
+				'postcss-import': '^16.1.0',
+				'postcss-preset-env': '^9.5.2',
+				'postcss-loader': '^8.1.1',
+				'webpack-cli': '^5.1.4',
+				'webpack-dev-server': '^5.0.4'
 			}
 		});
 	});
@@ -293,7 +293,7 @@ describe('Automated tests, browser module, headless browser', function () {
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			devDependencies: {
-				puppeteer: '^5.4.0'
+				puppeteer: '^22.6.1'
 			}
 		});
 	});
@@ -337,7 +337,7 @@ describe('Integration tests', function () {
 				test: 'npm run test:automated && npm run test:integration'
 			},
 			devDependencies: {
-				'local-web-server': '^4.2.1',
+				'local-web-server': '^5.3.1',
 				'@wdio/browserstack-service': '^8.35.1',
 				'@wdio/mocha-framework': '^8.35.0',
 				'@wdio/spec-reporter': '^8.32.4',
@@ -593,7 +593,7 @@ describe('Code coverage', function () {
 			},
 			devDependencies: {
 				nyc: '^15.1.0',
-				nodemon: '^2.0.6'
+				nodemon: '^3.1.0'
 			}
 		});
 	});
@@ -664,7 +664,7 @@ describe('Code coverage service', function () {
 				'posttest:ci': 'cat ./coverage/lcov.info | coveralls'
 			},
 			devDependencies: {
-				coveralls: '^2.11.11'
+				coveralls: '^3.1.1'
 			}
 		});
 	});
@@ -795,7 +795,7 @@ describe('Sass module', function () {
 				'test:watch': 'npm test -- --watch'
 			},
 			devDependencies: {
-				'sass-true': '^2.1.3'
+				'sass-true': '^8.0.0'
 			}
 		});
 	});
@@ -973,7 +973,7 @@ describe('Transpile, browser module', function () {
 		assert.jsonFileContent('package.json', {
 			devDependencies: {
 				'@babel/core': '^7.2.2',
-				'babel-loader': '^8.1.0',
+				'babel-loader': '^9.1.3',
 				webpack: '^5.2.0'
 			}
 		});
@@ -1037,7 +1037,7 @@ describe('Transpile, with automated tests and code coverage', function () {
 			devDependencies: {
 				'@babel/register': '^7.0.0',
 				'babel-plugin-istanbul': '^6.0.0',
-				'nodemon': '^2.0.6'
+				'nodemon': '^3.1.0'
 			}
 		});
 	});
@@ -1290,7 +1290,7 @@ describe('Vanilla JS widget', function () {
 		assert.jsonFileContent('package.json', {
 			devDependencies: {
 				'rollup-plugin-svelte': '^7.2.0',
-				'svelte': '^2.16.1'
+				'svelte': '^4.2.12'
 			}
 		});
 	});
@@ -1325,7 +1325,7 @@ describe('TypeScript, with comments', function () {
 			},
 			devDependencies: {
 				'typescript': '^5.4.3',
-				'@types/node': '^16.3.0',
+				'@types/node': '^20.11.30',
 				'@types/mocha': '^10.0.6'
 			}
 		});

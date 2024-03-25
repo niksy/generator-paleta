@@ -66,7 +66,7 @@
     "@istanbuljs/esm-loader-hook": "^0.2.0",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
-    "np": "^7.6.0",<% if ( prettier ) { %>
+    "np": "^10.0.2",<% if ( prettier ) { %>
     "prettier": "^2.4.0",<% } %>
     "eslint": "^8.5.0",
     "eslint-config-nitpick": "^11.1.0"<% if ( typescript && typescriptMode === 'full' ) { %>,
@@ -86,52 +86,52 @@
     "karma-rollup-preprocessor": "^7.0.0"<% } %><% if ( cloudBrowsers ) { %>,
     "karma-browserstack-launcher": "^1.6.0"<% } %>,
     "karma-chrome-launcher": "^3.1.0",<% if ( browserTestType === 'headless' ) { %>
-    "puppeteer": "^5.4.0",<% } %><% if ( usesHtmlFixtures ) { %>
+    "puppeteer": "^22.6.1",<% } %><% if ( usesHtmlFixtures ) { %>
     "karma-html2js-preprocessor": "^1.1.0",
     "karma-fixture": "^0.2.6",<% } %>
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5"<% } %><% if ( automatedTests || integrationTests ) { %>,
     "mocha": "^10.3.0"<% } %><% if ( automatedTests && codeCoverage && !browserModule ) { %>,
-    "nodemon": "^2.0.6",
+    "nodemon": "^3.1.0",
     "nyc": "^15.1.0"<% } %><% if ( automatedTests && codeCoverage && browserModule && !sassModule ) { %><% if ( bundlingTool === 'webpack' ) { %>,
     "@jsdevtools/coverage-istanbul-loader": "^3.0.5"<% } %><% if ( bundlingTool === 'rollup' ) { %>,
     "rollup-plugin-istanbul": "^5.0.0"<% } %>,
     "karma-coverage": "^2.0.3"<% } %><% if ( codeCoverageService ) { %>,
-    "coveralls": "^2.11.11"<% } %><% if ( manualTests || integrationTests ) { %>,
-    "del": "^6.0.0",
+    "coveralls": "^3.1.1"<% } %><% if ( manualTests || integrationTests ) { %>,
+    "del": "^7.1.0",
     "postcss": "^8.3.11",
-    "globby": "^11.0.1",<% if ( bundlingTool === 'webpack' ) { %>
-    "css-loader": "^5.0.0",
-    "html-webpack-plugin": "^4.5.0",
-    "mini-css-extract-plugin": "^1.2.0",
-    "postcss-loader": "^6.2.0",
-    "webpack-cli": "^4.1.0",
-    "webpack-dev-server": "^3.11.0",<% } %><% if ( bundlingTool === 'rollup' ) { %>
+    "globby": "^14.0.1",<% if ( bundlingTool === 'webpack' ) { %>
+    "css-loader": "^6.10.0",
+    "html-webpack-plugin": "^5.6.0",
+    "mini-css-extract-plugin": "^2.8.1",
+    "postcss-loader": "^8.1.1",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4",<% } %><% if ( bundlingTool === 'rollup' ) { %>
     "rollup-plugin-postcss": "^4.0.1",
     "rollup-plugin-serve": "^1.0.3",
     "rollup-plugin-static-site": "0.1.0",<% } %>
-    "postcss-import": "^14.0.2",
-    "postcss-preset-env": "^7.0.0",
+    "postcss-import": "^16.1.0",
+    "postcss-preset-env": "^9.5.2",
     "suitcss-components-test": "^1.0.0"<% } %><% if ( (manualTests || integrationTests) && browserModule && !sassModule && bundlingTool === 'rollup' ) { %>,
     "minimist": "^1.2.0"<% } %><% if ( (manualTests || integrationTests) || ((browserModule && !sassModule) && (transpile || automatedTests)) ) { %><% if ( bundlingTool === 'webpack' ) { %>,
     "webpack": "^5.2.0",<% if ( typescript && typescriptMode === 'full' ) { %>
     "ts-loader": "^9.2.3",<% } %>
     "node-stdlib-browser": "^1.2.0"<% } %><% } %><% if ( sassModule ) { %>,
-    "sass-true": "^2.1.3"<% } %><% if ( integrationTests ) { %><% if ( cloudBrowsers ) { %>,
+    "sass-true": "^8.0.0"<% } %><% if ( integrationTests ) { %><% if ( cloudBrowsers ) { %>,
     "@wdio/browserstack-service": "^8.35.1"<% } %>,
     "wdio-docker-service": "^3.0.0",
     "@wdio/mocha-framework": "^8.35.0",
     "@wdio/spec-reporter": "^8.32.4",
     "@wdio/cli": "^8.35.1",
     "webdriverio": "^8.35.1",
-    "local-web-server": "^4.2.1",
+    "local-web-server": "^5.3.1",
     "http-shutdown": "^1.0.3"<% } %><% if ( transpile ) { %>,
     "@babel/core": "^7.2.2",<% if ( !browserModule && !styles && !bundleCjs ) { %>
     "@babel/cli": "^7.2.3",<% } %>
-    "core-js": "^2.6.5",
+    "core-js": "^3.36.1",
     "@babel/preset-env": "^7.12.1"<% if ( typescript && typescriptMode === 'full' ) { %>,
     "@babel/preset-typescript": "^7.14.5"<% } %><% if ( browserModule && !sassModule ) { %><% if ( bundlingTool === 'webpack' ) { %>,
-    "babel-loader": "^8.1.0"<% } %><% } %><% if ( (automatedTests || manualTests) && browserModule && !sassModule ) { %>,
+    "babel-loader": "^9.1.3"<% } %><% } %><% if ( (automatedTests || manualTests) && browserModule && !sassModule ) { %>,
     "@babel/plugin-transform-runtime": "^7.2.0",
     "@babel/runtime": "^7.2.0"<% } %><% if ( automatedTests ) { %><% if ( !browserModule || (browserModule && integrationTests) ) { %>,
     "@babel/register": "^7.0.0"<% } %><% if ( codeCoverage ) { %><% if ( !browserModule && !sassModule ) { %>,
@@ -145,13 +145,13 @@
     "rollup-plugin-node-globals": "^1.4.0"<% } %><% if ( vanillaJsWidget ) { %>,
     "eslint-plugin-html": "^6.0.0",
     "rollup-plugin-svelte": "^7.2.0",
-    "svelte": "^2.16.1"<% } %><% if ( typescript ) { %>,
+    "svelte": "^4.2.12"<% } %><% if ( typescript ) { %>,
     "typescript": "^5.4.3",
-    "cpy": "^8.1.2",
-    "execa": "^5.1.1",<% if ( !transpile && typescriptMode === 'full' && (!browserModule || (browserModule && integrationTests)) ) { %>
+    "cpy": "^11.0.1",
+    "execa": "^8.0.1",<% if ( !transpile && typescriptMode === 'full' && (!browserModule || (browserModule && integrationTests)) ) { %>
     "ts-node": "^10.1.0",<% } %><% if ( browserModule && usesHtmlFixtures ) { %>
     "@types/karma-fixture": "^0.2.5",<% } %>
-    "@types/node": "^16.3.0"<% if ( automatedTests || integrationTests ) { %>,
+    "@types/node": "^20.11.30"<% if ( automatedTests || integrationTests ) { %>,
     "@types/mocha": "^10.0.6"<% } %><% } %>
   },<% if ( isScopedPackage ) { %>
   "publishConfig": {

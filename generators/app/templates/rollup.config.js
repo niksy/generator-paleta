@@ -2,7 +2,7 @@
 import path from 'node:path';
 import svelte from 'rollup-plugin-svelte';
 import babelCore from '@babel/core';<% } %><% if ( typescript ) { %>
-import execa from 'execa';
+import { execa } from 'execa';
 import cpy from 'cpy';<% if ( !transpile && typescriptMode === 'full' ) { %>
 import typescript from '@rollup/plugin-typescript';<% } %><% if ( transpile && typescriptMode === 'full' ) { %>
 import resolve from '@rollup/plugin-node-resolve';<% } %><% } %>

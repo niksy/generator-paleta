@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import del from 'del';
-import globby from 'globby';
+import { deleteAsync } from 'del';
+import { globby } from 'globby';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import atImport from 'postcss-import';
@@ -11,7 +11,7 @@ export default async () => {
 
 	const port = 0;
 
-	await del(['./test-dist']);
+	await deleteAsync(['./test-dist']);
 
 	const files = await globby(['./test/manual/**/*.<%= extension || 'js' %>', '!./test/manual/webpack.config.js']);
 
