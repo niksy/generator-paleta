@@ -36,6 +36,7 @@
     "test": "test"
   },<% } %>
   "scripts": {
+  	"prepare": "if [[ -x \"$(command -v husky)\" ]]; then husky; fi",
     "release": "np --no-release-draft",<% if ( changelog ) { %>
     "version": "if [ $(git rev-parse --abbrev-ref HEAD) == 'master' ]; then sed -i '' '/\\[unreleased\\]:/d' CHANGELOG.md && version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md; else echo; fi"<% if ( githubRelease ) { %>,
     "postpublish": "GITHUB_TOKEN=$GITHUB_RELEASE_TOKEN github-release-from-changelog"<% } %>,<% } %><% if ( (automatedTests && browserModule && !sassModule) || manualTests || integrationTests ) { %>
@@ -63,8 +64,8 @@
   },
   "devDependencies": {
     "@istanbuljs/esm-loader-hook": "^0.2.0",
-    "husky": "^4.3.0",
-    "lint-staged": "^10.4.2",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
     "np": "^7.6.0",<% if ( prettier ) { %>
     "prettier": "^2.4.0",<% } %>
     "eslint": "^8.5.0",

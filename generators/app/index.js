@@ -616,7 +616,7 @@ export default class extends Generator {
 		cp('eslintrc', '.eslintrc');
 		cp('gitignore', '.gitignore');
 		cp('npmrc', '.npmrc');
-		cp('huskyrc', '.huskyrc');
+		cp('husky', '.husky');
 		cp('lintstagedrc', '.lintstagedrc');
 
 		// Remove old references
