@@ -348,14 +348,6 @@ export default class extends Generator {
 			},
 			{
 				type: 'confirm',
-				name: 'complexTranspile',
-				message:
-					'Is this complex transpiling (source files are in "src" folder)?',
-				default: false,
-				when: (answers) => answers.transpile
-			},
-			{
-				type: 'confirm',
 				name: 'sourceMaps',
 				message: 'Do you want to generate source maps?',
 				default: (answers) => answers.transpile,
@@ -571,7 +563,6 @@ export default class extends Generator {
 			isScopedPackage: isScopedPackage(answers.name),
 			cloudBrowsers: answers.cloudBrowsers,
 			transpile: answers.transpile,
-			complexTranspile: answers.complexTranspile,
 			nodeEngineVersion: parseFloat(answers.nodeEngineVersion),
 			browserVersion: browserVersion,
 			browserslistDevQuery: encodeURIComponent(
@@ -640,8 +631,6 @@ export default class extends Generator {
 			cp('_index.scss', '_index.scss');
 		} else if (answers.cli) {
 			cp('cli.js', `cli.${extension || 'js'}`);
-		} else if (answers.complexTranspile) {
-			cp('index.js', `src/index.${extension || 'js'}`);
 		} else {
 			cp('index.js', `index.${extension || 'js'}`);
 		}

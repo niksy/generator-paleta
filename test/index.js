@@ -1002,65 +1002,6 @@ describe('Transpile, browser module, with automated tests and code coverage', fu
 	});
 });
 
-describe('Transpile, complex', function () {
-	before(function () {
-		return helpers
-			.run(generatorPath)
-			.withAnswers({
-				transpile: true,
-				complexTranspile: true,
-				sourceMaps: false
-			})
-			.toPromise();
-	});
-
-	it('should create necessary files', function () {
-		assert.file(['src/index.js']);
-	});
-
-	it('should add proper data to .gitignore', function () {
-		assert.fileContent('.gitignore', 'esm/');
-	});
-
-	it('should fill package.json with correct information', function () {
-		assert.jsonFileContent('package.json', {
-			main: 'esm/index.js',
-			files: ['esm/'],
-			scripts: {
-				build: 'babel src --out-dir ./'
-			}
-		});
-	});
-});
-
-describe('Transpile, complex, source maps', function () {
-	before(function () {
-		return helpers
-			.run(generatorPath)
-			.withAnswers({
-				transpile: true,
-				complexTranspile: true,
-				sourceMaps: true
-			})
-			.toPromise();
-	});
-
-	it('should create necessary files', function () {
-		assert.file(['src/index.js']);
-	});
-
-	it('should add proper data to .gitignore', function () {
-		assert.fileContent('.gitignore', 'esm/');
-	});
-
-	it('should fill package.json with correct information', function () {
-		assert.jsonFileContent('package.json', {
-			main: 'esm/index.js',
-			files: ['esm/']
-		});
-	});
-});
-
 describe('ES Modules', function () {
 	before(function () {
 		return helpers.run(generatorPath).toPromise();
@@ -1096,8 +1037,7 @@ describe('ES Modules, transpile', function () {
 		return helpers
 			.run(generatorPath)
 			.withAnswers({
-				transpile: true,
-				complexTranspile: false
+				transpile: true
 			})
 			.toPromise();
 	});
@@ -1142,7 +1082,6 @@ describe('ES Modules, transpile, bundle CommonJS', function () {
 			.run(generatorPath)
 			.withAnswers({
 				transpile: true,
-				complexTranspile: false,
 				bundleCjs: true
 			})
 			.toPromise();
@@ -1166,28 +1105,6 @@ describe('ES Modules, transpile, bundle CommonJS', function () {
 	it('should add proper data to .gitignore', function () {
 		assert.fileContent('.gitignore', 'cjs/');
 		assert.fileContent('.gitignore', 'esm/');
-	});
-});
-
-describe('ES Modules, transpile, complex', function () {
-	before(function () {
-		return helpers
-			.run(generatorPath)
-			.withAnswers({
-				transpile: true,
-				complexTranspile: true
-			})
-			.toPromise();
-	});
-
-	it('should add proper data to .gitignore', function () {
-		assert.fileContent('.gitignore', 'esm/');
-	});
-
-	it('should fill package.json with correct information', function () {
-		assert.jsonFileContent('package.json', {
-			files: ['esm/']
-		});
 	});
 });
 

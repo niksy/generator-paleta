@@ -25,5 +25,5 @@
 		"checkJs": true,
 		"isolatedModules": true
 	},
-	"include": ["<% if ( complexTranspile ) { %>src/<% } %>index.<%= extension || 'js' %>", "<% if ( complexTranspile ) { %>src/<% } %>lib/**/*.<%= extension || 'js' %>", "test/**/*.<%= extension || 'js' %>"]
+	"include": ["index.<%= extension || 'js' %>", "lib/**/*.<%= extension || 'js' %>", "test/**/*.<%= extension || 'js' %>"]
 }

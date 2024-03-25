@@ -10,7 +10,7 @@ import path from 'node:path';
 import { promises as fs } from 'node:fs';
 
 export default {
-	input: '<% if ( complexTranspile ) { %>src/<% } %>index.<%= extension || 'js' %>',
+	input: 'index.<%= extension || 'js' %>',
 	output: [<% if ( bundleCjs ) { %>
 		{
 			file: 'cjs/index.js',
