@@ -49,29 +49,20 @@ export default {
 					}
 				}
 			};
-		})(),<% } %>(() => {
+		})(),<% } %><% if ( bundleCjs ) { %>(() => {
 		return {
 			name: 'package-type',
 			async writeBundle (output) {
-				let pkgDir;
-				let type;<% if ( bundleCjs ) { %>
 				if ( output.file.includes('cjs/') ) {
-					pkgDir = 'cjs';
-					type = 'commonjs';
-				} else <% } %>if ( output.file.includes('dist/') ) {
-					pkgDir = 'dist';
-					type = 'module';
-				}
-				if ( typeof pkgDir !== 'undefined' ) {
-					const pkg = path.join(pkgDir, 'package.json');
+					const pkg = path.join('cjs', 'package.json');
 					try {
 						await fs.unlink(pkg);
 					} catch (error) {}
-					await fs.writeFile(pkg, JSON.stringify({ type }), 'utf8');
+					await fs.writeFile(pkg, JSON.stringify({ type: 'commonjs' }), 'utf8');
 				}
 			}
 		}
-	})(),<% if ( !transpile && typescript && typescriptMode === 'full' ) { %>typescript(),<% } %><% if ( transpile ) { %><% if ( vanillaJsWidget ) { %>
+	})(),<% } %><% if ( !transpile && typescript && typescriptMode === 'full' ) { %>typescript(),<% } %><% if ( transpile ) { %><% if ( vanillaJsWidget ) { %>
 		svelte({
 			legacy: true
 		}),

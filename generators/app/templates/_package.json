@@ -58,7 +58,7 @@
     "posttest:ci": "cat ./coverage/lcov.info | coveralls"<% } %><% } %><% if ( transpile && (bundleCjs || (browserModule && !sassModule)) ) { %>,
     "build": "rollup --config rollup.config.js"<% if ( bundleCjs ) { %>,
     "module-check": "node -e 'require(\"<%= moduleName %>\");' && node --input-type=module -e 'import \"<%= moduleName %>\";'"<% } %><% } else if (transpile || typescript) { %>,
-    "build": "<% if ( transpile ) { %>babel '{index,lib/**/*}.<%= extension || 'js' %>' --out-dir dist/<% if ( sourceMaps ) { %> --source-maps true<% } %><% } else { %><% if ( typescript ) { %><% if ( transpile ) { %> && <% } %>tsc -p tsconfig.build.json --declarationDir types<% } %><% } %>"<% } %>,
+    "build": "<% if ( transpile ) { %>babel '{index,lib/**/*}.<%= extension || 'js' %>' --out-dir dist/<% if ( sourceMaps ) { %> --source-maps true<% } %><% } else { %><% if ( typescript ) { %><% if ( transpile ) { %> && <% } %>tsc -p tsconfig.build.json --declarationDir <% if ( transpile ) { %>dist<% } else { %>types<% } %><% } %><% } %>"<% } %>,
     "prerelease": "npm run lint<% if ( transpile ) { %><% if ( typescript ) { %> && npm run lint:types<% } %> && npm run build<% } %><% if ( !(browserModule && styles || sassModule || cssModule) ) { %><% if ( bundleCjs ) { %> && npm run module-check<% } %><% } %>"<% if ( transpile ) { %>,
     "prepublishOnly": "npm run build"<% } %>
   },
