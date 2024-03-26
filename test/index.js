@@ -877,15 +877,15 @@ describe('Transpile', function () {
 	});
 
 	it('should add dist folder to .gitignore', function () {
-		assert.fileContent('.gitignore', 'esm/');
+		assert.fileContent('.gitignore', 'dist/');
 	});
 
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
-			main: 'esm/index.js',
-			files: ['esm/', 'LICENSE.md', 'README.md'],
+			main: 'dist/index.js',
+			files: ['dist/', 'LICENSE.md', 'README.md'],
 			scripts: {
-				build: "babel '{index,lib/**/*}.js' --out-dir esm/",
+				build: "babel '{index,lib/**/*}.js' --out-dir dist/",
 				prerelease: 'npm run lint && npm run build',
 				prepublishOnly: 'npm run build'
 			},
@@ -931,18 +931,18 @@ describe('Transpile, source maps', function () {
 
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
-			main: 'esm/index.js',
-			module: 'esm/index.js',
+			main: 'dist/index.js',
+			module: 'dist/index.js',
 			exports: {
 				'.': {
-					'import': './esm/index.js'
+					'import': './dist/index.js'
 				},
 				'./package.json': './package.json'
 			},
 			sideEffects: false,
-			files: ['esm/'],
+			files: ['dist/'],
 			scripts: {
-				build: "babel '{index,lib/**/*}.js' --out-dir esm/ --source-maps true",
+				build: "babel '{index,lib/**/*}.js' --out-dir dist/ --source-maps true",
 				prerelease: 'npm run lint && npm run build',
 				prepublishOnly: 'npm run build'
 			},
@@ -953,7 +953,7 @@ describe('Transpile, source maps', function () {
 	});
 
 	it('should add proper data to .gitignore', function () {
-		assert.fileContent('.gitignore', 'esm/');
+		assert.fileContent('.gitignore', 'dist/');
 	});
 });
 
@@ -1080,15 +1080,15 @@ describe('Transpile, bundle CommonJS', function () {
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			main: 'cjs/index.js',
-			module: 'esm/index.js',
+			module: 'dist/index.js',
 			exports: {
 				'.': {
-					'import': './esm/index.js',
+					'import': './dist/index.js',
 					'require': './cjs/index.js'
 				},
 				'./package.json': './package.json'
 			},
-			files: ['cjs/', 'esm/'],
+			files: ['cjs/', 'dist/'],
 			scripts: {
 				prerelease:
 					'npm run lint && npm run build && npm run module-check'
@@ -1098,7 +1098,7 @@ describe('Transpile, bundle CommonJS', function () {
 
 	it('should add proper data to .gitignore', function () {
 		assert.fileContent('.gitignore', 'cjs/');
-		assert.fileContent('.gitignore', 'esm/');
+		assert.fileContent('.gitignore', 'dist/');
 	});
 });
 
@@ -1249,12 +1249,12 @@ describe('Sourcemaps', function () {
 	});
 
 	it('should fill .gitignore with correct information', function () {
-		assert.fileContent('.gitignore', 'esm/');
+		assert.fileContent('.gitignore', 'dist/');
 	});
 
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
-			files: ['esm/']
+			files: ['dist/']
 		});
 	});
 });
@@ -1385,7 +1385,7 @@ describe('TypeScript, transpile, with comments', function () {
 		assert.jsonFileContent('package.json', {
 			exports: {
 				'.': {
-					types: 'esm/index.d.ts'
+					types: 'dist/index.d.ts'
 				}
 			},
 			scripts: {
@@ -1420,7 +1420,7 @@ describe('TypeScript, transpile, full', function () {
 		assert.jsonFileContent('package.json', {
 			exports: {
 				'.': {
-					types: 'esm/index.d.ts'
+					types: 'dist/index.d.ts'
 				}
 			},
 			scripts: {

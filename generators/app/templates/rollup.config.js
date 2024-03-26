@@ -19,7 +19,7 @@ export default {
 			sourcemap: true<% } %>,
 		},<% } %>
 		{
-			file: 'esm/index.js',
+			file: 'dist/index.js',
 			format: 'esm'<% if ( sourceMaps ) { %>,
 			sourcemap: true<% } %>
 		}
@@ -28,22 +28,22 @@ export default {
 			return {
 				name: 'types',
 				async writeBundle(output) {
-					let prefix;<% if ( bundleCjs ) { %>
+					let pkgDir;<% if ( bundleCjs ) { %>
 					if (output.file.includes('cjs/')) {
-						prefix = 'cjs';
-					} else <% } %>if (output.file.includes('esm/')) {
-						prefix = 'esm';
+						pkgDir = 'cjs';
+					} else <% } %>if (output.file.includes('dist/')) {
+						pkgDir = 'dist';
 					}
-					if (typeof prefix !== 'undefined') {
+					if (typeof pkgDir !== 'undefined') {
 						const { stdout } = await execa(
 							'tsc',
-							['-p', './tsconfig.build.json', '--declarationDir', prefix],
+							['-p', './tsconfig.build.json', '--declarationDir', pkgDir],
 							{
 								preferLocal: true
 							}
 						);
 						try {
-							await cpy('types', `${prefix}/types`);
+							await cpy('types', `${pkgDir}/types`);
 						} catch (error) {}
 						console.log(stdout);
 					}
@@ -53,17 +53,17 @@ export default {
 		return {
 			name: 'package-type',
 			async writeBundle (output) {
-				let prefix;
+				let pkgDir;
 				let type;<% if ( bundleCjs ) { %>
 				if ( output.file.includes('cjs/') ) {
-					prefix = 'cjs';
+					pkgDir = 'cjs';
 					type = 'commonjs';
-				} else <% } %>if ( output.file.includes('esm/') ) {
-					prefix = 'esm';
+				} else <% } %>if ( output.file.includes('dist/') ) {
+					pkgDir = 'dist';
 					type = 'module';
 				}
-				if ( typeof prefix !== 'undefined' ) {
-					const pkg = path.join(prefix, 'package.json');
+				if ( typeof pkgDir !== 'undefined' ) {
+					const pkg = path.join(pkgDir, 'package.json');
 					try {
 						await fs.unlink(pkg);
 					} catch (error) {}

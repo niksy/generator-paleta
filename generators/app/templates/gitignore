@@ -9,7 +9,6 @@ test-dist/<% } %><% if ( automatedTests && codeCoverage ) { %><% if ( !browserMo
 coverage/<% } %><% if ( browserModule && !sassModule && integrationTests ) { %>
 errorShots/
 wdioDockerLogs/<% } %><% if ( bundleCjs ) { %>
-cjs/<% } %><% if ( transpile ) { %><% if ( !browserModule && !styles ) { %>
-esm/<% } else { %>
-dist/<% } %><% } %><% if ((automatedTests && !browserModule) || (automatedTests && browserModule && usesHtmlFixtures) || manualTests || integrationTests) { %>
+cjs/<% } %><% if ( transpile ) { %>
+dist/<% } %><% if ((automatedTests && !browserModule) || (automatedTests && browserModule && usesHtmlFixtures) || manualTests || integrationTests) { %>
 !test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>fixtures/node_modules/<% } %>
