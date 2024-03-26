@@ -1,10 +1,11 @@
 import path from 'node:path';<% if ( codeCoverage ) { %>
-import fs from 'node:fs';<% } %><% if ( bundlingTool === 'webpack' ) { %>
-import stdLibBrowser from 'node-stdlib-browser';<% } %><% if ( bundlingTool === 'rollup' ) { %>
+import fs from 'node:fs';<% } %>
+import stdLibBrowser from 'node-stdlib-browser';<% if ( bundlingTool === 'rollup' ) { %>
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
-import nodeBuiltins from 'rollup-plugin-node-builtins';
-import globals from 'rollup-plugin-node-globals';<% if ( transpile ) { %>
+import alias from '@rollup/plugin-alias';
+import json from '@rollup/plugin-json';
+import inject from '@rollup/plugin-inject';<% if ( transpile ) { %>
 import babel from '@rollup/plugin-babel';<% } %><% if ( codeCoverage ) { %>
 import istanbul from 'rollup-plugin-istanbul';<% } %>
 import rollupConfig from './rollup.config.js';<% } %><% if ( browserTestType === 'headless' ) { %>
@@ -116,13 +117,21 @@ export default function ( baseConfig ) {
 				istanbul({
 					exclude: ['test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.<%= extension || 'js' %>', 'node_modules/**/*']
 				}),<% } %>
-				nodeBuiltins()<% if ( transpile ) { %>,
+				alias({
+					entries: stdLibBrowser
+				}),
+				json(),
+				inject({
+					process: stdLibBrowser.process,
+					Buffer: [stdLibBrowser.buffer, 'Buffer']
+				})<% if ( transpile ) { %>,
 				babel({
 					exclude: 'node_modules/**',
 					babelHelpers: 'runtime'<% if ( typescript && typescriptMode === 'full' ) { %>,
 					extensions: ['.js', '.ts']<% } %>
 				})<% } %>,
 				resolve({
+					browser: true,
 					preferBuiltins: true
 				}),
 				commonjs(),
@@ -132,7 +141,6 @@ export default function ( baseConfig ) {
 					babelrc: false,
 					configFile: path.resolve(__dirname, '.babelrc')
 				}),
-				globals(),
 				...rollupConfig.plugins<% if ( transpile || typescript ) { %>.filter(({ name }) => ![<% if ( transpile ) { %>'babel'<% } %>, 'package-type'<% if ( typescript ) { %>, 'types'<% } %>].includes(name))<% } %><% if ( vanillaJsWidget || (transpile && typescript && typescriptMode === 'full') ) { %>,
 				babel({
 					exclude: 'node_modules/**',

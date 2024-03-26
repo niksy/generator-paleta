@@ -835,7 +835,9 @@ export default class extends Generator {
 			'eslint-plugin-promise',
 			'eslint-plugin-unicorn',
 			'eslint-plugin-react',
-			'eslint-plugin-vue'
+			'eslint-plugin-vue',
+			'rollup-plugin-node-builtins',
+			'rollup-plugin-node-globals'
 		);
 
 		if (!('ie' in browserSupport)) {

@@ -1194,8 +1194,9 @@ describe('Bundling tool, Rollup, automated tests', function () {
 				'@rollup/plugin-babel': '^6.0.4',
 				'@rollup/plugin-node-resolve': '^15.2.3',
 				'@rollup/plugin-commonjs': '^25.0.7',
-				'rollup-plugin-node-builtins': '^2.1.2',
-				'rollup-plugin-node-globals': '^1.4.0',
+				'@rollup/plugin-alias': '^5.1.0',
+				'@rollup/plugin-json': '^6.1.0',
+				'@rollup/plugin-inject': '^5.0.5',
 				'rollup-plugin-istanbul': '^5.0.0',
 				'karma-rollup-preprocessor': '^7.0.0'
 			}
