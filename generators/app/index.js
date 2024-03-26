@@ -440,8 +440,7 @@ export default class extends Generator {
 				type: 'confirm',
 				name: 'typescript',
 				message: 'Do you want to use TypeScript?',
-				default: false,
-				when: (answers) => answers.transpile
+				default: false
 			},
 			{
 				type: 'list',
@@ -745,7 +744,11 @@ export default class extends Generator {
 			rm('.babelrc');
 		}
 
-		if (answers.transpile || answers.typescript) {
+		if (
+			answers.transpile &&
+			(answers.bundleCjs ||
+				(answers.browserModule && !answers.sassModule))
+		) {
 			cp('rollup.config.js', 'rollup.config.js');
 		} else {
 			rm('rollup.config.js');
@@ -765,13 +768,7 @@ export default class extends Generator {
 
 		if (answers.typescript) {
 			cp('tsconfig.json', 'tsconfig.json');
-			if (
-				!answers.browserModule &&
-				!answers.styles &&
-				!answers.bundleCjs
-			) {
-				cp('tsconfig.build.json', 'tsconfig.build.json');
-			}
+			cp('tsconfig.build.json', 'tsconfig.build.json');
 		} else {
 			rm('tsconfig.json');
 			rm('tsconfig.build.json');

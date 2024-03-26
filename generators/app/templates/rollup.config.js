@@ -35,39 +35,17 @@ export default {
 						prefix = 'esm';
 					}
 					if (typeof prefix !== 'undefined') {
-						const tsconfig = {
-							extends: './tsconfig.json',
-							exclude: ['test/**/*.<%= extension || 'js' %>'],
-							compilerOptions: {
-								declaration: true,
-								declarationMap: true,
-								declarationDir: prefix,
-								emitDeclarationOnly: true,
-								noEmit: false,
-								listEmittedFiles: true
+						const { stdout } = await execa(
+							'tsc',
+							['-p', './tsconfig.build.json', '--declarationDir', prefix],
+							{
+								preferLocal: true
 							}
-						};
-						const file = `.${prefix}.tsconfig.json`;
+						);
 						try {
-							await fs.writeFile(
-								file,
-								JSON.stringify(tsconfig),
-								'utf-8'
-							);
-							const { stdout } = await execa(
-								'tsc',
-								['-p', file],
-								{
-									preferLocal: true
-								}
-							);
-							try {
-								await cpy('types', `${prefix}/types`);
-							} catch (error) {}
-							console.log(stdout);
-						} finally {
-							await fs.unlink(file);
-						}
+							await cpy('types', `${prefix}/types`);
+						} catch (error) {}
+						console.log(stdout);
 					}
 				}
 			};

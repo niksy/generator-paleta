@@ -926,7 +926,7 @@ describe('Transpile, source maps', function () {
 	});
 
 	it('should create necessary files', function () {
-		assert.file(['.babelrc', 'rollup.config.js']);
+		assert.file(['.babelrc']);
 	});
 
 	it('should fill package.json with correct information', function () {
@@ -1301,16 +1301,83 @@ describe('TypeScript, with comments', function () {
 		return helpers
 			.run(generatorPath)
 			.withAnswers({
-				transpile: true,
 				typescript: true,
-				typescriptMode: 'comments',
-				automatedTests: true
+				typescriptMode: 'comments'
 			})
 			.toPromise();
 	});
 
 	it('should create necessary files', function () {
 		assert.file(['tsconfig.json', 'tsconfig.build.json']);
+	});
+
+	it('should fill package.json with correct information', function () {
+		assert.jsonFileContent('package.json', {
+			exports: {
+				'.': {
+					types: 'types/index.d.ts'
+				}
+			},
+			scripts: {
+				'lint:types': 'tsc'
+			},
+			devDependencies: {
+				'typescript': '^5.4.3',
+				'@types/node': '^20.11.30',
+				'@types/mocha': '^10.0.6'
+			}
+		});
+	});
+});
+
+describe('TypeScript, full', function () {
+	before(function () {
+		return helpers
+			.run(generatorPath)
+			.withAnswers({
+				typescript: true,
+				typescriptMode: 'full'
+			})
+			.toPromise();
+	});
+
+	it('should create necessary files', function () {
+		assert.file(['tsconfig.json', 'tsconfig.build.json']);
+	});
+
+	it('should fill package.json with correct information', function () {
+		assert.jsonFileContent('package.json', {
+			exports: {
+				'.': {
+					types: 'types/index.d.ts'
+				}
+			},
+			scripts: {
+				'lint:types': 'tsc'
+			},
+			devDependencies: {
+				'typescript': '^5.4.3',
+				'@types/node': '^20.11.30',
+				'@types/mocha': '^10.0.6'
+			}
+		});
+	});
+});
+
+describe('TypeScript, transpile, with comments', function () {
+	before(function () {
+		return helpers
+			.run(generatorPath)
+			.withAnswers({
+				transpile: true,
+				typescript: true,
+				typescriptMode: 'comments'
+			})
+			.toPromise();
+	});
+
+	it('should create necessary files', function () {
+		assert.file(['tsconfig.json']);
 	});
 
 	it('should fill package.json with correct information', function () {
@@ -1332,20 +1399,37 @@ describe('TypeScript, with comments', function () {
 	});
 });
 
-describe('TypeScript, full', function () {
+describe('TypeScript, transpile, full', function () {
 	before(function () {
 		return helpers
 			.run(generatorPath)
 			.withAnswers({
 				transpile: true,
 				typescript: true,
-				typescriptMode: 'full',
-				automatedTests: true
+				typescriptMode: 'full'
 			})
 			.toPromise();
 	});
 
-	it('should fill rollup.config.js with correct information', function () {
-		assert.fileContent('rollup.config.js', "input: 'index.ts'");
+	it('should create necessary files', function () {
+		assert.file(['tsconfig.json']);
+	});
+
+	it('should fill package.json with correct information', function () {
+		assert.jsonFileContent('package.json', {
+			exports: {
+				'.': {
+					types: 'esm/index.d.ts'
+				}
+			},
+			scripts: {
+				'lint:types': 'tsc'
+			},
+			devDependencies: {
+				'typescript': '^5.4.3',
+				'@types/node': '^20.11.30',
+				'@types/mocha': '^10.0.6'
+			}
+		});
 	});
 });
