@@ -2,7 +2,7 @@
   "name": "<%= moduleName %>",
   "version": "<% if ( version ) { %><%= version %><% } else { %>0.0.0<% } %>",
   "description": "<%= moduleDescription %>",
-  "type": "module",<% if ( !cli ) { %>
+  "type": "module"<% if ( !cli ) { %>,
   "main": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( transpile ) { %><% if ( bundleCjs ) { %>cjs/<% } else { %>esm/<% } %><% } %>index.js<% } %>",
   "module": "<% if ( transpile ) { %>esm/<% } %>index.js",
   "exports": {
@@ -15,7 +15,7 @@
     },
     "./package.json": "./package.json"
   },
-  "sideEffects": false,<% } %>
+  "sideEffects": false<% } %>,
   "author": "<%= humanName %> <<%= email %>> (<%= website %>)",
   "files": [<% if ( !transpile ) { %>
     "<% if ( browserModule && styles || sassModule || cssModule ) { %><% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %>index.css<% } %><% } else { %>index.<% if ( sourceMaps ) { %>{js,js.map}<% } else { %>js<% } %><% } %>",<% } %><% if ( bundleCjs ) { %>
@@ -27,19 +27,19 @@
     "LICENSE.md",
     "README.md"
   ],
-  "license": "MIT",<% if ( browserModule && styles || sassModule || cssModule ) { %>
-  "style": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( transpile ) { %>dist/<% } %>index.css<% } %>",<% } %><% if ( cli ) { %>
+  "license": "MIT"<% if ( browserModule && styles || sassModule || cssModule ) { %>,
+  "style": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( transpile ) { %>dist/<% } %>index.css<% } %>"<% } %><% if ( cli ) { %>,
   "bin": {
     "<%= cliCommandName %>": "cli.js"
-  },<% } %><% if ( manualTests || automatedTests || integrationTests ) { %>
+  }<% } %><% if ( manualTests || automatedTests || integrationTests ) { %>,
   "directories": {
     "test": "test"
-  },<% } %>
+  }<% } %>,
   "scripts": {
   	"prepare": "if [[ -x \"$(command -v husky)\" ]]; then husky; fi",
-    "release": "np --no-release-draft",<% if ( changelog ) { %>
+    "release": "np --no-release-draft"<% if ( changelog ) { %>,
     "version": "if [ $(git rev-parse --abbrev-ref HEAD) == 'master' ]; then sed -i '' '/\\[unreleased\\]:/d' CHANGELOG.md && version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md; else echo; fi"<% if ( githubRelease ) { %>,
-    "postpublish": "GITHUB_TOKEN=$GITHUB_RELEASE_TOKEN github-release-from-changelog"<% } %>,<% } %><% if ( (automatedTests && browserModule && !sassModule) || manualTests || integrationTests ) { %>
+    "postpublish": "GITHUB_TOKEN=$GITHUB_RELEASE_TOKEN github-release-from-changelog"<% } %><% } %>,<% if ( (automatedTests && browserModule && !sassModule) || manualTests || integrationTests ) { %>
     "lint": "<% if ( automatedTests || integrationTests ) { %>eslint '{index,lib/**/*<% if ( cli ) { %>,cli<% } %>,test/**/*}<% if ( vanillaJsWidget || (typescript && typescriptMode === 'full') ) { %>.{js,<% if (typescript && typescriptMode === 'full') { %>,ts<% } %><% if (vanillaJsWidget) { %>,svelte<% } %>}<% } else { %>.js<% } %>'<% } else { %>eslint '{index,lib/**/*<% if ( cli ) { %>,cli<% } %>}<% if ( vanillaJsWidget || (typescript && typescriptMode === 'full') ) { %>.{js,<% if (typescript && typescriptMode === 'full') { %>,ts<% } %><% if (vanillaJsWidget) { %>,svelte<% } %>}<% } else { %>.js<% } %>'<% } %><% if ( browserModule && styles ) { %> && stylelint 'index.css'<% } %>"<% } else if ( sassModule ) { %>
     "lint": "<% if ( automatedTests ) { %>eslint 'test/**/*<% if ( typescript && typescriptMode === 'full' ) { %>.{js,ts}<% } else { %>.js<% } %>' && stylelint '{_index,test/**/*}.scss'<% } else { %>stylelint '_index.scss'<% } %>"<% } else { %>
     "lint": "<% if ( automatedTests ) { %>eslint '{index,lib/**/*<% if ( cli ) { %>,cli<% } %>,test/**/*}<% if ( typescript && typescriptMode === 'full' ) { %>.{js,ts}<% } else { %>.js<% } %>'<% } else { %>eslint '{index,lib/**/*<% if ( cli ) { %>,cli<% } %>}<% if ( typescript && typescriptMode === 'full' ) { %>.{js,ts}<% } else { %>.js<% } %>'<% } %><% if ( browserModule && styles ) { %> && stylelint 'index.css'<% } %>"<% } %><% if ( typescript ) { %>,
@@ -67,8 +67,8 @@
     "@istanbuljs/esm-loader-hook": "^0.2.0",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
-    "np": "^10.0.2",<% if ( prettier ) { %>
-    "prettier": "^2.4.0",<% } %>
+    "np": "^10.0.2"<% if ( prettier ) { %>,
+    "prettier": "^2.4.0"<% } %>,
     "eslint": "^8.5.0",
     "eslint-config-nitpick": "^11.1.0"<% if ( typescript && typescriptMode === 'full' ) { %>,
     "@typescript-eslint/parser": "^4.28.4"<% } %><% if ( prettier ) { %>,
@@ -86,10 +86,10 @@
     "karma-webpack": "^5.0.0"<% } %><% if ( bundlingTool === 'rollup' ) { %>,
     "karma-rollup-preprocessor": "^7.0.0"<% } %><% if ( cloudBrowsers ) { %>,
     "karma-browserstack-launcher": "^1.6.0"<% } %>,
-    "karma-chrome-launcher": "^3.1.0",<% if ( browserTestType === 'headless' ) { %>
-    "puppeteer": "^22.6.1",<% } %><% if ( usesHtmlFixtures ) { %>
+    "karma-chrome-launcher": "^3.1.0"<% if ( browserTestType === 'headless' ) { %>,
+    "puppeteer": "^22.6.1"<% } %><% if ( usesHtmlFixtures ) { %>,
     "karma-html2js-preprocessor": "^1.1.0",
-    "karma-fixture": "^0.2.6",<% } %>
+    "karma-fixture": "^0.2.6"<% } %>,
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5"<% } %><% if ( automatedTests || integrationTests ) { %>,
     "mocha": "^10.3.0"<% } %><% if ( automatedTests && codeCoverage && !browserModule ) { %>,
@@ -101,16 +101,16 @@
     "coveralls": "^3.1.1"<% } %><% if ( manualTests || integrationTests ) { %>,
     "del": "^7.1.0",
     "postcss": "^8.3.11",
-    "globby": "^14.0.1",<% if ( bundlingTool === 'webpack' ) { %>
+    "globby": "^14.0.1"<% if ( bundlingTool === 'webpack' ) { %>,
     "css-loader": "^6.10.0",
     "html-webpack-plugin": "^5.6.0",
     "mini-css-extract-plugin": "^2.8.1",
     "postcss-loader": "^8.1.1",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.0.4",<% } %><% if ( bundlingTool === 'rollup' ) { %>
+    "webpack-dev-server": "^5.0.4"<% } %><% if ( bundlingTool === 'rollup' ) { %>,
     "rollup-plugin-postcss": "^4.0.1",
     "rollup-plugin-serve": "^1.0.3",
-    "rollup-plugin-static-site": "0.1.0",<% } %>
+    "rollup-plugin-static-site": "0.1.0"<% } %>,
     "postcss-import": "^16.1.0",
     "postcss-preset-env": "^9.5.2",
     "suitcss-components-test": "^1.0.0"<% } %><% if ( (manualTests || integrationTests) && browserModule && !sassModule && bundlingTool === 'rollup' ) { %>,
@@ -127,8 +127,8 @@
     "webdriverio": "^8.35.1",
     "local-web-server": "^5.3.1",
     "http-shutdown": "^1.0.3"<% } %><% if ( transpile ) { %>,
-    "@babel/core": "^7.2.2",<% if ( !browserModule && !styles && !bundleCjs ) { %>
-    "@babel/cli": "^7.2.3",<% } %>
+    "@babel/core": "^7.2.2"<% if ( !browserModule && !styles && !bundleCjs ) { %>,
+    "@babel/cli": "^7.2.3"<% } %>,
     "core-js": "^3.36.1",
     "@babel/preset-env": "^7.12.1"<% if ( typescript && typescriptMode === 'full' ) { %>,
     "@babel/preset-typescript": "^7.14.5"<% } %><% if ( browserModule && !sassModule ) { %><% if ( bundlingTool === 'webpack' ) { %>,
@@ -150,15 +150,15 @@
     "svelte": "^4.2.12"<% } %><% if ( typescript ) { %>,
     "typescript": "^5.4.3",
     "cpy": "^11.0.1",
-    "execa": "^8.0.1",<% if ( !transpile && typescriptMode === 'full' && (!browserModule || (browserModule && integrationTests)) ) { %>
-    "ts-node": "^10.1.0",<% } %><% if ( browserModule && usesHtmlFixtures ) { %>
-    "@types/karma-fixture": "^0.2.5",<% } %>
+    "execa": "^8.0.1"<% if ( !transpile && typescriptMode === 'full' && (!browserModule || (browserModule && integrationTests)) ) { %>,
+    "ts-node": "^10.1.0"<% } %><% if ( browserModule && usesHtmlFixtures ) { %>,
+    "@types/karma-fixture": "^0.2.5"<% } %>,
     "@types/node": "^20.11.30"<% if ( automatedTests || integrationTests ) { %>,
     "@types/mocha": "^10.0.6"<% } %><% } %>
-  },<% if ( isScopedPackage ) { %>
+  }<% if ( isScopedPackage ) { %>,
   "publishConfig": {
     "access": "public"
-  },<% } %>
+  }<% } %>,
   "engines": {
     "node": ">=<%= nodeEngineVersion %>"
   }<% if ( keywords.length > 0 ) { %>,
