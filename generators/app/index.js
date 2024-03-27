@@ -625,6 +625,7 @@ export default class extends Generator {
 		rm('.rollup.js');
 		rm('package-lock.json');
 		rm('npm-shrinkwrap.json');
+		rm('.huskyrc');
 
 		if (answers.sassModule) {
 			cp('_index.scss', '_index.scss');
