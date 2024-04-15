@@ -1,8 +1,7 @@
 {
 	"extends": [
 		"stylelint-config-nitpick"<% if ( sassModule ) { %>,
-		"stylelint-config-nitpick/scss"<% } %><% if ( prettier ) { %>,
-		"stylelint-config-prettier"<% } %>
+		"stylelint-config-nitpick/scss"<% } %>
 	]<% if ( prettier ) { %>,
 	"plugins": [
 		"stylelint-prettier"

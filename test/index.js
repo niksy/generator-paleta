@@ -457,11 +457,7 @@ describe('Browser module', function () {
 
 	it('should fill .eslintrc with correct information', function () {
 		assert.jsonFileContent('.eslintrc', {
-			extends: [
-				'eslint-config-nitpick',
-				'eslint-config-nitpick/next',
-				'eslint-config-nitpick/browser'
-			],
+			extends: ['eslint-config-nitpick', 'eslint-config-nitpick/browser'],
 			overrides: [
 				{
 					files: ['karma.conf.js'],
@@ -528,8 +524,8 @@ describe('Styles', function () {
 				lint: "eslint '{index,lib/**/*}.js' && stylelint 'index.css'"
 			},
 			devDependencies: {
-				stylelint: '^14.1.0',
-				'stylelint-config-nitpick': '^9.0.0'
+				stylelint: '^16.3.1',
+				'stylelint-config-nitpick': '^11.0.2'
 			}
 		});
 	});

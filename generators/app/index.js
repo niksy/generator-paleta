@@ -838,7 +838,8 @@ export default class extends Generator {
 			'eslint-plugin-react',
 			'eslint-plugin-vue',
 			'rollup-plugin-node-builtins',
-			'rollup-plugin-node-globals'
+			'rollup-plugin-node-globals',
+			'stylelint-config-prettier'
 		);
 
 		if (!('ie' in browserSupport)) {

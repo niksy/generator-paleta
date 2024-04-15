@@ -6,11 +6,9 @@ files.push("rollup.config.js"); } %>{
 	"root": true,
 	"extends": [
 		"eslint-config-nitpick"<% if ( typescript ) { %>,
-		"eslint-config-nitpick/typescript"<% } %>,
-		"eslint-config-nitpick/next"<% if ( browserModule ) { %>,
+		"eslint-config-nitpick/typescript"<% } %><% if ( browserModule ) { %>,
 		"eslint-config-nitpick/browser"<% } %><% if ( prettier ) { %>,
 		"eslint-config-prettier"<% if ( false ) { %>,
-		"eslint-config-prettier/react",
 		"eslint-config-prettier/vue<% } %><% } %>
 	]<% if ( prettier || vanillaJsWidget ) { %>,
 	"plugins": [<% if ( prettier ) { %>
