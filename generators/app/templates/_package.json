@@ -3,25 +3,26 @@
   "version": "<% if ( version ) { %><%= version %><% } else { %>0.0.0<% } %>",
   "description": "<%= moduleDescription %>",
   "type": "module"<% if ( !cli ) { %>,
-  "main": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( transpile ) { %><% if ( bundleCjs ) { %>cjs/<% } else { %>dist/<% } %><% } %>index.js<% } %>",
-  "module": "<% if ( transpile ) { %>dist/<% } %>index.js",
+  "main": "<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( transpile ) { %><% if ( bundleCjs ) { %>cjs/<% } else { %>dist/<% } %><% } %>index.js<% } %>"<% if ( browserModule && !sassModule ) { %>,
+  "module": "<% if ( transpile ) { %>dist/<% } %>index.js"<% } %>,
   "exports": {
     ".": {<% if ( typescript ) { %>
-      "types": "<% if ( transpile ) { %>dist/<% } else { %>types/<% } %>index.d.ts",<% } %><% if ( browserModule && styles || sassModule || cssModule ) { %><% if ( sassModule ) { %>
+      "types": "./<% if ( transpile ) { %>dist/<% } else { %>types/<% } %>index.d.ts",<% } %><% if ( browserModule && styles || sassModule || cssModule ) { %><% if ( sassModule ) { %>
       "sass": "./_index.scss",<% } %>
       "style": "./<% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %><% if ( transpile ) { %>dist/<% } %>index.css<% } %>",<% } %>
       "import": "./<% if ( transpile ) { %>dist/<% } %>index.js"<% if ( bundleCjs ) { %>,
       "require": "./cjs/index.js"<% } %>
     },
     "./package.json": "./package.json"
-  },
-  "sideEffects": false<% } %>,
+  }<% if ( browserModule && !sassModule ) { %>,
+  "sideEffects": false<% } %><% } %>,
   "author": "<%= humanName %> <<%= email %>> (<%= website %>)",
   "files": [<% if ( !transpile ) { %>
     "<% if ( browserModule && styles || sassModule || cssModule ) { %><% if ( sassModule ) { %>_index.scss<% } else if ( cssModule ) { %>index.css<% } else { %>index.css<% } %><% } else { %>index.<% if ( sourceMaps ) { %>{js,js.map}<% } else { %>js<% } %><% } %>",<% } %><% if ( bundleCjs ) { %>
     "cjs/",<% } %><% if ( transpile ) { %>
     "dist/",<% } else if ( !transpile ) { %>
-    "lib/",<% } %><% if ( changelog ) { %>
+    "lib/",<% } %><% if ( typescript && !transpile ) { %>
+    "types/",<% } %><% if ( changelog ) { %>
     "CHANGELOG.md",<% } %>
     "LICENSE.md",
     "README.md"

@@ -10,5 +10,6 @@ coverage/<% } %><% if ( browserModule && !sassModule && integrationTests ) { %>
 errorShots/
 wdioDockerLogs/<% } %><% if ( bundleCjs ) { %>
 cjs/<% } %><% if ( transpile ) { %>
-dist/<% } %><% if ((automatedTests && !browserModule) || (automatedTests && browserModule && usesHtmlFixtures) || manualTests || integrationTests) { %>
+dist/<% } %><% if ( typescript && !transpile ) { %>
+types/<% } %><% if ((automatedTests && !browserModule) || (automatedTests && browserModule && usesHtmlFixtures) || manualTests || integrationTests) { %>
 !test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>fixtures/node_modules/<% } %>

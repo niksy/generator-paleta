@@ -857,6 +857,21 @@ export default class extends Generator {
 			);
 		}
 
+		if (!answers.transpile) {
+			developmentDependenciesToOmit.push(
+				'core-js',
+				'@babel/core',
+				'@babel/cli',
+				'@babel/preset-env',
+				'@babel/register',
+				'@rollup/plugin-babel',
+				'babel-plugin-istanbul'
+			);
+			if (!answers.bundleCjs && !answers.browserModule) {
+				developmentDependenciesToOmit.push('rollup');
+			}
+		}
+
 		developmentDependenciesToOmit.forEach((key) => {
 			delete mergedPackage.devDependencies[key];
 		});
@@ -869,6 +884,21 @@ export default class extends Generator {
 			});
 			this.packageJson.set('exports', mergedPackage.exports);
 		}
+
+		// Remove module check script if not bundling CommonJS module
+		if (!answers.bundleCjs) {
+			delete mergedPackage.scripts['module-check'];
+			this.packageJson.set('scripts', mergedPackage.scripts);
+		}
+
+		// Remove browser bundler specific fields
+		if (!answers.browserModule) {
+			delete mergedPackage.module;
+			delete mergedPackage.sideEffects;
+		}
+
+		// Remove old types field
+		delete mergedPackage.types;
 
 		this.packageJson.writeContent(mergedPackage);
 	}

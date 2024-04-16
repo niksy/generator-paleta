@@ -41,14 +41,12 @@ describe('New project', function () {
 			type: 'module',
 			name: 'bella',
 			main: 'index.js',
-			module: 'index.js',
 			exports: {
 				'.': {
 					'import': './index.js'
 				},
 				'./package.json': './package.json'
 			},
-			sideEffects: false,
 			author: 'Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com)',
 			files: ['index.js', 'lib/', 'LICENSE.md', 'README.md'],
 			scripts: {
@@ -928,14 +926,12 @@ describe('Transpile, source maps', function () {
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			main: 'dist/index.js',
-			module: 'dist/index.js',
 			exports: {
 				'.': {
 					'import': './dist/index.js'
 				},
 				'./package.json': './package.json'
 			},
-			sideEffects: false,
 			files: ['dist/'],
 			scripts: {
 				build: "babel '{index,lib/**/*}.js' --out-dir dist/ --source-maps true",
@@ -967,6 +963,9 @@ describe('Transpile, browser module', function () {
 
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
+			main: 'dist/index.js',
+			module: 'dist/index.js',
+			sideEffects: false,
 			devDependencies: {
 				'@babel/core': '^7.2.2',
 				'babel-loader': '^9.1.3',
@@ -1076,7 +1075,6 @@ describe('Transpile, bundle CommonJS', function () {
 	it('should fill package.json with correct information', function () {
 		assert.jsonFileContent('package.json', {
 			main: 'cjs/index.js',
-			module: 'dist/index.js',
 			exports: {
 				'.': {
 					'import': './dist/index.js',
@@ -1312,7 +1310,7 @@ describe('TypeScript, with comments', function () {
 		assert.jsonFileContent('package.json', {
 			exports: {
 				'.': {
-					types: 'types/index.d.ts'
+					types: './types/index.d.ts'
 				}
 			},
 			scripts: {
@@ -1346,7 +1344,7 @@ describe('TypeScript, full', function () {
 		assert.jsonFileContent('package.json', {
 			exports: {
 				'.': {
-					types: 'types/index.d.ts'
+					types: './types/index.d.ts'
 				}
 			},
 			scripts: {
@@ -1381,7 +1379,7 @@ describe('TypeScript, transpile, with comments', function () {
 		assert.jsonFileContent('package.json', {
 			exports: {
 				'.': {
-					types: 'dist/index.d.ts'
+					types: './dist/index.d.ts'
 				}
 			},
 			scripts: {
@@ -1416,7 +1414,7 @@ describe('TypeScript, transpile, full', function () {
 		assert.jsonFileContent('package.json', {
 			exports: {
 				'.': {
-					types: 'dist/index.d.ts'
+					types: './dist/index.d.ts'
 				}
 			},
 			scripts: {
