@@ -26,7 +26,7 @@ MIT © [Ivan Nikolić](http://ivannikolic.com)
 <!-- prettier-ignore-start -->
 
 [ci]: https://github.com/niksy/generator-paleta/actions?query=workflow%3ACI
-[ci-img]: https://github.com/niksy/generator-paleta/workflows/CI/badge.svg?branch=master
+[ci-img]: https://github.com/niksy/generator-paleta/actions/workflows/ci.yml/badge.svg?branch=master
 [yeoman]: http://yeoman.io/
 
 <!-- prettier-ignore-end -->
