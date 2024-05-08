@@ -900,6 +900,9 @@ export default class extends Generator {
 		// Remove old types field
 		delete mergedPackage.types;
 
+		// Remove deprecated script fields
+		delete mergedPackage.scripts.prepublish;
+
 		this.packageJson.writeContent(mergedPackage);
 	}
 
