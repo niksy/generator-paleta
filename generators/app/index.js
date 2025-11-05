@@ -612,7 +612,7 @@ export default class extends Generator {
 		cp('README.md', 'README.md');
 		cp('LICENSE.md', 'LICENSE.md');
 		cp('editorconfig', '.editorconfig');
-		cp('eslintrc', '.eslintrc');
+		cp('eslint.config.js', 'eslint.config.js');
 		cp('gitignore', '.gitignore');
 		cp('npmrc', '.npmrc');
 		cp('husky', '.husky');
@@ -628,6 +628,13 @@ export default class extends Generator {
 		rm('.huskyrc');
 		rm('.stylelintrc');
 		rm('.prettierrc');
+		rm('.eslintrc');
+		if (answers.automatedTests) {
+			rm(`test/${automatedTestsDirectory}.eslintrc`);
+		}
+		if (answers.integrationTests) {
+			rm('test/integration/.eslintrc');
+		}
 
 		if (answers.sassModule) {
 			cp('_index.scss', '_index.scss');
@@ -645,9 +652,6 @@ export default class extends Generator {
 			cp('stylelint.config.js', 'stylelint.config.js');
 		}
 
-		if (answers.automatedTests) {
-			cp('test/eslintrc', `test/${automatedTestsDirectory}.eslintrc`);
-		}
 		if (!answers.manualTests && !answers.automatedTests) {
 			rm('test');
 		}
@@ -734,7 +738,6 @@ export default class extends Generator {
 				'test/integration/index.js',
 				`test/integration/index.${extension || 'js'}`
 			);
-			cp('test/integration/eslintrc', 'test/integration/.eslintrc');
 			cp('wdio.conf.js', 'wdio.conf.js');
 		} else {
 			rm('test/integration');

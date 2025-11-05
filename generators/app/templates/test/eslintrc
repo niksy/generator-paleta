@@ -1,6 +1,0 @@
-{
-	"extends": [
-		"eslint-config-nitpick/tests"
-	]<% if ( (automatedTests || manualTests) && browserModule && !sassModule && usesHtmlFixtures ) { %>,
-	"ignorePatterns": ["/**/fixtures"]<% } %>
-}

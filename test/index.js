@@ -25,7 +25,7 @@ describe('New project', function () {
 		assert.file([
 			'package.json',
 			'.editorconfig',
-			'.eslintrc',
+			'eslint.config.js',
 			'.gitignore',
 			'.npmrc',
 			'.husky',
@@ -59,10 +59,8 @@ describe('New project', function () {
 		});
 	});
 
-	it('should fill .eslintrc with correct information', function () {
-		assert.jsonFileContent('.eslintrc', {
-			extends: ['eslint-config-nitpick']
-		});
+	it('should fill eslint.config.js with correct information', function () {
+		assert.fileContent('eslint.config.js', 'eslint-config-nitpick');
 	});
 
 	it('should fill README.md with project data', function () {
@@ -132,11 +130,7 @@ describe('Manual tests', function () {
 	});
 
 	it('should create necessary files', function () {
-		assert.file([
-			'test/.eslintrc',
-			'test/manual',
-			'test/manual/webpack.config.js'
-		]);
+		assert.file(['test/manual', 'test/manual/webpack.config.js']);
 	});
 
 	it('should add proper data to manual test styles', function () {
@@ -185,7 +179,7 @@ describe('Automated tests', function () {
 	});
 
 	it('should create necessary files', function () {
-		assert.file(['test/.eslintrc', '.travis.yml', 'test/index.js']);
+		assert.file(['.travis.yml', 'test/index.js']);
 	});
 
 	it('should fill .gitignore with correct information', function () {
@@ -322,8 +316,6 @@ describe('Integration tests', function () {
 			'test/manual',
 			'test/manual/webpack.config.js',
 			'test/integration',
-			'test/integration/.eslintrc',
-			'test/automated/.eslintrc',
 			'wdio.conf.js'
 		]);
 	});
@@ -417,7 +409,6 @@ describe('All tests, browser module', function () {
 
 	it('should create necessary file', function () {
 		assert.file([
-			'test/automated/.eslintrc',
 			'test/automated/fixtures/index.html',
 			'test/automated/index.js',
 			'test/automated/.webpack.js',
@@ -430,8 +421,8 @@ describe('All tests, browser module', function () {
 		assert.fileContent('karma.conf.js', 'test/automated/**/.webpack.js');
 	});
 
-	it('should update .eslintrc with correct information', function () {
-		assert.fileContent('test/automated/.eslintrc', '"ignorePatterns"');
+	it('should update eslint.config.js with correct information', function () {
+		assert.fileContent('eslint.config.js', 'ignores');
 	});
 });
 
@@ -453,18 +444,8 @@ describe('Browser module', function () {
 		assert.fileContent('README.md', '## Browser support');
 	});
 
-	it('should fill .eslintrc with correct information', function () {
-		assert.jsonFileContent('.eslintrc', {
-			extends: ['eslint-config-nitpick', 'eslint-config-nitpick/browser'],
-			overrides: [
-				{
-					files: ['karma.conf.js'],
-					env: {
-						node: true
-					}
-				}
-			]
-		});
+	it('should fill eslint.config.js with correct information', function () {
+		assert.fileContent('eslint.config.js', 'karma.conf.js');
 	});
 
 	it('should fill .browserslistrc with correct information', function () {
