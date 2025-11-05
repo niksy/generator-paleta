@@ -627,6 +627,7 @@ export default class extends Generator {
 		rm('npm-shrinkwrap.json');
 		rm('.huskyrc');
 		rm('.stylelintrc');
+		rm('.prettierrc');
 
 		if (answers.sassModule) {
 			cp('_index.scss', '_index.scss');
@@ -763,9 +764,9 @@ export default class extends Generator {
 		}
 
 		if (answers.prettier) {
-			cp('prettierrc', '.prettierrc');
+			cp('prettier.config.js', 'prettier.config.js');
 		} else {
-			rm('.prettierrc');
+			rm('prettier.config.js');
 		}
 
 		if (answers.typescript) {

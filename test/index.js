@@ -1262,7 +1262,7 @@ describe('Prettier', function () {
 	});
 
 	it('should create necessary files', function () {
-		assert.file(['.prettierrc']);
+		assert.file(['prettier.config.js']);
 	});
 });
 

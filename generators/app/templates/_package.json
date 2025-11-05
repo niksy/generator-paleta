@@ -68,7 +68,7 @@
 		"husky": "^9.0.11",
 		"lint-staged": "^15.2.2",
 		"np": "^10.0.2"<% if ( prettier ) { %>,
-		"prettier": "^3.2.5"<% } %>,
+		"prettier": "^3.6.2"<% } %>,
 		"eslint": "^8.5.0",
 		"eslint-config-nitpick": "^13.0.1"<% if ( typescript && typescriptMode === 'full' ) { %>,
 		"@typescript-eslint/parser": "^4.28.4"<% } %><% if ( prettier ) { %>,
