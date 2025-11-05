@@ -66,7 +66,7 @@
 	"devDependencies": {
 		"@istanbuljs/esm-loader-hook": "^0.2.0",
 		"husky": "^9.0.11",
-		"lint-staged": "^15.2.2",
+		"lint-staged": "^16.2.6",
 		"np": "^10.0.2"<% if ( browserModule ) { %>,
 		"globals": "^16.5.0"<% } %><% if ( prettier ) { %>,
 		"prettier": "^3.6.2"<% } %>,

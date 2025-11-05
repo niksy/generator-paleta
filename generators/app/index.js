@@ -616,7 +616,7 @@ export default class extends Generator {
 		cp('gitignore', '.gitignore');
 		cp('npmrc', '.npmrc');
 		cp('husky', '.husky');
-		cp('lintstagedrc', '.lintstagedrc');
+		cp('_lint-staged.config.js', 'lint-staged.config.js');
 
 		// Remove old references
 		rm('.istanbul.yml');
@@ -629,6 +629,7 @@ export default class extends Generator {
 		rm('.stylelintrc');
 		rm('.prettierrc');
 		rm('.eslintrc');
+		rm('.lintstagedrc');
 		if (answers.automatedTests) {
 			rm(`test/${automatedTestsDirectory}.eslintrc`);
 		}

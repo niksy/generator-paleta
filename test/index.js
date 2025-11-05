@@ -29,7 +29,7 @@ describe('New project', function () {
 			'.gitignore',
 			'.npmrc',
 			'.husky',
-			'.lintstagedrc',
+			'lint-staged.config.js',
 			'index.js',
 			'LICENSE.md',
 			'README.md'
