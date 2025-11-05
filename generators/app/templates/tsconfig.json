@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
-		"module": "node16",
-		"moduleResolution": "node16",
+		"module": "node18",
+		"moduleResolution": "node18",
 		"moduleDetection": "force",
 		"target": "ES2022",
 		"lib": [<% if ( browserModule ) { %>
@@ -23,7 +23,11 @@
 		"skipLibCheck": true,
 		"allowJs": true,
 		"checkJs": true,
-		"isolatedModules": true
+		"isolatedModules": true,
+		"verbatimModuleSyntax": true,
+		"allowImportingTsExtensions": true,
+		"rewriteRelativeImportExtensions": true,
+		"erasableSyntaxOnly": true
 	},
 	"include": ["index.<%= extension || 'js' %>", "lib/**/*.<%= extension || 'js' %>", "test/**/*.<%= extension || 'js' %>"]
 }
