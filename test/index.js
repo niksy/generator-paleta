@@ -511,7 +511,7 @@ describe('Styles', function () {
 	});
 
 	it('should create necessary files', function () {
-		assert.file(['.stylelintrc']);
+		assert.file(['stylelint.config.js']);
 	});
 
 	it('should fill package.json with correct information', function () {
@@ -522,8 +522,8 @@ describe('Styles', function () {
 				lint: "eslint '{index,lib/**/*}.js' && stylelint 'index.css'"
 			},
 			devDependencies: {
-				stylelint: '^16.3.1',
-				'stylelint-config-nitpick': '^11.0.2'
+				stylelint: '^16.25.0',
+				'stylelint-config-nitpick': '^11.1.0'
 			}
 		});
 	});
@@ -794,13 +794,11 @@ describe('Sass module', function () {
 		});
 	});
 
-	it('should fill .stylelintrc with correct information', function () {
-		assert.jsonFileContent('.stylelintrc', {
-			extends: [
-				'stylelint-config-nitpick',
-				'stylelint-config-nitpick/scss'
-			]
-		});
+	it('should fill stylelint.config.js with correct information', function () {
+		assert.fileContent(
+			'stylelint.config.js',
+			'stylelint-config-nitpick/scss'
+		);
 	});
 
 	it('should create necessary files', function () {

@@ -1,0 +1,12 @@
+export default {
+	extends: [
+		'stylelint-config-nitpick'<% if ( sassModule ) { %>,
+		'stylelint-config-nitpick/scss'<% } %>
+	]<% if ( prettier ) { %>,
+	plugins: [
+		'stylelint-prettier'
+	],
+	rules: {
+		'prettier/prettier': [true, { severity: 'warning' }]
+	}<% } %>
+}

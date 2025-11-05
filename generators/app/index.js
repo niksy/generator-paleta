@@ -626,6 +626,7 @@ export default class extends Generator {
 		rm('package-lock.json');
 		rm('npm-shrinkwrap.json');
 		rm('.huskyrc');
+		rm('.stylelintrc');
 
 		if (answers.sassModule) {
 			cp('_index.scss', '_index.scss');
@@ -640,7 +641,7 @@ export default class extends Generator {
 		}
 
 		if (answers.browserModule && answers.styles) {
-			cp('stylelintrc', '.stylelintrc');
+			cp('stylelint.config.js', 'stylelint.config.js');
 		}
 
 		if (answers.automatedTests) {
