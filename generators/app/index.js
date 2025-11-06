@@ -569,14 +569,11 @@ export default class extends Generator {
 		rm('.prettierrc');
 		rm('.eslintrc');
 		rm('.lintstagedrc');
-		if (answers.automatedTests) {
-			rm(`test/${automatedTestsDirectory}.eslintrc`);
-		}
-		if (answers.integrationTests) {
-			rm('test/integration/.eslintrc');
-		}
+		rm(`test/${automatedTestsDirectory}.eslintrc`);
+		rm('test/integration/.eslintrc');
 		rm('test/manual/webpack.config.js');
 		rm(`test/${automatedTestsDirectory}.webpack.js`);
+		rm('.babelrc');
 
 		if (answers.sassModule) {
 			cp('_index.scss', '_index.scss');
@@ -660,9 +657,9 @@ export default class extends Generator {
 		}
 
 		if (answers.transpile) {
-			cp('babelrc', '.babelrc');
+			cp('babel.config.js', 'babel.config.js');
 		} else {
-			rm('.babelrc');
+			rm('babel.config.js');
 		}
 
 		if (

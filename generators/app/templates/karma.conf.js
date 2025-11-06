@@ -105,7 +105,7 @@ export default function ( baseConfig ) {
 					include: 'node_modules/{has-flag,supports-color}/**',
 					babelHelpers: 'runtime',
 					babelrc: false,
-					configFile: path.resolve(import.meta.dirname, '.babelrc')
+					configFile: path.resolve(import.meta.dirname, 'babel.config.js')
 				}),
 				...rollupConfig.plugins<% if ( transpile || typescript ) { %>.filter(({ name }) => ![<% if ( transpile ) { %>'babel',<% } %> 'package-type'<% if ( typescript ) { %>, 'types'<% } %>].includes(name))<% } %><% if ( vanillaJsWidget || (transpile && typescript && typescriptMode === 'full') ) { %>,
 				babel({
@@ -117,7 +117,7 @@ export default function ( baseConfig ) {
 					include: 'node_modules/svelte/shared.js',
 					babelHelpers: 'runtime',
 					babelrc: false,
-					configFile: path.resolve(import.meta.dirname, '.babelrc')
+					configFile: path.resolve(import.meta.dirname, 'babel.config.js')
 				})<% } %><% } %>
 			],
 			output: {

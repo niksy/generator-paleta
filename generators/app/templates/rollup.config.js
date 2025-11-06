@@ -93,7 +93,7 @@ export default {
 			include: 'node_modules/svelte/shared.js',
 			babelHelpers: 'runtime',
 			babelrc: false,
-			configFile: path.resolve(__dirname, '.babelrc')
+			configFile: path.resolve(__dirname, 'babel.config.js')
 		})<% } %>
 	<% } %>]
 };<% if ( vanillaJsWidget ) { %>

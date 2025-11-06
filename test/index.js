@@ -224,7 +224,7 @@ describe('Automated tests, browser module', function () {
 			devDependencies: {
 				karma: '^6.4.3',
 				'karma-sourcemap-loader': '^0.3.7',
-				'karma-rollup-preprocessor': '^7.0.0',
+				'karma-rollup-preprocessor': '7.0.7',
 				'karma-browserstack-launcher': '^1.6.0',
 				'karma-chrome-launcher': '^3.1.0',
 				'karma-html2js-preprocessor': '^1.1.0',
@@ -314,25 +314,8 @@ describe('Integration tests', function () {
 		result.assertFileContent('wdio.conf.js', "framework: 'mocha'");
 	});
 
-	it('should fill .babelrc with correct information', function () {
-		result.assertJsonFileContent('.babelrc', {
-			overrides: [
-				{
-					test: './test/integration',
-					presets: [
-						[
-							'@babel/preset-env',
-							{
-								modules: false,
-								targets: {
-									node: '18'
-								}
-							}
-						]
-					]
-				}
-			]
-		});
+	it('should fill babel.config.js with correct information', function () {
+		result.assertFileContent('babel.config.js', '@babel/preset-env');
 	});
 });
 
@@ -801,7 +784,7 @@ describe('Transpile', function () {
 	});
 
 	it('should create necessary files', function () {
-		result.assertFile(['.babelrc']);
+		result.assertFile(['babel.config.js']);
 	});
 
 	it('should add dist folder to .gitignore', function () {
@@ -823,20 +806,8 @@ describe('Transpile', function () {
 		});
 	});
 
-	it('should fill .babelrc with correct information', function () {
-		result.assertJsonFileContent('.babelrc', {
-			presets: [
-				[
-					'@babel/preset-env',
-					{
-						modules: false,
-						targets: {
-							node: '18'
-						}
-					}
-				]
-			]
-		});
+	it('should fill babel.config.js with correct information', function () {
+		result.assertFileContent('babel.config.js', '@babel/preset-env');
 	});
 });
 
@@ -854,7 +825,7 @@ describe('Transpile, source maps', function () {
 	});
 
 	it('should create necessary files', function () {
-		result.assertFile(['.babelrc']);
+		result.assertFile(['babel.config.js']);
 	});
 
 	it('should fill package.json with correct information', function () {
@@ -907,10 +878,8 @@ describe('Transpile, browser module', function () {
 		});
 	});
 
-	it('should fill .babelrc with correct information', function () {
-		result.assertJsonFileContent('.babelrc', {
-			presets: [['@babel/preset-env', { modules: false }]]
-		});
+	it('should fill babel.config.js with correct information', function () {
+		result.assertFileContent('babel.config.js', '@babel/preset-env');
 	});
 });
 
@@ -927,25 +896,8 @@ describe('Transpile, with automated tests and code coverage', function () {
 			.toPromise();
 	});
 
-	it('should fill .babelrc with correct information', function () {
-		result.assertJsonFileContent('.babelrc', {
-			presets: [
-				[
-					'@babel/preset-env',
-					{
-						modules: false,
-						targets: {
-							node: '18'
-						}
-					}
-				]
-			],
-			env: {
-				test: {
-					plugins: ['babel-plugin-istanbul']
-				}
-			}
-		});
+	it('should fill babel.config.js with correct information', function () {
+		result.assertFileContent('babel.config.js', 'babel-plugin-istanbul');
 	});
 
 	it('should fill .nycrc with correct information', function () {
@@ -1119,7 +1071,7 @@ describe('Bundling tool, Rollup, automated tests', function () {
 				'@rollup/plugin-json': '^6.1.0',
 				'@rollup/plugin-inject': '^5.0.5',
 				'rollup-plugin-istanbul': '^5.0.0',
-				'karma-rollup-preprocessor': '^7.0.0'
+				'karma-rollup-preprocessor': '7.0.7'
 			}
 		});
 	});
