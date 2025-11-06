@@ -7,14 +7,7 @@ import isScopedPackage from 'is-scoped';
 import browserslist from 'browserslist';
 import { pathExists } from 'path-exists';
 
-const {
-	kebabCase: dashCase,
-	camelCase,
-	uniq,
-	compact,
-	min,
-	fromPairs: fromEntries
-} = lodash;
+const { kebabCase: dashCase, camelCase, uniq, compact, min, fromPairs: fromEntries } = lodash;
 
 // https://www.browserstack.com/automate/capabilities
 const browserIdMapping = {
@@ -66,10 +59,7 @@ function preparePackageName(packageName, options = {}) {
 	let preparedPackageName;
 	if (isScopedPackage(packageName)) {
 		const scopedPackageName = packageName.split('/');
-		preparedPackageName = [
-			scopedPackageName[0],
-			dashCase(scopedPackageName[1])
-		].join('/');
+		preparedPackageName = [scopedPackageName[0], dashCase(scopedPackageName[1])].join('/');
 	} else {
 		preparedPackageName = dashCase(packageName);
 	}
@@ -141,11 +131,9 @@ function getMinimumSupportedBrowserVersions(browserVersion) {
 			map[browser].push(Number(version));
 			return map;
 		}, {});
-	browserSupport = Object.entries(browserSupport).map(
-		([browser, versions]) => {
-			return [browser, min(versions)];
-		}
-	);
+	browserSupport = Object.entries(browserSupport).map(([browser, versions]) => {
+		return [browser, min(versions)];
+	});
 	browserSupport = fromEntries(browserSupport);
 	return browserSupport;
 }
@@ -153,9 +141,7 @@ function getMinimumSupportedBrowserVersions(browserVersion) {
 export default class extends Generator {
 	async initializing() {
 		this.pkg = this.fs.readJSON(this.destinationPath('package.json'), {});
-		const hasGitRespository = await pathExists(
-			this.destinationPath('.git')
-		);
+		const hasGitRespository = await pathExists(this.destinationPath('.git'));
 
 		this.author = {
 			humanName: 'Ivan Nikolić',
@@ -211,8 +197,7 @@ export default class extends Generator {
 				type: 'input',
 				name: 'cliCommandName',
 				message: 'What is the name of CLI command?',
-				default: (answers) =>
-					preparePackageName(answers.name, { clean: true }),
+				default: (answers) => preparePackageName(answers.name, { clean: true }),
 				when: (answers) => answers.cli
 			},
 			{
@@ -263,8 +248,7 @@ export default class extends Generator {
 				name: 'usesHtmlFixtures',
 				message: 'Do you need HTML fixtures for automated tests?',
 				default: false,
-				when: (answers) =>
-					answers.browserModule && answers.automatedTests
+				when: (answers) => answers.browserModule && answers.automatedTests
 			},
 			{
 				type: 'list',
@@ -298,17 +282,14 @@ export default class extends Generator {
 						value: 'headless'
 					}
 				],
-				when: (answers) =>
-					answers.automatedTests && answers.browserModule
+				when: (answers) => answers.automatedTests && answers.browserModule
 			},
 			{
 				type: 'confirm',
 				name: 'cloudBrowsers',
-				message:
-					'Do you need cloud browser service (Browserstack) for tests?',
+				message: 'Do you need cloud browser service (Browserstack) for tests?',
 				default: true,
-				when: (answers) =>
-					answers.automatedTests && answers.browserModule
+				when: (answers) => answers.automatedTests && answers.browserModule
 			},
 			{
 				type: 'confirm',
@@ -316,9 +297,7 @@ export default class extends Generator {
 				message: 'Do you have integration (Selenium) tests?',
 				default: false,
 				when: (answers) =>
-					answers.automatedTests &&
-					answers.manualTests &&
-					answers.browserModule
+					answers.automatedTests && answers.manualTests && answers.browserModule
 			},
 			{
 				type: 'confirm',
@@ -330,8 +309,7 @@ export default class extends Generator {
 			{
 				type: 'confirm',
 				name: 'codeCoverageService',
-				message:
-					'Do you want to send code coverage report to Coveralls?',
+				message: 'Do you want to send code coverage report to Coveralls?',
 				default: false,
 				when: (answers) => answers.codeCoverage
 			},
@@ -411,9 +389,8 @@ export default class extends Generator {
 					const browserSupport = getMinimumSupportedBrowserVersions(
 						answers.browserVersion
 					);
-					const defaultValues = Object.keys(browserSupport).filter(
-						(browserId) =>
-							['chrome', 'firefox', 'edge'].includes(browserId)
+					const defaultValues = Object.keys(browserSupport).filter((browserId) =>
+						['chrome', 'firefox', 'edge'].includes(browserId)
 					);
 					return defaultValues;
 				},
@@ -423,14 +400,9 @@ export default class extends Generator {
 					);
 					const choices = Object.keys(browserSupport)
 						.filter((browserId) =>
-							['chrome', 'firefox', 'edge', 'ios_saf'].includes(
-								browserId
-							)
+							['chrome', 'firefox', 'edge', 'ios_saf'].includes(browserId)
 						)
-						.map((browserId) => [
-							browserIdMapping[browserId].longName,
-							browserId
-						])
+						.map((browserId) => [browserIdMapping[browserId].longName, browserId])
 						.map(([name, value]) => ({ name, value }));
 					return choices;
 				},
@@ -509,12 +481,8 @@ export default class extends Generator {
 			this.answers.bundlingTool = 'webpack';
 		}
 
-		this.answers.keywords = commaSeparatedValuesToArray(
-			this.answers.keywords
-		);
-		this.answers.browserVersion = commaSeparatedValuesToArray(
-			this.answers.browserVersion
-		);
+		this.answers.keywords = commaSeparatedValuesToArray(this.answers.keywords);
+		this.answers.browserVersion = commaSeparatedValuesToArray(this.answers.browserVersion);
 		this.answers.cloudBrowsersToTest = cloudBrowsersToTestConfiguration(
 			this.answers.cloudBrowsersToTest,
 			getMinimumSupportedBrowserVersions(this.answers.browserVersion)
@@ -526,19 +494,13 @@ export default class extends Generator {
 	writing() {
 		const { answers, pkg, author } = this;
 		const { keywords, browserVersion } = answers;
-		const browserSupport =
-			getMinimumSupportedBrowserVersions(browserVersion);
-		const extension =
-			answers.typescript && answers.typescriptMode === 'full'
-				? 'ts'
-				: null;
+		const browserSupport = getMinimumSupportedBrowserVersions(browserVersion);
+		const extension = answers.typescript && answers.typescriptMode === 'full' ? 'ts' : null;
 
 		const tpl = {
 			moduleName: preparePackageName(answers.name),
 			cleanModuleName: preparePackageName(answers.name, { clean: true }),
-			camelCasedModuleName: camelCase(
-				preparePackageName(answers.name, { clean: true })
-			),
+			camelCasedModuleName: camelCase(preparePackageName(answers.name, { clean: true })),
 			moduleDescription: answers.description,
 			browserModule: answers.browserModule,
 			styles: answers.styles,
@@ -586,11 +548,7 @@ export default class extends Generator {
 		this.tpl = tpl;
 
 		this.copyResource = (from, to) => {
-			this.fs.copyTpl(
-				this.templatePath(from),
-				this.destinationPath(to),
-				this.tpl
-			);
+			this.fs.copyTpl(this.templatePath(from), this.destinationPath(to), this.tpl);
 		};
 		this.removeResource = (to) => {
 			this.fs.delete(this.destinationPath(to));
@@ -668,18 +626,13 @@ export default class extends Generator {
 			if (answers.browserModule) {
 				if (!answers.sassModule) {
 					if (answers.usesHtmlFixtures) {
-						cp(
-							'test/automated/fixtures',
-							`test/${automatedTestsDirectory}fixtures`
-						);
+						cp('test/automated/fixtures', `test/${automatedTestsDirectory}fixtures`);
 					} else {
 						rm(`test/${automatedTestsDirectory}fixtures`);
 					}
 					cp(
 						`test/automated/index.${extension || 'js'}`,
-						`test/${automatedTestsDirectory}index.${
-							extension || 'js'
-						}`
+						`test/${automatedTestsDirectory}index.${extension || 'js'}`
 					);
 					if (answers.bundlingTool === 'webpack') {
 						cp(
@@ -712,21 +665,12 @@ export default class extends Generator {
 		if (answers.manualTests || answers.integrationTests) {
 			cp('test/manual/index.html', 'test/manual/index.html');
 			cp('test/manual/index.css', 'test/manual/index.css');
-			cp(
-				'test/manual/index.js',
-				`test/manual/index.${extension || 'js'}`
-			);
+			cp('test/manual/index.js', `test/manual/index.${extension || 'js'}`);
 			if (answers.bundlingTool === 'webpack') {
-				cp(
-					'test/manual/webpack.config.js',
-					'test/manual/webpack.config.js'
-				);
+				cp('test/manual/webpack.config.js', 'test/manual/webpack.config.js');
 			}
 			if (answers.bundlingTool === 'rollup') {
-				cp(
-					'test/manual/rollup.config.js',
-					'test/manual/rollup.config.js'
-				);
+				cp('test/manual/rollup.config.js', 'test/manual/rollup.config.js');
 			}
 		} else {
 			rm('test/manual');
@@ -735,10 +679,7 @@ export default class extends Generator {
 		}
 
 		if (answers.integrationTests) {
-			cp(
-				'test/integration/index.js',
-				`test/integration/index.${extension || 'js'}`
-			);
+			cp('test/integration/index.js', `test/integration/index.${extension || 'js'}`);
 			cp('wdio.conf.js', 'wdio.conf.js');
 		} else {
 			rm('test/integration');
@@ -753,8 +694,7 @@ export default class extends Generator {
 
 		if (
 			answers.transpile &&
-			(answers.bundleCjs ||
-				(answers.browserModule && !answers.sassModule))
+			(answers.bundleCjs || (answers.browserModule && !answers.sassModule))
 		) {
 			cp('rollup.config.js', 'rollup.config.js');
 		} else {
@@ -787,9 +727,7 @@ export default class extends Generator {
 
 		// Write package.json, handling property order
 		cp('_package.json', '_package.json');
-		const newPackage = this.fs.readJSON(
-			this.destinationPath('_package.json')
-		);
+		const newPackage = this.fs.readJSON(this.destinationPath('_package.json'));
 		rm('_package.json');
 
 		this.packageJson.merge(newPackage);
@@ -804,22 +742,10 @@ export default class extends Generator {
 			mergedPackage.keywords = keywords;
 		}
 
+		const customSort = ['keywords', 'repository', 'bugs', 'homepage'];
+
 		mergedPackage = sortPackageJson(mergedPackage, {
-			sortOrder: [
-				...sortOrder.filter(
-					(field) =>
-						![
-							'homepage',
-							'bugs',
-							'repository',
-							'keywords'
-						].includes(field)
-				),
-				'keywords',
-				'repository',
-				'bugs',
-				'homepage'
-			]
+			sortOrder: [...sortOrder.filter((field) => !customSort.includes(field)), ...customSort]
 		});
 
 		const developmentDependenciesToOmit = [];
@@ -857,10 +783,7 @@ export default class extends Generator {
 		}
 
 		if (!answers.usesHtmlFixtures) {
-			developmentDependenciesToOmit.push(
-				'karma-fixture',
-				'@types/karma-fixture'
-			);
+			developmentDependenciesToOmit.push('karma-fixture', '@types/karma-fixture');
 		}
 
 		if (!answers.transpile) {
@@ -920,11 +843,7 @@ export default class extends Generator {
 			}
 			await this.spawnCommand('git', ['add', '.'], options);
 			try {
-				await this.spawnCommand(
-					'npx',
-					['lint-staged', '--no-stash'],
-					options
-				);
+				await this.spawnCommand('npx', ['lint-staged', '--no-stash'], options);
 			} catch (error) {
 				// Handled
 			}

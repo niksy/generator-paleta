@@ -1,0 +1,35 @@
+import configBase from 'eslint-config-nitpick';
+import configTests from 'eslint-config-nitpick/tests';
+import configPrettier from 'eslint-config-prettier/flat';
+import pluginPrettier from 'eslint-plugin-prettier';
+
+export default [
+	configBase,
+	configPrettier,
+	{
+		plugins: {
+			prettier: pluginPrettier
+		},
+		rules: {
+			'prettier/prettier': 1
+		}
+	},
+	{
+		files: ['test/**/*'],
+		...configTests
+	},
+	{
+		files: ['test/index.js'],
+		rules: {
+			'unicorn/prevent-abbreviations': [
+				1,
+				{
+					allowList: {
+						devDependencies: true,
+						env: true
+					}
+				}
+			]
+		}
+	}
+];

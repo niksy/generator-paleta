@@ -3,9 +3,7 @@ import { fileURLToPath } from 'node:url';
 import helpers, { result } from 'yeoman-test';
 import { writeJsonFile } from 'write-json-file';
 
-const generatorPath = fileURLToPath(
-	new URL('../generators/app/index.js', import.meta.url)
-);
+const generatorPath = fileURLToPath(new URL('../generators/app/index.js', import.meta.url));
 
 describe('New project', function () {
 	this.timeout(5000);
@@ -77,10 +75,7 @@ describe.skip('Existing project', function () {
 
 		return helperContext
 			.inTmpDir(async function (directory) {
-				const temporaryPackagePath = path.join(
-					directory,
-					'package.json'
-				);
+				const temporaryPackagePath = path.join(directory, 'package.json');
 				try {
 					await writeJsonFile(temporaryPackagePath, {
 						name: 'minnie',
@@ -88,7 +83,7 @@ describe.skip('Existing project', function () {
 						main: 'index.js',
 						version: '1.0.0',
 						dependencies: {
-							e: 3, // eslint-disable-line unicorn/prevent-abbreviations
+							e: 3,
 							a: 1,
 							g: 4,
 							c: 2
@@ -377,10 +372,7 @@ describe('Integration tests, ES Modules', function () {
 	});
 
 	it('should fill .gitignore with correct information', function () {
-		result.assertFileContent(
-			'.gitignore',
-			'!test/automated/fixtures/node_modules/'
-		);
+		result.assertFileContent('.gitignore', '!test/automated/fixtures/node_modules/');
 	});
 
 	it('should fill package.json with correct information', function () {
@@ -417,10 +409,7 @@ describe('All tests, browser module', function () {
 	});
 
 	it('should update karma.conf.js with correct information', function () {
-		result.assertFileContent(
-			'karma.conf.js',
-			'test/automated/**/.webpack.js'
-		);
+		result.assertFileContent('karma.conf.js', 'test/automated/**/.webpack.js');
 	});
 
 	it('should update eslint.config.js with correct information', function () {
@@ -680,10 +669,7 @@ describe.skip('Non-GitHub repository, existing project', function () {
 
 		return helperContext
 			.inTmpDir(async function (directory) {
-				const temporaryPackagePath = path.join(
-					directory,
-					'package.json'
-				);
+				const temporaryPackagePath = path.join(directory, 'package.json');
 				try {
 					await writeJsonFile(temporaryPackagePath, {
 						repository: {
@@ -778,10 +764,7 @@ describe('Sass module', function () {
 	});
 
 	it('should fill stylelint.config.js with correct information', function () {
-		result.assertFileContent(
-			'stylelint.config.js',
-			'stylelint-config-nitpick/scss'
-		);
+		result.assertFileContent('stylelint.config.js', 'stylelint-config-nitpick/scss');
 	});
 
 	it('should create necessary files', function () {
@@ -827,10 +810,7 @@ describe('Cloud browsers', function () {
 	});
 
 	it('should adjust Karma configuration', function () {
-		result.assertFileContent(
-			'karma.conf.js',
-			"browsers: [(!local ? 'Chrome-CI' : 'Chrome')]"
-		);
+		result.assertFileContent('karma.conf.js', "browsers: [(!local ? 'Chrome-CI' : 'Chrome')]");
 	});
 });
 
@@ -1035,10 +1015,7 @@ describe('Transpile, browser module, with automated tests and code coverage', fu
 
 	it('should add proper data to karma.conf.js', function () {
 		result.assertFileContent('karma.conf.js', 'babel-loader');
-		result.assertFileContent(
-			'karma.conf.js',
-			'@jsdevtools/coverage-istanbul-loader'
-		);
+		result.assertFileContent('karma.conf.js', '@jsdevtools/coverage-istanbul-loader');
 	});
 });
 
@@ -1065,8 +1042,7 @@ describe('Transpile, bundle CommonJS', function () {
 			},
 			files: ['cjs/', 'dist/'],
 			scripts: {
-				prerelease:
-					'npm run lint && npm run build && npm run module-check'
+				prerelease: 'npm run lint && npm run build && npm run module-check'
 			}
 		});
 	});
@@ -1140,8 +1116,7 @@ describe('Changelog, GitHub Release', function () {
 	it('should fill package.json with correct information', function () {
 		result.assertJsonFileContent('package.json', {
 			scripts: {
-				postpublish:
-					'GITHUB_TOKEN=$GITHUB_RELEASE_TOKEN github-release-from-changelog'
+				postpublish: 'GITHUB_TOKEN=$GITHUB_RELEASE_TOKEN github-release-from-changelog'
 			},
 			devDependencies: {
 				'github-release-from-changelog': '^2.1.1'
