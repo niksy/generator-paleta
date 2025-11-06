@@ -1,7 +1,7 @@
 export default {
 	presets: [<% if ( browserModule ) { %>
-		['@babel/preset-env, { modules: false }]<% } else { %>
-		['@babel/preset-env, {
+		['@babel/preset-env', { modules: false }]<% } else { %>
+		['@babel/preset-env', {
 			modules: false,
 			targets: {
 				node: '<%= nodeEngineVersion %>'
@@ -19,7 +19,7 @@ export default {
 	env: {
 		test: {
 			presets: [
-				['@babel/preset-env, {
+				['@babel/preset-env', {
 					modules: false,
 					useBuiltIns: 'usage',
 					corejs: 2
