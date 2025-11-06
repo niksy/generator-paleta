@@ -55,8 +55,8 @@ const config = async () => {
 		},
 		plugins: [<% if ( transpile ) { %>
 			babel({
-				babelHelpers: 'bundled',
-				exclude: 'node_modules/**'
+				exclude: 'node_modules/**',
+				babelHelpers: 'runtime'
 			}),<% } %><% if ( !transpile && typescript && typescriptMode === 'full' ) { %>
 			typescript({
 				target: 'esnext'

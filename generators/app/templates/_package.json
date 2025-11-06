@@ -47,7 +47,7 @@
 		"test:automated": "<% if ( transpile ) { %>BABEL_ENV=test <% } %>karma start",
 		"test:automated:watch": "npm run test:automated -- --auto-watch --no-single-run"<% } %><% if ( manualTests || integrationTests ) { %>,
 		"test:generate-static-site": "<% if ( transpile ) { %>BABEL_ENV=test <% } %><% if ( bundlingTool === 'rollup' ) { %>rollup --config ./test/manual/rollup.config.js<% } %>",
-		"test:generate-static-site:watch": "<% if ( transpile ) { %>BABEL_ENV=test <% } %><% if ( bundlingTool === 'rollup' ) { %>rollup --config ./test/manual/rollup.config.js --watch<% } %>"<% if ( integrationTests ) { %>,
+		"test:generate-static-site:watch": "npm run test:generate-static-site -- --watch"<% if ( integrationTests ) { %>,
 		"test:integration": "npm run test:generate-static-site && wdio",
 		"test:integration:watch": "npm run test:generate-static-site:watch & wdio"<% } %><% } %><% if ( manualTests ) { %>,
 		"test:manual": "npm run test:generate-static-site:watch"<% } %><% if ( (automatedTests && browserModule && !sassModule) || manualTests || integrationTests ) { %>,
