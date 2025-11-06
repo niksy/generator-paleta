@@ -124,10 +124,6 @@ describe('Manual tests', function () {
 			.toPromise();
 	});
 
-	it('should create necessary files', function () {
-		result.assertFile(['test/manual/webpack.config.js']);
-	});
-
 	it('should add proper data to manual test styles', function () {
 		result.assertFileContent(
 			'test/manual/index.css',
@@ -144,18 +140,10 @@ describe('Manual tests', function () {
 				'test:manual': 'npm run test:generate-static-site:watch'
 			},
 			devDependencies: {
-				webpack: '^5.2.0',
-				del: '^7.1.0',
-				globby: '^14.0.1',
-				'css-loader': '^6.10.0',
-				'html-webpack-plugin': '^5.6.0',
-				'mini-css-extract-plugin': '^2.8.1',
-				'postcss': '^8.3.11',
-				'postcss-import': '^16.1.0',
-				'postcss-preset-env': '^9.5.2',
-				'postcss-loader': '^8.1.1',
-				'webpack-cli': '^5.1.4',
-				'webpack-dev-server': '^5.0.4'
+				rollup: '^4.13.0',
+				'rollup-plugin-postcss': '^4.0.1',
+				'rollup-plugin-serve': '^1.0.3',
+				'rollup-plugin-static-site': '0.1.0'
 			}
 		});
 	});
@@ -224,12 +212,7 @@ describe('Automated tests, browser module', function () {
 	});
 
 	it('should create necessary file', function () {
-		result.assertFile([
-			'test/fixtures/index.html',
-			'test/index.js',
-			'test/.webpack.js',
-			'karma.conf.js'
-		]);
+		result.assertFile(['test/fixtures/index.html', 'test/index.js', 'karma.conf.js']);
 	});
 
 	it('should fill package.json with correct information', function () {
@@ -241,20 +224,16 @@ describe('Automated tests, browser module', function () {
 			devDependencies: {
 				karma: '^6.4.3',
 				'karma-sourcemap-loader': '^0.3.7',
-				'karma-webpack': '^5.0.0',
+				'karma-rollup-preprocessor': '^7.0.0',
 				'karma-browserstack-launcher': '^1.6.0',
 				'karma-chrome-launcher': '^3.1.0',
 				'karma-html2js-preprocessor': '^1.1.0',
 				'karma-fixture': '^0.2.6',
 				'karma-mocha': '^2.0.1',
 				'karma-mocha-reporter': '^2.2.5',
-				webpack: '^5.2.0'
+				rollup: '^4.13.0'
 			}
 		});
-	});
-
-	it('should update karma.conf.js with correct information', function () {
-		result.assertFileContent('karma.conf.js', 'test/**/.webpack.js');
 	});
 
 	it('should add information regarding BrowserStack to README.md', function () {
@@ -308,7 +287,7 @@ describe('Integration tests', function () {
 
 	it('should create necessary file', function () {
 		result.assertFile([
-			'test/manual/webpack.config.js',
+			'test/manual/rollup.config.js',
 			'test/integration/index.js',
 			'wdio.conf.js'
 		]);
@@ -402,14 +381,9 @@ describe('All tests, browser module', function () {
 		result.assertFile([
 			'test/automated/fixtures/index.html',
 			'test/automated/index.js',
-			'test/automated/.webpack.js',
 			'test/manual/index.js',
 			'test/integration/index.js'
 		]);
-	});
-
-	it('should update karma.conf.js with correct information', function () {
-		result.assertFileContent('karma.conf.js', 'test/automated/**/.webpack.js');
 	});
 
 	it('should update eslint.config.js with correct information', function () {
@@ -591,7 +565,6 @@ describe('Code coverage, browser module', function () {
 	it('should fill package.json with correct information', function () {
 		result.assertJsonFileContent('package.json', {
 			devDependencies: {
-				'@jsdevtools/coverage-istanbul-loader': '^3.0.5',
 				'karma-coverage': '^2.0.3'
 			}
 		});
@@ -929,8 +902,7 @@ describe('Transpile, browser module', function () {
 			sideEffects: false,
 			devDependencies: {
 				'@babel/core': '^7.2.2',
-				'babel-loader': '^9.1.3',
-				webpack: '^5.2.0'
+				rollup: '^4.13.0'
 			}
 		});
 	});
@@ -1014,8 +986,7 @@ describe('Transpile, browser module, with automated tests and code coverage', fu
 	});
 
 	it('should add proper data to karma.conf.js', function () {
-		result.assertFileContent('karma.conf.js', 'babel-loader');
-		result.assertFileContent('karma.conf.js', '@jsdevtools/coverage-istanbul-loader');
+		result.assertFileContent('karma.conf.js', 'coverage');
 	});
 });
 

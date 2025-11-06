@@ -1,5 +1,4 @@
-<% var files = []; if ( manualTests || integrationTests ) { if ( bundlingTool === 'webpack' ) {
-files.push("test/manual/webpack.config.js"); } if ( bundlingTool === 'rollup' ) { files.push("test/manual/rollup.config.js"); } } if ( automatedTests && browserModule && !sassModule ) {
+<% var files = []; if ( manualTests || integrationTests ) { if ( bundlingTool === 'rollup' ) { files.push("test/manual/rollup.config.js"); } } if ( automatedTests && browserModule && !sassModule ) {
 files.push("karma.conf.js"); } if ( integrationTests ) {
 files.push("wdio.conf.js"); } if ( transpile && (bundleCjs || (browserModule && !sassModule)) ) {
 files.push("rollup.config.js"); } %>import configBase from 'eslint-config-nitpick';<% if ( typescript ) { %>

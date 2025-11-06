@@ -57,14 +57,12 @@ export default function ( baseConfig ) {
 		basePath: '',
 		frameworks: ['mocha'<% if ( usesHtmlFixtures ) { %>, 'fixture'<% } %>],
 		files: [<% if ( usesHtmlFixtures ) { %>
-			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.html',<% } %><% if ( bundlingTool === 'webpack' ) { %>
-			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/.webpack.js'<% } %><% if ( bundlingTool === 'rollup' ) { %>
+			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.html',<% } %><% if ( bundlingTool === 'rollup' ) { %>
 			{ pattern: 'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %><% if ( vanillaJsWidget ) { %>index<% } else { %>**/*<% } %>.<%= extension || 'js' %>', watched: false }<% } %>
 		],
 		exclude: [],
 		preprocessors: {<% if ( usesHtmlFixtures ) { %>
-			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.html': ['html2js'],<% } %><% if ( bundlingTool === 'webpack' ) { %>
-			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/.webpack.js': ['webpack', 'sourcemap']<% } %><% if ( bundlingTool === 'rollup' ) { %>
+			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.html': ['html2js'],<% } %><% if ( bundlingTool === 'rollup' ) { %>
 			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %><% if ( vanillaJsWidget ) { %>index<% } else { %>**/*<% } %>.<%= extension || 'js' %>': ['rollup', 'sourcemap']<% } %>
 		},
 		reporters: [<% if ( codeCoverage ) { %>'coverage', <% } %>'mocha'],
@@ -79,39 +77,7 @@ export default function ( baseConfig ) {
 			level: 'log',
 			format: '%b %T: %m',
 			terminal: true
-		},<% if ( bundlingTool === 'webpack' ) { %>
-		webpack: {
-			mode: 'none',
-			devtool: 'inline-source-map',
-			resolve: {<% if ( transpile && typescript && typescriptMode === 'full' ) { %>
-				extensions: ['...', '.ts'],<% } %>
-				fallback: {
-					assert: stdLibBrowser.assert
-				}
-			}<% if ( transpile || codeCoverage ) { %>,
-			module: {
-				rules: [<% if ( transpile ) { %>
-					{
-						test: /\.<%= extension || 'js' %>$/,
-						exclude: /node_modules/,
-						use: [{
-							loader: 'babel-loader'
-						}]
-					}<% } %><% if ( transpile && codeCoverage ) { %>,<% } %><% if ( codeCoverage ) { %>
-					{
-						test: /\.<%= extension || 'js' %>$/,
-						exclude: /(node_modules|test)/,
-						enforce: 'post',
-						use: [{
-							loader: '@jsdevtools/coverage-istanbul-loader',
-							options: {
-								esModules: true
-							}
-						}]
-					}<% } %>
-				]
-			}<% } %>
-		}<% } %><% if ( bundlingTool === 'rollup' ) { %>
+		},<% if ( bundlingTool === 'rollup' ) { %>
 		rollupPreprocessor: {
 			plugins: [<% if ( codeCoverage ) { %>
 				istanbul({

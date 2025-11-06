@@ -342,31 +342,6 @@ export default class extends Generator {
 				}
 			},
 			{
-				type: 'list',
-				name: 'bundlingTool',
-				message: 'What bundling tool do you want to use?',
-				default: (answers) => {
-					if (answers.browserModuleType.includes('vanillaJsWidget')) {
-						return 'rollup';
-					}
-					return 'webpack';
-				},
-				choices: [
-					{
-						name: 'Webpack',
-						value: 'webpack'
-					},
-					{
-						name: 'Rollup',
-						value: 'rollup'
-					}
-				],
-				when: (answers) =>
-					(answers.automatedTests || answers.manualTests) &&
-					answers.browserModule &&
-					!answers.sassModule
-			},
-			{
 				type: 'input',
 				name: 'nodeEngineVersion',
 				message: 'Which Node engine version this project supports?',
@@ -478,7 +453,7 @@ export default class extends Generator {
 		}
 
 		if (!this.answers.bundlingTool) {
-			this.answers.bundlingTool = 'webpack';
+			this.answers.bundlingTool = 'rollup';
 		}
 
 		this.answers.keywords = commaSeparatedValuesToArray(this.answers.keywords);
@@ -594,6 +569,8 @@ export default class extends Generator {
 		if (answers.integrationTests) {
 			rm('test/integration/.eslintrc');
 		}
+		rm('test/manual/webpack.config.js');
+		rm(`test/${automatedTestsDirectory}.webpack.js`);
 
 		if (answers.sassModule) {
 			cp('_index.scss', '_index.scss');
@@ -634,12 +611,6 @@ export default class extends Generator {
 						`test/automated/index.${extension || 'js'}`,
 						`test/${automatedTestsDirectory}index.${extension || 'js'}`
 					);
-					if (answers.bundlingTool === 'webpack') {
-						cp(
-							'test/automated/webpack.js',
-							`test/${automatedTestsDirectory}.webpack.js`
-						);
-					}
 					cp('karma.conf.js', 'karma.conf.js');
 				} else {
 					cp('test/index.js', `test/index.${extension || 'js'}`);
@@ -666,15 +637,11 @@ export default class extends Generator {
 			cp('test/manual/index.html', 'test/manual/index.html');
 			cp('test/manual/index.css', 'test/manual/index.css');
 			cp('test/manual/index.js', `test/manual/index.${extension || 'js'}`);
-			if (answers.bundlingTool === 'webpack') {
-				cp('test/manual/webpack.config.js', 'test/manual/webpack.config.js');
-			}
 			if (answers.bundlingTool === 'rollup') {
 				cp('test/manual/rollup.config.js', 'test/manual/rollup.config.js');
 			}
 		} else {
 			rm('test/manual');
-			rm('test/manual/webpack.config.js');
 			rm('test/manual/rollup.config.js');
 		}
 
@@ -771,7 +738,18 @@ export default class extends Generator {
 			'eslint-plugin-vue',
 			'rollup-plugin-node-builtins',
 			'rollup-plugin-node-globals',
-			'stylelint-config-prettier'
+			'stylelint-config-prettier',
+			'karma-webpack',
+			'@jsdevtools/coverage-istanbul-loader',
+			'css-loader',
+			'html-webpack-plugin',
+			'mini-css-extract-plugin',
+			'postcss-loader',
+			'webpack-cli',
+			'webpack-dev-server',
+			'webpack',
+			'babel-loader',
+			'ts-loader'
 		);
 
 		if (!('ie' in browserSupport)) {
@@ -796,9 +774,6 @@ export default class extends Generator {
 				'@rollup/plugin-babel',
 				'babel-plugin-istanbul'
 			);
-			if (!answers.bundleCjs && !answers.browserModule) {
-				developmentDependenciesToOmit.push('rollup');
-			}
 		}
 
 		developmentDependenciesToOmit.forEach((key) => {
