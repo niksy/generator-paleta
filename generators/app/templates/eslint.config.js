@@ -34,11 +34,10 @@ export default [
 		<% if ( files.length !== 0 ) { %>files: [<% for ( var i = 0, filesLength = files.length; i < filesLength; i++ ) { %>
 			"<%= files[i] %>"<% if ( i !== filesLength-1 ) { %>,<% } %><% } %>
 		],<% } %>
-		languageOptions: {<% if ( browserModule ) { %>,
+		languageOptions: {<% if ( browserModule ) { %>
 			globals: {
-				...globals.browser
-			}<% } %>,
-			sourceType: 'script'
+				...globals.node
+			},<% } %>
 		},
 		rules: {
 			'no-console': 0

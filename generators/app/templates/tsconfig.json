@@ -1,13 +1,13 @@
 {
 	"compilerOptions": {
-		"module": "node18",
-		"moduleResolution": "node18",
+		"module": "nodenext",
+		"moduleResolution": "nodenext",
 		"moduleDetection": "force",
-		"target": "ES2022",
+		"target": "esnext",
 		"lib": [<% if ( browserModule ) { %>
 			"DOM",
 			"DOM.Iterable",<% } %>
-			"ES2022"
+			"ESNext"
 		],
 		"resolveJsonModule": false,
 		"newLine": "lf",

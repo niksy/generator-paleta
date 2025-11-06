@@ -5,8 +5,8 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import alias from '@rollup/plugin-alias';
 import json from '@rollup/plugin-json';
-import inject from '@rollup/plugin-inject';<% if ( transpile ) { %>
-import babel from '@rollup/plugin-babel';<% } %><% if ( codeCoverage ) { %>
+import inject from '@rollup/plugin-inject';
+import babel from '@rollup/plugin-babel';<% if ( codeCoverage ) { %>
 import istanbul from 'rollup-plugin-istanbul';<% } %>
 import rollupConfig from './rollup.config.js';<% } %><% if ( browserTestType === 'headless' ) { %>
 import puppeteer from 'puppeteer';
@@ -83,6 +83,11 @@ export default function ( baseConfig ) {
 				istanbul({
 					exclude: ['test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.<%= extension || 'js' %>', 'node_modules/**/*']
 				}),<% } %>
+				resolve({
+					browser: true,
+					preferBuiltins: true
+				}),
+				commonjs(),
 				alias({
 					entries: stdLibBrowser
 				}),
@@ -96,18 +101,13 @@ export default function ( baseConfig ) {
 					babelHelpers: 'runtime'<% if ( typescript && typescriptMode === 'full' ) { %>,
 					extensions: ['.js', '.ts']<% } %>
 				})<% } %>,
-				resolve({
-					browser: true,
-					preferBuiltins: true
-				}),
-				commonjs(),
 				babel({
 					include: 'node_modules/{has-flag,supports-color}/**',
 					babelHelpers: 'runtime',
 					babelrc: false,
-					configFile: path.resolve(__dirname, '.babelrc')
+					configFile: path.resolve(import.meta.dirname, '.babelrc')
 				}),
-				...rollupConfig.plugins<% if ( transpile || typescript ) { %>.filter(({ name }) => ![<% if ( transpile ) { %>'babel'<% } %>, 'package-type'<% if ( typescript ) { %>, 'types'<% } %>].includes(name))<% } %><% if ( vanillaJsWidget || (transpile && typescript && typescriptMode === 'full') ) { %>,
+				...rollupConfig.plugins<% if ( transpile || typescript ) { %>.filter(({ name }) => ![<% if ( transpile ) { %>'babel',<% } %> 'package-type'<% if ( typescript ) { %>, 'types'<% } %>].includes(name))<% } %><% if ( vanillaJsWidget || (transpile && typescript && typescriptMode === 'full') ) { %>,
 				babel({
 					exclude: 'node_modules/**',
 					babelHelpers: 'runtime',
@@ -117,7 +117,7 @@ export default function ( baseConfig ) {
 					include: 'node_modules/svelte/shared.js',
 					babelHelpers: 'runtime',
 					babelrc: false,
-					configFile: path.resolve(__dirname, '.babelrc')
+					configFile: path.resolve(import.meta.dirname, '.babelrc')
 				})<% } %><% } %>
 			],
 			output: {
@@ -128,10 +128,10 @@ export default function ( baseConfig ) {
 			}
 		}<% } %>,<% if ( codeCoverage ) { %>
 		coverageReporter: {
-			dir: path.join(__dirname, 'coverage'),
+			dir: path.join(import.meta.dirname, 'coverage'),
 			reporters: [{type: 'html'}, {type: 'text'}],
 			check: {
-				global: JSON.parse(fs.readFileSync(path.join(__dirname, '.nycrc'), 'utf8'))
+				global: JSON.parse(fs.readFileSync(path.join(import.meta.dirname, '.nycrc'), 'utf8'))
 			}
 		},<% } %>
 		singleRun: true,

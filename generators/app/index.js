@@ -666,8 +666,9 @@ export default class extends Generator {
 		}
 
 		if (
-			answers.transpile &&
-			(answers.bundleCjs || (answers.browserModule && !answers.sassModule))
+			(answers.transpile &&
+				(answers.bundleCjs || (answers.browserModule && !answers.sassModule))) ||
+			(answers.automatedTests && answers.browserModule && !answers.sassModule)
 		) {
 			cp('rollup.config.js', 'rollup.config.js');
 		} else {
@@ -755,7 +756,19 @@ export default class extends Generator {
 			'webpack-dev-server',
 			'webpack',
 			'babel-loader',
-			'ts-loader'
+			'ts-loader',
+			'gulp',
+			'gulp-debug',
+			'gulp-nunjucks-render',
+			'gulp-plumber',
+			'gulp-postcss',
+			'gulp-sourcemaps',
+			'gulp-util',
+			'@niksy/babayaga',
+			'babelify',
+			'browserify-babel-istanbul',
+			'browserify-istanbul',
+			'karma-browserify'
 		);
 
 		if (!('ie' in browserSupport)) {
@@ -777,7 +790,6 @@ export default class extends Generator {
 				'@babel/cli',
 				'@babel/preset-env',
 				'@babel/register',
-				'@rollup/plugin-babel',
 				'babel-plugin-istanbul'
 			);
 		}
@@ -812,6 +824,11 @@ export default class extends Generator {
 
 		// Remove deprecated script fields
 		delete mergedPackage.scripts.prepublish;
+		delete mergedPackage.scripts['test:automated:local'];
+		delete mergedPackage.scripts['test:automated:local:watch'];
+		delete mergedPackage.scripts['test:integration:local'];
+		delete mergedPackage.scripts['test:integration:local:watch'];
+		delete mergedPackage.scripts['test:manual:local'];
 
 		this.packageJson.writeContent(mergedPackage);
 	}
