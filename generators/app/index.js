@@ -431,6 +431,12 @@ export default class extends Generator {
 				message: 'Do you want to initialize Git repository?',
 				default: false,
 				when: () => !hasGitRespository
+			},
+			{
+				type: 'confirm',
+				name: 'bumpMinorAndPatchDependencies',
+				message: 'Do you want to bump minor and patch versions of dependencies?',
+				default: false
 			}
 		];
 	}
@@ -810,19 +816,30 @@ export default class extends Generator {
 		this.packageJson.writeContent(mergedPackage);
 	}
 
+	async install() {
+		const options = { env: { NI_DEFAULT_AGENT: 'npm' } };
+		if (this.answers.bumpMinorAndPatchDependencies) {
+			try {
+				await this.spawn('npx', ['taze', '-w'], options);
+			} catch (error) {
+				// Handled
+			}
+		}
+	}
+
 	async end() {
 		const options = { stdio: 'pipe' };
 		try {
 			if (this.answers.initializeGitRepository) {
-				await this.spawnCommand('git', ['init'], options);
+				await this.spawn('git', ['init'], options);
 			}
-			await this.spawnCommand('git', ['add', '.'], options);
+			await this.spawn('git', ['add', '.'], options);
 			try {
-				await this.spawnCommand('npx', ['lint-staged', '--no-stash'], options);
+				await this.spawn('npx', ['lint-staged', '--no-stash'], options);
 			} catch (error) {
 				// Handled
 			}
-			await this.spawnCommand('git', ['reset', 'HEAD'], options);
+			await this.spawn('git', ['reset', 'HEAD'], options);
 		} catch (error) {
 			// Handled
 		}
