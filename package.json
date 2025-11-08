@@ -21,39 +21,44 @@
     "README.md"
   ],
   "scripts": {
-    "lint": "eslint '{generators/app/index,test/index}.js'",
+    "lint": "eslint '{generators/app/index,generators/app/util,test/index,*.config,.mocharc}.{js,cjs}'",
     "prepare": "if [[ -x \"$(command -v husky)\" ]]; then husky; fi",
     "prerelease": "npm run lint",
     "release": "np --no-release-draft",
-    "test": "NODE_OPTIONS='--experimental-loader=@istanbuljs/esm-loader-hook --no-warnings' nyc mocha 'test/**/*.js' && nyc check-coverage",
-    "test:watch": "nodemon --exec npm test"
+    "test": "nyc --check-coverage mocha 'test/**/*.js'",
+    "test:watch": "nodemon --ext js,cjs,json --exec npm test"
   },
   "dependencies": {
-    "browserslist": "^4.27.0",
+    "browserslist": "^4.28.0",
     "is-github-url": "^1.2.2",
     "is-scoped": "^3.0.0",
-    "lodash": "^4.17.21",
+    "lightningcss": "^1.30.2",
+    "lodash": "npm:lodash-es@^4.17.21",
     "parse-github-url": "^1.0.3",
     "path-exists": "^5.0.0",
+    "semver": "^7.7.3",
     "sort-package-json": "^3.4.0",
     "yeoman-generator": "^7.5.1"
   },
   "devDependencies": {
-    "@istanbuljs/esm-loader-hook": "^0.2.0",
+    "@istanbuljs/esm-loader-hook": "^0.3.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.19.1",
+    "@types/semver": "^7.7.1",
     "eslint": "^9.39.1",
-    "eslint-config-nitpick": "^14.1.0",
+    "eslint-config-nitpick": "^14.2.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
-    "husky": "^9.0.11",
-    "lint-staged": "^16.2.6",
-    "mocha": "^10.3.0",
-    "nodemon": "^3.1.0",
-    "np": "^10.0.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.2",
+    "mocha": "^10.8.2",
+    "nodemon": "^3.1.11",
+    "np": "^10.2.0",
     "nyc": "^15.1.0",
     "prettier": "^3.6.2",
     "write-json-file": "^7.0.0",
     "yeoman-environment": "^5.0.0",
-    "yeoman-test": "^11.0.0"
+    "yeoman-test": "^11.1.0"
   },
   "engines": {
     "node": ">=22"
