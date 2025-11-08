@@ -1,4 +1,4 @@
-<% if ( transpile ) { %><% } %><% if ( automatedTests && browserModule ) { %>import assert from 'assert';
+<% if ( transpile ) { %><% } %><% if ( automatedTests && browserModule ) { %>import assert from 'node:assert';
 import fn from '../<% if ( manualTests || integrationTests ) { %>../<% } %>index.js';<% if ( usesHtmlFixtures ) { %>
 
 before(function () {
