@@ -74,11 +74,6 @@ function isSassModule(answers) {
 	return browserModuleType.includes('sassModule');
 }
 
-function isVanillaJsWidgetModule(answers) {
-	const browserModuleType = answers.browserModuleType || [];
-	return browserModuleType.includes('vanillaJsWidget');
-}
-
 function commaSeparatedValuesToArray(string) {
 	if (typeof string === 'undefined') {
 		return [];
@@ -213,10 +208,6 @@ export default class extends Generator {
 				default: [],
 				choices: [
 					{
-						name: 'Vanilla JS widget (UI component)',
-						value: 'vanillaJsWidget'
-					},
-					{
 						name: 'Sass module',
 						value: 'sassModule'
 					},
@@ -318,9 +309,6 @@ export default class extends Generator {
 				name: 'transpile',
 				message: 'Do you need code transpiling via Babel?',
 				default: (answers) => {
-					if (isVanillaJsWidgetModule(answers)) {
-						return true;
-					}
 					return answers.browserModule;
 				}
 			},
@@ -448,7 +436,6 @@ export default class extends Generator {
 
 		this.answers = {
 			...answers,
-			vanillaJsWidget: browserModuleType.includes('vanillaJsWidget'),
 			sassModule: browserModuleType.includes('sassModule'),
 			cssModule: browserModuleType.includes('cssModule'),
 			styles: browserModuleType.includes('styles')
@@ -485,7 +472,6 @@ export default class extends Generator {
 			moduleDescription: answers.description,
 			browserModule: answers.browserModule,
 			styles: answers.styles,
-			vanillaJsWidget: answers.vanillaJsWidget,
 			sassModule: answers.sassModule,
 			cssModule: answers.cssModule,
 			cli: answers.cli,
@@ -765,7 +751,10 @@ export default class extends Generator {
 			'babelify',
 			'browserify-babel-istanbul',
 			'browserify-istanbul',
-			'karma-browserify'
+			'karma-browserify',
+			'eslint-plugin-html',
+			'rollup-plugin-svelte',
+			'svelte'
 		);
 
 		if (!('ie' in browserSupport)) {

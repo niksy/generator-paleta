@@ -7,8 +7,7 @@ import configBrowser from 'eslint-config-nitpick/browser';<% } %><% if ( automat
 import configTests from 'eslint-config-nitpick/tests';<% } %><% if ( prettier ) { %>
 import configPrettier from 'eslint-config-prettier/flat';
 import pluginPrettier from 'eslint-plugin-prettier';<% } %><% if ( false ) { %>
-import configVue from 'eslint-config-nitpick/vue';<% } %><% if ( vanillaJsWidget ) { %>
-import pluginHtml from 'eslint-plugin-html';<% } %><% if ( browserModule ) { %>
+import configVue from 'eslint-config-nitpick/vue';<% } %><% if ( browserModule ) { %>
 import globals from 'globals';<% } %>
 
 export default [
@@ -16,18 +15,13 @@ export default [
 	configTypescript<% } %><% if ( browserModule ) { %>,
 	configBrowser<% } %><% if ( false ) { %>,
 	...configVue<% } %><% if ( prettier ) { %>,
-	configPrettier<% } %><% if ( prettier || vanillaJsWidget ) { %>,
+	configPrettier<% } %><% if ( prettier ) { %>,
 	{
 		plugins: {<% if ( prettier ) { %>
-			prettier: pluginPrettier<% } %><% if ( vanillaJsWidget ) { %>,
-			html: pluginHtml<% } %>
+			prettier: pluginPrettier<% } %>
 		}<% if ( prettier ) { %>,
 		rules: {
 			'prettier/prettier': 1
-		}<% } %><% if ( vanillaJsWidget ) { %>,
-		settings: {
-			'html/html-extensions': ['.svelte'],
-			'html/indent': '0'
 		}<% } %>
 	}<% } %><% if ( browserModule || files.length !== 0 ) { %>,
 	{

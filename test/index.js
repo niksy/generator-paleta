@@ -1147,29 +1147,6 @@ describe('Prettier', function () {
 	});
 });
 
-describe('Vanilla JS widget', function () {
-	this.timeout(4000);
-
-	before(function () {
-		return helpers
-			.run(generatorPath)
-			.withAnswers({
-				browserModule: true,
-				browserModuleType: ['vanillaJsWidget']
-			})
-			.toPromise();
-	});
-
-	it('should fill package.json with correct information', function () {
-		result.assertJsonFileContent('package.json', {
-			devDependencies: {
-				'rollup-plugin-svelte': '^7.2.0',
-				'svelte': '^4.2.12'
-			}
-		});
-	});
-});
-
 describe('TypeScript, with comments', function () {
 	before(function () {
 		return helpers

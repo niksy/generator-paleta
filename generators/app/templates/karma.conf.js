@@ -58,12 +58,12 @@ export default function ( baseConfig ) {
 		frameworks: ['mocha'<% if ( usesHtmlFixtures ) { %>, 'fixture'<% } %>],
 		files: [<% if ( usesHtmlFixtures ) { %>
 			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.html',<% } %><% if ( bundlingTool === 'rollup' ) { %>
-			{ pattern: 'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %><% if ( vanillaJsWidget ) { %>index<% } else { %>**/*<% } %>.<%= extension || 'js' %>', watched: false }<% } %>
+			{ pattern: 'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.<%= extension || 'js' %>', watched: false }<% } %>
 		],
 		exclude: [],
 		preprocessors: {<% if ( usesHtmlFixtures ) { %>
 			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.html': ['html2js'],<% } %><% if ( bundlingTool === 'rollup' ) { %>
-			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %><% if ( vanillaJsWidget ) { %>index<% } else { %>**/*<% } %>.<%= extension || 'js' %>': ['rollup', 'sourcemap']<% } %>
+			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.<%= extension || 'js' %>': ['rollup', 'sourcemap']<% } %>
 		},
 		reporters: [<% if ( codeCoverage ) { %>'coverage', <% } %>'mocha'],
 		port: port,
@@ -107,18 +107,12 @@ export default function ( baseConfig ) {
 					babelrc: false,
 					configFile: path.resolve(import.meta.dirname, 'babel.config.js')
 				}),
-				...rollupConfig.plugins<% if ( transpile || typescript ) { %>.filter(({ name }) => ![<% if ( transpile ) { %>'babel',<% } %> 'package-type'<% if ( typescript ) { %>, 'types'<% } %>].includes(name))<% } %><% if ( vanillaJsWidget || (transpile && typescript && typescriptMode === 'full') ) { %>,
+				...rollupConfig.plugins<% if ( transpile || typescript ) { %>.filter(({ name }) => ![<% if ( transpile ) { %>'babel',<% } %> 'package-type'<% if ( typescript ) { %>, 'types'<% } %>].includes(name))<% } %><% if ( transpile && typescript && typescriptMode === 'full' ) { %>,
 				babel({
 					exclude: 'node_modules/**',
 					babelHelpers: 'runtime',
-					extensions: ['.js'<% if (typescript && typescriptMode === 'full') { %>, '.ts'<% } %><% if (vanillaJsWidget) { %>, '.svelte'<% } %>]
-				})<% if ( vanillaJsWidget ) { %>,
-				babel({
-					include: 'node_modules/svelte/shared.js',
-					babelHelpers: 'runtime',
-					babelrc: false,
-					configFile: path.resolve(import.meta.dirname, 'babel.config.js')
-				})<% } %><% } %>
+					extensions: ['.js'<% if (typescript && typescriptMode === 'full') { %>, '.ts'<% } %>]
+				})<% } %>
 			],
 			output: {
 				format: 'iife',

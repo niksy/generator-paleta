@@ -40,7 +40,7 @@
 		"release": "np --no-release-draft"<% if ( changelog ) { %>,
 		"version": "if [ $(git rev-parse --abbrev-ref HEAD) == 'master' ]; then sed -i '' '/\\[unreleased\\]:/d' CHANGELOG.md && version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md; else echo; fi"<% if ( githubRelease ) { %>,
 		"postpublish": "GITHUB_TOKEN=$GITHUB_RELEASE_TOKEN github-release-from-changelog"<% } %><% } %>,<% if ( (automatedTests && browserModule && !sassModule) || manualTests || integrationTests ) { %>
-		"lint": "<% if ( automatedTests || integrationTests ) { %>eslint '{index,lib/**/*<% if ( cli ) { %>,cli<% } %>,test/**/*}<% if ( vanillaJsWidget || (typescript && typescriptMode === 'full') ) { %>.{js,<% if (typescript && typescriptMode === 'full') { %>,ts<% } %><% if (vanillaJsWidget) { %>,svelte<% } %>}<% } else { %>.js<% } %>'<% } else { %>eslint '{index,lib/**/*<% if ( cli ) { %>,cli<% } %>}<% if ( vanillaJsWidget || (typescript && typescriptMode === 'full') ) { %>.{js,<% if (typescript && typescriptMode === 'full') { %>,ts<% } %><% if (vanillaJsWidget) { %>,svelte<% } %>}<% } else { %>.js<% } %>'<% } %><% if ( browserModule && styles ) { %> && stylelint 'index.css'<% } %>"<% } else if ( sassModule ) { %>
+		"lint": "<% if ( automatedTests || integrationTests ) { %>eslint '{index,lib/**/*<% if ( cli ) { %>,cli<% } %>,test/**/*}<% if ( typescript && typescriptMode === 'full' ) { %>.{js,<% if (typescript && typescriptMode === 'full') { %>,ts<% } %>}<% } else { %>.js<% } %>'<% } else { %>eslint '{index,lib/**/*<% if ( cli ) { %>,cli<% } %>}<% if ( typescript && typescriptMode === 'full' ) { %>.{js,<% if (typescript && typescriptMode === 'full') { %>,ts<% } %>}<% } else { %>.js<% } %>'<% } %><% if ( browserModule && styles ) { %> && stylelint 'index.css'<% } %>"<% } else if ( sassModule ) { %>
 		"lint": "<% if ( automatedTests ) { %>eslint 'test/**/*<% if ( typescript && typescriptMode === 'full' ) { %>.{js,ts}<% } else { %>.js<% } %>' && stylelint '{_index,test/**/*}.scss'<% } else { %>stylelint '_index.scss'<% } %>"<% } else { %>
 		"lint": "<% if ( automatedTests ) { %>eslint '{index,lib/**/*<% if ( cli ) { %>,cli<% } %>,test/**/*}<% if ( typescript && typescriptMode === 'full' ) { %>.{js,ts}<% } else { %>.js<% } %>'<% } else { %>eslint '{index,lib/**/*<% if ( cli ) { %>,cli<% } %>}<% if ( typescript && typescriptMode === 'full' ) { %>.{js,ts}<% } else { %>.js<% } %>'<% } %><% if ( browserModule && styles ) { %> && stylelint 'index.css'<% } %>"<% } %><% if ( typescript ) { %>,
 		"lint:types": "tsc"<% } %><% if ( automatedTests && browserModule && !sassModule ) { %>,
@@ -132,10 +132,7 @@
 		"babel-plugin-istanbul": "^6.0.0"<% } %><% } %><% } %><% } %><% if ( transpile && (bundleCjs || browserModule) && typescript && typescriptMode === 'full' ) { %>,
 		"@rollup/plugin-typescript": "^11.1.6"<% } %><% if ( transpile && (bundleCjs || browserModule) || automatedTests && browserModule && !sassModule ) { %>,
 		"@rollup/plugin-babel": "^6.0.4"<% } %><% if ( (transpile && (bundleCjs || browserModule) && typescript && typescriptMode === 'full') || (automatedTests && browserModule && !sassModule) ) { %><% if ( bundlingTool === 'rollup' ) { %>,
-		"@rollup/plugin-node-resolve": "^15.2.3"<% } %><% } %><% if ( vanillaJsWidget ) { %>,
-		"eslint-plugin-html": "^8.1.3",
-		"rollup-plugin-svelte": "^7.2.0",
-		"svelte": "^4.2.12"<% } %><% if ( typescript ) { %>,
+		"@rollup/plugin-node-resolve": "^15.2.3"<% } %><% } %><% if ( typescript ) { %>,
 		"typescript": "^5.9.3",
 		"cpy": "^11.0.1",
 		"execa": "^8.0.1"<% if ( !transpile && typescriptMode === 'full' && (!browserModule || (browserModule && integrationTests)) ) { %>,
