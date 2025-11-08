@@ -1,54 +1,57 @@
-import path from 'node:path';
-import http from 'node:http';
-import ws from 'local-web-server';
-import shutdown from 'http-shutdown';
+/** @typedef {import('@wdio/types').Options.Testrunner & import('@wdio/types').Capabilities.WithRequestedTestrunnerCapabilities} WdioConfig */
 
-let server, _config;
+import path from 'node:path';
+import * as vite from 'vite';
+import { browser } from '@wdio/globals';
+import mochaConfig from './.mocharc.cjs';
+
+let server
+/** @type {WdioConfig} */
+let browserConfig;
 
 // Pull requests not handled as in case of Karma
-const local = <% if ( cloudBrowsers ) { %>typeof process.env.CI === 'undefined' || process.env.CI === 'false'<% } else { %>true<% } %>;
-const port = 0;
+const local = <% if ( cloudBrowsers ) { %>typeof process.env['CI'] === 'undefined' || process.env['CI'] === 'false'<% } else { %>true<% } %>;
+const port = 9002;
 
 if ( local ) {
-	_config = {
-		baseUrl: `http://host.docker.internal:${port}`,
-		services: [[
-			'docker', {
-				dockerLogs: './wdioDockerLogs',
-				dockerOptions: {
-					image: 'selenium/standalone-chrome',
-					healthCheck: 'http://localhost:4444',
-					options: {
-						p: ['4444:4444'],
-						shmSize: '2g'
-					}
-				}
+	browserConfig = {
+		baseUrl: `http://localhost:${port}`,
+		services: ['docker'],
+		dockerLogs: './wdio-docker-logs',
+		dockerOptions: {
+			image: 'selenium/standalone-chromium',
+			healthCheck: 'http://localhost:4444',
+			options: {
+				p: ['4444:4444'],
+				shmSize: '2g'
 			}
-		]],
+		},
 		capabilities: [{
 			browserName: 'chrome'
 		}]
 	};
 }<% if ( cloudBrowsers ) { %> else {
-	_config = {
+	browserConfig = {
 		baseUrl: `http://localhost:${port}`,
 		user: process.env.BROWSER_STACK_USERNAME,
 		key: process.env.BROWSER_STACK_ACCESS_KEY,
 		services: [[
-			'browserstack'; {
+			'browserstack', {
 				browserstackLocal: true
 			}
 		]],
-		capabilities: [<% for (browser of cloudBrowsersToTest) { %><%- JSON.stringify(Object.assign({
-			project: moduleName,
-			build: 'Integration (WebdriverIO)',
-			'browserstack.local': 'true',
-			'browserstack.debug': 'true'
-		}, browser.wdio)) + ',' %><% } %>]
+		capabilities: [<% for (browser of cloudBrowsersToTest) { %><%- JSON.stringify(Object.assign(browser.wdio, {
+			'bstack:options': Object.assign({
+				networkLogs: false,
+				projectName: moduleName,
+				buildName: 'Integration (WebdriverIO)',
+			}, browser.wdio['bstack:options'])
+		})) + ',' %><% } %>]
 	};
 }<% } %>
 
-export const config = Object.assign({
+/** @type {WdioConfig} */
+export const config = {
 	specs: [
 		'./test/integration/**/*.<%= extension || 'js' %>'
 	],
@@ -59,56 +62,46 @@ export const config = Object.assign({
 	connectionRetryTimeout: 90000,
 	connectionRetryCount: 3,
 	framework: 'mocha',
-	reporters: ['spec'],<% if ( transpile || typescript ) { %>
-	mochaOpts: {
-		require: [<% if ( transpile ) { %>'@babel/register', <% } %><% if ( !transpile && typescript && typescriptMode === 'full' ) { %>'ts-node/register', <% } %>]<% if ( typescript && typescriptMode === 'full' ) { %>,
-		extension: 'ts'<% } %>
-	},<% } %>
-	afterTest: function ( test ) {
-		/* globals browsers */
-		if (test.passed) {
+	reporters: ['spec'],<% if ( transpile || (typescript && typescriptMode === 'full') ) { %>
+	mochaOpts: mochaConfig,<% } %>
+	injectGlobals: false,
+	afterTest: async function ( test ) {
+		if (!test.error) {
 			return;
 		}
-		const filepath = path.join('.', 'errorShots', `${Date.now()}.png`);
-		browser.saveScreenshot(filepath);
+		const filepath = path.join(import.meta.dirname, `wdio-error-shots/${Date.now()}.png`);
+		await browser.saveScreenshot(filepath);
 	},
 	onPrepare: function ( currentConfig ) {
-
-		return new Promise(( resolve, reject ) => {
-
-			server = shutdown(http.createServer(ws({
-				'static': {
-					root: './test-dist'
-				},
-				serveIndex: {
-					path: './test-dist'
-				},
-				log: {
-					format: currentConfig.logLevel === 'verbose' ? 'tiny' : 'none'
-				}
-			}).callback()));
-
-			console.log(`Starting local web server on port ${port}…`);
-			server.listen(port);
-
-			console.log('Starting WebdriverIO…');
-			resolve();
-
-		});
-
+		return (async() => {
+			const configFile = path.resolve(import.meta.dirname, 'test/manual/vite.config.js');
+			if (process.env.WATCH_MODE === 'true') {
+				server = await vite.createServer({
+					configFile: configFile,
+					server: {
+						port: port
+					}
+				});
+				server.listen();
+			} else {
+				await vite.build({
+					configFile: configFile,
+				});
+				server = await vite.preview({
+					configFile: configFile,
+					logLevel: currentConfig.logLevel === 'verbose' ? 'info' : 'silent',
+					preview: {
+						port: port
+					}
+				});
+			}
+		})();
 	},
-
 	onComplete: function () {
-
 		return new Promise(( resolve, reject ) => {
-
-			console.log('Stopping local web server…');
-			server.shutdown();
-
-			console.log('Stopping WebdriverIO…');
+			server.close();
 			resolve();
-
 		});
-
-	}
-}, _config);
+	},
+	...browserConfig
+};
