@@ -7,9 +7,9 @@ local.log<% } %><% if ( browserModule && !sassModule && (manualTests || integrat
 test-dist/<% } %><% if ( automatedTests && codeCoverage ) { %><% if ( !browserModule ) { %>
 .nyc_output/<% } %>
 coverage/<% } %><% if ( browserModule && !sassModule && integrationTests ) { %>
-errorShots/
-wdioDockerLogs/<% } %><% if ( bundleCjs ) { %>
-cjs/<% } %><% if ( transpile ) { %>
-dist/<% } %><% if ( typescript && !transpile ) { %>
-types/<% } %><% if ((automatedTests && !browserModule) || (automatedTests && browserModule && usesHtmlFixtures) || manualTests || integrationTests) { %>
+wdio-error-shots/
+wdio-docker-logs/
+logs/
+browserstack.err<% } %><% if ( transpile ) { %>
+dist/<% } %><% if ((automatedTests && !browserModule) || (automatedTests && browserModule && usesHtmlFixtures) || manualTests || integrationTests) { %>
 !test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>fixtures/node_modules/<% } %>

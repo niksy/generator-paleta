@@ -27,6 +27,7 @@ describe('New project', function () {
 			'.npmrc',
 			'.husky/pre-commit',
 			'lint-staged.config.js',
+			'tsconfig.json',
 			'index.js',
 			'LICENSE.md',
 			'README.md'
@@ -137,15 +138,16 @@ describe('Manual tests', function () {
 				test: 'test'
 			},
 			scripts: {
-				'test:manual': 'npm run test:generate-static-site:watch'
+				'test:manual': 'vite --config ./test/manual/vite.config.js'
 			},
 			devDependencies: {
-				rollup: '^4.13.0',
-				'rollup-plugin-postcss': '^4.0.1',
-				'rollup-plugin-serve': '^1.0.3',
-				'rollup-plugin-static-site': '0.1.0'
+				'vite': 'npm:rolldown-vite@^7.2.1'
 			}
 		});
+	});
+
+	it('should fill rolldown.config.js with correct information', function () {
+		result.assertFileContent('test/manual/vite.config.js', 'defineConfig');
 	});
 });
 
@@ -218,20 +220,20 @@ describe('Automated tests, browser module', function () {
 	it('should fill package.json with correct information', function () {
 		result.assertJsonFileContent('package.json', {
 			scripts: {
-				'test:automated': 'BABEL_ENV=test karma start',
+				'test:automated': 'karma start',
 				test: 'npm run test:automated'
 			},
 			devDependencies: {
 				karma: '^6.4.3',
 				'karma-sourcemap-loader': '^0.3.7',
-				'karma-rollup-preprocessor': '7.0.7',
+				'karma-rolldown-preprocessor': '^1.0.0',
 				'karma-browserstack-launcher': '^1.6.0',
 				'karma-chrome-launcher': '^3.1.0',
 				'karma-html2js-preprocessor': '^1.1.0',
 				'karma-fixture': '^0.2.6',
 				'karma-mocha': '^2.0.1',
 				'karma-mocha-reporter': '^2.2.5',
-				rollup: '^4.13.0'
+				'rolldown': '^1.0.0-beta.47'
 			}
 		});
 	});
@@ -265,10 +267,7 @@ describe('Automated tests, browser module, headless browser', function () {
 	});
 
 	it('should update karma.conf.js with correct information', function () {
-		result.assertFileContent(
-			'karma.conf.js',
-			'process.env.CHROME_BIN = puppeteer.executablePath();'
-		);
+		result.assertFileContent('karma.conf.js', 'puppeteer.executablePath();');
 	});
 });
 
@@ -287,7 +286,7 @@ describe('Integration tests', function () {
 
 	it('should create necessary file', function () {
 		result.assertFile([
-			'test/manual/rollup.config.js',
+			'test/manual/vite.config.js',
 			'test/integration/index.js',
 			'wdio.conf.js'
 		]);
@@ -296,26 +295,21 @@ describe('Integration tests', function () {
 	it('should fill package.json with correct information', function () {
 		result.assertJsonFileContent('package.json', {
 			scripts: {
-				'test:integration': 'npm run test:generate-static-site && wdio',
+				'test:integration': 'wdio',
 				test: 'npm run test:automated && npm run test:integration'
 			},
 			devDependencies: {
-				'local-web-server': '^5.3.1',
-				'@wdio/browserstack-service': '^8.35.1',
-				'@wdio/mocha-framework': '^8.35.0',
-				'@wdio/spec-reporter': '^8.32.4',
-				webdriverio: '^8.35.1',
-				'http-shutdown': '^1.0.3'
+				'vite': 'npm:rolldown-vite@^7.2.1',
+				'@wdio/browserstack-service': '^9.20.1',
+				'@wdio/mocha-framework': '^9.20.1',
+				'@wdio/spec-reporter': '^9.20.0',
+				webdriverio: '^9.20.1'
 			}
 		});
 	});
 
 	it('should update wdio.conf.js with correct information', function () {
 		result.assertFileContent('wdio.conf.js', "framework: 'mocha'");
-	});
-
-	it('should fill babel.config.js with correct information', function () {
-		result.assertFileContent('babel.config.js', '@babel/preset-env');
 	});
 });
 
@@ -340,7 +334,7 @@ describe('Integration tests, ES Modules', function () {
 	it('should fill package.json with correct information', function () {
 		result.assertJsonFileContent('package.json', {
 			scripts: {
-				'test:integration': 'npm run test:generate-static-site && wdio'
+				'test:integration': 'wdio'
 			}
 		});
 	});
@@ -393,7 +387,7 @@ describe('Browser module', function () {
 	});
 
 	it('should fill eslint.config.js with correct information', function () {
-		result.assertFileContent('eslint.config.js', 'karma.conf.js');
+		result.assertFileContent('eslint.config.js', 'extends: [configBrowser]');
 	});
 
 	it('should fill .browserslistrc with correct information', function () {
@@ -483,9 +477,9 @@ describe('CLI', function () {
 				ellie: 'cli.js'
 			},
 			scripts: {
-				lint: "eslint '{index,lib/**/*,cli,test/**/*}.js'",
-				test: "NODE_OPTIONS='--experimental-loader=@istanbuljs/esm-loader-hook --no-warnings' nyc mocha 'test/**/*.js' && nyc check-coverage",
-				'test:watch': 'nodemon --exec npm test'
+				lint: "eslint '{index,lib/**/*,cli,test/**/*}.{js,cjs}'",
+				test: "nyc --check-coverage mocha 'test/**/*.js'",
+				'test:watch': 'nodemon --ext js,cjs,json --exec npm test'
 			},
 			keywords: ['cli', 'cli-app']
 		});
@@ -504,15 +498,19 @@ describe('Code coverage', function () {
 	});
 
 	it('should create necessary file', function () {
-		result.assertFile(['.nycrc']);
+		result.assertFile(['nyc.config.js', '.mocharc.cjs']);
+	});
+
+	it('should fill .mocharc.cjs with correct information', function () {
+		result.assertFileContent('.mocharc.cjs', 'experimental-loader=@istanbuljs/esm-loader-hook');
 	});
 
 	it('should fill package.json with correct information', function () {
 		result.assertJsonFileContent('package.json', {
 			scripts: {
-				lint: "eslint '{index,lib/**/*,test/**/*}.js'",
-				test: "NODE_OPTIONS='--experimental-loader=@istanbuljs/esm-loader-hook --no-warnings' nyc mocha 'test/**/*.js' && nyc check-coverage",
-				'test:watch': 'nodemon --exec npm test'
+				lint: "eslint '{index,lib/**/*,test/**/*}.{js,cjs}'",
+				test: "nyc --check-coverage mocha 'test/**/*.js'",
+				'test:watch': 'nodemon --ext js,cjs,json --exec npm test'
 			},
 			devDependencies: {
 				nyc: '^15.1.0',
@@ -535,14 +533,11 @@ describe('Code coverage, browser module', function () {
 	});
 
 	it('should create necessary file', function () {
-		result.assertFile(['.nycrc']);
+		result.assertFile(['nyc.config.js']);
 	});
 
-	it('should fill .nycrc with correct information', function () {
-		result.assertJsonFileContent('.nycrc', {
-			statements: 80,
-			lines: 0
-		});
+	it('should fill nyc.config.js with correct information', function () {
+		result.assertFileContent('nyc.config.js', 'statements: 80');
 	});
 
 	it('should fill package.json with correct information', function () {
@@ -571,8 +566,8 @@ describe('Code coverage service', function () {
 		result.assertFileContent('.travis.yml', 'npm run posttest:ci');
 	});
 
-	it('should add coverage entry to .nycrc', function () {
-		result.assertFileContent('.nycrc', '"lcov"');
+	it('should add coverage entry to nyc.config.js', function () {
+		result.assertFileContent('nyc.config.js', 'lcov');
 	});
 
 	it('should add coverage entry to README.md', function () {
@@ -783,10 +778,6 @@ describe('Transpile', function () {
 			.toPromise();
 	});
 
-	it('should create necessary files', function () {
-		result.assertFile(['babel.config.js']);
-	});
-
 	it('should add dist folder to .gitignore', function () {
 		result.assertFileContent('.gitignore', 'dist/');
 	});
@@ -796,18 +787,18 @@ describe('Transpile', function () {
 			main: 'dist/index.js',
 			files: ['dist/', 'LICENSE.md', 'README.md'],
 			scripts: {
-				build: "babel '{index,lib/**/*}.js' --out-dir dist/",
+				build: 'rolldown --config rolldown.config.js',
 				prerelease: 'npm run lint && npm run build',
 				prepublishOnly: 'npm run build'
 			},
 			devDependencies: {
-				'@babel/cli': '^7.2.3'
+				'rolldown': '^1.0.0-beta.47'
 			}
 		});
 	});
 
-	it('should fill babel.config.js with correct information', function () {
-		result.assertFileContent('babel.config.js', '@babel/preset-env');
+	it('should fill rolldown.config.js with correct information', function () {
+		result.assertFileContent('rolldown.config.js', 'dist');
 	});
 });
 
@@ -824,10 +815,6 @@ describe('Transpile, source maps', function () {
 			.toPromise();
 	});
 
-	it('should create necessary files', function () {
-		result.assertFile(['babel.config.js']);
-	});
-
 	it('should fill package.json with correct information', function () {
 		result.assertJsonFileContent('package.json', {
 			main: 'dist/index.js',
@@ -839,18 +826,22 @@ describe('Transpile, source maps', function () {
 			},
 			files: ['dist/'],
 			scripts: {
-				build: "babel '{index,lib/**/*}.js' --out-dir dist/ --source-maps true",
+				build: 'rolldown --config rolldown.config.js',
 				prerelease: 'npm run lint && npm run build',
 				prepublishOnly: 'npm run build'
 			},
 			devDependencies: {
-				'@babel/cli': '^7.2.3'
+				'rolldown': '^1.0.0-beta.47'
 			}
 		});
 	});
 
 	it('should add proper data to .gitignore', function () {
 		result.assertFileContent('.gitignore', 'dist/');
+	});
+
+	it('should fill rolldown.config.js with correct information', function () {
+		result.assertFileContent('rolldown.config.js', 'sourcemap: true');
 	});
 });
 
@@ -872,14 +863,13 @@ describe('Transpile, browser module', function () {
 			module: 'dist/index.js',
 			sideEffects: false,
 			devDependencies: {
-				'@babel/core': '^7.2.2',
-				rollup: '^4.13.0'
+				'rolldown': '^1.0.0-beta.47'
 			}
 		});
 	});
 
-	it('should fill babel.config.js with correct information', function () {
-		result.assertFileContent('babel.config.js', '@babel/preset-env');
+	it('should fill rolldown.config.js with correct information', function () {
+		result.assertFileContent('rolldown.config.js', 'target');
 	});
 });
 
@@ -891,32 +881,28 @@ describe('Transpile, with automated tests and code coverage', function () {
 				automatedTests: true,
 				codeCoverage: true,
 				transpile: true,
-				nodeEngineVersion: 18
+				nodeEngineVersion: '>=18'
 			})
 			.toPromise();
 	});
 
-	it('should fill babel.config.js with correct information', function () {
-		result.assertFileContent('babel.config.js', 'babel-plugin-istanbul');
+	it('should fill nyc.config.js with correct information', function () {
+		result.assertFileContent('nyc.config.js', 'instrument: false');
 	});
 
-	it('should fill .nycrc with correct information', function () {
-		result.assertJsonFileContent('.nycrc', {
-			sourceMap: false,
-			instrument: false
-		});
+	it('should fill .mocharc.cjs with correct information', function () {
+		result.assertFileContent('.mocharc.cjs', 'experimental-loader=@istanbuljs/esm-loader-hook');
 	});
 
 	it('should fill package.json with correct information', function () {
 		result.assertJsonFileContent('package.json', {
 			scripts: {
-				lint: "eslint '{index,lib/**/*,test/**/*}.js'",
-				test: "NODE_OPTIONS='--experimental-loader=@istanbuljs/esm-loader-hook --no-warnings' BABEL_ENV=test nyc mocha --require @babel/register 'test/**/*.js' && nyc check-coverage",
-				'test:watch': 'nodemon --exec npm test'
+				lint: "eslint '{index,lib/**/*,test/**/*}.{js,cjs}'",
+				test: "nyc --check-coverage mocha 'test/**/*.js'",
+				'test:watch': 'nodemon --ext js,cjs,json --exec npm test'
 			},
 			devDependencies: {
-				'@babel/register': '^7.0.0',
-				'babel-plugin-istanbul': '^6.0.0',
+				'@swc-node/register': '^1.11.1',
 				'nodemon': '^3.1.0'
 			}
 		});
@@ -955,15 +941,15 @@ describe('Transpile, bundle CommonJS', function () {
 
 	it('should fill package.json with correct information', function () {
 		result.assertJsonFileContent('package.json', {
-			main: 'cjs/index.js',
+			main: 'dist/index.cjs',
 			exports: {
 				'.': {
 					'import': './dist/index.js',
-					'require': './cjs/index.js'
+					'require': './dist/index.cjs'
 				},
 				'./package.json': './package.json'
 			},
-			files: ['cjs/', 'dist/'],
+			files: ['dist/'],
 			scripts: {
 				prerelease: 'npm run lint && npm run build && npm run module-check'
 			}
@@ -971,8 +957,11 @@ describe('Transpile, bundle CommonJS', function () {
 	});
 
 	it('should add proper data to .gitignore', function () {
-		result.assertFileContent('.gitignore', 'cjs/');
 		result.assertFileContent('.gitignore', 'dist/');
+	});
+
+	it('should fill rolldown.config.js with correct information', function () {
+		result.assertFileContent('rolldown.config.js', 'cjs');
 	});
 });
 
@@ -982,7 +971,7 @@ describe('Node engine version', function () {
 			.run(generatorPath)
 			.withAnswers({
 				ciService: 'travis',
-				nodeEngineVersion: 12
+				nodeEngineVersion: '>=12'
 			})
 			.toPromise();
 	});
@@ -1048,14 +1037,13 @@ describe('Changelog, GitHub Release', function () {
 	});
 });
 
-describe('Bundling tool, Rollup, automated tests', function () {
+describe('Bundling tool, Rolldown, automated tests', function () {
 	before(function () {
 		return helpers
 			.run(generatorPath)
 			.withAnswers({
 				automatedTests: true,
-				browserModule: true,
-				bundlingTool: 'rollup'
+				browserModule: true
 			})
 			.toPromise();
 	});
@@ -1063,48 +1051,37 @@ describe('Bundling tool, Rollup, automated tests', function () {
 	it('should fill package.json with correct information', function () {
 		result.assertJsonFileContent('package.json', {
 			devDependencies: {
-				rollup: '^4.13.0',
-				'@rollup/plugin-babel': '^6.0.4',
-				'@rollup/plugin-node-resolve': '^15.2.3',
-				'@rollup/plugin-commonjs': '^25.0.7',
-				'@rollup/plugin-alias': '^5.1.0',
-				'@rollup/plugin-json': '^6.1.0',
-				'@rollup/plugin-inject': '^5.0.5',
+				'rolldown': '^1.0.0-beta.47',
 				'rollup-plugin-istanbul': '^5.0.0',
-				'karma-rollup-preprocessor': '7.0.7'
+				'karma-rolldown-preprocessor': '^1.0.0'
 			}
 		});
 	});
 
 	it('should update karma.conf.js with correct information', function () {
-		result.assertFileContent('karma.conf.js', 'rollupPreprocessor');
+		result.assertFileContent('karma.conf.js', 'rolldownPreprocessor');
 	});
 });
 
-describe('Bundling tool, Rollup, manual tests', function () {
+describe('Bundling tool, Vite, manual tests', function () {
 	before(function () {
 		return helpers
 			.run(generatorPath)
 			.withAnswers({
 				manualTests: true,
-				browserModule: true,
-				bundlingTool: 'rollup'
+				browserModule: true
 			})
 			.toPromise();
 	});
 
 	it('should create necessary files', function () {
-		result.assertFile(['test/manual/rollup.config.js']);
+		result.assertFile(['test/manual/vite.config.js']);
 	});
 
 	it('should fill package.json with correct information', function () {
 		result.assertJsonFileContent('package.json', {
 			devDependencies: {
-				rollup: '^4.13.0',
-				'postcss': '^8.3.11',
-				'rollup-plugin-postcss': '^4.0.1',
-				'rollup-plugin-serve': '^1.0.3',
-				'rollup-plugin-static-site': '0.1.0'
+				'vite': 'npm:rolldown-vite@^7.2.1'
 			}
 		});
 	});
@@ -1129,6 +1106,10 @@ describe('Sourcemaps', function () {
 		result.assertJsonFileContent('package.json', {
 			files: ['dist/']
 		});
+	});
+
+	it('should fill rolldown.config.js with correct information', function () {
+		result.assertFileContent('rolldown.config.js', 'sourcemap: true');
 	});
 });
 
@@ -1158,15 +1139,11 @@ describe('TypeScript, with comments', function () {
 			.toPromise();
 	});
 
-	it('should create necessary files', function () {
-		result.assertFile(['tsconfig.json', 'tsconfig.build.json']);
-	});
-
 	it('should fill package.json with correct information', function () {
 		result.assertJsonFileContent('package.json', {
 			exports: {
 				'.': {
-					types: './types/index.d.ts'
+					types: './dist/index.d.ts'
 				}
 			},
 			scripts: {
@@ -1174,10 +1151,14 @@ describe('TypeScript, with comments', function () {
 			},
 			devDependencies: {
 				'typescript': '^5.9.3',
-				'@types/node': '^20.11.30',
-				'@types/mocha': '^10.0.6'
+				'@types/node': '^18',
+				'@types/mocha': '^10'
 			}
 		});
+	});
+
+	it('should fill .gitignore with correct information', function () {
+		result.assertFileContent('.gitignore', 'dist/');
 	});
 });
 
@@ -1192,15 +1173,11 @@ describe('TypeScript, full', function () {
 			.toPromise();
 	});
 
-	it('should create necessary files', function () {
-		result.assertFile(['tsconfig.json', 'tsconfig.build.json']);
-	});
-
 	it('should fill package.json with correct information', function () {
 		result.assertJsonFileContent('package.json', {
 			exports: {
 				'.': {
-					types: './types/index.d.ts'
+					types: './dist/index.d.ts'
 				}
 			},
 			scripts: {
@@ -1208,10 +1185,18 @@ describe('TypeScript, full', function () {
 			},
 			devDependencies: {
 				'typescript': '^5.9.3',
-				'@types/node': '^20.11.30',
-				'@types/mocha': '^10.0.6'
+				'@types/node': '^18',
+				'@types/mocha': '^10'
 			}
 		});
+	});
+
+	it('should fill rolldown.config.js with correct information', function () {
+		result.assertFileContent('rolldown.config.js', 'dts({ sourcemap: true })');
+	});
+
+	it('should fill .gitignore with correct information', function () {
+		result.assertFileContent('.gitignore', 'dist/');
 	});
 });
 
@@ -1227,10 +1212,6 @@ describe('TypeScript, transpile, with comments', function () {
 			.toPromise();
 	});
 
-	it('should create necessary files', function () {
-		result.assertFile(['tsconfig.json']);
-	});
-
 	it('should fill package.json with correct information', function () {
 		result.assertJsonFileContent('package.json', {
 			exports: {
@@ -1243,10 +1224,14 @@ describe('TypeScript, transpile, with comments', function () {
 			},
 			devDependencies: {
 				'typescript': '^5.9.3',
-				'@types/node': '^20.11.30',
-				'@types/mocha': '^10.0.6'
+				'@types/node': '^18',
+				'@types/mocha': '^10'
 			}
 		});
+	});
+
+	it('should fill rolldown.config.js with correct information', function () {
+		result.assertFileContent('rolldown.config.js', 'dts({ sourcemap: true })');
 	});
 });
 
@@ -1262,10 +1247,6 @@ describe('TypeScript, transpile, full', function () {
 			.toPromise();
 	});
 
-	it('should create necessary files', function () {
-		result.assertFile(['tsconfig.json']);
-	});
-
 	it('should fill package.json with correct information', function () {
 		result.assertJsonFileContent('package.json', {
 			exports: {
@@ -1278,9 +1259,13 @@ describe('TypeScript, transpile, full', function () {
 			},
 			devDependencies: {
 				'typescript': '^5.9.3',
-				'@types/node': '^20.11.30',
-				'@types/mocha': '^10.0.6'
+				'@types/node': '^18',
+				'@types/mocha': '^10'
 			}
 		});
+	});
+
+	it('should fill rolldown.config.js with correct information', function () {
+		result.assertFileContent('rolldown.config.js', 'dts({ sourcemap: true })');
 	});
 });

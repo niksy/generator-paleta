@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - '<%= nodeEngineVersion %>'
+  - '<%= nodeEngineVersion.min %>'
 script:
   - npm run lint<% if ( typescript ) { %> && npm run lint:types<% } %>
   - npm test<% if ( codeCoverageService ) { %>

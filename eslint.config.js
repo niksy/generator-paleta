@@ -1,9 +1,10 @@
+import { defineConfig } from 'eslint/config';
 import configBase from 'eslint-config-nitpick';
 import configTests from 'eslint-config-nitpick/tests';
 import configPrettier from 'eslint-config-prettier/flat';
 import pluginPrettier from 'eslint-plugin-prettier';
 
-export default [
+export default defineConfig([
 	configBase,
 	configPrettier,
 	{
@@ -16,7 +17,7 @@ export default [
 	},
 	{
 		files: ['test/**/*'],
-		...configTests
+		extends: [configTests]
 	},
 	{
 		files: ['test/index.js'],
@@ -32,4 +33,4 @@ export default [
 			]
 		}
 	}
-];
+]);
