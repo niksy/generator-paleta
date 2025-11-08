@@ -38,7 +38,7 @@
 	"scripts": {
 		"prepare": "if [[ -x \"$(command -v husky)\" ]]; then husky; fi",
 		"release": "np --no-release-draft"<% if ( changelog ) { %>,
-		"version": "if [ $(git rev-parse --abbrev-ref HEAD) == 'master' ]; then sed -i '' '/\\[unreleased\\]:/d' CHANGELOG.md && version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md; else echo; fi"<% if ( githubRelease ) { %>,
+		"version": "version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md"<% if ( githubRelease ) { %>,
 		"postpublish": "GITHUB_TOKEN=$GITHUB_RELEASE_TOKEN github-release-from-changelog"<% } %><% } %>,<% if ( (automatedTests && browserModule && !sassModule) || manualTests || integrationTests ) { %>
 		"lint": "<% if ( automatedTests || integrationTests ) { %>eslint '{index,lib/**/*<% if ( cli ) { %>,cli<% } %>,test/**/*}<% if ( typescript && typescriptMode === 'full' ) { %>.{js,<% if (typescript && typescriptMode === 'full') { %>,ts<% } %>}<% } else { %>.js<% } %>'<% } else { %>eslint '{index,lib/**/*<% if ( cli ) { %>,cli<% } %>}<% if ( typescript && typescriptMode === 'full' ) { %>.{js,<% if (typescript && typescriptMode === 'full') { %>,ts<% } %>}<% } else { %>.js<% } %>'<% } %><% if ( browserModule && styles ) { %> && stylelint 'index.css'<% } %>"<% } else if ( sassModule ) { %>
 		"lint": "<% if ( automatedTests ) { %>eslint 'test/**/*<% if ( typescript && typescriptMode === 'full' ) { %>.{js,ts}<% } else { %>.js<% } %>' && stylelint '{_index,test/**/*}.scss'<% } else { %>stylelint '_index.scss'<% } %>"<% } else { %>
