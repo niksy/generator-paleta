@@ -1,14 +1,8 @@
-import path from 'node:path';<% if ( codeCoverage ) { %>
-import fs from 'node:fs';<% } %>
-import stdLibBrowser from 'node-stdlib-browser';<% if ( bundlingTool === 'rollup' ) { %>
-import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-import alias from '@rollup/plugin-alias';
-import json from '@rollup/plugin-json';
-import inject from '@rollup/plugin-inject';
-import babel from '@rollup/plugin-babel';<% if ( codeCoverage ) { %>
-import istanbul from 'rollup-plugin-istanbul';<% } %>
-import rollupConfig from './rollup.config.js';<% } %><% if ( browserTestType === 'headless' ) { %>
+import path from 'node:path';
+import { defineEnv } from 'unenv';<% if ( codeCoverage ) { %>
+import istanbul from 'rollup-plugin-istanbul';
+import nycConfig from './nyc.config.js';<% } %>
+import rolldownConfig from './rolldown.config.js';<% if ( browserTestType === 'headless' ) { %>
 import puppeteer from 'puppeteer';
 
 process.env.CHROME_BIN = puppeteer.executablePath();<% } %>
@@ -20,6 +14,10 @@ const isPR = <% if ( ciService === 'travis' ) { %>typeof process.env.TRAVIS_PULL
 const local = !isCI || (isCI && isPR);
 
 const port = 0;
+
+const { env } = defineEnv({
+	nodeCompat: true
+});
 
 if ( local ) {
 	config = {
@@ -51,19 +49,20 @@ if ( local ) {
 	};
 }
 
-export default function ( baseConfig ) {
+/** @type {(arg: import('karma').Config)} */
+export default function (baseConfig) {
 
 	baseConfig.set(Object.assign({
 		basePath: '',
 		frameworks: ['mocha'<% if ( usesHtmlFixtures ) { %>, 'fixture'<% } %>],
 		files: [<% if ( usesHtmlFixtures ) { %>
-			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.html',<% } %><% if ( bundlingTool === 'rollup' ) { %>
-			{ pattern: 'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.<%= extension || 'js' %>', watched: false }<% } %>
+			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.html',<% } %>
+			{ pattern: 'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.<%= extension || 'js' %>', watched: false }
 		],
 		exclude: [],
 		preprocessors: {<% if ( usesHtmlFixtures ) { %>
-			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.html': ['html2js'],<% } %><% if ( bundlingTool === 'rollup' ) { %>
-			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.<%= extension || 'js' %>': ['rollup', 'sourcemap']<% } %>
+			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.html': ['html2js'],<% } %>
+			'test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.<%= extension || 'js' %>': ['rolldown', 'sourcemap']
 		},
 		reporters: [<% if ( codeCoverage ) { %>'coverage', <% } %>'mocha'],
 		port: port,
@@ -77,55 +76,35 @@ export default function ( baseConfig ) {
 			level: 'log',
 			format: '%b %T: %m',
 			terminal: true
-		},<% if ( bundlingTool === 'rollup' ) { %>
-		rollupPreprocessor: {
+		},
+		rolldownPreprocessor: {
+			transform: {
+				inject: env.inject,
+				targets: rolldownConfig[0].targets ?? []
+			},
+			resolve: {
+				alias: {
+					...(rolldownConfig[0].alias ?? {}),
+					...env.alias,
+				}
+			},
 			plugins: [<% if ( codeCoverage ) { %>
 				istanbul({
 					exclude: ['test/<% if ( manualTests || integrationTests ) { %>automated/<% } %>**/*.<%= extension || 'js' %>', 'node_modules/**/*']
 				}),<% } %>
-				resolve({
-					browser: true,
-					preferBuiltins: true
-				}),
-				commonjs(),
-				alias({
-					entries: stdLibBrowser
-				}),
-				json(),
-				inject({
-					process: stdLibBrowser.process,
-					Buffer: [stdLibBrowser.buffer, 'Buffer']
-				})<% if ( transpile ) { %>,
-				babel({
-					exclude: 'node_modules/**',
-					babelHelpers: 'runtime'<% if ( typescript && typescriptMode === 'full' ) { %>,
-					extensions: ['.js', '.ts']<% } %>
-				})<% } %>,
-				babel({
-					include: 'node_modules/{has-flag,supports-color}/**',
-					babelHelpers: 'runtime',
-					babelrc: false,
-					configFile: path.resolve(import.meta.dirname, 'babel.config.js')
-				}),
-				...rollupConfig.plugins<% if ( transpile || typescript ) { %>.filter(({ name }) => ![<% if ( transpile ) { %>'babel',<% } %> 'package-type'<% if ( typescript ) { %>, 'types'<% } %>].includes(name))<% } %><% if ( transpile && typescript && typescriptMode === 'full' ) { %>,
-				babel({
-					exclude: 'node_modules/**',
-					babelHelpers: 'runtime',
-					extensions: ['.js'<% if (typescript && typescriptMode === 'full') { %>, '.ts'<% } %>]
-				})<% } %>
+				...(rolldownConfig[0].plugins ?? [])
 			],
 			output: {
 				format: 'iife',
 				name: '<%= camelCasedModuleName %>',
-				sourcemap: baseConfig.autoWatch ? false : 'inline', // Source map support has weird behavior in watch mode
-				intro: 'window.TYPED_ARRAY_SUPPORT = false;' // IE9
+				sourcemap: 'inline'
 			}
-		}<% } %>,<% if ( codeCoverage ) { %>
+		},<% if ( codeCoverage ) { %>
 		coverageReporter: {
 			dir: path.join(import.meta.dirname, 'coverage'),
 			reporters: [{type: 'html'}, {type: 'text'}],
 			check: {
-				global: JSON.parse(fs.readFileSync(path.join(import.meta.dirname, '.nycrc'), 'utf8'))
+				global: nycConfig
 			}
 		},<% } %>
 		singleRun: true,

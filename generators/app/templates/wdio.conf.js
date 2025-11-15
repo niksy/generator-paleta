@@ -1,7 +1,6 @@
 import path from 'node:path';
-import http from 'node:http';
-import ws from 'local-web-server';
-import shutdown from 'http-shutdown';
+import * as vite from 'vite';
+import mochaConfig from './.mocharc.cjs';
 
 let server, _config;
 
@@ -59,11 +58,8 @@ export const config = Object.assign({
 	connectionRetryTimeout: 90000,
 	connectionRetryCount: 3,
 	framework: 'mocha',
-	reporters: ['spec'],<% if ( transpile || typescript ) { %>
-	mochaOpts: {
-		require: [<% if ( transpile ) { %>'@babel/register', <% } %><% if ( !transpile && typescript && typescriptMode === 'full' ) { %>'ts-node/register', <% } %>]<% if ( typescript && typescriptMode === 'full' ) { %>,
-		extension: 'ts'<% } %>
-	},<% } %>
+	reporters: ['spec'],<% if ( transpile || (typescript && typescriptMode === 'full') ) { %>
+	mochaOpts: mochaConfig,<% } %>
 	afterTest: function ( test ) {
 		/* globals browsers */
 		if (test.passed) {
@@ -73,42 +69,32 @@ export const config = Object.assign({
 		browser.saveScreenshot(filepath);
 	},
 	onPrepare: function ( currentConfig ) {
-
-		return new Promise(( resolve, reject ) => {
-
-			server = shutdown(http.createServer(ws({
-				'static': {
-					root: './test-dist'
-				},
-				serveIndex: {
-					path: './test-dist'
-				},
-				log: {
-					format: currentConfig.logLevel === 'verbose' ? 'tiny' : 'none'
-				}
-			}).callback()));
-
-			console.log(`Starting local web server on port ${port}…`);
-			server.listen(port);
-
-			console.log('Starting WebdriverIO…');
-			resolve();
-
-		});
-
+		return (async() => {
+			if (process.env.WATCH_MODE === 'true') {
+				server = await vite.createServer({
+					configFile: path.resolve(import.meta.dirname, 'test/manual/vite.config.js'),
+					server: {
+						port: port
+					}
+				});
+				server.listen();
+			} else {
+				await vite.build({
+					configFile: path.resolve(import.meta.dirname, 'test/manual/vite.config.js'),
+				});
+				server = await vite.preview({
+					logLevel: currentConfig.logLevel === 'verbose' ? 'info' : 'silent',
+					preview: {
+						port: port
+					}
+				});
+			}
+		})();
 	},
-
 	onComplete: function () {
-
 		return new Promise(( resolve, reject ) => {
-
-			console.log('Stopping local web server…');
-			server.shutdown();
-
-			console.log('Stopping WebdriverIO…');
+			server.close();
 			resolve();
-
 		});
-
 	}
 }, _config);

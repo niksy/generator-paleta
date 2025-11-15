@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         node-version:
-          - <%= nodeEngineVersion %>
+          - <%= nodeEngineVersion.min %>
     steps:
       - name: Clone repository
         uses: actions/checkout@v2

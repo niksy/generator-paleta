@@ -3,12 +3,8 @@
 		"module": "nodenext",
 		"moduleResolution": "nodenext",
 		"moduleDetection": "force",
-		"target": "<%= tsConfigTargets.target %>",
-		"lib": [<% if ( browserModule ) { %>
-			"DOM",
-			"DOM.Iterable",<% } %>
-			"<%= tsConfigTargets.lib %>"
-		],
+		"target": "es2022",
+		"lib": ["ES2024"],
 		"resolveJsonModule": false,
 		"newLine": "lf",
 		"strict": true,
@@ -21,14 +17,12 @@
 		"noEmitOnError": true,
 		"forceConsistentCasingInFileNames": true,
 		"skipLibCheck": true,
-		"allowJs": true<% if ( typescript ) { %>,
-		"checkJs": true<% } %>,
+		"allowJs": true,
 		"isolatedModules": true,
 		"verbatimModuleSyntax": true,
 		"allowImportingTsExtensions": true,
 		"rewriteRelativeImportExtensions": true,
-		"erasableSyntaxOnly": true<% if ( automatedTests && !browserModule && typescriptMode === 'full' ) { %>,
-		"inlineSourceMap": true<% } %>
+		"erasableSyntaxOnly": true
 	},
-	"include": ["*<% if ( extensionsToProcess.length > 1 ) { %>.{<%- extensionsToProcess.join(',') %>}<% } else { %>.js<% } %>", "lib", "test"]
+	"include": ["*.{js,cjs}", "lib", "test"]
 }
