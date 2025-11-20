@@ -2,141 +2,32 @@ import Generator from 'yeoman-generator';
 import gh from 'parse-github-url';
 import isGithubUrl from 'is-github-url';
 import { sortPackageJson, sortOrder } from 'sort-package-json';
-import lodash from 'lodash';
+import { camelCase } from 'lodash';
 import isScopedPackage from 'is-scoped';
-import browserslist from 'browserslist';
 import { pathExists } from 'path-exists';
-
-const { kebabCase: dashCase, camelCase, uniq, compact, min, fromPairs: fromEntries } = lodash;
-
-// https://www.browserstack.com/automate/capabilities
-const browserIdMapping = {
-	chrome: {
-		shortName: 'Chrome',
-		longName: 'Chrome',
-		versionKey: 'browser_version',
-		serviceProps: {
-			os: 'Windows',
-			'os_version': '7'
-		}
-	},
-	firefox: {
-		shortName: 'Firefox',
-		longName: 'Firefox',
-		versionKey: 'browser_version',
-		serviceProps: {
-			os: 'Windows',
-			'os_version': '7'
-		}
-	},
-	edge: {
-		shortName: 'Edge',
-		longName: 'Edge',
-		versionKey: 'browser_version',
-		serviceProps: {
-			os: 'Windows',
-			'os_version': '10'
-		}
-	},
-	'ios_saf': {
-		shortName: 'iPhone',
-		longName: 'iOS Safari',
-		versionKey: 'os_version',
-		serviceProps: {
-			device: 'iPhone 8',
-			'real_mobile': true
-		}
-	}
-};
-
-/**
- * @param {string} packageName
- * @param {object} options
- *
- * @returns {string}
- */
-function preparePackageName(packageName, options = {}) {
-	let preparedPackageName;
-	if (isScopedPackage(packageName)) {
-		const scopedPackageName = packageName.split('/');
-		preparedPackageName = [scopedPackageName[0], dashCase(scopedPackageName[1])].join('/');
-	} else {
-		preparedPackageName = dashCase(packageName);
-	}
-	if (options.clean) {
-		return preparedPackageName.replace(/^@.+?\//, '');
-	}
-	return preparedPackageName;
-}
-
-function isSassModule(answers) {
-	const browserModuleType = answers.browserModuleType || [];
-	return browserModuleType.includes('sassModule');
-}
-
-function commaSeparatedValuesToArray(string) {
-	if (typeof string === 'undefined') {
-		return [];
-	}
-	return uniq(
-		compact(
-			string
-				.split(',')
-				.map((item) => item.trim())
-				.filter((item) => item !== '')
-		)
-	);
-}
-
-function cloudBrowsersToTestConfiguration(browserIds, browserVersion) {
-	if (!Array.isArray(browserIds)) {
-		return [];
-	}
-	const config = browserIds.map((browserId) => {
-		const mappedBrowser = browserIdMapping[browserId];
-		return {
-			shortName: mappedBrowser.shortName,
-			longName: mappedBrowser.longName,
-			version: browserVersion[browserId],
-			karma: {
-				browser: mappedBrowser.shortName,
-				[mappedBrowser.versionKey]: String(browserVersion[browserId]),
-				name: mappedBrowser.shortName,
-				...mappedBrowser.serviceProps
-			},
-			wdio: {
-				browser: mappedBrowser.shortName,
-				[mappedBrowser.versionKey]: String(browserVersion[browserId]),
-				name: mappedBrowser.shortName,
-				browserName: mappedBrowser.shortName,
-				...mappedBrowser.serviceProps
-			}
-		};
-	});
-	return config;
-}
-
-function getMinimumSupportedBrowserVersions(browserVersion) {
-	let browserSupport = browserslist(browserVersion)
-		.map((string) => string.split(' '))
-		.reduce((map, [browser, version]) => {
-			if (!Array.isArray(map[browser])) {
-				map[browser] = [];
-			}
-			map[browser].push(Number(version));
-			return map;
-		}, {});
-	browserSupport = Object.entries(browserSupport).map(([browser, versions]) => {
-		return [browser, min(versions)];
-	});
-	browserSupport = fromEntries(browserSupport);
-	return browserSupport;
-}
+import {
+	commaSeparatedValuesToArray,
+	cloudBrowsersToTestConfiguration,
+	createBrowserTargets,
+	createTsConfigTargets,
+	browserIdMapping,
+	preparePackageName,
+	isSassModule,
+	getMinimumSupportedBrowserVersions,
+	getNodeEngineVersion
+} from './util.js';
 
 export default class extends Generator {
 	async initializing() {
 		this.pkg = this.fs.readJSON(this.destinationPath('package.json'), {});
 		const hasGitRespository = await pathExists(this.destinationPath('.git'));
+		const browserslistConfig = this.fs
+			.read(this.destinationPath('.browserslistrc'), {
+				defaults: 'last 3 major versions, since 2019, edge >= 15, not ie > 0'
+			})
+			.trim()
+			.split('\n')
+			.join(', ');
 
 		this.author = {
 			humanName: 'Ivan Nikolić',
@@ -144,6 +35,7 @@ export default class extends Generator {
 			website: 'http://ivannikolic.com',
 			email: 'niksy5@gmail.com'
 		};
+		/** @type {import('yeoman-generator').PromptQuestions} */
 		this.questions = [
 			{
 				type: 'input',
@@ -306,18 +198,35 @@ export default class extends Generator {
 			},
 			{
 				type: 'confirm',
-				name: 'transpile',
-				message: 'Do you need code transpiling via Babel?',
-				default: (answers) => {
-					return answers.browserModule;
-				}
+				name: 'typescript',
+				message: 'Do you want to check code with TypeScript?',
+				default: false
+			},
+			{
+				type: 'list',
+				name: 'typescriptMode',
+				message: 'What TypeScript mode do you want to use?',
+				default: 'comments',
+				choices: [
+					{
+						name: 'With comments',
+						value: 'comments'
+					},
+					{
+						name: 'Full support',
+						value: 'full'
+					}
+				],
+				when: (answers) => answers.typescript
 			},
 			{
 				type: 'confirm',
-				name: 'sourceMaps',
-				message: 'Do you want to generate source maps?',
-				default: (answers) => answers.transpile,
-				when: (answers) => answers.transpile
+				name: 'transpile',
+				message: 'Do you need code transpiling?',
+				when: (answers) => !answers.typescript && !answers.browserModule,
+				default: (answers) => {
+					return answers.browserModule || answers.typescript;
+				}
 			},
 			{
 				type: 'confirm',
@@ -333,15 +242,15 @@ export default class extends Generator {
 				type: 'input',
 				name: 'nodeEngineVersion',
 				message: 'Which Node engine version this project supports?',
-				default: 18
+				default: () => {
+					return this.pkg.engines?.node ?? '>=18';
+				}
 			},
 			{
 				type: 'input',
 				name: 'browserVersion',
 				message: 'Which browser versions this project supports?',
-				default: (answers) => {
-					return `last 3 major versions, since 2019, edge >= 15, not ie > 0`;
-				},
+				default: () => browserslistConfig,
 				when: (answers) => answers.browserModule
 			},
 			{
@@ -370,29 +279,6 @@ export default class extends Generator {
 					return choices;
 				},
 				when: (answers) => answers.cloudBrowsers
-			},
-			{
-				type: 'confirm',
-				name: 'typescript',
-				message: 'Do you want to use TypeScript?',
-				default: false
-			},
-			{
-				type: 'list',
-				name: 'typescriptMode',
-				message: 'What TypeScript mode do you want to use?',
-				default: 'comments',
-				choices: [
-					{
-						name: 'With comments',
-						value: 'comments'
-					},
-					{
-						name: 'Full support',
-						value: 'full'
-					}
-				],
-				when: (answers) => answers.typescript
 			},
 			{
 				type: 'confirm',
@@ -432,10 +318,11 @@ export default class extends Generator {
 	async prompting() {
 		const answers = await this.prompt(this.questions);
 
-		const browserModuleType = answers.browserModuleType || [];
+		const browserModuleType = answers.browserModuleType ?? [];
 
 		this.answers = {
 			...answers,
+			transpile: answers.transpile ?? (answers.browserModule || answers.typescript),
 			sassModule: browserModuleType.includes('sassModule'),
 			cssModule: browserModuleType.includes('cssModule'),
 			styles: browserModuleType.includes('styles')
@@ -444,9 +331,8 @@ export default class extends Generator {
 		if (this.answers.cssModule || this.answers.sassModule) {
 			this.answers.styles = true;
 		}
-
-		if (!this.answers.bundlingTool) {
-			this.answers.bundlingTool = 'rollup';
+		if (this.answers.transpile) {
+			this.answers.sourceMaps = true;
 		}
 
 		this.answers.keywords = commaSeparatedValuesToArray(this.answers.keywords);
@@ -462,8 +348,26 @@ export default class extends Generator {
 	writing() {
 		const { answers, pkg, author } = this;
 		const { keywords, browserVersion } = answers;
+		const nodeEngineVersion = getNodeEngineVersion(answers.nodeEngineVersion);
 		const browserSupport = getMinimumSupportedBrowserVersions(browserVersion);
+		const browserTargets = createBrowserTargets(browserVersion);
+		const tsConfigTargets = createTsConfigTargets(nodeEngineVersion);
 		const extension = answers.typescript && answers.typescriptMode === 'full' ? 'ts' : null;
+
+		const extensionsToProcess = ['js'];
+		if (answers.typescript && answers.typescriptMode === 'full') {
+			extensionsToProcess.push('ts');
+		}
+		if (
+			(answers.automatedTests &&
+				!answers.browserModule &&
+				(answers.transpile ||
+					(answers.typescript && answers.typescriptMode === 'full') ||
+					answers.codeCoverage)) ||
+			answers.integrationTests
+		) {
+			extensionsToProcess.push('cjs');
+		}
 
 		const tpl = {
 			moduleName: preparePackageName(answers.name),
@@ -491,15 +395,17 @@ export default class extends Generator {
 			isScopedPackage: isScopedPackage(answers.name),
 			cloudBrowsers: answers.cloudBrowsers,
 			transpile: answers.transpile,
-			nodeEngineVersion: parseFloat(answers.nodeEngineVersion),
+			nodeEngineVersion: nodeEngineVersion,
 			browserVersion: browserVersion,
 			browserslistDevQuery: encodeURIComponent(
 				Buffer.from(browserVersion.join(', ')).toString('base64')
 			),
+			rolldownBrowserTargets: browserTargets.rolldown,
+			lightningCssBrowserTargets: browserTargets.lightningCss,
+			tsConfigTargets: tsConfigTargets,
 			browserTestType: answers.browserTestType,
 			changelog: answers.changelog,
 			githubRelease: answers.githubRelease,
-			bundlingTool: answers.bundlingTool,
 			sourceMaps: answers.sourceMaps,
 			prettier: answers.prettier,
 			browserSupport: browserSupport,
@@ -509,7 +415,8 @@ export default class extends Generator {
 			typescript: answers.typescript,
 			typescriptMode: answers.typescriptMode,
 			extension: extension,
-			usesHtmlFixtures: answers.usesHtmlFixtures
+			usesHtmlFixtures: answers.usesHtmlFixtures,
+			extensionsToProcess: extensionsToProcess
 		};
 
 		this.tpl = tpl;
@@ -542,6 +449,7 @@ export default class extends Generator {
 		cp('npmrc', '.npmrc');
 		cp('husky', '.husky');
 		cp('_lint-staged.config.js', 'lint-staged.config.js');
+		cp('tsconfig.json', 'tsconfig.json');
 
 		// Remove old references
 		rm('.istanbul.yml');
@@ -560,6 +468,24 @@ export default class extends Generator {
 		rm('test/manual/webpack.config.js');
 		rm(`test/${automatedTestsDirectory}.webpack.js`);
 		rm('.babelrc');
+		rm('rollup.config.js');
+		rm('test/manual/rollup.config.js');
+		rm('tsconfig.build.json');
+		rm('babel.config.js');
+		rm('.nycrc');
+
+		if (
+			(answers.automatedTests &&
+				!answers.browserModule &&
+				(answers.transpile ||
+					(answers.typescript && answers.typescriptMode === 'full') ||
+					answers.codeCoverage)) ||
+			answers.integrationTests
+		) {
+			cp('mocharc.cjs', '.mocharc.cjs');
+		} else {
+			rm('.mocharc.cjs');
+		}
 
 		if (answers.sassModule) {
 			cp('_index.scss', '_index.scss');
@@ -609,7 +535,7 @@ export default class extends Generator {
 				cp('test/index.js', `test/index.${extension || 'js'}`);
 			}
 			if (answers.codeCoverage && !answers.sassModule) {
-				cp('nycrc', '.nycrc');
+				cp('nyc.config.js', 'nyc.config.js');
 			}
 		} else {
 			rm('.travis.yml');
@@ -618,7 +544,7 @@ export default class extends Generator {
 			rm('test/index.ts');
 			rm('test/automated');
 			rm('karma.conf.js');
-			rm('.nycrc');
+			rm('nyc.config.js');
 			rm('.istanbul.yml');
 		}
 
@@ -626,12 +552,10 @@ export default class extends Generator {
 			cp('test/manual/index.html', 'test/manual/index.html');
 			cp('test/manual/index.css', 'test/manual/index.css');
 			cp('test/manual/index.js', `test/manual/index.${extension || 'js'}`);
-			if (answers.bundlingTool === 'rollup') {
-				cp('test/manual/rollup.config.js', 'test/manual/rollup.config.js');
-			}
+			cp('test/manual/vite.config.js', 'test/manual/vite.config.js');
 		} else {
 			rm('test/manual');
-			rm('test/manual/rollup.config.js');
+			rm('test/manual/vite.config.js');
 		}
 
 		if (answers.integrationTests) {
@@ -642,20 +566,13 @@ export default class extends Generator {
 			rm('wdio.conf.js');
 		}
 
-		if (answers.transpile) {
-			cp('babel.config.js', 'babel.config.js');
-		} else {
-			rm('babel.config.js');
-		}
-
 		if (
-			(answers.transpile &&
-				(answers.bundleCjs || (answers.browserModule && !answers.sassModule))) ||
-			(answers.automatedTests && answers.browserModule && !answers.sassModule)
+			(answers.transpile && !answers.browserModule) ||
+			(answers.browserModule && !answers.sassModule)
 		) {
-			cp('rollup.config.js', 'rollup.config.js');
+			cp('rolldown.config.js', 'rolldown.config.js');
 		} else {
-			rm('rollup.config.js');
+			rm('rolldown.config.js');
 		}
 
 		if (answers.changelog) {
@@ -668,14 +585,6 @@ export default class extends Generator {
 			cp('prettier.config.js', 'prettier.config.js');
 		} else {
 			rm('prettier.config.js');
-		}
-
-		if (answers.typescript) {
-			cp('tsconfig.json', 'tsconfig.json');
-			cp('tsconfig.build.json', 'tsconfig.build.json');
-		} else {
-			rm('tsconfig.json');
-			rm('tsconfig.build.json');
 		}
 
 		if (answers.cli) {
@@ -754,30 +663,48 @@ export default class extends Generator {
 			'karma-browserify',
 			'eslint-plugin-html',
 			'rollup-plugin-svelte',
-			'svelte'
+			'svelte',
+			'@rollup/plugin-commonjs',
+			'@rollup/plugin-alias',
+			'@rollup/plugin-json',
+			'@rollup/plugin-inject',
+			'karma-rollup-preprocessor',
+			'del',
+			'postcss',
+			'globby',
+			'rollup-plugin-postcss',
+			'rollup-plugin-serve',
+			'rollup-plugin-static-site',
+			'postcss-import',
+			'postcss-preset-env',
+			'minimist',
+			'node-stdlib-browser',
+			'local-web-server',
+			'http-shutdown',
+			'@babel/core',
+			'@babel/cli',
+			'babel-cli',
+			'core-js',
+			'@babel/preset-env',
+			'@babel/preset-typescript',
+			'@babel/plugin-transform-runtime',
+			'@babel/runtime',
+			'@babel/register',
+			'babel-plugin-istanbul',
+			'@rollup/plugin-typescript',
+			'@rollup/plugin-babel',
+			'@rollup/plugin-node-resolve',
+			'ts-node',
+			'rollup',
+			'cpy',
+			'execa',
+			'@babel/plugin-transform-member-expression-literals',
+			'@babel/plugin-transform-property-literals',
+			'@babel/plugin-transform-object-assign'
 		);
-
-		if (!('ie' in browserSupport)) {
-			developmentDependenciesToOmit.push(
-				'@babel/plugin-transform-member-expression-literals',
-				'@babel/plugin-transform-property-literals',
-				'@babel/plugin-transform-object-assign'
-			);
-		}
 
 		if (!answers.usesHtmlFixtures) {
 			developmentDependenciesToOmit.push('karma-fixture', '@types/karma-fixture');
-		}
-
-		if (!answers.transpile) {
-			developmentDependenciesToOmit.push(
-				'core-js',
-				'@babel/core',
-				'@babel/cli',
-				'@babel/preset-env',
-				'@babel/register',
-				'babel-plugin-istanbul'
-			);
 		}
 
 		developmentDependenciesToOmit.forEach((key) => {
@@ -815,6 +742,9 @@ export default class extends Generator {
 		delete mergedPackage.scripts['test:integration:local'];
 		delete mergedPackage.scripts['test:integration:local:watch'];
 		delete mergedPackage.scripts['test:manual:local'];
+		delete mergedPackage.scripts['test:manual:local'];
+		delete mergedPackage.scripts['test:generate-static-site'];
+		delete mergedPackage.scripts['test:generate-static-site:watch'];
 
 		this.packageJson.writeContent(mergedPackage);
 	}
