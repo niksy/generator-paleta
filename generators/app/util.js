@@ -1,4 +1,4 @@
-import { kebabCase as dashCase, uniq, compact, min, fromPairs as fromEntries } from 'lodash';
+import { kebabCase as dashCase, uniq, compact, min, fromPairs as fromEntries } from 'lodash-es';
 import isScopedPackage from 'is-scoped';
 import browserslist from 'browserslist';
 import { browserslistToTargets } from 'lightningcss';

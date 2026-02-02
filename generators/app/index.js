@@ -2,7 +2,7 @@ import Generator from 'yeoman-generator';
 import gh from 'parse-github-url';
 import isGithubUrl from 'is-github-url';
 import { sortPackageJson, sortOrder } from 'sort-package-json';
-import { camelCase } from 'lodash';
+import { camelCase } from 'lodash-es';
 import isScopedPackage from 'is-scoped';
 import { pathExists } from 'path-exists';
 import {
