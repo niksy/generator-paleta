@@ -14,7 +14,8 @@ import {
 	preparePackageName,
 	isSassModule,
 	getMinimumSupportedBrowserVersions,
-	getNodeEngineVersion
+	getNodeEngineVersion,
+	shouldTranspile
 } from './util.js';
 
 export default class extends Generator {
@@ -233,10 +234,10 @@ export default class extends Generator {
 				name: 'bundleCjs',
 				message:
 					'Do you want to create CommonJS bundle (browser-only packages are safe to be built as ESM only)?',
-				default: false,
 				when: (answers) => {
-					return !isSassModule(answers) && answers.transpile;
-				}
+					return !isSassModule(answers) && shouldTranspile(answers);
+				},
+				default: false
 			},
 			{
 				type: 'input',
@@ -322,7 +323,7 @@ export default class extends Generator {
 
 		this.answers = {
 			...answers,
-			transpile: answers.transpile ?? (answers.browserModule || answers.typescript),
+			transpile: shouldTranspile(answers),
 			sassModule: browserModuleType.includes('sassModule'),
 			cssModule: browserModuleType.includes('cssModule'),
 			styles: browserModuleType.includes('styles')

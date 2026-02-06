@@ -125,6 +125,10 @@ export function isSassModule(answers) {
 	return browserModuleType.includes('sassModule');
 }
 
+export function shouldTranspile(answers) {
+	return Boolean(answers.transpile ?? (answers.browserModule || answers.typescript));
+}
+
 export function commaSeparatedValuesToArray(string) {
 	if (typeof string === 'undefined') {
 		return [];

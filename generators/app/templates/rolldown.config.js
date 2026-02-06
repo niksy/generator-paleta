@@ -17,12 +17,11 @@ import { dts } from 'rolldown-plugin-dts';
 		plugins: [dts(<% if ( sourceMaps ) { %>{ sourcemap: true }<% } %>)]<% } %>
 	}<% if ( bundleCjs ) { %>,
 	{
-		input: null,
+		input: 'index.<%= extension || 'js' %>',
 		output: {
 			dir: 'dist',
 			format: 'cjs',
 			entryFileNames: '[name].cjs',
-			format: 'cjs',
 			exports: 'auto'<% if ( sourceMaps ) { %>,
 			sourcemap: true<% } %>,
 		},
