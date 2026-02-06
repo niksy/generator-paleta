@@ -174,7 +174,7 @@ describe('Automated tests', function () {
 	it('should fill package.json with correct information', function () {
 		result.assertJsonFileContent('package.json', {
 			scripts: {
-				lint: "eslint '{index,lib/**/*,test/**/*}.js'",
+				lint: "eslint '{*,lib/**/*,test/**/*}.js'",
 				test: "mocha 'test/**/*.js'",
 				'test:watch': 'npm test -- --watch'
 			},
@@ -442,7 +442,7 @@ describe('Styles', function () {
 			files: ['dist/'],
 			style: 'dist/index.css',
 			scripts: {
-				lint: "eslint '{index,lib/**/*}.js' && stylelint 'index.css'"
+				lint: "eslint '{*,lib/**/*}.js' && stylelint 'index.css'"
 			},
 			devDependencies: {
 				stylelint: '^16.25.0',
@@ -477,7 +477,7 @@ describe('CLI', function () {
 				ellie: 'cli.js'
 			},
 			scripts: {
-				lint: "eslint '{index,lib/**/*,cli,test/**/*}.{js,cjs}'",
+				lint: "eslint '{*,lib/**/*,cli,test/**/*}.{js,cjs}'",
 				test: "nyc --check-coverage mocha 'test/**/*.js'",
 				'test:watch': 'nodemon --ext js,cjs,json --exec npm test'
 			},
@@ -508,7 +508,7 @@ describe('Code coverage', function () {
 	it('should fill package.json with correct information', function () {
 		result.assertJsonFileContent('package.json', {
 			scripts: {
-				lint: "eslint '{index,lib/**/*,test/**/*}.{js,cjs}'",
+				lint: "eslint '{*,lib/**/*,test/**/*}.{js,cjs}'",
 				test: "nyc --check-coverage mocha 'test/**/*.js'",
 				'test:watch': 'nodemon --ext js,cjs,json --exec npm test'
 			},
@@ -897,7 +897,7 @@ describe('Transpile, with automated tests and code coverage', function () {
 	it('should fill package.json with correct information', function () {
 		result.assertJsonFileContent('package.json', {
 			scripts: {
-				lint: "eslint '{index,lib/**/*,test/**/*}.{js,cjs}'",
+				lint: "eslint '{*,lib/**/*,test/**/*}.{js,cjs}'",
 				test: "nyc --check-coverage mocha 'test/**/*.js'",
 				'test:watch': 'nodemon --ext js,cjs,json --exec npm test'
 			},
