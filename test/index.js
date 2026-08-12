@@ -1150,7 +1150,7 @@ describe('TypeScript, with comments', function () {
 				'lint:types': 'tsc'
 			},
 			devDependencies: {
-				'typescript': '^5.9.3',
+				'typescript': '^6.0.3',
 				'@types/node': '^18',
 				'@types/mocha': '^10'
 			}
@@ -1184,7 +1184,7 @@ describe('TypeScript, full', function () {
 				'lint:types': 'tsc'
 			},
 			devDependencies: {
-				'typescript': '^5.9.3',
+				'typescript': '^6.0.3',
 				'@types/node': '^18',
 				'@types/mocha': '^10'
 			}
@@ -1223,7 +1223,7 @@ describe('TypeScript, transpile, with comments', function () {
 				'lint:types': 'tsc'
 			},
 			devDependencies: {
-				'typescript': '^5.9.3',
+				'typescript': '^6.0.3',
 				'@types/node': '^18',
 				'@types/mocha': '^10'
 			}
@@ -1258,7 +1258,7 @@ describe('TypeScript, transpile, full', function () {
 				'lint:types': 'tsc'
 			},
 			devDependencies: {
-				'typescript': '^5.9.3',
+				'typescript': '^6.0.3',
 				'@types/node': '^18',
 				'@types/mocha': '^10'
 			}

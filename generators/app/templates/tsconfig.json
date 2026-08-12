@@ -5,8 +5,7 @@
 		"moduleDetection": "force",
 		"target": "<%= tsConfigTargets.target %>",
 		"lib": [<% if ( browserModule ) { %>
-			"DOM",
-			"DOM.Iterable",<% } %>
+			"DOM",<% } %>
 			"<%= tsConfigTargets.lib %>"
 		],
 		"resolveJsonModule": false,

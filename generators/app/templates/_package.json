@@ -111,7 +111,7 @@
 		"@wdio/local-runner": "^9.20.1",
 		"webdriverio": "^9.20.1"<% } %><% if ( transpile && automatedTests && !browserModule ) { %>,
 		"@swc-node/register": "^1.11.1"<% } %><% if ( typescript ) { %>,
-		"typescript": "^5.9.3"<% } %>,
+		"typescript": "^6.0.3"<% } %>,
 		"@types/node": "^<%= nodeEngineVersion.major %>"<% if ( automatedTests || integrationTests ) { %>,
 		"@types/mocha": "^10"<% } %><% if ( (transpile && !browserModule) || (browserModule && !sassModule) ) { %>,
 		"rolldown": "^1.0.0-beta.47"<% if ( typescript ) { %>,
