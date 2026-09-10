@@ -1,4 +1,5 @@
-/** @type {import('lint-staged').Configuration} */
+/** @import * as lintStaged from 'lint-staged'; */
+/** @type {lintStaged.Configuration} */
 export default {
 	'*<% if ( extensionsToProcess.length > 1 ) { %>.{<%- extensionsToProcess.join(',') %>}<% } else { %>.js<% } %>': ['eslint --fix'],<% if (browserModule && styles) { %>
 	'*<% if (sassModule) { %>.{css,scss}<% } else { %>.css<% } %>': ['stylelint --fix'],<% } %>

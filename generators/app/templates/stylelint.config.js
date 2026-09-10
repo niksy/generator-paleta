@@ -1,4 +1,5 @@
-/** @type {import('stylelint').Config} */
+/** @import * as stylelint from 'stylelint'; */
+/** @type {stylelint.Config} */
 export default {
 	extends: [
 		'stylelint-config-nitpick'<% if ( sassModule ) { %>,

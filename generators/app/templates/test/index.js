@@ -1,4 +1,4 @@
-<% if ( automatedTests ) { %><% if ( !sassModule ) { %>import assert from 'node:assert';
+<% if ( automatedTests ) { %><% if ( !sassModule ) { %>import assert from 'node:assert/strict';
 import fn from '../index.js';<% } else { %>import sassTrue from 'sass-true';<% } %>
 
 <% if ( !sassModule ) { %>it('test!', function () {

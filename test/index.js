@@ -1,3 +1,4 @@
+/** @import * as yeomanTest from 'yeoman-test'; */
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import helpers, { result } from 'yeoman-test';
@@ -69,7 +70,7 @@ describe('New project', function () {
 
 // Fails for unknown reasons
 describe.skip('Existing project', function () {
-	let /** @type {import('yeoman-test').RunContext} */ helperContext;
+	let /** @type {yeomanTest.RunContext} */ helperContext;
 
 	before(function () {
 		helperContext = helpers.run(generatorPath);
@@ -613,7 +614,7 @@ describe('Non-GitHub repository', function () {
 
 // Fails on GitHub CI for some reason
 describe.skip('Non-GitHub repository, existing project', function () {
-	let /** @type {import('yeoman-test').RunContext} */ helperContext;
+	let /** @type {yeomanTest.RunContext} */ helperContext;
 
 	before(function () {
 		helperContext = helpers.run(generatorPath);
@@ -1151,7 +1152,7 @@ describe('TypeScript, with comments', function () {
 			},
 			devDependencies: {
 				'typescript': '^6.0.3',
-				'@types/node': '^18',
+				'@types/node': '^20',
 				'@types/mocha': '^10'
 			}
 		});
@@ -1185,7 +1186,7 @@ describe('TypeScript, full', function () {
 			},
 			devDependencies: {
 				'typescript': '^6.0.3',
-				'@types/node': '^18',
+				'@types/node': '^20',
 				'@types/mocha': '^10'
 			}
 		});
@@ -1224,7 +1225,7 @@ describe('TypeScript, transpile, with comments', function () {
 			},
 			devDependencies: {
 				'typescript': '^6.0.3',
-				'@types/node': '^18',
+				'@types/node': '^20',
 				'@types/mocha': '^10'
 			}
 		});
@@ -1259,7 +1260,7 @@ describe('TypeScript, transpile, full', function () {
 			},
 			devDependencies: {
 				'typescript': '^6.0.3',
-				'@types/node': '^18',
+				'@types/node': '^20',
 				'@types/mocha': '^10'
 			}
 		});

@@ -1,4 +1,5 @@
-/** @type {import('lint-staged').Configuration} */
+/** @import * as lintStaged from 'lint-staged'; */
+/** @type {lintStaged.Configuration} */
 export default {
 	// prettier-ignore
 	'{generators/app/index,generators/app/util,test/index,*.config,.mocharc}.{js,cjs}': ['eslint --fix'],

@@ -1,3 +1,4 @@
+/** @import * as yeomanGenerator from 'yeoman-generator'; */
 import Generator from 'yeoman-generator';
 import gh from 'parse-github-url';
 import isGithubUrl from 'is-github-url';
@@ -36,7 +37,7 @@ export default class extends Generator {
 			website: 'http://ivannikolic.com',
 			email: 'niksy5@gmail.com'
 		};
-		/** @type {import('yeoman-generator').PromptQuestions} */
+		/** @type {yeomanGenerator.PromptQuestions} */
 		this.questions = [
 			{
 				type: 'input',
@@ -244,7 +245,7 @@ export default class extends Generator {
 				name: 'nodeEngineVersion',
 				message: 'Which Node engine version this project supports?',
 				default: () => {
-					return this.pkg.engines?.node ?? '>=18';
+					return this.pkg.engines?.node ?? '>=20.19';
 				}
 			},
 			{
