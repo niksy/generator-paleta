@@ -446,8 +446,8 @@ describe('Styles', function () {
 				lint: "eslint '{*,lib/**/*}.js' && stylelint 'index.css'"
 			},
 			devDependencies: {
-				stylelint: '^16.25.0',
-				'stylelint-config-nitpick': '^11.1.0'
+				stylelint: '^17.15.0',
+				'stylelint-config-nitpick': '^12.0.0'
 			}
 		});
 	});
